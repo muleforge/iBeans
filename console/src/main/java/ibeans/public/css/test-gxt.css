@@ -1,0 +1,7 @@
+.server-icon {
+    background: url(../icons/server-16x16.png) no-repeat center left !important;
+}
+
+.off-server-icon {
+    background: url(../icons/off-server-16x16.png) no-repeat center left !important;
+}

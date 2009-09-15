@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>mule-ibeans</artifactId>
+        <version>1.0-beta-5-SNAPHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-repo</artifactId>
+    <packaging>pom</packaging>
+    <name>iBeans repo</name>
+    <description>Repository of reusable iBeans</description>
+    <url>http://mulesoft.org/IBEANS/Store</url>
+
+    <properties>
+        <ibeans.contact>user@mule.codehaus.org</ibeans.contact>
+    </properties>
+
+    <organization>
+        <url>http://mulesoft.com</url>
+        <name>MuleSoft, Inc</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Ross Mason</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <modules>
+        <!--module>aws</module-->
+        <module>flickr</module>
+        <module>twitter</module>
+        <module>gmail</module>
+        <module>email</module>
+        <module>bitly</module>
+        <module>googlebase</module>
+        <module>hostip</module>
+    </modules>
+
+    <issueManagement>
+        <system>jira</system>
+        <url>http://www.mulesoft.org/jira/browse/IBEANS</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>bamboo</system>
+        <url>http://bamboo.muleforege.org/</url>
+    </ciManagement>
+
+    <scm>
+        <connection>scm:svn:http://svn.muleforge.org/ibeans/trunk
+        </connection>
+        <developerConnection>
+            scm:svn:https://svn.muleforge.org/ibeans/trunk
+        </developerConnection>
+        <url>http://svn.ibeans.muleforge.org</url>
+    </scm>
+
+
+    <build>
+        <plugins>
+            <!--<plugin>-->
+            <!--<groupId>org.mule.galaxy</groupId>-->
+            <!--<artifactId>galaxy-maven-publish-plugin</artifactId>-->
+            <!--<version>1.5.3</version>-->
+            <!--<configuration>-->
+            <!--<url>http://localhost:8080/api/registry/Mule%20iBeans</url>-->
+            <!--<serverId>ibeans-store-local</serverId>-->
+            <!--<publishProjectDependencies>false</publishProjectDependencies>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>publish-artifacts</id>-->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+            <!--<goal>execute</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-source-plugin</artifactId>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>attach-sources</id>-->
+            <!--<phase>verify</phase>-->
+            <!--<goals>-->
+            <!--<goal>jar-no-fork</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>muleforge</id>
+            <url>http://repository.muleforge.org</url>
+            <name>MuleForge Repository</name>
+        </repository>
+
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>muleforge</id>
+            <url>http://repository.muleforge.org</url>
+            <name>MuleForge Repository</name>
+        </pluginRepository>
+    </pluginRepositories>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-http</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-xml</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <!-- usually required for JSON support -->
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-ajax</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-functional</artifactId>
+            <version>${muleVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

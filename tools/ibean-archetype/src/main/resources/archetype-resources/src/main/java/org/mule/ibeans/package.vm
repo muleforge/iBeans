@@ -1,0 +1,7 @@
+<html>
+<head><title>${ModuleName} ${ModuleType}</title>
+</head>
+<body>
+<p>${description}</p>
+</body>
+</html>

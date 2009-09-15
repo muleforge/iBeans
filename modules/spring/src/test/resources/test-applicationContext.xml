@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="ibeansContext" class="org.mule.ibeans.spring.IBeansContextFactoryBean"/>
+
+    <bean name="test1" class="org.mule.ibeans.spring.DummyBean1">
+        <property name="IBeansContext" ref="ibeansContext"/>
+    </bean>
+
+    <bean name="test2" class="org.mule.ibeans.spring.DummyBean2"/>
+
+</beans>

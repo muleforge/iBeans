@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+    <title>Twitter iBean Example</title>
+
+    <!-- disable browser caching -->
+    <META Http-Equiv="Cache-Control" Content="no-cache">
+    <META Http-Equiv="Pragma" Content="no-cache">
+    <META Http-Equiv="Expires" Content="0">
+
+    <link rel="stylesheet" href="ibeans-examples.css"/>
+
+    <script type="text/javascript" src="ibeans/js/dojo/dojo.js"></script>
+    <script type="text/javascript" src="ibeans/js/ibeans.js"></script>
+
+    <script type="text/javascript">
+
+        var ibeans = new IBeansClient();
+
+        function init()
+        {
+            var user = ibeans.config.get("twitter.username");
+            var pass = ibeans.config.get("twitter.password");
+            ibeans.twitter.setCredentials(user, pass);
+        }
+
+        function errorCallback(result)
+        {
+            document.getElementById('lastStatus').innerHTML = result;
+        }
+
+        function updateStatus()
+        {
+            ibeans.twitter.statusesUpdate(statusCallback, document.getElementById('status').value);
+        }
+
+        function getPublicTimeline()
+        {
+            ibeans.twitter.getPublicTimeline(publicTimeline);
+        }
+
+        function statusCallback(result, exception)
+        {
+            if (exception)
+            {
+                errorCallback(exception);
+                return;
+            }
+            var data = ibeans.fromJson(result);
+            var lastStatus = document.getElementById('lastStatus');
+            lastStatus.appendChild(renderStatus(data));
+        }
+
+        function publicTimeline(result, exception)
+        {
+            if (exception)
+            {
+                errorCallback(exception);
+                return;
+            }
+            var tweets = ibeans.fromJson(result);
+            var publicStatus = document.getElementById('publicStatus');
+            for (var x = 0; x < tweets.length; x++)
+            {
+                var tweet = tweets[x];
+                publicStatus.appendChild(renderStatus(tweet));
+            }
+        }
+
+        function renderStatus(tweet)
+        {
+            var tweetDiv = document.createElement('div');
+            tweetDiv.setAttribute("class", "tweet");
+            console.debug("loading tweet from user: " + tweet.user.name);
+            var image = document.createElement('img');
+            image.setAttribute("src", tweet.user.profile_image_url);
+            image.setAttribute("title", tweet.user.name);
+            image.setAttribute("class", "profileImg");
+            tweetDiv.appendChild(image);
+            var text = document.createElement('span');
+            text.setAttribute("class", "tweetText");
+            text.innerHTML = tweet.text + "<br/><span class='source'>Sent from: " + tweet.source;
+            tweetDiv.appendChild(text);
+            return tweetDiv;
+        }
+    </script>
+
+</head>
+<body onload="init()" onunload="disposeIBeans()">
+<h2>Twitter iBean Example</h2>
+
+<table>
+    <tr>
+        <td>Update Twitter Status:</td>
+        <td><input id="status" class="input" type="text" name="Search term:"/></td>
+        <td><input id="submit" class="button" type="submit" name="Update" value="Update" onclick="updateStatus()"/></td>
+        <td><input id="publicSubmit" class="button" type="submit" name="Show public Timeline"
+                   value="Show public Timeline" onclick="getPublicTimeline()"/></td>
+
+    </tr>
+</table>
+Last Status:
+<div id="lastStatus" class="twitterFeed"></div>
+<div id="publicStatus" class="twitterFeed"></div>
+</body>
+</html>

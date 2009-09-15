@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mule.ibeans.examples</groupId>
+        <artifactId>ibeans-examples</artifactId>
+        <version>1.0-beta-5-SNAPHOT</version>
+    </parent>
+
+    <artifactId>ibeans-example-geomail</artifactId>
+    <packaging>war</packaging>
+    <name>GeoMail Example</name>
+    <description>A web-based example that plots incoming emails on a world map</description>
+
+    <properties>
+        <webappName>geomail</webappName>
+        <furtherInfo>The Geomail example combines Spring, JPA, Email, JavaScript, AJAX and two ibeans for looking up Geo
+            data for an IP address. There is a server side component that listens for incoming emails (in the example a
+            dummy component is used that creates fake data). From the Email the originating IP address is extracted and
+            passed on where the HostIpIBean is used to look up the Geo coordinates for the IP address. If HostIpIBean
+            cannot resolve the IP,another iBean is used, FraudLabsIBean to performa look up. The result is then
+            normalised into a common JavaBean format (using XSLT and XStream) and cached in a database to avoid
+            performing a lookup again. Finally, the information about the email are sent on an AJAX channel to the
+            browser where the origin of the email is plotted on a Google Map.
+        </furtherInfo>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.2.1.ga</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>cglib</groupId>-->
+        <!--<artifactId>cglib</artifactId>-->
+        <!--<version>2.2</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.2.1.ga</version>
+        </dependency>
+
+
+        <!-- we need to add this explicitly since JPA is not bundled with iBeans -->
+        <!--<dependency>-->
+        <!--<groupId>org.mule.ibeans</groupId>-->
+        <!--<artifactId>ibeans-module-jpa</artifactId>-->
+        <!--<version>${version}</version>-->
+        <!--<type>pom</type>-->
+        <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>warp-persist</groupId>
+            <artifactId>warp-persist</artifactId>
+            <version>2.0-20090214</version>
+        </dependency>
+
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xerces</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,2 @@
+#IBEANS-18. Failing due to recent DoS attacks on Twitter, the API is unstable at the moment
+org.mule.ibeans.twitter.TwitterTestCase

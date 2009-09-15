@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>Mule GeoMail Example</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <filter>
+        <filter-name>persistenceFilter</filter-name>
+        <filter-class>com.wideplay.warp.persist.PersistenceFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>persistenceFilter</filter-name>
+        <url-pattern>/geomail/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>mule-ibeans</servlet-name>
+        <servlet-class>org.mule.ibeans.web.IBeansServlet</servlet-class>
+        <init-param>
+            <param-name>config.builder</param-name>
+            <param-value>guice</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ajax</servlet-name>
+        <servlet-class>org.mule.ibeans.web.IBeansAjaxServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>mule-ibeans</servlet-name>
+        <url-pattern>/ibeans/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ajax</servlet-name>
+        <url-pattern>/ibeans/ajax/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>

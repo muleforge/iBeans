@@ -1,0 +1,18 @@
+{target:"/ibeans/rpc/context", // this defines the URL to connect for the services
+ transport:"POST", // We will use POST as the transport
+ envelope:"JSON-RPC-1.2", // We will use JSON-RPC
+ SMDVersion:"2.0",
+ services: {
+   createIBean : { // define a service to add two numbers
+   parameters: [
+     {name:"name",type:"string"}],
+   returns:{"type":"string"} //object ID
+ },
+ disposeIBean : {
+   target: "/ibeans/rpc/context",
+   transport: "POST",
+   envelope: "JSON-RPC-1.2",
+   parameters:[ { name: "id", type: "string"} ],
+   returns:{type:"boolean"}
+ }
+}

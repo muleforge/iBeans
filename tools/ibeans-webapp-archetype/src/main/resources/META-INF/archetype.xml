@@ -1,0 +1,70 @@
+<archetype>
+    <id>maven-archetype-ibeans-webapp</id>
+    <variables>
+        <variable>
+            <name>description</name>
+            <description>Provide a description of what the application does:</description>
+            <!-- Note that you always need a <defValue> element for -Dinteractive=false to work -->
+            <defvalue/>
+        </variable>
+        <variable>
+            <name>ibeansVersion</name>
+            <description>Which version of iBeans is this application targeted at?</description>
+            <defvalue>${ibeansVersion}</defvalue>
+        </variable>
+        <variable>
+            <name>groupId</name>
+            <description>What Java package do you want to use?</description>
+            <defvalue>org.mule.ibeans</defvalue>
+        </variable>
+    </variables>
+
+    <templates>
+        <!-- the template README should be run first since it sets up other variables and is always included -->
+        <template>
+            <file>README.vm</file>
+            <output>IBEANS-README.txt</output>
+        </template>
+        <template>
+            <file>pom.vm</file>
+            <output>pom.xml</output>
+        </template>
+        <template>
+            <file>tcat-pom.vm</file>
+            <output>tcat.xml</output>
+        </template>
+        <template>
+            <file>LICENSE.vm</file>
+            <output>LICENSE.txt</output>
+        </template>
+
+        <template>
+            <file>src/main/webapp/WEB-INF/web.vm</file>
+            <output>
+                src/main/webapp/WEB-INF/web.xml
+            </output>
+        </template>
+
+        <template>
+            <file>src/main/webapp/index.html.vm</file>
+            <output>
+                src/main/webapp/index.html
+            </output>
+        </template>
+
+        <template>
+            <file>src/main/java/org/mule/ibeans/package.vm</file>
+            <output>
+                src/main/java/${package}/${ModuleNameLower}/package.html
+            </output>
+        </template>
+
+        <template>
+            <file>src/main/java/org/mule/ibeans/EchoService.vm</file>
+            <output>
+                src/main/java/${package}/${ModuleNameLower}/EchoService.java
+            </output>
+        </template>
+    </templates>
+</archetype>
+

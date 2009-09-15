@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Mule iBeans Examples</title>
+</head>
+<body>
+<h1>Welcome to Mule iBeans!</h1>
+
+Mule iBeans is a new platform integrating web applications with the rest of the world. Mule iBeans provides a simple API
+and annotations for doing common tasks such as
+<ul>
+    <li>Receiving and sending Email</li>
+    <li>subscribing and publishing to Jms queues and topics</li>
+    <li>scheduling tasks such as polling database tables or RSS feeds</li>
+    <li>Publishing REST style services using JAX-RS annotations</li>
+    <li>Publishing Web Services using JAX-WS</li>
+    <li>Subscribing and publishing AJAX events (Comet)</li>
+    <li>and much more...</li>
+</ul>
+
+Mule iBeans also provides a revolutionary way of sharing client objects called IntegrationBeans that provide a unique
+way to quickly create clients for web APIs such as Twitter, Flickr, FaceBook, Amazon WS, LinkedIn, BaseCamp and any
+other service on the web that offers a public REST or Web Service API.
+
+<h2>Examples</h2>
+
+Mule iBeans offers a range of examples to get you started -
+
+<table>
+    <tr>
+        <th>Example</th>
+        <th>Description</th>
+        <th>Demonstrates</th>
+    </tr>
+    <tr>
+        <td><a href="/gpswalker">GPS Walker</a></td>
+        <td>This examples simulates the processing of GPS co-ordinates and plots them on a Map.</td>
+        <td>Google Maps, AJAX, Scheduling and Sending messages.</td>
+    </tr>
+    <tr>
+        <td><a href="/notifications">Notifications</a></td>
+        <td>Demonstrates capturing Mule iBeans notification events and sends them to the browser. It also shows how to
+            perform an RPC call from the browser and track the server notifications triggered.
+        </td>
+        <td> AJAX and RPC, Sending messages, Guice configuration, Notifications.</td>
+    </tr>
+    <tr>
+        <td>Annotations</td>
+        <td>Simple examples of each of the application annotations such as @Send, @Receive, @ReceiveAndReply and
+            @Schedule. There is no UI to test these examples but they are in the source repository.
+        </td>
+        <td>Direct messaging, Send, Receive, ReceiveAndReply annotations, Scheduling, Transformations</td>
+    </tr>
+    <tr>
+        <td><a href="#"><strike>Web Clients</strike></a></td>
+        <td>An example Twitter client demonstrates publishing status updates as well as reading a timeline. The Flirkr
+            example demonstrates how to search for photos and load the photos.
+        </td>
+        <td>IntegrationBean annotation, Defining Integration beans, Http Basic authorization</td>
+    </tr>
+    <tr>
+        <td><a href="/mailreader">Struts2 MailReader</a></td>
+        <td>This is an enhased version of the Struts2 MailReader application that demonstrates how to integrate Mule
+            iBeans with Struts 2 without cluttering your existing application.
+        </td>
+        <td>Struts 2 integration, receiving email</td>
+    </tr>
+    <tr>
+        <td><a href="#"><strike>BookStore</strike></a></td>
+        <td>This is the front end to the secure backend Book Store application</td>
+        <td>REST Service (JAX-RS), JSP integration</td>
+    </tr>
+    <tr>
+        <td><a href="#"><strike>BookStore Admin</strike></a></td>
+        <td>This is a webapp which runs inside the firewall and is used to manage the inventory of a bookstore.</td>
+        <td>REST Service (JAX-RS), Sending Email</td>
+    </tr>
+</table>
+
+</body>
+</html>

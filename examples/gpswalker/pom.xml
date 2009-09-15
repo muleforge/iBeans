@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mule.ibeans.examples</groupId>
+        <artifactId>ibeans-examples</artifactId>
+        <version>1.0-beta-5-SNAPHOT</version>
+    </parent>
+
+    <artifactId>ibeans-example-gpswalker</artifactId>
+    <packaging>war</packaging>
+    <name>GPS Walker Example</name>
+    <description>Simulates plotting Geo coordinates onto a Google map</description>
+
+    <properties>
+        <webappName>gpswalker</webappName>
+        <furtherInfo>The GPS walker demonstrates how to use the iBeans JavaScript client to send and receive AJAX events
+            to and from the browser. There is a server-side component, CityStroller, that uses the iBeans applcation
+            annotations @Schedule and @Send to repeatedly call a method that generates random Geo coordinates and sends
+            them to the browser to be plotted on a Google Map. The HTML page allows you to switch between cities.
+        </furtherInfo>
+    </properties>
+</project>

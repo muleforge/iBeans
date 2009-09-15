@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mule.ibeans.examples</groupId>
+        <artifactId>ibeans-examples</artifactId>
+        <version>1.0-beta-5-SNAPHOT</version>
+    </parent>
+
+    <artifactId>ibeans-example-notifications</artifactId>
+    <packaging>war</packaging>
+    <name>Notifications Example</name>
+    <description>Demonstrates capturing and firing notifications and uses AJAX to send notifications to the browser.
+    </description>
+
+    <properties>
+        <webappName>notifications</webappName>
+        <furtherInfo>A notification is fired every time something happens in the iBeans container (this is
+            configurable). This example demonstates using the JavaScript client listening to these events and displaying
+            them in the browser. The user can send secure and non-secure echo requests to the browser which will trigger
+            different notifications. The example source code will show that Google Guice is used to configure the server
+            components.
+        </furtherInfo>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-guice</artifactId>
+            <version>${muleVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

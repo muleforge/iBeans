@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/web-examples">
+    <Environment name="flickr.apiKey" type="java.lang.String" value="cc300e636a539ac68da3fef4bb39754d"/>
+    <Environment name="twitter.username" type="java.lang.String" value="muletest"/>
+    <Environment name="twitter.password" type="java.lang.String" value="mule1234"/>
+    <Environment name="gmail.username" type="java.lang.String" value="muletestinbox@gmail.com"/>
+    <Environment name="gmail.password" type="java.lang.String" value="mule12345678"/>
+</Context>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>pluginServlet</servlet-name>
+        <servlet-class>ibeans.server.PluginsServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>repositoryServlet</servlet-name>
+        <servlet-class>ibeans.server.RepositoryServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>applicationServlet</servlet-name>
+        <servlet-class>ibeans.server.ApplicationServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>applicationServlet</servlet-name>
+        <url-pattern>/ibeans.Console/ApplicationService</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>pluginServlet</servlet-name>
+        <url-pattern>/ibeans.Console/PluginsService</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>repositoryServlet</servlet-name>
+        <url-pattern>/ibeans.Console/RepositoryService</url-pattern>
+    </servlet-mapping>
+
+    <!-- Default page to serve -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+</web-app>

@@ -1,0 +1,2 @@
+org.mule.ibeans.example.hello.HelloComponentFunctionalSpringTestCase
+org.mule.ibeans.example.hello.HelloComponentFunctionalTestCase

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mule.ibeans.examples</groupId>
+        <artifactId>ibeans-examples</artifactId>
+        <version>1.0-beta-5-SNAPHOT</version>
+    </parent>
+
+    <artifactId>ibeans-examples-web</artifactId>
+    <packaging>war</packaging>
+    <name>iBeans Web Examples</name>
+    <description>A set of examples that demonstrates using iBeans from JavaScript and JSP.
+    </description>
+
+    <properties>
+        <webappName>web-examples</webappName>
+        <furtherInfo>Examples include: A JavaScript example of using Flickr to search and display photos from the
+            popular photo hosting service. A JSP example of using Flickr to search for photos and email them to an
+            address using the GMail iBean. And a Twitter example that displays a public timeline and demonstrates
+            updating a Twitter account with a new status.
+        </furtherInfo>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <artifactId>flickr-ibean</artifactId>
+            <groupId>org.mule.ibeans</groupId>
+            <version>${version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <artifactId>twitter-ibean</artifactId>
+            <groupId>org.mule.ibeans</groupId>
+            <version>${version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <artifactId>bitly-ibean</artifactId>
+            <groupId>org.mule.ibeans</groupId>
+            <version>${version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <artifactId>gmail-ibean</artifactId>
+            <groupId>org.mule.ibeans</groupId>
+            <version>${version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
