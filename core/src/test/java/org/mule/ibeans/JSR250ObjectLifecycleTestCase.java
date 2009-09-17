@@ -20,7 +20,7 @@ import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 /**
  * Tests that methods annotated with JSR250 @PostConstruct and @PreDestroy are called
  */
-public class JSR250LifecycleTestCase extends AbstractIBeansTestCase
+public class JSR250ObjectLifecycleTestCase extends AbstractIBeansTestCase
 {
     public static final long TIMEOUT = 1000;
     private Latch initLatch = new Latch();

@@ -17,7 +17,9 @@ import org.mule.transformer.AbstractMessageAwareTransformer;
 import java.lang.reflect.Method;
 
 /**
- * TODO
+ * Creates a Mule {@link org.mule.api.transformer.Transformer} proxy around a transform method. The
+ * transformer will be given a generated name which is the short name of the class and the method name
+ * separated with a '.' i.e. 'MyTransformers.fooToBar'
  */
 class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implements DiscoverableTransformer
 {
@@ -52,7 +54,7 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
         messageAware = MuleMessage.class.isAssignableFrom(transformMethod.getParameterTypes()[0]);
         this.transformMethod = transformMethod;
         registerSourceType(transformMethod.getParameterTypes()[0]);
-        setName(transformMethod.getName());
+        setName(proxy.getClass().getSimpleName() + "." + transformMethod.getName());
     }
 
     public Object transform(MuleMessage message, String outputEncoding) throws TransformerException

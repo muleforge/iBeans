@@ -55,7 +55,6 @@ public class AnnotatedTransformerObjectProcessor implements ObjectProcessor, Mul
                 throw new RuntimeException(e);
             }
         }
-        //We have processed the transformers, no need to keepthe host object in the registry
-        return null;
+        return object;
     }
 }
