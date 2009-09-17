@@ -26,7 +26,7 @@ import java.net.URL;
 import org.w3c.dom.Node;
 
 @Usage("Provides simplified access to the Flickr API for searching and reading photos. This bean supports XML and JSON responses. XML is used by default, but JSON can be set by" +
-        "setting the 'format' param to 'json' in one of the init methods. Note that 'json' or '' are the only valid values for 'format' The ReturnType param can be set to java.lang.String (default), org.w3c.dom.Document or org.mule.module.json.JsonData.")
+        "setting the 'format' param to 'json' in one of the init methods. Note that 'json' or '' are the only valid values for 'format'. The ReturnType param can be set to java.lang.String (default), org.w3c.dom.Document, or org.mule.module.json.JsonData.")
 @XmlErrorFilter(expr = "/rsp/@stat = 'fail'", errorCode = "/rsp/err/@code")
 public interface FlickrIBean
 {
