@@ -17,8 +17,9 @@
 
     <!-- Specify the app servlets.                   -->
     <servlet path='/PluginsService' class='ibeans.server.PluginsServiceImpl'/>
-    <servlet path="/RepositoryService" class="ibeans.server.RepositoryServiceImpl"/>
+    <servlet path="/IBeansCentralService" class="ibeans.server.IBeansCentralServiceImpl"/>
     <servlet path="/ApplicationService" class="ibeans.server.ApplicationServiceImpl"/>
+
 
 
     <stylesheet src="IBeans.css"/>

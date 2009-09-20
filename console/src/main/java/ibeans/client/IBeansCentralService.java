@@ -5,17 +5,21 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import ibeans.client.model.Plugin;
 
 /**
  * TODO
  */
-public interface RepositoryService extends RemoteService
+public interface IBeansCentralService extends RemoteService
 {
     public List<Plugin> getAvailableIBeans() throws ClientIBeansException;
 
     public List<Plugin> getAvailableModules() throws ClientIBeansException;
+
+    public String downloadIBean(String user, String pass, String id, String version) throws ClientIBeansException;
 
     /**
      * Utility/Convenience class.
@@ -23,15 +27,15 @@ public interface RepositoryService extends RemoteService
      */
     public static class App
     {
-        private static final RepositoryServiceAsync ourInstance;
+        private static final IBeansCentralServiceAsync ourInstance;
 
         static
         {
-            ourInstance = (RepositoryServiceAsync) GWT.create(RepositoryService.class);
-            ((ServiceDefTarget) ourInstance).setServiceEntryPoint(GWT.getModuleBaseURL() + "ibeans.Console/RepositoryService");
+            ourInstance = (IBeansCentralServiceAsync) GWT.create(IBeansCentralService.class);
+            ((ServiceDefTarget) ourInstance).setServiceEntryPoint(GWT.getModuleBaseURL() + "ibeans.Console/IBeansCentralService");
         }
 
-        public static RepositoryServiceAsync getInstance()
+        public static IBeansCentralServiceAsync getInstance()
         {
             return ourInstance;
         }

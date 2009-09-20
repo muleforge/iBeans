@@ -37,7 +37,7 @@ public class Plugin implements Serializable
     private String warning;
     private boolean required;
     private boolean bundled;
-
+    private String downloadUrl;
 
     public Plugin()
     {
@@ -240,6 +240,16 @@ public class Plugin implements Serializable
     public void setFurtherInfo(String furtherInfo)
     {
         this.furtherInfo = furtherInfo;
+    }
+
+    public String getDownloadUrl()
+    {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl)
+    {
+        this.downloadUrl = downloadUrl;
     }
 
     @Override

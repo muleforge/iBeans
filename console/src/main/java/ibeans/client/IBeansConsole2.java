@@ -15,7 +15,6 @@ import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.Html;
-import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.Viewport;
@@ -31,7 +30,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -49,39 +48,29 @@ import java.util.Map;
 
 import ibeans.client.model.AppInfo;
 import ibeans.client.util.InlineFlowPanel;
+import ibeans.client.util.ExternalHyperlink;
 
 /**
  * TODO
  */
-public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
+public class IBeansConsole2 implements EntryPoint
 {
-
-    public static final String WILDCARD = "*";
-    private static final String DEFAULT_PAGE = "browse";
-
     private InlineFlowPanel rightHeaderPanel;
 
     private PluginsServiceAsync pluginsService;
-    private RepositoryServiceAsync repositoryService;
+    private IBeansCentralServiceAsync repositoryService;
     private ApplicationServiceAsync applicationService;
 
     protected TabPanel tabPanel;
-    //protected WUser user;
-    protected int oldTab;
-
-    protected int adminTabIndex;
     protected Viewport base;
-    //protected PropertyInterfaceManager propertyInterfaceManager = new PropertyInterfaceManager();
-    protected List extensions;
     protected Label product;
     protected FlowPanel footerPanel;
 
-    protected List<String> tabNames = new ArrayList<String>();
     protected int repositoryTabIndex;
     private ContentPanel centerPanel;
     private List<StatusItem> statusList = new ArrayList<StatusItem>();
     private StatusPanel statusBar;
-
+    private UserInfo user;
 
     /**
      * This is the entry point method.
@@ -89,28 +78,28 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
     public void onModuleLoad()
     {
         this.pluginsService = (PluginsServiceAsync) GWT.create(PluginsService.class);
-        this.repositoryService = (RepositoryServiceAsync) GWT.create(RepositoryService.class);
+        this.repositoryService = (IBeansCentralServiceAsync) GWT.create(IBeansCentralService.class);
         this.applicationService = (ApplicationServiceAsync) GWT.create(ApplicationService.class);
 
         ServiceDefTarget target = (ServiceDefTarget) pluginsService;
         // Use this so we can run in hosted mode but rewrite the URL once the app is deployed
-        //String baseUrl = "/ibeans/ibeans.Console"; // GWT.getModuleBaseURL();
+        //String baseUrl = "/ibeans/ibeans.Console/"; // GWT.getModuleBaseURL();
         String baseUrl = GWT.getModuleBaseURL();
-        target.setServiceEntryPoint(baseUrl + "/PluginsService");
+        target.setServiceEntryPoint(baseUrl + "PluginsService");
 
         target = (ServiceDefTarget) repositoryService;
-        target.setServiceEntryPoint(baseUrl + "/RepositoryService");
+        target.setServiceEntryPoint(baseUrl + "IBeansCentralService");
 
         target = (ServiceDefTarget) applicationService;
-        target.setServiceEntryPoint(baseUrl + "/ApplicationService");
+        target.setServiceEntryPoint(baseUrl + "ApplicationService");
 
-        //GXT.setDefaultTheme(Theme.GRAY, true);
         GXT.BLANK_IMAGE_URL = "gxt/images/default/s.gif";
-        //final String LOGO = "images/tcat_logo_main.gif";
 
         // prefetch the image, so that e.g. SessionKilled dialog can be properly displayed for the first time
         // when the server is already down and cannot serve it.
         Image.prefetch("images/lightbox.png");
+
+        user = getUserInfo();
 
         base = new Viewport();
         base.setLayout(new BorderLayout());
@@ -123,27 +112,7 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         tabPanel.setAutoWidth(true);
 
         createBody();
-
-        //createNav();
-
-//        registryService.getUserInfo(new AbstractCallback(repositoryPanel) {
-//            public void onSuccess(Object o) {
-//                user = (WUser) o;
-//
-//                // always the left most item
-//                rightHeaderPanel.insert(new Label("Welcome, " + user.getName()), 0);
-//
-//                suppressTabHistory = true;
-//                loadTabs(console2);
-//                suppressTabHistory = false;
-//                showFirstPage();
-//            }
-//        });
-
-
         loadTabs(this);
-        //createStatusBar();
-
         createFooter();
 
         RootPanel.get().add(base);
@@ -157,7 +126,7 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         return pluginsService;
     }
 
-    public RepositoryServiceAsync getRepositoryService()
+    public IBeansCentralServiceAsync getRepositoryService()
     {
         return repositoryService;
     }
@@ -188,7 +157,15 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
 
     public void errorStatus(Throwable t)
     {
-        updateStatus(Status.ERROR, t.getMessage() + " (" + t.getClass().getName() + ")");
+        if(t.getMessage().startsWith("<"))
+        {
+            new HTMLDialog("Server Error", t.getMessage()).show();
+            updateStatus(Status.ERROR, "Server Error, see log: " + " (" + t.getClass().getName() + ")");
+        }
+        else
+        {
+            updateStatus(Status.ERROR, t.getMessage() + " (" + t.getClass().getName() + ")");
+        }
     }
 
     private void createFooter()
@@ -220,13 +197,8 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
     protected void prependFooterConent(final FlowPanel panel)
     {
 
-        applicationService.getApplicationInfo(new AsyncCallback<AppInfo>()
+        applicationService.getApplicationInfo(new AbstractAsyncCallback<AppInfo>(this)
         {
-            public void onFailure(Throwable throwable)
-            {
-                errorStatus(throwable);
-            }
-
             public void onSuccess(AppInfo info)
             {
                 product = new Label("About " + info.getName());
@@ -279,13 +251,8 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         northPanel.add(header);
         base.add(northPanel, data);
 
-        applicationService.getApplicationInfo(new AsyncCallback<AppInfo>()
+        applicationService.getApplicationInfo(new AbstractAsyncCallback<AppInfo>(this)
         {
-            public void onFailure(Throwable throwable)
-            {
-                errorStatus(throwable);
-            }
-
             public void onSuccess(AppInfo appInfo)
             {
                 Label head = new Label(appInfo.getName());
@@ -305,9 +272,29 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         InlineFlowPanel options = new InlineFlowPanel();
         options.setStyleName("header-right-options");
 
-//        ExternalHyperlink logout = new ExternalHyperlink("Log Out", GWT.getHostPageBaseURL() + "j_logout");
-//        options.add(newSpacerPipe());
-//        options.add(logout);
+        if(user.getUser()!=null)
+        {
+            Label l = new Label("Welcome, " + user.getUser());
+            options.add(l);
+
+            options.add(newSpacerPipe());
+
+            Label l2 = new Label("Log Out");
+            options.add(l2);
+            l2.addClickHandler(new ClickHandler(){
+                public void onClick(ClickEvent clickEvent)
+                {
+                    clearUserInfo();
+                    rightHeaderPanel.remove(0);
+                    rightHeaderPanel.add(createHeaderOptions());
+                }
+            });
+        }
+        else
+        {
+            Label l = new Label("Log In");
+            options.add(l);
+        }
 
         return options;
     }
@@ -327,48 +314,47 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         base.add(centerPanel, data);
     }
 
-
-    public int getRepositoryTab()
-    {
-        return repositoryTabIndex;
-    }
-
     protected void loadTabs(final IBeansConsole2 console)
     {
-        final TabItem welcomeTab = new TabItem();
-        welcomeTab.setText("Welcome");
-        welcomeTab.setScrollMode(Style.Scroll.AUTOX);
-        RequestBuilder req = new RequestBuilder(RequestBuilder.GET, GWT.getHostPageBaseURL() + "welcome.html");
-        req.setCallback(new RequestCallback()
+        if (user.isShowWelcome())
         {
-            public void onResponseReceived(Request request, Response response)
+            final TabItem welcomeTab = new TabItem();
+            welcomeTab.setText("Welcome");
+            welcomeTab.setScrollMode(Style.Scroll.AUTOX);
+            RequestBuilder req = new RequestBuilder(RequestBuilder.GET, GWT.getHostPageBaseURL() + "welcome-beta.html");
+            req.setCallback(new RequestCallback()
             {
-                welcomeTab.add(new Html(response.getText()));
-                final CheckBox box = new CheckBox(" Do not show this screen in future");
-                //box.setStyleName("welcome-check");
-                box.addClickHandler(new ClickHandler()
+                public void onResponseReceived(Request request, Response response)
                 {
-                    public void onClick(ClickEvent event)
+                    welcomeTab.add(new Html(response.getText()));
+                    final CheckBox box = new CheckBox(" Do not show this screen in future");
+                    //box.setStyleName("welcome-check");
+                    box.addClickHandler(new ClickHandler()
                     {
-                        Info.display("Display", "Do not display in future " + box.getValue());
-                    }
-                });
-                welcomeTab.add(box);
-                welcomeTab.layout();
-            }
+                        public void onClick(ClickEvent event)
+                        {
+                            user.setShowWelcome(box.getValue());
+                            saveUserInfo(user);
+                        }
+                    });
+                    welcomeTab.add(box);
+                    welcomeTab.layout();
+                }
 
-            public void onError(Request request, Throwable exception)
+                public void onError(Request request, Throwable exception)
+                {
+                    errorStatus(exception);
+                }
+            });
+            try
             {
-                errorStatus(exception);
+                req.send();
             }
-        });
-        try
-        {
-            req.send();
-        }
-        catch (RequestException e)
-        {
-            errorStatus(e);
+            catch (RequestException e)
+            {
+                errorStatus(e);
+            }
+            tabPanel.add(welcomeTab);
         }
 
 
@@ -379,27 +365,16 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         configTab.layout();
 
         TabItem storeTab = new TabItem();
-        storeTab.setText("iBeans Store");
-        storeTab.add(new AvailablePluginsPanel(console));
+        storeTab.setText("iBeans Central");
+        storeTab.add(new IBeansCentralPanel(console));
 
         TabItem examplesTab = new TabItem();
         examplesTab.setText("Examples");
         examplesTab.add(new ExamplesPanel(console));
 
-        tabPanel.add(welcomeTab);
         tabPanel.add(examplesTab);
         tabPanel.add(configTab);
         tabPanel.add(storeTab);
-    }
-
-    protected InstalledPluginsPanel createInstalledPluginsPanel(final IBeansConsole2 console)
-    {
-        return new InstalledPluginsPanel(console);
-    }
-
-    protected AvailablePluginsPanel createAvailablePluginsPanel(final IBeansConsole2 console)
-    {
-        return new AvailablePluginsPanel(console);
     }
 
     protected TabItem createEmptyTab(String name, String toolTip)
@@ -421,211 +396,39 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         return createEmptyTab(name, null);
     }
 
-//    protected boolean showAdminTab(WUser user) {
-//        for (Iterator<String> itr = user.getPermissions().iterator(); itr.hasNext();) {
-//            String s = itr.next();
-//
-//            if (s.startsWith("MANAGE_") || "EXECUTE_ADMIN_SCRIPTS".equals(s)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    UserInfo getUserInfo()
+    {
+        if (user == null)
+        {
+            String rawCookie = Cookies.getCookie("ibeans-console");
+            if (rawCookie.equals(""))
+            {
+                UserInfo info = new UserInfo();
+                return info;
+            }
+            else
+            {
+                return UserInfo.create(rawCookie);
+            }
+        }
+        else
+        {
+            return user;
+        }
+    }
 
-//    protected void showFirstPage() {
-//        // Show the initial screen.
-//        String initToken = History.getToken();
-//        if (initToken.length() > 0) {
-//            onHistoryChanged(initToken);
-//        } else {
-//            show("browse");
-//        }
-//    }
-//
-//
-//
-//    /**
-//     * Shows a page, but does not trigger a history event.
-//     *
-//     * @param token
-//     */
-//    public void show(String token) {
-//        show(getPageInfo(token), getParams(token));
-//    }
-//
-//    protected void show(PageInfo page, List<String> params) {
-//        TabItem p = (TabItem) tabPanel.getWidget(page.getTabIndex());
-//
-//        if (!tabPanel.getSelectedItem().equals(p)) {
-//            tabPanel.setSelection(p);
-//        }
-//
-//        p.removeAll();
-//        p.layout();
-//
-//        Widget instance = page.getInstance();
-//        p.add(instance);
-//        p.layout();
-//
-//        if (instance instanceof Showable) {
-//            ((Showable) instance).showPage(params);
-//        }
-//    }
+    void saveUserInfo(UserInfo info)
+    {
+        Date now = new Date();
+        now.setYear(now.getYear() + 1);
+        Cookies.setCookie("ibeans-console", info.toString(), now);
+    }
 
-//    public void onValueChange(ValueChangeEvent<String> event) {
-//        onHistoryChanged(event.getValue());
-//    }
-
-//    public void onHistoryChanged(String token) {
-//        suppressTabHistory = true;
-//        currentToken = token;
-//        if ("".equals(token)) {
-//            token = DEFAULT_PAGE;
-//        }
-//
-//        if ("nohistory".equals(token) && curInfo != null) {
-//            suppressTabHistory = false;
-//            return;
-//        }
-//
-//        PageInfo page = getPageInfo(token);
-//        List<String> params = getParams(token);
-//
-//        // hide the previous page
-//        if (curInfo != null) {
-//            Widget instance = curInfo.getInstance();
-//            if (instance instanceof Showable) {
-//                ((Showable) instance).hidePage();
-//            }
-//        }
-//
-//        if (page == null) {
-//            // went to a page which isn't in our history anymore. go to the first page
-//            if (curInfo == null) {
-//                onHistoryChanged(DEFAULT_PAGE);
-//            }
-//        } else {
-//            curInfo = page;
-//
-//            int idx = page.getTabIndex();
-//            if (idx >= 0 && idx < tabPanel.getItemCount()) {
-//                tabPanel.setSelection(tabPanel.getItem(page.getTabIndex()));
-//            }
-//            show(page, params);
-//        }
-//
-//        suppressTabHistory = false;
-//    }
-//
-//
-//    private List<String> getParams(String token) {
-//        List<String> params = new ArrayList<String>();
-//        String[] split = token.split("/");
-//
-//        if (split.length > 1) {
-//            for (int i = 1; i < split.length; i++) {
-//                params.add(split[i]);
-//            }
-//        }
-//        return params;
-//    }
-//
-//    public String getCurrentToken() {
-//        return currentToken;
-//    }
-//
-//    public PageInfo getPageInfo(String token) {
-//        PageInfo page = history.get(token);
-//
-//        if (page == null) {
-//
-//            // hack to match "foo/*" style tokens
-//            int slashIdx = token.indexOf("/");
-//            if (slashIdx != -1) {
-//                page = history.get(token.substring(0, slashIdx) + "/" + WILDCARD);
-//            }
-//
-//            if (page == null) {
-//                page = history.get(token.substring(0, slashIdx));
-//            }
-//        }
-//
-//        return page;
-//    }
-//
-//    public void setMessageAndGoto(String token, String message) {
-//        PageInfo pi = getPageInfo(token);
-//
-//        ErrorPanel ep = (ErrorPanel) pi.getInstance();
-//
-//        History.newItem(token);
-//
-//        ep.setMessage(message);
-//    }
-
-//    public PropertyInterfaceManager getPropertyInterfaceManager() {
-//        return propertyInterfaceManager;
-//    }
-//
-//    public List getExtensions() {
-//        return extensions;
-//    }
-//
-//    public RegistryServiceAsync getRegistryService() {
-//        return registryService;
-//    }
-//
-//    public SecurityServiceAsync getSecurityService() {
-//        return securityService;
-//    }
-//
-//    public HeartbeatServiceAsync getHeartbeatService() {
-//        return this.heartbeatService;
-//    }
-//
-//    public AdminServiceAsync getAdminService() {
-//        return adminService;
-//    }
-
-//    public TabPanel getTabPanel() {
-//        return tabPanel;
-//    }
-//
-//    public BaseConstants getBaseConstants() {
-//        return baseConstants;
-//    }
-//
-//    public BaseMessages getBaseMessages() {
-//        return baseMessages;
-//    }
-//
-//    public boolean hasPermission(String perm) {
-//        for (Iterator<String> itr = user.getPermissions().iterator(); itr.hasNext();) {
-//            String s = itr.next();
-//
-//            if (s.startsWith(perm)) return true;
-//        }
-//        return false;
-//    }
-//
-//    public int getAdminTab() {
-//        return adminTabIndex;
-//    }
-//
-//    public void addHistoryListener(String token, AbstractShowable composite) {
-//        historyListeners.put(token, composite);
-//    }
-//
-//    public WExtensionInfo getExtension(String id) {
-//        for (Iterator itr = extensions.iterator(); itr.hasNext();) {
-//            WExtensionInfo ei = (WExtensionInfo) itr.next();
-//
-//            if (id.equals(ei.getId())) {
-//                return ei;
-//            }
-//        }
-//        return null;
-//    }
+    void clearUserInfo()
+    {
+        Cookies.setCookie("ibeans-console", "");
+        user = new UserInfo();
+    }
 
     private class StatusItem implements ModelData, Serializable
     {
@@ -676,6 +479,86 @@ public class IBeansConsole2 implements EntryPoint//, ValueChangeHandler<String>
         public Date getTimestamp()
         {
             return (Date) data.get("timestamp");
+        }
+    }
+
+
+    static class UserInfo
+    {
+        private String user;
+        private String pass;
+        private boolean showWelcome = true;
+
+
+        public String getUser()
+        {
+            return user;
+        }
+
+        public void setUser(String user)
+        {
+            this.user = user;
+        }
+
+        public String getPass()
+        {
+            return pass;
+        }
+
+        public void setPass(String pass)
+        {
+            this.pass = pass;
+        }
+
+        public boolean isShowWelcome()
+        {
+            return showWelcome;
+        }
+
+        public void setShowWelcome(boolean showWelcome)
+        {
+            this.showWelcome = showWelcome;
+        }
+
+        public String toString()
+        {
+            StringBuffer buf = new StringBuffer();
+            if (user != null)
+            {
+                buf.append("user=").append(user).append(";");
+                buf.append("pass=").append(pass).append(";");
+                buf.append("showWelcome=").append(showWelcome).append(";");
+            }
+            return buf.toString();
+        }
+
+        public static UserInfo create(String raw)
+        {
+            UserInfo info = new UserInfo();
+
+            int i = raw.indexOf(";");
+            while (i > 0 && i < raw.length())
+            {
+                String pair = raw.substring(0, i);
+                int x = pair.indexOf("=");
+                String key = pair.substring(0, x);
+                String value = pair.substring(x + 1);
+                if (key.equals("user"))
+                {
+                    info.setUser(value);
+                }
+                else if (key.equals("pass"))
+                {
+                    info.setPass(value);
+                }
+                else if (key.equals("showWelcome"))
+                {
+                    info.setShowWelcome(Boolean.parseBoolean(value));
+                }
+                raw = raw.substring(i + 1);
+                i = raw.indexOf(";");
+            }
+            return info;
         }
     }
 }

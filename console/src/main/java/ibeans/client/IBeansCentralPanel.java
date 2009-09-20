@@ -9,9 +9,10 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
+import com.extjs.gxt.ui.client.widget.Html;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -23,7 +24,17 @@ import com.extjs.gxt.ui.client.widget.grid.RowExpander;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +42,14 @@ import java.util.List;
 import ibeans.client.model.Plugin;
 import ibeans.client.model.PluginData;
 
-public class AvailablePluginsPanel extends LayoutContainer
+public class IBeansCentralPanel extends LayoutContainer
 {
 
     private ContentPanel panel;
     private IBeansConsole2 iBeansConsole;
     private Grid<PluginData> grid;
 
-    public AvailablePluginsPanel(IBeansConsole2 iBeansConsole)
+    public IBeansCentralPanel(IBeansConsole2 iBeansConsole)
     {
         this.iBeansConsole = iBeansConsole;
         panel = new ContentPanel();
@@ -65,41 +76,33 @@ public class AvailablePluginsPanel extends LayoutContainer
 
     protected void loadData(final ListStore<PluginData> store) throws ClientIBeansException
     {
-        RepositoryServiceAsync service = iBeansConsole.getRepositoryService();
+        IBeansCentralServiceAsync service = iBeansConsole.getRepositoryService();
 
-        service.getAvailableModules(new AsyncCallback<List<Plugin>>()
+//        service.getAvailableModules(new AbstractAsyncCallback<List<Plugin>>(iBeansConsole)
+//        {
+//            public void onSuccess(List<Plugin> result)
+//            {
+//                for (Plugin plugin : result)
+//                {
+//                    PluginData data = new PluginData(plugin);
+//                    store.add(data);
+//                    if (plugin.getWarning() != null)
+//                    {
+//                        iBeansConsole.updateStatus(Status.WARNING, plugin.getWarning());
+//                    }
+//                }
+//                iBeansConsole.updateStatus(Status.INFO, "Available Module Plugin data loaded");
+//            }
+//        });
+
+        service.getAvailableIBeans(new AbstractAsyncCallback<List<Plugin>>(iBeansConsole)
         {
-            public void onFailure(Throwable caught)
-            {
-                iBeansConsole.updateStatus(Status.ERROR, caught.getMessage() + " (" + caught.getClass().getName() + ")");
-            }
-
             public void onSuccess(List<Plugin> result)
             {
                 for (Plugin plugin : result)
                 {
-                    store.add(new PluginData(plugin));
-                    if (plugin.getWarning() != null)
-                    {
-                        iBeansConsole.updateStatus(Status.WARNING, plugin.getWarning());
-                    }
-                }
-                iBeansConsole.updateStatus(Status.INFO, "Available Module Plugin data loaded");
-            }
-        });
-
-        service.getAvailableIBeans(new AsyncCallback<List<Plugin>>()
-        {
-            public void onFailure(Throwable caught)
-            {
-                iBeansConsole.updateStatus(Status.ERROR, caught.getMessage() + " (" + caught.getClass().getName() + ")");
-            }
-
-            public void onSuccess(List<Plugin> result)
-            {
-                for (Plugin plugin : result)
-                {
-                    store.add(new PluginData(plugin));
+                    PluginData data = new PluginData(plugin);
+                    store.add(data);
                     if (plugin.getWarning() != null)
                     {
                         iBeansConsole.updateStatus(Status.WARNING, plugin.getWarning());
@@ -133,7 +136,7 @@ public class AvailablePluginsPanel extends LayoutContainer
 //                "<tr><td><b>URL:</b> <a href='{url}' target='_blank'>{url}</a></td><td><b>Comments:</b> {commentsCount} <a href='{commentsUrl}' target='_blank'>view</a></td></tr></table>";
 
         String template = "<table cellpadding='10' cellspacing='10'><tr>\n" +
-                "    <td rowspan=\"3\" valign=\"top\" width=\"58\"><img src=\"images/icon{type}.jpg\" height=\"54\" width=\"58\"></td>\n" +
+                "    <td rowspan=\"3\" valign=\"top\" width=\"58\"><img src=\"images/{type}.jpg\" height=\"54\" width=\"58\"></td>\n" +
                 "    <td width='*' colspan='2'>{description}</td>\n" +
                 "  </tr><tr><td><b>Author:</b> {author}</td><td></td></tr>" +
                 "<tr><td><b>URL:</b> <a href='{url}' target='_blank'>{url}</a></td><td> </td></tr>" +
@@ -151,17 +154,17 @@ public class AvailablePluginsPanel extends LayoutContainer
         configs.add(column);
 
 
-        column = new ColumnConfig();
-        column.setId("downloads");
-        column.setHeader("Downloads");
-        column.setWidth(100);
-        configs.add(column);
-
-        column = new ColumnConfig();
-        column.setId("rating");
-        column.setHeader("Rating");
-        column.setWidth(100);
-        configs.add(column);
+//        column = new ColumnConfig();
+//        column.setId("downloads");
+//        column.setHeader("Downloads");
+//        column.setWidth(100);
+//        configs.add(column);
+//
+//        column = new ColumnConfig();
+//        column.setId("rating");
+//        column.setHeader("Rating");
+//        column.setWidth(100);
+//        configs.add(column);
 
         column = new ColumnConfig("type", "Type", 100);
         configs.add(column);
@@ -169,12 +172,15 @@ public class AvailablePluginsPanel extends LayoutContainer
         column = new ColumnConfig("version", "Version", 100);
         configs.add(column);
 
+//        column = new ColumnConfig("downloadUrl", "Get it!", 70);
+//        configs.add(column);
+
         GridCellRenderer<PluginData> buttonRenderer = new GridCellRenderer<PluginData>()
         {
 
             private boolean init;
 
-            public Object render(final PluginData model, String property, ColumnData config, final int rowIndex,
+            public Object render(final PluginData model, final String property, ColumnData config, final int rowIndex,
                                  final int colIndex, ListStore<PluginData> store, Grid<PluginData> grid)
             {
                 if (!init)
@@ -198,7 +204,37 @@ public class AvailablePluginsPanel extends LayoutContainer
                     @Override
                     public void componentSelected(ButtonEvent ce)
                     {
-                        Info.display("Download", "TODO Check user is logged in and download");
+
+                        String user = iBeansConsole.getUserInfo().getUser();
+                        String pass = iBeansConsole.getUserInfo().getPass();
+                        String ibeanId = (String) model.get("id");
+                        String version = (String) model.get("version");
+                        if (user == null)
+                        {
+                            //login panel
+                            final com.extjs.gxt.ui.client.widget.Window window = new com.extjs.gxt.ui.client.widget.Window();
+                            window.setSize(300, 300);
+                            window.setPlain(true);
+                            window.setModal(true);
+                            window.setBlinkModal(true);
+                            window.setHeading("Log in");
+                            window.setLayout(new FitLayout());
+                            FormPanel download = new DownloadWindow(user, pass, ibeanId, version, window, iBeansConsole);
+                            window.add(download);
+                            window.show();
+                        }
+                        else
+                        {
+                            IBeansCentralServiceAsync service = iBeansConsole.getRepositoryService();
+                            service.downloadIBean(user, pass, ibeanId, version, new AbstractAsyncCallback<String>(iBeansConsole)
+                            {
+                                public void onSuccess(String s)
+                                {
+                                    iBeansConsole.updateStatus(Status.INFO, s);
+                                }
+                            });
+                        }
+
                     }
                 });
                 b.setWidth(grid.getColumnModel().getColumnWidth(colIndex) - 10);
@@ -208,7 +244,7 @@ public class AvailablePluginsPanel extends LayoutContainer
             }
         };
 
-        column = new ColumnConfig("download", "Get it!", 100);
+        column = new ColumnConfig("downloadUrl", "Get it!", 100);
         column.setRenderer(buttonRenderer);
         column.setAlignment(HorizontalAlignment.CENTER);
         configs.add(column);
@@ -216,7 +252,7 @@ public class AvailablePluginsPanel extends LayoutContainer
         ColumnModel cm = new ColumnModel(configs);
 
         ContentPanel cp = new ContentPanel();
-        cp.setHeading("List of iBeans and modules Available in the iBeans Store.");
+        cp.setHeading("List of iBeans  Available in iBeans Central.");
         cp.setFrame(true);
         //cp.setIcon(Examples.ICONS.table());
         cp.setLayout(new FitLayout());

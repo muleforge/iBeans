@@ -6,6 +6,9 @@
 <web-app>
 
 
+    <listener>
+        <listener-class>org.mule.ibeans.web.IBeansServletContextListener</listener-class>
+    </listener>
     <!-- Servlets -->
     <servlet>
         <servlet-name>pluginServlet</servlet-name>
@@ -13,14 +16,25 @@
     </servlet>
 
     <servlet>
-        <servlet-name>repositoryServlet</servlet-name>
-        <servlet-class>ibeans.server.RepositoryServiceImpl</servlet-class>
+        <servlet-name>ibeansCentralServlet</servlet-name>
+        <servlet-class>ibeans.server.IBeansCentralServiceImpl</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>applicationServlet</servlet-name>
         <servlet-class>ibeans.server.ApplicationServiceImpl</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>ibeans</servlet-name>
+        <servlet-class>org.mule.ibeans.web.IBeansServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>ibeans</servlet-name>-->
+        <!--<url-pattern>/ibeans/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet-mapping>
         <servlet-name>applicationServlet</servlet-name>
@@ -33,8 +47,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>repositoryServlet</servlet-name>
-        <url-pattern>/ibeans.Console/RepositoryService</url-pattern>
+        <servlet-name>ibeansCentralServlet</servlet-name>
+        <url-pattern>/ibeans.Console/IBeansCentralService</url-pattern>
     </servlet-mapping>
 
     <!-- Default page to serve -->

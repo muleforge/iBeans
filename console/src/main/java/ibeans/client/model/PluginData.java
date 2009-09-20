@@ -60,6 +60,7 @@ public class PluginData implements ModelData, Serializable
         add("licenseName", plugin.getLicenseName());
         add("licenseUrl", plugin.getLicenseUrl());
         add("furtherInfo", plugin.getFurtherInfo());
+        add("downloadUrl", plugin.getDownloadUrl());
     }
 
     public Plugin toPlugin()
@@ -83,6 +84,7 @@ public class PluginData implements ModelData, Serializable
         p.setLicenseName((String) get("licenseName"));
         p.setLicenseUrl((String) get("licenseUrl"));
         p.setFurtherInfo((String) get("furtherInfo"));
+        p.setDownloadUrl((String) get("downloadUrl"));
         return p;
     }
 

@@ -9,16 +9,12 @@
  */
 package ibeans.client;
 
-import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.TabPanelEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -82,8 +78,8 @@ public class PluginsPanel extends com.extjs.gxt.ui.client.widget.TabPanel
         return  new InstalledPluginsPanel(console);
     }
 
-    protected AvailablePluginsPanel createAvailablePluginsPanel(final IBeansConsole2 console)
+    protected IBeansCentralPanel createAvailablePluginsPanel(final IBeansConsole2 console)
     {
-        return new AvailablePluginsPanel(console);
+        return new IBeansCentralPanel(console);
     }
 }
