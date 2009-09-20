@@ -144,6 +144,24 @@ public class AnnotationUtils
         return annotations;
     }
 
+    public static List<AnnotationMetaData> getMethodMetaAnnotations(Class c, Class<? extends Annotation> metaAnn)
+    {
+        List<AnnotationMetaData> annotations = new ArrayList<AnnotationMetaData>();
+
+        for (int i = 0; i < c.getMethods().length; i++)
+        {
+            Method method = c.getMethods()[i];
+            for (int j = 0; j < method.getDeclaredAnnotations().length; j++)
+            {
+                if (method.getDeclaredAnnotations()[j].annotationType().isAnnotationPresent(metaAnn))
+                {
+                    annotations.add(new AnnotationMetaData(c, method, ElementType.METHOD, method.getDeclaredAnnotations()[j]));
+                }
+            }
+        }
+        return annotations;
+    }
+
     public static List<AnnotationMetaData> getAllFieldAnnotations(Class c)
     {
         List<AnnotationMetaData> annotations = new ArrayList<AnnotationMetaData>();
