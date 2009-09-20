@@ -86,6 +86,7 @@ public class IBeanParamsHelper
      * This filter is used to determine whether an error was returned from the service
      */
     protected Map<String, ErrorExpressionFilter> errorFilters;
+    protected Map<Method, ErrorExpressionFilter> methodErrorFilters;
 
     public IBeanParamsHelper(MuleContext muleContext, Class iface)
     {
@@ -140,7 +141,7 @@ public class IBeanParamsHelper
             else if (anno.annotationType().equals(GenericErrorFilter.class))
             {
                 GenericErrorFilter filter = (GenericErrorFilter) anno;
-                errorFilter = new ErrorExpressionFilter(filter.evaluator(), filter.expression());
+                errorFilter = new ErrorExpressionFilter( filter.expr());
                 errorFilters.put(filter.mimeType(), errorFilter);
             }
             else
@@ -148,7 +149,19 @@ public class IBeanParamsHelper
                 throw new IllegalArgumentException("Unrecognised Error Filter: " + anno);
             }
         }
+        List<AnnotationMetaData> results = AnnotationUtils.getMethodMetaAnnotations(clazz, ErrorFilter.class);
+        methodErrorFilters = new HashMap<Method, ErrorExpressionFilter>();
+        for (AnnotationMetaData result : results)
+        {
+            methodErrorFilters.put((Method)result.getMember(), new ErrorExpressionFilter(((GenericErrorFilter)result.getAnnotation()).expr()));
+        }
+
         for (ExpressionFilter filter : errorFilters.values())
+        {
+            filter.setMuleContext(muleContext);
+        }
+
+        for (ExpressionFilter filter : methodErrorFilters.values())
         {
             filter.setMuleContext(muleContext);
         }
@@ -764,5 +777,10 @@ public class IBeanParamsHelper
     public Map<String, ErrorExpressionFilter> getErrorFilters()
     {
         return errorFilters;
+    }
+
+    public Map<Method, ErrorExpressionFilter> getMethodErrorFilters()
+    {
+        return methodErrorFilters;
     }
 }

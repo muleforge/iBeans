@@ -24,6 +24,7 @@ import org.mule.context.DefaultMuleContextFactory;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.config.IBeanHolderConfigurationBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
+import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 import org.mule.util.ClassUtils;
 import org.mule.util.StringUtils;
 
@@ -72,15 +73,15 @@ public class IBeansServletContextListener implements ServletContextListener
         initialize(event.getServletContext());
     }
 
-    protected void initialize(ServletContext context)
+    public void initialize(ServletContext context)
     {
         try
         {
             muleContext = createMuleContext(context);
             context.setAttribute(MuleProperties.MULE_CONTEXT_PROPERTY, muleContext);
-            muleContext.start();
             IBeansContext iBeansContext = muleContext.getRegistry().lookupObject(IBeansContext.class);
             context.setAttribute(IBeansContext.CONTEXT_PROPERTY, iBeansContext);
+            muleContext.start();
         }
         catch (MuleException ex)
         {
@@ -138,7 +139,7 @@ public class IBeansServletContextListener implements ServletContextListener
         }
         //Discover client iBeans
         builders.add(new IBeanHolderConfigurationBuilder());
-        MuleContextFactory muleContextFactory = new DefaultMuleContextFactory();
+        MuleContextFactory muleContextFactory = new IBeansMuleContextFactory();
 
         DefaultMuleConfiguration muleConfiguration = new DefaultMuleConfiguration();
         if (serverId != null)

@@ -43,11 +43,12 @@ public class AnnotatedTransformerObjectProcessor implements ObjectProcessor, Mul
         }
         for (AnnotationMetaData data : annos)
         {
-            AnnotatedTransformerProxy trans = new AnnotatedTransformerProxy(
-                    ((Transformer) data.getAnnotation()).priorityWeighting(),
-                    object, (Method) data.getMember());
             try
             {
+                AnnotatedTransformerProxy trans = new AnnotatedTransformerProxy(
+                        ((Transformer) data.getAnnotation()).priorityWeighting(),
+                        object, (Method) data.getMember());
+
                 muleContext.getRegistry().registerTransformer(trans);
             }
             catch (MuleException e)

@@ -14,15 +14,13 @@ import java.lang.annotation.Target;
  * <p/>
  * This filters allows for any valid Mule expression including RegEx, Groovy, Wildcard, Header, etc.
  */
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ErrorFilter
 public @interface GenericErrorFilter
 {
-    public String evaluator();
-
-    public abstract String expression();
+    public abstract String expr();
 
     public String mimeType() default "*";
 }

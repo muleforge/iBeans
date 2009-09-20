@@ -47,9 +47,16 @@ public class AnnotationsScannerConfigurationBuilder extends AbstractConfiguratio
 //        agent.setLoadMx4jAgent(false);
 //        muleContext.getRegistry().registerAgent(agent);
 
-        TomcatJndiRegistry registry = new TomcatJndiRegistry();
-        registry.initialise();
-        muleContext.addRegistry(5, registry);
+        try
+        {
+            TomcatJndiRegistry registry = new TomcatJndiRegistry();
+            registry.initialise();
+            muleContext.addRegistry(5, registry);
+        }
+        catch (Exception e)
+        {
+            logger.error("Not running in Tcat/Tomcat, context configuration features will not work");
+        }
 
         Map<String, Object> services = findServices();
         for (Map.Entry<String, Object> entry : services.entrySet())

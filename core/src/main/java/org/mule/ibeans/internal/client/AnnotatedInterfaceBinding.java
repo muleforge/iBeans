@@ -135,19 +135,19 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
                                 ann = method.getParameterAnnotations()[i][0];
                                 if (ann.annotationType().equals(Payload.class) ||
                                         ann.annotationType().equals(PayloadParam.class) ||
-                                        ann.annotationType().equals(HeaderParam.class) ||
-                                        http)
+                                        ann.annotationType().equals(HeaderParam.class))
                                 {
-                                    //TODO URGENT remove the HTTP hack above. Its required becuase HTTP request on the dispatcher
-                                    //don't honour authenitcation for some reason.  Also even though there may not be any headers
-                                    //defined we still need to attach some headers to the HTTP method. This is very difficult when
-                                    //using request
+
                                     callChannel = true;
 
                                     break;
                                 }
                             }
-                            if (callChannel)
+                            //TODO URGENT remove the HTTP hack above. Its required becuase HTTP request on the dispatcher
+                            //don't honour authenitcation for some reason.  Also even though there may not be any headers
+                            //defined we still need to attach some headers to the HTTP method. This is very difficult when
+                            //using request
+                            if (callChannel || http)
                             {
                                 OutboundEndpoint endpoint = parser.parseOutboundEndpoint(metaData.getAnnotation());
                                 binding = new DefaultInterfaceBinding();

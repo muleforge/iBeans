@@ -31,7 +31,7 @@ public class DefaultRequestInterfaceBinding extends DefaultInterfaceBinding
         }
         else
         {
-            throw new IllegalArgumentException("An inbound endpoint is required for Get Interface binding");
+            throw new IllegalArgumentException("An inbound endpoint is required for Request Interface binding");
         }
     }
 

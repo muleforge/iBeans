@@ -99,7 +99,7 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("Uri after parsing is: " + uriTemplate);
+            logger.debug("Uri after parsing is: " + newUriString);
         }
 
 
@@ -182,4 +182,6 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
             throw new DispatchException(event.getMessage(), event.getEndpoint(), e);
         }
     }
+
+    
 }

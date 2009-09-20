@@ -634,7 +634,29 @@ public final class IBeansContext
      */
     public <T extends Object> T transform(Object source, Class<T> resultType) throws TransformerException
     {
-        Transformer transformer = getMuleContext().getRegistry().lookupTransformer(source.getClass(), resultType);
+        Class srcType = source.getClass();
+        if (source instanceof MuleMessage)
+        {
+            if (resultType.equals(MuleMessage.class))
+            {
+                return (T) source;
+            }
+            srcType = ((MuleMessage) source).getPayload().getClass();
+        }
+
+        if (resultType.isAssignableFrom(srcType))
+        {
+            if (srcType.equals(source.getClass()))
+            {
+                return (T) source;
+            }
+            else
+            {
+                return (T) ((MuleMessage) source).getPayload();
+            }
+        }
+
+        Transformer transformer = getMuleContext().getRegistry().lookupTransformer(srcType, resultType);
         return (T) transformer.transform(source);
     }
 

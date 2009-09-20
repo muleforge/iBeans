@@ -28,6 +28,7 @@ import org.mule.module.xml.transformer.XmlPrettyPrinter;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringMessageUtils;
 import org.mule.util.TemplateParser;
+import org.mule.RequestContext;
 
 import java.beans.ExceptionListener;
 import java.lang.reflect.InvocationHandler;
@@ -214,7 +215,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                 {
                     try
                     {
-                        finalResult = result.getPayload(retType);
+                            finalResult = ctx.getIBeansContext().transform(result, retType);
                     }
                     catch (TransformerException e)
                     {
@@ -231,7 +232,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                 }
             }
 
-            if (isErrorReply(finalResult, result))
+            if (isErrorReply(method, finalResult, result))
             {
                 //TODO URGENT remove add dependency to Xml
                 String msg;
@@ -273,7 +274,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         return result;
     }
 
-    protected boolean isErrorReply(Object finalResult, MuleMessage message)
+    protected boolean isErrorReply(Method method, Object finalResult, MuleMessage message)
     {
         if (finalResult == null)
         {
@@ -289,7 +290,12 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
             test.setPayload(finalResult);
         }
         String mime = getMimeForMessage(test);
-        Filter f = helper.getErrorFilters().get(mime);
+        Filter f = helper.getMethodErrorFilters().get(method);
+        if (f == null)
+        {
+            f = helper.getErrorFilters().get(mime);
+        }
+
         if (f == null)
         {
             if (logger.isDebugEnabled())

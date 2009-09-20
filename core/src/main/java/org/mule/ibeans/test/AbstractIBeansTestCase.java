@@ -24,6 +24,7 @@ import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.config.ChannelConfigBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
+import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 import org.mule.tck.AbstractMuleTestCase;
 import org.mule.util.IOUtils;
 import org.mule.utils.AnnotationMetaData;
@@ -126,7 +127,7 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
         }
         else
         {
-            MuleContextFactory muleContextFactory = new DefaultMuleContextFactory();
+            MuleContextFactory muleContextFactory = new IBeansMuleContextFactory();
             List<ConfigurationBuilder> builders = new ArrayList<ConfigurationBuilder>();
             builders.add(new SimpleConfigurationBuilder(getStartUpProperties()));
             builders.add(getBuilder());

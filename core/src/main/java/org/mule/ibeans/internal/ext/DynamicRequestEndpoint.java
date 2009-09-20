@@ -97,7 +97,7 @@ public class DynamicRequestEndpoint extends DynamicURIInboundEndpoint
         }
         if (logger.isDebugEnabled())
         {
-            logger.debug("Uri after parsing is: " + uri);
+            logger.debug("Uri after parsing is: " + newUriString);
         }
 
         try

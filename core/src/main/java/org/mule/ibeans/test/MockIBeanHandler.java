@@ -115,7 +115,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         MuleMessage result = new DefaultMuleMessage(data, muleContext);
         result.setProperty("Content-Type", mimeType);
 
-        if (isErrorReply(data, result))
+        if (isErrorReply(null, data, result))
         {
             //TODO URGENT remove add dependency to Xml
             String msg;

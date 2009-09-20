@@ -42,7 +42,7 @@ public class ReceivedHeadersAnnotationParser implements ExpressionParser
             {
                 eval = MessageHeadersListExpressionEvaluator.NAME;
             }
-            return new ExpressionArgument(null, new ExpressionConfig(((ReceivedHeaders) annotation).value(), eval, null), true, parameterType);
+            return new ExpressionArgument(null, new ExpressionConfig(((ReceivedHeaders) annotation).value(), eval, null), false, parameterType);
         }
         else
         {

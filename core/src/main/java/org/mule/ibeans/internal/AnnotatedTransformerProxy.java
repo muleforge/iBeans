@@ -10,9 +10,13 @@
 package org.mule.ibeans.internal;
 
 import org.mule.api.MuleMessage;
+import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.transformer.DiscoverableTransformer;
 import org.mule.api.transformer.TransformerException;
 import org.mule.transformer.AbstractMessageAwareTransformer;
+import org.mule.transport.NullPayload;
+import org.mule.utils.AnnotationUtils;
+import org.mule.expression.transformers.ExpressionTransformer;
 
 import java.lang.reflect.Method;
 
@@ -29,8 +33,9 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
 
     private Method transformMethod;
     private boolean messageAware = false;
+    private ExpressionTransformer paramTransformer = null;
 
-    public AnnotatedTransformerProxy(int weighting, Object proxy, Method transformMethod)
+    public AnnotatedTransformerProxy(int weighting, Object proxy, Method transformMethod) throws TransformerException, InitialisationException
     {
         this.weighting = weighting;
         this.proxy = proxy;
@@ -45,35 +50,80 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
         {
             throw new IllegalArgumentException("Method not a valid transform method, no parameters: " + transformMethod.getName());
         }
-        else if (transformMethod.getParameterTypes().length > 1)
-        {
-
-            throw new IllegalArgumentException("Method not a valid transform method, can only have 1 parameter: " + transformMethod.getName());
-
-        }
+//        else if (transformMethod.getParameterTypes().length > 1)
+//        {
+//
+//            throw new IllegalArgumentException("Method not a valid transform method, can only have 1 parameter: " + transformMethod.getName());
+//
+//        }
         messageAware = MuleMessage.class.isAssignableFrom(transformMethod.getParameterTypes()[0]);
         this.transformMethod = transformMethod;
         registerSourceType(transformMethod.getParameterTypes()[0]);
         setName(proxy.getClass().getSimpleName() + "." + transformMethod.getName());
+
+    }
+
+    @Override
+    public void initialise() throws InitialisationException
+    {
+        super.initialise();
+        if (AnnotationUtils.methodHasParamAnnotations(transformMethod))
+        {
+            try
+            {
+                paramTransformer = AnnotationUtils.getTransformerForMethodWithAnnotations(transformMethod, muleContext);
+            }
+            catch (TransformerException e)
+            {
+                throw new InitialisationException(e, this);
+            }
+        }
     }
 
     public Object transform(MuleMessage message, String outputEncoding) throws TransformerException
     {
-        Object args;
+        Object firstArg;
+        Object[] params;
         if (messageAware)
         {
-            args = message;
+            firstArg = message;
         }
         else
         {
-            args = message.getPayload(transformMethod.getParameterTypes()[0]);
+            firstArg = message.getPayload(transformMethod.getParameterTypes()[0]);
+        }
+        if (paramTransformer != null)
+        {
+            Object paramArgs = paramTransformer.transform(message, outputEncoding);
+
+            if (paramArgs != null && paramArgs.getClass().isArray())
+            {
+                Object[] temp = (Object[]) paramArgs;
+                params = new Object[temp.length + 1];
+                params[0] = firstArg;
+                for (int i = 0; i < temp.length; i++)
+                {
+                    params[i + 1] = temp[i];
+                }
+            }
+            else
+            {
+                params = new Object[2];
+                params[0] = firstArg;
+                params[1] = paramArgs;
+            }
+        }
+        else
+        {
+            params = new Object[]{firstArg};
         }
         try
         {
-            return transformMethod.invoke(proxy, args);
+            return transformMethod.invoke(proxy, params);
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new TransformerException(this, e);
         }
     }
@@ -86,6 +136,16 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
     public void setPriorityWeighting(int weighting)
     {
         throw new UnsupportedOperationException("setPriorityWeighting");
+    }
+
+    @Override
+    protected Object checkReturnClass(Object object) throws TransformerException
+    {
+        if (object instanceof NullPayload)
+        {
+            return null;
+        }
+        return super.checkReturnClass(object);
     }
 
     @Override
