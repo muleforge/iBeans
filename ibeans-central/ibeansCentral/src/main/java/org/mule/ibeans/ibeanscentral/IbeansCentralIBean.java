@@ -1,0 +1,64 @@
+/*
+ * $Id$
+ * --------------------------------------------------------------------------------------
+ * Copyright (c) MuleSource, Inc.  All rights reserved.  http://www.mulesource.com
+ *
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
+ */
+
+package org.mule.ibeans.ibeanscentral;
+
+import org.mule.ibeans.api.client.Call;
+import org.mule.ibeans.api.client.Template;
+import org.mule.ibeans.api.client.CallException;
+import org.mule.ibeans.api.client.State;
+import org.mule.ibeans.api.client.Usage;
+import org.mule.ibeans.api.client.authentication.HttpBasicAuthentication;
+import org.mule.ibeans.api.client.filters.GenericErrorFilter;
+import org.mule.ibeans.api.client.params.PayloadParam;
+import org.mule.ibeans.api.client.params.UriParam;
+import org.mule.ibeans.api.client.params.PropertyParam;
+import org.mule.ibeans.api.client.params.Payload;
+
+import java.util.List;
+import java.io.InputStream;
+import java.net.URL;
+
+
+@Usage("How to use this bean")
+public interface IbeansCentralIBean extends HttpBasicAuthentication
+{
+    @UriParam("host")
+    public static final String HOST = "localhost";
+
+    @UriParam("port")
+    public static final int PORT = 9002;
+
+    @UriParam("ibeans_workspace")
+    public static final String IBEANS_WORKSPACE = "Mule iBeans";
+
+    @UriParam("sandbox_workspace")
+    public static final String SANDBOX_WORKSPACE = "Sandbox";
+
+    @State
+    public void init(@PropertyParam("username") String username, @PropertyParam("password") String password);
+
+    @Call(uri = "http://{host}:{port}/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean'")
+    public List<IBeanInfo> getIBeans() throws CallException;
+
+    @Call(uri = "http://{host}:{port}/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean' and child:ibean.shortName = '{shortName}'")
+    public IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName) throws CallException;
+
+    @Call(uri = "http://{host}:{port}/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean' and child:ibean.shortName = '{shortName}' and name = '{version}'")
+    public IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName, @UriParam("version") String version) throws CallException;
+
+    @Call(uri = "http://{host}:{port}{download_uri}")
+    public InputStream downloadIBean(@UriParam("download_uri") String uri) throws CallException;
+
+    @Template("http://{host}:{port}#[bean:downloadUri]")
+    public URL getIBeanDownloadUrl(@Payload IBeanInfo info) throws CallException;
+
+    //public IBeanInfo uploadIBean(@UriParam("name") String name, @UriParam("version") String version, @Payload File ibeanJar) throws CallException;
+}
