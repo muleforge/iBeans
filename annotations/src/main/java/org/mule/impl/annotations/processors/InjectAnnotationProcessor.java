@@ -69,7 +69,6 @@ public class InjectAnnotationProcessor implements ObjectProcessor, MuleContextAw
             Field field = fields[i];
             if (field.isAnnotationPresent(Inject.class))
             {
-                Inject inject = field.getAnnotation(Inject.class);
                 try
                 {
                     field.setAccessible(true);
@@ -84,9 +83,14 @@ public class InjectAnnotationProcessor implements ObjectProcessor, MuleContextAw
 
                     field.set(object, value);
                 }
+                catch (RuntimeException e)
+                {
+                    //TODO proper handling
+                    throw e;
+                }
                 catch (Exception e)
                 {
-                    //TODO proper handling                    
+                    //TODO proper handling
                     throw new RuntimeException(e);
                 }
             }
