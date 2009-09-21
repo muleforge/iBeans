@@ -83,8 +83,8 @@ public class IBeansConsole2 implements EntryPoint
 
         ServiceDefTarget target = (ServiceDefTarget) pluginsService;
         // Use this so we can run in hosted mode but rewrite the URL once the app is deployed
-        //String baseUrl = "/ibeans/ibeans.Console/"; // GWT.getModuleBaseURL();
-        String baseUrl = GWT.getModuleBaseURL();
+        String baseUrl = "/ibeans/ibeans.Console/"; // GWT.getModuleBaseURL();
+        //String baseUrl = GWT.getModuleBaseURL();
         target.setServiceEntryPoint(baseUrl + "PluginsService");
 
         target = (ServiceDefTarget) repositoryService;
