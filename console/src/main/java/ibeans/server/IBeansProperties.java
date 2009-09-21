@@ -15,9 +15,6 @@ package ibeans.server;
 public interface IBeansProperties
 {
     public static final String IBEANS_PREFIX = "ibeans.";
-    public static final String PROPERTY_WORKSPACE = IBEANS_PREFIX + "workspace";
-    public static final String PROPERTY_USERNAME = "muleforge.username";
-    public static final String PROPERTY_PASSWORD = "muleforge.password";
-    public static final String PROPERTY_URL = IBEANS_PREFIX + "store.url";
-    //public static final String PROPERTY_QUERY = IBEANS_PREFIX + "query";
+    public static final String PROPERTY_USERNAME = IBEANS_PREFIX + "central.username";
+    public static final String PROPERTY_PASSWORD = IBEANS_PREFIX + "central.password";
 }

@@ -480,6 +480,7 @@
                             <Bug-Tracker>${issueManagement.url}</Bug-Tracker>
                             <License-Url>${licenseUrl}</License-Url>
                             <License-Title>${licenseId}</License-Title>
+                            <Support>For commercial support go to: ${pom.organization.url}}</Support>
 
                             <!-- This would work if this issue gets closed: http://jira.codehaus.org/browse/MNG-1832 -->
                             <!--Build-Date>${mvn.timestamp.yyyy-MM-dd-HH:mm:ss}</Build-Date-->
@@ -491,7 +492,7 @@
                             <Build-Revision>${buildNumber}</Build-Revision>
                             <Build-Date>${timestamp}</Build-Date>
                             -->
-                            <!--<Dev-List-Email>dev@mule.codehaus.org</Dev-List-Email>-->
+                            <Dev-List-Email>dev@mule.codehaus.org</Dev-List-Email>
                         </manifestEntries>
                     </archive>
                 </configuration>

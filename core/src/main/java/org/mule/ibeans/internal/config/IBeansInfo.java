@@ -30,12 +30,12 @@ public class IBeansInfo
 
     public static String getVendorName()
     {
-        return getManifestProperty("Specification-Vendor");
+        return getManifestProperty("Implementation-Vendor");
     }
 
     public static String getVendorUrl()
     {
-        return getManifestProperty("Vendor-Url");
+        return getManifestProperty("Implementation-Vendor-Url");
     }
 
     public static String getProductUrl()
@@ -60,12 +60,13 @@ public class IBeansInfo
 
     public static String getProductLicenseInfo()
     {
-        return getManifestProperty("License");
+        return getManifestProperty("License-Title");
     }
+
 
     public static String getProductDescription()
     {
-        return getManifestProperty("Description");
+        return getManifestProperty("Product-Description");
     }
 
     public static String getBuildNumber()
