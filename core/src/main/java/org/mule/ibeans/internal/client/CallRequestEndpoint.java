@@ -38,8 +38,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CallRequestEndpoint extends DynamicRequestEndpoint
 {
-    public static final String URI_PARAM_PROPERTIES = "mule.uri.params";
-
     /**
      * logger used by this class
      */
@@ -76,10 +74,10 @@ public class CallRequestEndpoint extends DynamicRequestEndpoint
     @Override
     protected Map<String, Object> getPropertiesForTemplate(MuleMessage message)
     {
-        Map<String, Object> props = (Map) message.removeProperty(URI_PARAM_PROPERTIES);
+        Map<String, Object> props = (Map) message.removeProperty(CallOutboundEndpoint.URI_PARAM_PROPERTIES);
         if (props == null)
         {
-            throw new IllegalStateException(URI_PARAM_PROPERTIES + " not set on message");
+            throw new IllegalStateException(CallOutboundEndpoint.URI_PARAM_PROPERTIES + " not set on message");
         }
         return props;
     }
