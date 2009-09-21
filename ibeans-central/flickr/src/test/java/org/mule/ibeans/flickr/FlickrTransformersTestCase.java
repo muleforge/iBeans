@@ -25,7 +25,7 @@ public class FlickrTransformersTestCase extends AbstractIBeansTestCase
 
     public void testTransformers() throws Exception
     {
-        Object t = iBeansContext.getConfig().get("transformStringToURL");
+        Object t = iBeansContext.getConfig().get("FlickrTransformers.transformStringToURL");
         assertNotNull(t);
         assertTrue(t instanceof Transformer);
         assertTrue(t instanceof DiscoverableTransformer);
@@ -35,7 +35,7 @@ public class FlickrTransformersTestCase extends AbstractIBeansTestCase
         assertNotNull(url);
         assertEquals("http://foo.com", url.toString());
 
-        t = iBeansContext.getConfig().get("transformInputstreamToBufferedImage");
+        t = iBeansContext.getConfig().get("FlickrTransformers.transformInputstreamToBufferedImage");
         assertNotNull(t);
         assertTrue(t instanceof Transformer);
         assertTrue(t instanceof DiscoverableTransformer);
