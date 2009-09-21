@@ -19,7 +19,7 @@ import org.mule.ibeans.api.application.params.ReceivedHeaders;
 public class InOutBean
 {
     @ReceiveAndReply(uri = "vm://test.in", id = "inbound")
-    public String process(@ReceivedHeaders("foo*") String fooHeader) throws Exception
+    public String process(@ReceivedHeaders("foo?") String fooHeader) throws Exception
     {
         if (fooHeader != null)
         {

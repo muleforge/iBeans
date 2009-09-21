@@ -13,19 +13,20 @@ import org.mule.ibeans.api.application.Schedule;
 import org.mule.ibeans.api.application.Send;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.gmail.GMailIBean;
+import org.mule.api.lifecycle.Initialisable;
 
 import javax.annotation.PostConstruct;
 import javax.mail.Message;
+import javax.inject.Singleton;
 
 /**
  * TODO
  */
-public class EmailReceiveUsingIBean
+public class EmailReceiveUsingIBean implements Initialisable
 {
     @IntegrationBean
     private GMailIBean gmail;
 
-    @PostConstruct
     public void initialise()
     {
         gmail.init("muletestinbox@gmail.com", "mule12345678");

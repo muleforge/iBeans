@@ -35,7 +35,7 @@ public class HeadersWithTypeBean
     }
 
     @ReceiveAndReply(uri = "vm://headersList", id = "headersList")
-    public List<Fruit> processHeadersList(@ReceivedHeaders("apple, banana, orange*") List<Fruit> fruit)
+    public List<Fruit> processHeadersList(@ReceivedHeaders("apple, banana, orange?") List<Fruit> fruit)
     {
         return fruit;
     }

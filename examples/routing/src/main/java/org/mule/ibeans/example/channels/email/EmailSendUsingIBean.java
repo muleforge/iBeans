@@ -12,15 +12,16 @@ package org.mule.ibeans.example.channels.email;
 import org.mule.ibeans.api.application.Schedule;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.gmail.GMailIBean;
+import org.mule.api.lifecycle.Initialisable;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Singleton;
 
-public class EmailSendUsingIBean
+public class EmailSendUsingIBean implements Initialisable
 {
     @IntegrationBean
     private GMailIBean gmail;
 
-    @PostConstruct
     public void initialise()
     {
         gmail.init("muletestinbox@gmail.com", "mule12345678");

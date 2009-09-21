@@ -33,7 +33,7 @@ public class HeadersBean
     }
 
     @ReceiveAndReply(uri = "vm://headersList")
-    public List processHeadersList(@ReceivedHeaders("foo, bar, baz*") List headers)
+    public List processHeadersList(@ReceivedHeaders("foo, bar, baz?") List headers)
     {
         return headers;
     }

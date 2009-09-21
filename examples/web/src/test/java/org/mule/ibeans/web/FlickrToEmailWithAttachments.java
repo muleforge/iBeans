@@ -14,6 +14,7 @@ import org.mule.ibeans.api.application.Receive;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.flickr.FlickrIBean;
 import org.mule.ibeans.gmail.GMailIBean;
+import org.mule.api.lifecycle.Initialisable;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import org.w3c.dom.Node;
 /**
  * TODO
  */
-public class FlickrToEmailWithAttachments //implements Initialisable
+public class FlickrToEmailWithAttachments implements Initialisable
 {
     @IntegrationBean
     private FlickrIBean flickr;
@@ -37,7 +38,7 @@ public class FlickrToEmailWithAttachments //implements Initialisable
     @IntegrationBean
     private GMailIBean gmail;
 
-    @PostConstruct
+ 
     public void initialise()
     {
         gmail.init("muletestinbox@gmail.com", "mule12345678");

@@ -21,7 +21,7 @@ public class InOnlyOutOnlyBean
 {
     @Receive(uri = "vm://test.in", id = "inbound")
     @Send(uri = "vm://test.out", id = "outbound")
-    public String process(@ReceivedHeaders("foo*") String fooHeader) throws Exception
+    public String process(@ReceivedHeaders("foo?") String fooHeader) throws Exception
     {
         if (fooHeader != null)
         {
