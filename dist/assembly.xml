@@ -127,49 +127,49 @@
         </fileSet>
         <!-- iBeans we ship with (note filtering is pretty dumb) -->
         <fileSet>
-            <directory>../ibeans-repo/twitter/target</directory>
+            <directory>../ibeans-central/twitter/target</directory>
             <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
             <includes>
                 <include>*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../ibeans-repo/hostip/target</directory>
+            <directory>../ibeans-central/hostip/target</directory>
             <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
             <includes>
                 <include>*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../ibeans-repo/flickr/target</directory>
+            <directory>../ibeans-central/flickr/target</directory>
             <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
             <includes>
                 <include>*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../ibeans-repo/gmail/target</directory>
+            <directory>../ibeans-central/gmail/target</directory>
             <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
             <includes>
                 <include>*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../ibeans-repo/email/target</directory>
+            <directory>../ibeans-central/email/target</directory>
             <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
             <includes>
                 <include>*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../ibeans-repo/bitly/target</directory>
+            <directory>../ibeans-central/bitly/target</directory>
             <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
             <includes>
                 <include>*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../ibeans-repo/googlebase/target</directory>
+            <directory>../ibeans-central/googlebase/target</directory>
             <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
             <includes>
                 <include>*.jar</include>
