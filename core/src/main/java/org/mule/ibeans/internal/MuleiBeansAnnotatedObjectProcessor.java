@@ -16,6 +16,7 @@ import org.mule.config.annotations.endpoints.Channel;
 import org.mule.impl.annotations.processors.AnnotatedServiceObjectProcessor;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
+import org.mule.ibeans.internal.ext.IBeansComponentLifecycleAdapterFactory;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class MuleiBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectPr
     protected Model createModel()
     {
         Model m = super.createModel();
-        //m.setLifecycleAdapterFactory(new IBeansLifecycleAdapterFactory());
+        m.setLifecycleAdapterFactory(new IBeansComponentLifecycleAdapterFactory());
         return m;
 
     }

@@ -22,11 +22,12 @@ import javax.inject.Singleton;
 /**
  * TODO
  */
-public class EmailReceiveUsingIBean implements Initialisable
+public class EmailReceiveUsingIBean
 {
     @IntegrationBean
     private GMailIBean gmail;
 
+    @PostConstruct
     public void initialise()
     {
         gmail.init("muletestinbox@gmail.com", "mule12345678");

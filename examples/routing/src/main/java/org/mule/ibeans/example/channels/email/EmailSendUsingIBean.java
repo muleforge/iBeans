@@ -17,11 +17,12 @@ import org.mule.api.lifecycle.Initialisable;
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 
-public class EmailSendUsingIBean implements Initialisable
+public class EmailSendUsingIBean
 {
     @IntegrationBean
     private GMailIBean gmail;
 
+    @PostConstruct
     public void initialise()
     {
         gmail.init("muletestinbox@gmail.com", "mule12345678");
