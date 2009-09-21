@@ -79,6 +79,7 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
         assertNotNull(result);
         assertEquals("Flickr iBean", result.getName());
         assertEquals("flickr", result.getShortName());
+
         InputStream download = ibeanscentral.downloadIBean(result.getDownloadUri());
         assertNotNull(download);
         byte[] bytes = IOUtils.toByteArray(download);

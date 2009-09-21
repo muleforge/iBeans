@@ -42,6 +42,12 @@ public class IBeanCentralTransformers
     private IBeansContext iBeansContext;
 
     @Transformer
+    public URL stringToUrl(String url) throws MalformedURLException
+    {
+        return new URL(url);
+    }
+
+    @Transformer
     public List<IBeanInfo> feedXmlToIBeanInfoList(InputStream in) throws TransformerException
     {
         Feed feed = iBeansContext.transform(in, Feed.class);
@@ -54,12 +60,12 @@ public class IBeanCentralTransformers
 
         return results;
     }
-    
+
     @Transformer
     public IBeanInfo feedXmlToIBeanInfo(InputStream in) throws TransformerException
     {
         Feed feed = iBeansContext.transform(in, Feed.class);
-        if(feed.getEntries().size() == 0)
+        if (feed.getEntries().size() == 0)
         {
             return null;
         }
@@ -95,12 +101,6 @@ public class IBeanCentralTransformers
         info.setLicenseName(props.getProperty("License-Title"));
         info.setLicenseUrl(props.getProperty("License-Url"));
         return info;
-    }
-
-    @Transformer
-    public URL stringToUrl(String url) throws MalformedURLException
-    {
-        return new URL(url);
     }
 
     @Transformer

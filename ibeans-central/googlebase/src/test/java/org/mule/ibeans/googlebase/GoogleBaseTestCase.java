@@ -39,7 +39,7 @@ public class GoogleBaseTestCase extends AbstractIBeansTestCase
     @Override
     protected void doSetUp() throws Exception
     {
-        googlebase.init(DEVELOPER_KEY, Feed.class);
+        getIBean().init(DEVELOPER_KEY, Feed.class);
     }
 
     /**
