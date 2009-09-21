@@ -111,8 +111,18 @@ public class IBeanHolderConfigurationBuilder extends AbstractConfigurationBuilde
         {
             try
             {
-                Object transformer = ClassUtils.instanciateClass(transformerClass, ClassUtils.NO_ARGS);
-                transformers.add(transformer);
+                if (transformerClass.isLocalClass() || transformerClass.isMemberClass())
+                {
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Skipping class: " + transformerClass.getName() + ". Discoverable transofmrers cannot be defined in Local or Member classes");
+                    }
+                }
+                else
+                {
+                    Object transformer = ClassUtils.instanciateClass(transformerClass, ClassUtils.NO_ARGS);
+                    transformers.add(transformer);
+                }
             }
             catch (Exception e)
             {
