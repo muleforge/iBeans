@@ -279,6 +279,8 @@ public class IBeanParamsHelper
         List<DataSource> attachments = new ArrayList<DataSource>();
         Class returnType = method.getReturnType();
 
+        checkReturnClass(returnType, method);
+
         boolean stateCall = false;
         if (method.isAnnotationPresent(State.class))
         {
@@ -389,6 +391,13 @@ public class IBeanParamsHelper
 
     }
 
+    private void checkReturnClass(Class c, Method m)
+    {
+        if(c.isPrimitive() && !void.class.equals(c))
+        {
+            throw new IllegalArgumentException("iBean methods can only return objects , not primitives." + (m!=null ? "Method is: " + m : ""));
+        }
+    }
     private Class getReturnClass(Method method)
     {
         Class ret;
@@ -663,6 +672,7 @@ public class IBeanParamsHelper
 
     public void setReturnType(Class returnType)
     {
+        checkReturnClass(returnType, null);
         this.returnType = returnType;
     }
 
