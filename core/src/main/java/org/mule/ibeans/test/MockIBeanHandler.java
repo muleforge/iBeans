@@ -96,7 +96,6 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         else
         {
             Object object = method.invoke(mock, args);
-            ibeanErrorCheck(object, mime);
             return object;
         }
     }
