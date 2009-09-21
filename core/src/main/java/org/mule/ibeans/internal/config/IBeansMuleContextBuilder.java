@@ -10,12 +10,10 @@
 package org.mule.ibeans.internal.config;
 
 import org.mule.api.lifecycle.LifecycleManager;
-import org.mule.api.MuleContext;
 import org.mule.context.DefaultMuleContextBuilder;
 import org.mule.lifecycle.GenericLifecycleManager;
 import org.mule.lifecycle.phases.MuleContextStartPhase;
 import org.mule.lifecycle.phases.MuleContextStopPhase;
-import org.mule.lifecycle.phases.MuleContextInjectPhase;
 
 /**
  * Enhances the default context builder by customising the lifecycle manager to add support for JSR250
@@ -40,7 +38,7 @@ public class IBeansMuleContextBuilder extends DefaultMuleContextBuilder
         {
             //Customise lifecycle to add support for JSR250 annotations @PostConstruct and @PreDestroy
             LifecycleManager lifecycleManager = new GenericLifecycleManager();
-            lifecycleManager.registerLifecycle(new MuleContextInjectPhase());
+            //lifecycleManager.registerLifecycle(new MuleContextInjectPhase());
             lifecycleManager.registerLifecycle(new JSR250MulecontextInitPhase());
             lifecycleManager.registerLifecycle(new MuleContextStartPhase());
             lifecycleManager.registerLifecycle(new MuleContextStopPhase());
