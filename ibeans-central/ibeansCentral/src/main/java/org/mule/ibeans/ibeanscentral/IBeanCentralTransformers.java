@@ -102,5 +102,11 @@ public class IBeanCentralTransformers
     {
         return new URL(url);
     }
+
+    @Transformer
+    public Null stringToUrl(InputStream in) throws MalformedURLException
+    {
+        return Null.INSTANCE;
+    }
 }
 

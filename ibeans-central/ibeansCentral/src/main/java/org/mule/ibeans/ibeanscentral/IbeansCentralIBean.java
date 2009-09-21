@@ -15,6 +15,7 @@ import org.mule.ibeans.api.client.Template;
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.State;
 import org.mule.ibeans.api.client.Usage;
+import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.authentication.HttpBasicAuthentication;
 import org.mule.ibeans.api.client.filters.GenericErrorFilter;
 import org.mule.ibeans.api.client.params.PayloadParam;
@@ -59,6 +60,10 @@ public interface IbeansCentralIBean extends HttpBasicAuthentication
 
     @Template("http://{host}:{port}#[bean:downloadUri]")
     public URL getIBeanDownloadUrl(@Payload IBeanInfo info) throws CallException;
+
+    @Call(uri = "http://{host}:{port}/j_acegi_security_check")
+    @Return("#[header:Location != *login_error*]")
+    public Boolean verifyCredentials(@PayloadParam("j_username") String username, @PayloadParam("j_password") String password) throws CallException;
 
     //public IBeanInfo uploadIBean(@UriParam("name") String name, @UriParam("version") String version, @Payload File ibeanJar) throws CallException;
 }
