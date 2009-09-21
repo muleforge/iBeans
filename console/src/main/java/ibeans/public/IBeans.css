@@ -44,6 +44,7 @@ body {
 
 .header-right a:hover {
     text-decoration: underline;
+    cursor: hand;
 }
 
 .header-right-options {

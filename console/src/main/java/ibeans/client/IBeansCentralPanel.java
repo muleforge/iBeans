@@ -213,12 +213,6 @@ public class IBeansCentralPanel extends LayoutContainer
                         {
                             //login panel
                             final com.extjs.gxt.ui.client.widget.Window window = new com.extjs.gxt.ui.client.widget.Window();
-                            window.setSize(300, 300);
-                            window.setPlain(true);
-                            window.setModal(true);
-                            window.setBlinkModal(true);
-                            window.setHeading("Log in");
-                            window.setLayout(new FitLayout());
                             FormPanel download = new DownloadWindow(user, pass, ibeanId, version, window, iBeansConsole);
                             window.add(download);
                             window.show();

@@ -9,32 +9,31 @@
  */
 package ibeans.client;
 
-import com.extjs.gxt.ui.client.widget.form.FormPanel;
-import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.form.HiddenField;
-import com.extjs.gxt.ui.client.widget.form.FormButtonBinding;
-import com.extjs.gxt.ui.client.widget.VerticalPanel;
-import com.extjs.gxt.ui.client.widget.Window;
-import com.extjs.gxt.ui.client.widget.Html;
-import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.Style;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.core.client.GWT;
+import com.extjs.gxt.ui.client.widget.Html;
+import com.extjs.gxt.ui.client.widget.Window;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FormButtonBinding;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.HiddenField;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 
 /**
  * TODO
  */
 public class DownloadWindow extends FormPanel
 {
-    public static final String DOWNLOAD_PATH = "centralDownload";
-
-    private final IBeansConsole2 console;
-
     public DownloadWindow(final String user, final String pass, final String id, final String version, final Window window, final IBeansConsole2 console)
     {
-        this.console = console;
+        window.setSize(300, 300);
+        window.setPlain(true);
+        window.setModal(true);
+        window.setBlinkModal(true);
+        window.setHeading("Log in");
+        window.setLayout(new FitLayout());
 
         // Because we're going to add a FileUpload widget, we'll need to set the
         // form to use the POST method, and multipart MIME encoding.
@@ -75,19 +74,24 @@ public class DownloadWindow extends FormPanel
         {
             public void componentSelected(ButtonEvent ce)
             {
-                String u = (String)DownloadWindow.this.getFields().get(0).getValue();
-                String p = (String)DownloadWindow.this.getFields().get(1).getValue();
+                String u = (String) DownloadWindow.this.getFields().get(0).getValue();
+                String p = (String) DownloadWindow.this.getFields().get(1).getValue();
                 console.getUserInfo().setUser(u);
                 console.getUserInfo().setPass(p);
                 console.saveUserInfo(console.getUserInfo());
-                IBeansCentralServiceAsync service = console.getRepositoryService();
-                service.downloadIBean(u, p, id, version, new AbstractAsyncCallback<String>(console)
+                if (id != null)
                 {
-                    public void onSuccess(String s)
+                    //We're not just setting username and password, we're downloading the artifact t
+
+                    IBeansCentralServiceAsync service = console.getRepositoryService();
+                    service.downloadIBean(u, p, id, version, new AbstractAsyncCallback<String>(console)
                     {
-                        console.updateStatus(Status.INFO, s);
-                    }
-                });
+                        public void onSuccess(String s)
+                        {
+                            console.updateStatus(Status.INFO, s);
+                        }
+                    });
+                }
                 window.hide();
             }
         });

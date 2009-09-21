@@ -71,5 +71,7 @@ public class ExternalHyperlink extends Widget
     {
         DOM.setAttribute(this.anchorElem, "target", target);
     }
+
+    
 }
 

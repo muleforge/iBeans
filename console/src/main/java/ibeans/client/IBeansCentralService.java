@@ -21,6 +21,8 @@ public interface IBeansCentralService extends RemoteService
 
     public String downloadIBean(String user, String pass, String id, String version) throws ClientIBeansException;
 
+    public Boolean verifyUser(String user, String password) throws ClientIBeansException;
+    
     /**
      * Utility/Convenience class.
      * Use RepositoryService.App.getInstance() to access static instance of RepositoryServiceAsync

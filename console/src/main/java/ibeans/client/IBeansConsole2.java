@@ -18,6 +18,7 @@ import com.extjs.gxt.ui.client.widget.Html;
 import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.Viewport;
+import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
@@ -66,7 +67,6 @@ public class IBeansConsole2 implements EntryPoint
     protected Label product;
     protected FlowPanel footerPanel;
 
-    protected int repositoryTabIndex;
     private ContentPanel centerPanel;
     private List<StatusItem> statusList = new ArrayList<StatusItem>();
     private StatusPanel statusBar;
@@ -157,7 +157,7 @@ public class IBeansConsole2 implements EntryPoint
 
     public void errorStatus(Throwable t)
     {
-        if(t.getMessage().startsWith("<"))
+        if (t.getMessage().startsWith("<"))
         {
             new HTMLDialog("Server Error", t.getMessage()).show();
             updateStatus(Status.ERROR, "Server Error, see log: " + " (" + t.getClass().getName() + ")");
@@ -272,7 +272,7 @@ public class IBeansConsole2 implements EntryPoint
         InlineFlowPanel options = new InlineFlowPanel();
         options.setStyleName("header-right-options");
 
-        if(user.getUser()!=null)
+        if (user.getUser() != null)
         {
             Label l = new Label("Welcome, " + user.getUser());
             options.add(l);
@@ -280,8 +280,10 @@ public class IBeansConsole2 implements EntryPoint
             options.add(newSpacerPipe());
 
             Label l2 = new Label("Log Out");
+            l2.setStyleName("faux-link");
             options.add(l2);
-            l2.addClickHandler(new ClickHandler(){
+            l2.addClickHandler(new ClickHandler()
+            {
                 public void onClick(ClickEvent clickEvent)
                 {
                     clearUserInfo();
@@ -293,6 +295,18 @@ public class IBeansConsole2 implements EntryPoint
         else
         {
             Label l = new Label("Log In");
+            l.setStyleName("faux-link");
+
+            l.addClickHandler(new ClickHandler()
+            {
+                public void onClick(ClickEvent clickEvent)
+                {
+                    Window window = new Window();
+                    DownloadWindow login = new DownloadWindow(null, null, null, null, window, IBeansConsole2.this);
+                    window.add(login);
+                    window.show();
+                }
+            });
             options.add(l);
         }
 
@@ -417,17 +431,46 @@ public class IBeansConsole2 implements EntryPoint
         }
     }
 
-    void saveUserInfo(UserInfo info)
+    void saveUserInfo(final UserInfo info)
+    {
+        if (info.getUser() != null)
+        {
+            this.getRepositoryService().verifyUser(info.getUser(), info.getPass(), new AbstractAsyncCallback<Boolean>(this)
+            {
+                public void onSuccess(Boolean b)
+                {
+                    if (b)
+                    {
+                        doSaveUser(info);
+                        updateStatus(Status.INFO, "Welcome " + info.getUser() + "!");
+                    }
+                    else
+                    {
+                        this.onFailure(new ClientIBeansException("Username or password is incorrect"));
+                    }
+                }
+            });
+        }
+        else
+        {
+            doSaveUser(info);
+        }
+
+    }
+
+    private void doSaveUser(UserInfo info)
     {
         Date now = new Date();
         now.setYear(now.getYear() + 1);
         Cookies.setCookie("ibeans-console", info.toString(), now);
+        user = info;
+        rightHeaderPanel.remove(0);
+        rightHeaderPanel.add(createHeaderOptions());
     }
 
     void clearUserInfo()
     {
-        Cookies.setCookie("ibeans-console", "");
-        user = new UserInfo();
+        saveUserInfo(new UserInfo());
     }
 
     private class StatusItem implements ModelData, Serializable

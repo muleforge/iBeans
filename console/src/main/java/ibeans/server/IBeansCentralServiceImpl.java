@@ -166,4 +166,16 @@ public class IBeansCentralServiceImpl extends RemoteServiceServlet implements IB
     }
 
 
+    public Boolean verifyUser(String user, String password) throws ClientIBeansException
+    {
+        IbeansCentralIBean userIbeansCentral = iBeansContext.createIBean(IbeansCentralIBean.class);
+        try
+        {
+            return userIbeansCentral.verifyCredentials(user, password);
+        }
+        catch (CallException e)
+        {
+            throw new ClientIBeansException(e.getMessage());
+        }
+    }
 }

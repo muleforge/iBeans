@@ -98,3 +98,9 @@
     padding: 3;
     margin-left: 40;
 }
+
+.faux-link
+{
+    text-decoration: underline;
+    cursor: hand;
+}
