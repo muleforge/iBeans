@@ -119,7 +119,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../examples/ibeans-examples/target</directory>
+            <directory>../examples/web/target</directory>
             <outputDirectory>mule-ibeans/webapps</outputDirectory>
             <includes>
                 <include>*.war</include>
