@@ -346,6 +346,7 @@ public class AnnotatedServiceBuilder
         processReplyRouters(componentFactoryClass, service);
     }
 
+    //TODO Move this to an Object processor
     protected void processEndpointBindings(Class componentFactoryClass, org.mule.api.service.Service service) throws MuleException
     {
         Field[] fields = componentFactoryClass.getDeclaredFields();
@@ -375,7 +376,7 @@ public class AnnotatedServiceBuilder
                         }
                     }
                 }
-                router.setEndpoint((org.mule.api.endpoint.OutboundEndpoint) builder.processEndpoint(epd));
+                router.setEndpoint(builder.processEndpoint(epd));
                 ((JavaComponent) service.getComponent()).getBindingCollection().addRouter(router);
             }
         }

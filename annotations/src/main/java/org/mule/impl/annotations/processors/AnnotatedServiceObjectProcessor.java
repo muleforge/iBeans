@@ -91,7 +91,7 @@ public class AnnotatedServiceObjectProcessor implements ObjectProcessor, MuleCon
             if (model == null)
             {
                 //Create a new Model and add the Annotations EPR to the list
-                model = new SedaModel();
+                model = createModel();
                 model.setEntryPointResolverSet(resolverSet);
                 context.getRegistry().registerModel(model);
             }
@@ -104,5 +104,8 @@ public class AnnotatedServiceObjectProcessor implements ObjectProcessor, MuleCon
 
     }
 
-
+    protected Model createModel()
+    {
+        return new SedaModel();
+    }
 }

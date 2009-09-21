@@ -10,6 +10,8 @@
 package org.mule.ibeans.internal;
 
 import org.mule.api.MuleContext;
+import org.mule.api.context.MuleContextAware;
+import org.mule.api.registry.ObjectProcessor;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
 import org.mule.impl.annotations.processors.AnnotatedServiceObjectProcessor;
@@ -22,8 +24,10 @@ import java.util.List;
 /**
  * Will check all method level annotations to see if they are {@link org.mule.config.annotations.endpoints.Channel} annotations.
  */
-public class IntegrationBeanAnnotatedObjectProcessor extends AnnotatedServiceObjectProcessor
+public class IntegrationBeanAnnotatedObjectProcessor implements ObjectProcessor, MuleContextAware
 {
+    private MuleContext muleContext;
+
     public IntegrationBeanAnnotatedObjectProcessor()
     {
     }
@@ -34,7 +38,11 @@ public class IntegrationBeanAnnotatedObjectProcessor extends AnnotatedServiceObj
         setMuleContext(muleContext);
     }
 
-    @Override
+    public void setMuleContext(MuleContext context)
+    {
+        this.muleContext = context;
+    }
+
     public Object process(Object object)
     {
 
@@ -45,11 +53,18 @@ public class IntegrationBeanAnnotatedObjectProcessor extends AnnotatedServiceObj
             Field field = (Field) data.getMember();
             field.setAccessible(true);
             AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding();
-            router.setMuleContext(context);
+            router.setMuleContext(muleContext);
             router.setInterface(field.getType());
             Object proxy = router.createProxy(new Object());
             try
             {
+//                if(field.get(object)!=null)
+//                {
+//                    return object;
+//                    //TODO fix: The DefaultLifecycleAdapter calls applyprocessors that invoke the @IntegrationBean processor
+//                    // But iBeans also discovers IntegrationBean annotations
+//                    //throw new IllegalStateException("Integration Beans is already set on object: " + object);
+//                }
                 field.set(object, proxy);
             }
             catch (IllegalAccessException e)

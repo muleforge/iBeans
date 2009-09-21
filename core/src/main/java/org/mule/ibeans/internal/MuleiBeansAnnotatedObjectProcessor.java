@@ -11,6 +11,7 @@ package org.mule.ibeans.internal;
 
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
+import org.mule.api.model.Model;
 import org.mule.config.annotations.endpoints.Channel;
 import org.mule.impl.annotations.processors.AnnotatedServiceObjectProcessor;
 import org.mule.utils.AnnotationMetaData;
@@ -69,5 +70,14 @@ public class MuleiBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectPr
             }
         }
         return object;
+    }
+
+    @Override
+    protected Model createModel()
+    {
+        Model m = super.createModel();
+        //m.setLifecycleAdapterFactory(new IBeansLifecycleAdapterFactory());
+        return m;
+
     }
 }

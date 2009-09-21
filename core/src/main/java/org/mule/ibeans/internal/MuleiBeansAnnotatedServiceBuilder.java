@@ -108,9 +108,6 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         //check for  bindings (Field level annotations)
         processEndpointBindings(componentClass, serviceDescriptor);
 
-        processServiceProxies(object, serviceDescriptor);
-
-
         for (int i = 0; i < componentClass.getMethods().length; i++)
         {
             Method method = componentClass.getMethods()[i];
@@ -320,32 +317,5 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         }
         router.initialise();
         return router;
-    }
-
-    protected void processServiceProxies(Object object, org.mule.api.service.Service service) throws MuleException
-    {
-        Field[] fields = object.getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++)
-        {
-            Field field = fields[i];
-            if (field.isAnnotationPresent(IntegrationBean.class))
-            {
-                AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding(service);
-                router.setMuleContext(context);
-                router.setInterface(field.getType());
-                //No need for setter methods
-                try
-                {
-                    field.setAccessible(true);
-                    field.set(object, router.createProxy(object));
-                }
-                catch (IllegalAccessException e)
-                {
-                    throw new DefaultMuleException(e);
-                }
-                //Requires that there is a setter method for the service proxy field
-                //((JavaComponent) service.getComponent()).getBindingCollection().addRouter(router);
-            }
-        }
     }
 }
