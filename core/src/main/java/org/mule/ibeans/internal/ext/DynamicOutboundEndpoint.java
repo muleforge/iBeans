@@ -24,6 +24,7 @@ import org.mule.transport.AbstractConnector;
 import org.mule.transport.service.TransportFactory;
 import org.mule.util.BeanUtils;
 import org.mule.util.TemplateParser;
+import org.mule.util.ClassUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -183,5 +184,39 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
         }
     }
 
-    
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof DynamicOutboundEndpoint))
+        {
+            return false;
+        }
+
+
+        DynamicOutboundEndpoint that = (DynamicOutboundEndpoint) o;
+
+        if (localConnector != null ? !localConnector.equals(that.localConnector) : that.localConnector != null)
+        {
+            return false;
+        }
+        if (uriTemplate != null ? !uriTemplate.equals(that.uriTemplate) : that.uriTemplate != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = 0;
+        result = 31 * result + (uriTemplate != null ? uriTemplate.hashCode() : 0);
+        result = 31 * result + (localConnector != null ? localConnector.hashCode() : 0);
+        return result;
+    }
 }
