@@ -31,6 +31,6 @@ public interface TestUriIBean extends ExceptionListenerAware
     @Template("{do_something_uri}{foo}&param2={bar}")
     public String doSomethingElse(@UriParam("foo") String foo, @UriParam("bar") String bar) throws UnknownHostException;
 
-    @Call(uri = "{do_something_uri}")
+    @Call(uri = "http://{do_something_uri}")
     public String doSomethingNoParams() throws Exception;
 }

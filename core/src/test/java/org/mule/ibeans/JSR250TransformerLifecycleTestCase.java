@@ -44,6 +44,10 @@ public class JSR250TransformerLifecycleTestCase extends AbstractIBeansTestCase
 
     public class DummyTransformers
     {
+        public DummyTransformers()
+        {
+        }
+
         @Transformer
         public String stringBufferToString(StringBuffer buffer)
         {
