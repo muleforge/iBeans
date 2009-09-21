@@ -22,6 +22,7 @@ import org.mule.ibeans.api.client.params.PayloadParam;
 import org.mule.ibeans.api.client.params.UriParam;
 import org.mule.ibeans.api.client.params.PropertyParam;
 import org.mule.ibeans.api.client.params.Payload;
+import org.mule.ibeans.channels.HTTP;
 
 import java.util.List;
 import java.io.InputStream;
@@ -32,10 +33,10 @@ import java.net.URL;
 public interface IbeansCentralIBean extends HttpBasicAuthentication
 {
     @UriParam("host")
-    public static final String HOST = "localhost";
+    public static final String HOST = "mulesoft.org";
 
     @UriParam("port")
-    public static final int PORT = 9002;
+    public static final int PORT = 80;
 
     @UriParam("ibeans_workspace")
     public static final String IBEANS_WORKSPACE = "Mule iBeans";
@@ -46,22 +47,22 @@ public interface IbeansCentralIBean extends HttpBasicAuthentication
     @State
     public void init(@PropertyParam("username") String username, @PropertyParam("password") String password);
 
-    @Call(uri = "http://{host}:{port}/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean'")
+    @Call(uri = "http://{host}:{port}/iBeansCentral/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean'", properties = HTTP.FOLLOW_REDIRECTS)
     public List<IBeanInfo> getIBeans() throws CallException;
 
-    @Call(uri = "http://{host}:{port}/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean' and child:ibean.shortName = '{shortName}'")
+    @Call(uri = "http://{host}:{port}/iBeansCentral/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean' and child:ibean.shortName = '{shortName}'", properties = HTTP.FOLLOW_REDIRECTS)
     public IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName) throws CallException;
 
-    @Call(uri = "http://{host}:{port}/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean' and child:ibean.shortName = '{shortName}' and name = '{version}'")
+    @Call(uri = "http://{host}:{port}/iBeansCentral/api/registry?q=select where parent:name like '.jar' and child:type.name = 'iBean' and child:ibean.shortName = '{shortName}' and name = '{version}'", properties = HTTP.FOLLOW_REDIRECTS)
     public IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName, @UriParam("version") String version) throws CallException;
 
-    @Call(uri = "http://{host}:{port}{download_uri}")
+    @Call(uri = "http://{host}:{port}{download_uri}" , properties = HTTP.FOLLOW_REDIRECTS)
     public InputStream downloadIBean(@UriParam("download_uri") String uri) throws CallException;
 
     @Template("http://{host}:{port}#[bean:downloadUri]")
     public URL getIBeanDownloadUrl(@Payload IBeanInfo info) throws CallException;
 
-    @Call(uri = "http://{host}:{port}/j_acegi_security_check")
+    @Call(uri = "http://{host}:{port}/iBeansCentral/j_acegi_security_check")
     @Return("#[header:Location != *login_error*]")
     public Boolean verifyCredentials(@PayloadParam("j_username") String username, @PayloadParam("j_password") String password) throws CallException;
 

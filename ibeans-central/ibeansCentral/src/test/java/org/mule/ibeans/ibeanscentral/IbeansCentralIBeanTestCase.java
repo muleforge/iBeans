@@ -28,7 +28,7 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
     public void doSetUp() throws Exception
     {
         registerBeans(new IBeanCentralTransformers());
-        ibeanscentral.setCredentials("admin", "admin");
+        ibeanscentral.setCredentials("ibeansConsole", "!ibeans!");
     }
 
     public void testSearch() throws Exception
@@ -70,7 +70,7 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
         assertEquals("flickr", result.getShortName());
         URL url = ibeanscentral.getIBeanDownloadUrl(result);
         assertNotNull(url);
-        assertEquals("http://" + IbeansCentralIBean.HOST + ":" + IbeansCentralIBean.PORT + "/api/registry/Mule%20iBeans/flickr-ibean.jar?version=1.0-beta-5", url.toString());
+        assertEquals("http://" + IbeansCentralIBean.HOST + ":" + IbeansCentralIBean.PORT + "/iBeansCentral/api/registry/Mule%20iBeans/flickr-ibean.jar?version=1.0-beta-5", url.toString());
     }
 
     public void testGetDownload() throws Exception
