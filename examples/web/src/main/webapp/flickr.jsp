@@ -37,7 +37,7 @@
                 <option value="Large">Large</option>
                 <option value="Original">Original</option>
             </select></td>
-            <td>Size:</td>
+            <td>Type:</td>
             <td><select name="type">
                 <option value="Jpeg" selected="true">jpg</option>
                 <option value="Gif">gif</option>
