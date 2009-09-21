@@ -82,7 +82,10 @@ public class JndiRegistry extends AbstractRegistry
 
     public Collection lookupObjects(Class type)
     {
-        logger.info("Looking up objects by class type is not supported by JNDI registries");
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("Looking up objects by class type is not supported by JNDI registries");
+        }
         return Collections.emptyList();
     }
 
