@@ -15,6 +15,7 @@ import org.mule.expression.ExpressionConfig;
 import org.mule.expression.MessageHeaderExpressionEvaluator;
 import org.mule.expression.MessageHeadersExpressionEvaluator;
 import org.mule.expression.MessageHeadersListExpressionEvaluator;
+import org.mule.expression.ExpressionConstants;
 import org.mule.expression.transformers.ExpressionArgument;
 import org.mule.ibeans.api.application.params.ReceivedHeaders;
 
@@ -42,7 +43,8 @@ public class ReceivedHeadersAnnotationParser implements ExpressionParser
             {
                 eval = MessageHeadersListExpressionEvaluator.NAME;
             }
-            return new ExpressionArgument(null, new ExpressionConfig(((ReceivedHeaders) annotation).value(), eval, null), false, parameterType);
+            String expr = ((ReceivedHeaders) annotation).value();
+            return new ExpressionArgument(null, new ExpressionConfig(expr, eval, null), (expr.contains(ExpressionConstants.OPTIONAL_ARGUMENT)), parameterType);
         }
         else
         {
