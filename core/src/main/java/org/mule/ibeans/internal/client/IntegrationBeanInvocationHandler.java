@@ -29,6 +29,7 @@ import org.mule.transport.NullPayload;
 import org.mule.util.StringMessageUtils;
 import org.mule.util.TemplateParser;
 import org.mule.RequestContext;
+import org.mule.routing.filters.ExpressionFilter;
 
 import java.beans.ExceptionListener;
 import java.lang.reflect.InvocationHandler;
@@ -198,6 +199,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                 String returnExpression = method.getAnnotation(Return.class).value();
 
                 finalResult = handlerReturnAnnotation(returnExpression, result, ctx);
+
                 if (!ctx.getReturnType().isInstance(finalResult))
                 {
                     Transformer transformer = muleContext.getRegistry().lookupTransformer(finalResult.getClass(), ctx.getReturnType());
@@ -269,9 +271,16 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
             expr = parser.parse(ctx.getPropertyParams(), expr);
         }
 
-        Object result = muleContext.getExpressionManager().evaluate(expr, message);
-
-        return result;
+        if(Boolean.class.equals(ctx.getReturnType()) || boolean.class.equals(ctx.getReturnType()))
+        {
+            ExpressionFilter filter = new ExpressionFilter(expr);
+            filter.setMuleContext(muleContext);
+            return filter.accept(message);
+        }
+        else
+        {
+            return muleContext.getExpressionManager().evaluate(expr, message);
+        }
     }
 
     protected boolean isErrorReply(Method method, Object finalResult, MuleMessage message)
