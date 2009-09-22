@@ -123,7 +123,7 @@
         </snapshotRepository>
         <site>
             <id>muleforge.webdav.sites</id>
-            <url>dav:https://dav.muleforge.org/${domainName}/maven/ibenas</url>
+            <url>dav:https://dav.muleforge.org/ibeans/maven/${version}</url>
         </site>
     </distributionManagement>
 
