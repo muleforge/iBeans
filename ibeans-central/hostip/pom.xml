@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.mule.ibeans</groupId>
         <artifactId>ibeans-repo</artifactId>
-        <version>1.0-beta-6-SNAPSHOT</version>
+        <version>1.0-beta-6</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -14,13 +14,13 @@
     <artifactId>hostip-ibean</artifactId>
     <packaging>jar</packaging>
     <name>Hostip iBean</name>
-    <version>1.0-beta-6-SNAPSHOT</version>
+    <version>1.0-beta-6</version>
     <description>Looks up an IP address and returns the geoloation coordinates. Note that not all IP addresses can be
         resolved to a Lat/Long address.
     </description>
 
     <properties>
-        <ibeans.version>1.0-beta-6-SNAPSHOT</ibeans.version>
+        <ibeans.version>1.0-beta-6</ibeans.version>
         <!-- Tools properties -->
         <eclipsePluginVersion>2.5</eclipsePluginVersion>
         <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
@@ -66,14 +66,14 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-core</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-http</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-atom</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -89,7 +89,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-jms-client</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-email</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-xml</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-guice</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-ajax</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -129,7 +129,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-scheduler</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
@@ -137,7 +137,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-rest</artifactId>
-            <version>1.0-beta-6-SNAPSHOT</version>
+            <version>1.0-beta-6</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
