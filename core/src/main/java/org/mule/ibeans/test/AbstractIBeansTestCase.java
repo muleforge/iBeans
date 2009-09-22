@@ -173,7 +173,12 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
         {
             public Object answer(InvocationOnMock invocation) throws Throwable
             {
-                Object data = loadData(resource, ((MockIBean) ibean).ibeanReturnType());
+                Class ret = ((MockIBean) ibean).ibeanReturnType();
+                if(ret==null)
+                {
+                    ret = invocation.getMethod().getReturnType();
+                }
+                Object data = loadData(resource, ret);
                 ((MockIBean) ibean).ibeanSetMimeType(mimeType);
                 return data;
             }
