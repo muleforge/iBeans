@@ -110,6 +110,23 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <downloadUrl>http://mulesoft.org/display/${shortId}/Download</downloadUrl>
+
+        <repository>
+            <id>muleforge.webdav.releases</id>
+            <url>dav:https://dav.muleforge.org/repository/ibeans</url>
+        </repository>
+        <snapshotRepository>
+            <id>muleforge.webdav.snapshots</id>
+            <url>dav:https://dav.muleforge.org/snapshots.repository/ibeans</url>
+        </snapshotRepository>
+        <site>
+            <id>muleforge.webdav.sites</id>
+            <url>dav:https://dav.muleforge.org/${domainName}/maven/ibenas</url>
+        </site>
+    </distributionManagement>
+
     <!-- For some reason maven does not resolve the repos in the parent pom so we need to add them here
          TODO these can be removed once the module is merged into the mule-3.x branch -->
     <repositories>
