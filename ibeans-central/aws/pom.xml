@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.mule.ibeans</groupId>
         <artifactId>ibeans-repo</artifactId>
-        <version>1.0-beta-6</version>
+        <version>1.0-beta-7-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -14,11 +14,11 @@
     <artifactId>aws-ibean</artifactId>
     <packaging>jar</packaging>
     <name>Aws IBean</name>
-    <version>1.0-beta-6</version>
+    <version>1.0-beta-7-SNAPSHOT</version>
     <description>An iBean for working with Amazon EC2 instances</description>
 
     <properties>
-        <ibeans.version>1.0-beta-6</ibeans.version>
+        <ibeans.version>1.0-beta-7-SNAPSHOT</ibeans.version>
         <!-- Tools properties -->
         <eclipsePluginVersion>2.5</eclipsePluginVersion>
         <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>

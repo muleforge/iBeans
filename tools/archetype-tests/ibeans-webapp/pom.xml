@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.mule.ibeans.tests</groupId>
         <artifactId>ibeans-tests-archetypes</artifactId>
-        <version>1.0-beta-6</version>
+        <version>1.0-beta-7-SNAPSHOT</version>
     </parent>
     <groupId>org.mule.ibeans.tests</groupId>
     <artifactId>test-ibeans-webapp-archetype</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-beta-6</version>
+    <version>1.0-beta-7-SNAPSHOT</version>
     <name>Test for the iBeans Webapp Maven Archetype</name>
 
     <!-- the following properties are needed by the groovy script that we inherit from our parent pom -->
