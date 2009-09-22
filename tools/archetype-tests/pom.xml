@@ -13,8 +13,8 @@
     <name>Mule iBeans Tests for Maven Archetypes</name>
 
     <modules>
-        <module>ibean</module>
-        <module>ibeans-webapp</module>
+        <!--module>ibean</module>
+        <module>ibeans-webapp</module-->
     </modules>
 
     <!--<profiles>-->
