@@ -12,12 +12,18 @@ package org.mule.ibeans;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.io.StringWriter;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.dom.DOMSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -128,4 +134,27 @@ public class IBeansSupport
         }
     }
 
+    protected String prettyPrintXml(Node node)
+    {
+        try
+        {
+            // Set up the output transformer
+            TransformerFactory transfac = TransformerFactory.newInstance();
+            javax.xml.transform.Transformer trans = transfac.newTransformer();
+            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // Print the DOM node
+            StringWriter sw = new StringWriter();
+            StreamResult result = new StreamResult(sw);
+            DOMSource source = new DOMSource(node);
+            trans.transform(source, result);
+            return sw.toString();
+        }
+        catch (TransformerException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
