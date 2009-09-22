@@ -83,15 +83,15 @@ public class IBeansConsole2 implements EntryPoint
 
         ServiceDefTarget target = (ServiceDefTarget) pluginsService;
         // Use this so we can run in hosted mode but rewrite the URL once the app is deployed
-        //String baseUrl = "/ibeans/ibeans.Console"; // GWT.getModuleBaseURL();
-        String baseUrl = GWT.getModuleBaseURL();
-        target.setServiceEntryPoint(baseUrl + "/PluginsService");
+        String baseUrl = "/ibeans/ibeans.Console/"; // GWT.getModuleBaseURL();
+        //String baseUrl = GWT.getModuleBaseURL();
+        target.setServiceEntryPoint(baseUrl + "PluginsService");
 
         target = (ServiceDefTarget) repositoryService;
-        target.setServiceEntryPoint(baseUrl + "/IBeansCentralService");
+        target.setServiceEntryPoint(baseUrl + "IBeansCentralService");
 
         target = (ServiceDefTarget) applicationService;
-        target.setServiceEntryPoint(baseUrl + "/ApplicationService");
+        target.setServiceEntryPoint(baseUrl + "ApplicationService");
 
         GXT.BLANK_IMAGE_URL = "gxt/images/default/s.gif";
 
@@ -422,7 +422,7 @@ public class IBeansConsole2 implements EntryPoint
             }
             else
             {
-                return UserInfo.create(rawCookie);
+                return new UserInfo(rawCookie);
             }
         }
         else
@@ -526,12 +526,46 @@ public class IBeansConsole2 implements EntryPoint
     }
 
 
-    static class UserInfo
+     class UserInfo
     {
         private String user;
         private String pass;
         private boolean showWelcome = true;
 
+        UserInfo()
+        {
+        }
+
+        UserInfo(String raw)
+        {
+            if(raw == null)
+            {
+                return;
+            }
+            
+            int i = raw.indexOf(";");
+            while (i > 0 && i < raw.length())
+            {
+                String pair = raw.substring(0, i);
+                int x = pair.indexOf("=");
+                String key = pair.substring(0, x);
+                String value = pair.substring(x + 1);
+                if (key.equals("user"))
+                {
+                    setUser(value);
+                }
+                else if (key.equals("pass"))
+                {
+                    setPass(value);
+                }
+                else if (key.equals("showWelcome"))
+                {
+                    setShowWelcome(Boolean.parseBoolean(value));
+                }
+                raw = raw.substring(i + 1);
+                i = raw.indexOf(";");
+            }
+        }
 
         public String getUser()
         {
@@ -575,33 +609,5 @@ public class IBeansConsole2 implements EntryPoint
             return buf.toString();
         }
 
-        public static UserInfo create(String raw)
-        {
-            UserInfo info = new UserInfo();
-
-            int i = raw.indexOf(";");
-            while (i > 0 && i < raw.length())
-            {
-                String pair = raw.substring(0, i);
-                int x = pair.indexOf("=");
-                String key = pair.substring(0, x);
-                String value = pair.substring(x + 1);
-                if (key.equals("user"))
-                {
-                    info.setUser(value);
-                }
-                else if (key.equals("pass"))
-                {
-                    info.setPass(value);
-                }
-                else if (key.equals("showWelcome"))
-                {
-                    info.setShowWelcome(Boolean.parseBoolean(value));
-                }
-                raw = raw.substring(i + 1);
-                i = raw.indexOf(";");
-            }
-            return info;
-        }
     }
 }
