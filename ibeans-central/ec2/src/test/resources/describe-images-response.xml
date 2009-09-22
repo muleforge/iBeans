@@ -1,0 +1,19 @@
+<DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2009-04-04/">
+    <requestId>54680a65-a66f-4933-91c8-d069beb2dfdb</requestId>
+    <imagesSet>
+        <item>
+            <imageId>aki-cfaf4ba6</imageId>
+            <imageLocation>redhat-cloud/RHEL-5-Server/5.2/i386/kernels/kernel-2.6.18-92.1.1.manifest.xml</imageLocation>
+            <imageState>available</imageState>
+            <imageOwnerId>432018295444</imageOwnerId>
+            <isPublic>true</isPublic>
+            <productCodes>
+                <item>
+                    <productCode>E53E3E89</productCode>
+                </item>
+            </productCodes>
+            <architecture>i386</architecture>
+            <imageType>kernel</imageType>
+        </item>
+    </imagesSet>
+</DescribeImagesResponse>
