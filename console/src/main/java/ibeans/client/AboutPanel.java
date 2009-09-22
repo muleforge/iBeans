@@ -42,7 +42,7 @@ public class AboutPanel extends LayoutContainer
                 "<p>&nbsp;</p>\n" +
                 "    <p>\n" +
 
-                "        <ul><li>Getting start with iBean <a href='http://www.mulesoft.org/display/IBEANS/Home' target='_blank'>go here</a></li>" +
+                "        <ul><li>Getting start with iBeans <a href='http://www.mulesoft.org/display/IBEANS/Home' target='_blank'>go here</a></li>" +
                 "        <ul><li>For the Mule and iBeans community forums <a href='http://mulesoft.org' target='_blank'>go here</a></li>" +
                 "        <ul><li>To get an iBeans community account <a href='http://www.mulesoft.org/register/newuser.mule' target='_blank'>go here</a></li>" +
                 "<li>For bug reports and feature requests <a href='http://www.mulesoft.org/jira/browse/IBEANS' target='_blank'>go here</a></li>" +
