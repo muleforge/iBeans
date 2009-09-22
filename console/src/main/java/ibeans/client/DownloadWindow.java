@@ -28,7 +28,7 @@ public class DownloadWindow extends FormPanel
 {
     public DownloadWindow(final String user, final String pass, final String id, final String version, final Window window, final IBeansConsole2 console)
     {
-        window.setSize(300, 300);
+        window.setSize(400, 400);
         window.setPlain(true);
         window.setModal(true);
         window.setBlinkModal(true);
