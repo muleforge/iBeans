@@ -40,7 +40,7 @@
     </licenses>
 
     <modules>
-        <!--module>aws</module-->
+        <module>ec2</module>
         <module>ibeansCentral</module>
         <module>flickr</module>
         <module>twitter</module>
