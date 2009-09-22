@@ -31,7 +31,7 @@
     <!--</property>-->
     <!--</activation>-->
 
-    <!--TODO re-enable once the mvn is on the path of the build user on MuleForge
+    <!--TODO re-enable once the mvn is on the path of the build user on MuleForge -->
     <!--<build>-->
         <!--<pluginManagement>-->
             <!--<plugins>-->
