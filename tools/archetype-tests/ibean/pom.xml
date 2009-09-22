@@ -9,7 +9,6 @@
     <groupId>org.mule.ibeans.tests</groupId>
     <artifactId>test-ibean-archetype</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-beta-7-SNAPSHOT</version>
     <name>Test for the iBean Maven Archetype</name>
 
     <!-- the following properties are needed by the groovy script that we inherit from our parent pom -->
@@ -41,7 +40,17 @@
                 <groupId>org.codehaus.mojo.groovy</groupId>
                 <artifactId>groovy-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <!-- TODO: this is just a workaround so the sources plugin does not barf 
+                         Ideally, we would be able to exclude the source plugin here but 
+                         somehow that does not work.
+                    -->
+                    <includePom>true</includePom>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
-
