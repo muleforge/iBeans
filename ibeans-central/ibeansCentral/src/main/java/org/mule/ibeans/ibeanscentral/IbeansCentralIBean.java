@@ -33,7 +33,7 @@ import java.net.URL;
 public interface IbeansCentralIBean extends HttpBasicAuthentication
 {
     @UriParam("host")
-    public static final String HOST = "mulesoft.org";
+    public static final String HOST = "www.mulesoft.org";
 
     @UriParam("port")
     public static final int PORT = 80;
