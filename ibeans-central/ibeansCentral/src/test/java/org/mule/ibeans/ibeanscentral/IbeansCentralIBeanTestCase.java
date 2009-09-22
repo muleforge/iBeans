@@ -55,7 +55,7 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
     {
         List<IBeanInfo> results = ibeanscentral.getIBeans();
         assertNotNull(results);
-        assertEquals(1, results.size());
+        assertEquals(2, results.size());
         IBeanInfo result = results.get(0);
         assertEquals("Flickr iBean", result.getName());
         assertEquals("flickr", result.getShortName());
