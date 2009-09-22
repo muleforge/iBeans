@@ -17,10 +17,13 @@ import org.mule.ibeans.api.application.Send;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Singleton;
+
 
 /**
  * Generates a random walk around a city
  */
+@Singleton
 public class CityStroller
 {
 
