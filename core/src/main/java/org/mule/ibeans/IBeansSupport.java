@@ -134,7 +134,7 @@ public class IBeansSupport
         }
     }
 
-    protected String prettyPrintXml(Node node)
+    public static String prettyPrintXml(Node node)
     {
         try
         {
