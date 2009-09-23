@@ -79,7 +79,7 @@ public class DirectBindAnnotationProcessor extends AbstractAnnotationProcessor
                             }
                         }
                     }
-                    router.setEndpoint((org.mule.api.endpoint.OutboundEndpoint) builder.processEndpoint(epd));
+                    router.setEndpoint(builder.processEndpoint(epd));
 
                     field.setAccessible(true);
                     field.set(object, router.createProxy(object));
