@@ -40,7 +40,6 @@
         <module>core</module>
         <module>examples</module>
         <module>annotations</module>
-        <module>ibeans-central</module>
         <module>modules</module>
         <module>console</module>
         <module>tools</module>
