@@ -33,7 +33,13 @@ import org.w3c.dom.NodeList;
 
 
 /**
- * TODO
+ * This is a simple helper class that provides some support methods for working with data in iBeans.  Right now the
+ * helper methods provide support for executing XPath expressions, but in future other helper methods will be included
+ * here as needed.
+ *
+ * This class is stateless and static so that developers can statically import it into their test cases. This class should
+ * be used in production code with caution  because if errors occur the excpetion is only logged and null is returned.
+ *
  */
 public class IBeansSupport
 {
@@ -42,6 +48,11 @@ public class IBeansSupport
      */
     protected static transient final Log logger = LogFactory.getLog(IBeansSupport.class);
 
+    /**
+     * Creates an XPath object with a custom NamespaceContext given the Node to operate on
+     * @param node the Node or document to operate on.  Note that namespace handling will not work if a Node fragment is passed in
+     * @return a new XPath object
+     */
     private static XPath createXPath(Node node)
     {
         XPath xp = XPathFactory.newInstance().newXPath();
@@ -52,6 +63,12 @@ public class IBeansSupport
         return xp;
     }
 
+    /**
+     * Select a single XML node using an Xpath
+     * @param xpath the XPath expression to evaluate
+     * @param node the node (or document) to exaluate on
+     * @return the result of the evaluation.  Note that if an error occurs, the error is logged and null is returned
+     */
     public static Node selectOne(String xpath, Node node)
     {
         try
@@ -66,6 +83,12 @@ public class IBeansSupport
         }
     }
 
+    /**
+     * Select a single XML String value using an Xpath
+     * @param xpath the XPath expression to evaluate
+     * @param node the node (or document) to exaluate on
+     * @return the result of the evaluation.  Note that if an error occurs, the error is logged and null is returned
+     */
     public static String selectValue(String xpath, Node node)
     {
         try
@@ -80,6 +103,12 @@ public class IBeansSupport
         }
     }
 
+    /**
+     * Select a set of Node objects using the Xpath expression
+     * @param xpath the XPath expression to evaluate
+     * @param node the node (or document) to exaluate on
+     * @return the result of the evaluation.  Note that if an error occurs, the error is logged and null is returned
+     */
     public static List<Node> select(String xpath, Node node)
     {
         try
@@ -100,7 +129,42 @@ public class IBeansSupport
         }
     }
 
-    static class XPathNamespaceContext implements NamespaceContext
+
+    /**
+     * Returns a formatted XML string representation of an XML Node or Document.  This is useful for debugging or for
+     * capturing data that can be used for Mock testing.
+     * @param node the Xml to read
+     * @return a formated XML string
+     */
+    public static String prettyPrintXml(Node node)
+    {
+        try
+        {
+            // Set up the output transformer
+            TransformerFactory transfac = TransformerFactory.newInstance();
+            javax.xml.transform.Transformer trans = transfac.newTransformer();
+            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // Print the DOM node
+            StringWriter sw = new StringWriter();
+            StreamResult result = new StreamResult(sw);
+            DOMSource source = new DOMSource(node);
+            trans.transform(source, result);
+            return sw.toString();
+        }
+        catch (TransformerException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * The default namespace context that will read namespaces from the current document if the
+     * Node being processed is a Document
+     */
+    private static class XPathNamespaceContext implements NamespaceContext
     {
         private Document document;
 
@@ -131,30 +195,6 @@ public class IBeansSupport
             List<String> list = new ArrayList<String>();
             list.add(getPrefix(namespaceURI));
             return list.iterator();
-        }
-    }
-
-    public static String prettyPrintXml(Node node)
-    {
-        try
-        {
-            // Set up the output transformer
-            TransformerFactory transfac = TransformerFactory.newInstance();
-            javax.xml.transform.Transformer trans = transfac.newTransformer();
-            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-            trans.setOutputProperty(OutputKeys.INDENT, "yes");
-
-            // Print the DOM node
-            StringWriter sw = new StringWriter();
-            StreamResult result = new StreamResult(sw);
-            DOMSource source = new DOMSource(node);
-            trans.transform(source, result);
-            return sw.toString();
-        }
-        catch (TransformerException e)
-        {
-            e.printStackTrace();
-            return null;
         }
     }
 }
