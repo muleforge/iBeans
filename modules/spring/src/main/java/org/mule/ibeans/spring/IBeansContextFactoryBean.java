@@ -21,6 +21,8 @@ import org.mule.ibeans.IBeansFactory;
 import org.mule.ibeans.config.IBeanHolderConfigurationBuilder;
 import org.mule.ibeans.internal.config.ShutdownSplash;
 import org.mule.ibeans.internal.config.StartupSplash;
+import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
+import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.AbstractApplicationContext;
 
 /**
- * TODO
+ * Creates the IBeansContext and makes it available in Spring.
  */
 public class IBeansContextFactoryBean extends AbstractFactoryBean implements InitializingBean, ApplicationContextAware
 {
@@ -59,14 +61,14 @@ public class IBeansContextFactoryBean extends AbstractFactoryBean implements Ini
         List<ConfigurationBuilder> builders = new ArrayList<ConfigurationBuilder>();
         builders.add(new DefaultsConfigurationBuilder());
         builders.add(new IBeanHolderConfigurationBuilder());
-        MuleContextFactory muleContextFactory = new DefaultMuleContextFactory();
+        MuleContextFactory muleContextFactory = new IBeansMuleContextFactory();
 
         DefaultMuleConfiguration muleConfiguration = new DefaultMuleConfiguration();
         if (getServerId() != null)
         {
             muleConfiguration.setId(getServerId());
         }
-        DefaultMuleContextBuilder muleContextBuilder = new DefaultMuleContextBuilder();
+        DefaultMuleContextBuilder muleContextBuilder = new IBeansMuleContextBuilder();
         muleContextBuilder.setStartupScreen(new StartupSplash());
         muleContextBuilder.setShutdownScreen(new ShutdownSplash());
         muleContextBuilder.setMuleConfiguration(muleConfiguration);
@@ -101,6 +103,12 @@ public class IBeansContextFactoryBean extends AbstractFactoryBean implements Ini
         this.serverId = serverId;
     }
 
+    /**
+     * Disables the iBean annotation bean post processors being added to the spring context, which means any objects using iBean annotations
+     * in the Spring context will not get processed.  However, processors will still work inside the iBeans registry so that client iBeans that
+     * you import, that contain transformers  will still get processed and may have injection annotations on them.
+     * @return true if disabled, false otherwise
+     */
     public boolean isDisableInjectors()
     {
         return disableInjectors;
