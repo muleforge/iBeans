@@ -29,7 +29,7 @@
         <licenseUrl>http://mulesoft.org/display/MULE/License</licenseUrl>
 
         <maven-project-info-reports-plugin-version>2.1</maven-project-info-reports-plugin-version>
-        <maven-javadoc-plugin-version>2.5</maven-javadoc-plugin-version>
+        <maven-javadoc-plugin-version>2.6</maven-javadoc-plugin-version>
         <maven-jxr-plugin-version>2.1</maven-jxr-plugin-version>
         <maven-surefire-report-plugin-version>2.4.2</maven-surefire-report-plugin-version>
         <maven-checkstyle-plugin-version>2.3</maven-checkstyle-plugin-version>
