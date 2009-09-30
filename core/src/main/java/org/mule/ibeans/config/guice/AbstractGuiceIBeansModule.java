@@ -16,8 +16,8 @@ import org.mule.ibeans.config.ScheduleConfigBuilder;
 import org.mule.module.guice.AbstractMuleGuiceModule;
 
 /**
- * A Base Guice module for ibeans that provides helper methods for binding {@link org.mule.ibeans.config.ChannelConfigBuilder} objects to
- * the iBeans context
+ * A Base Guice module for iBeans that provides helper methods for binding {@link org.mule.ibeans.config.ChannelConfigBuilder} objects to
+ * the iBeans context.
  */
 public abstract class AbstractGuiceIBeansModule extends AbstractMuleGuiceModule
 {

@@ -15,8 +15,8 @@ import org.mule.ibeans.api.client.views.TextUsageView;
 import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
 
 /**
- * Holds a reference to an iBeans class in the registry.  an iBean instance can created from this object as well as reporting
- * it's usage and short id.
+ * Holds a reference to an iBeans class in the registry. An iBean instance can be created from this object as well as reporting
+ * its usage and short ID.
  */
 public class IBeanHolder implements Comparable
 {

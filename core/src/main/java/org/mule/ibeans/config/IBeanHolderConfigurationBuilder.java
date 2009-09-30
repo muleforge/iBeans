@@ -24,9 +24,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A configuration builder that registers iBean objects on the classpath with the MUle registry.
+ * A configuration builder that registers iBean objects on the classpath with the Mule registry.
  * <p/>
- * The registry can then be used to query avaialble iBeans
+ * The registry can then be used to query avaialble iBeans.
  */
 public class IBeanHolderConfigurationBuilder extends AbstractConfigurationBuilder
 {

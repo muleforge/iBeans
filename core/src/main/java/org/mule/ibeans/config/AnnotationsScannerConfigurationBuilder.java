@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This builder discovers objects to load on the classpath by scanning for objects with methods annotated with iBeans Annotations
+ * This builder discovers objects to load on the classpath by scanning for objects with methods annotated with iBeans annotations.
  */
 public class AnnotationsScannerConfigurationBuilder extends AbstractConfigurationBuilder
 {
