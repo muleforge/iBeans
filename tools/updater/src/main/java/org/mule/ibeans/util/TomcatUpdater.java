@@ -54,7 +54,7 @@ public class TomcatUpdater
             }
             else
             {
-                System.err.println("Unkwonn argument:" + arg);
+                System.err.println("Unknown argument:" + arg);
                 usage();
                 System.exit(1);
             }
@@ -85,7 +85,7 @@ public class TomcatUpdater
         File catalinaProps = new File(filename);
         if (!catalinaProps.exists())
         {
-            System.err.println("Could not find catlina properties at: " + filename + ". Make sure you have the -Dcatalina.home=$CATALINA_HOME set or pass in the home path when running this util");
+            System.err.println("Could not find catalina.properties at: " + filename + ". Make sure you have the -Dcatalina.home=[CATALINA_HOME] JVM parameter set or pass in the Catalina home path when running the updater.");
             System.exit(1);
         }
 
@@ -119,7 +119,7 @@ public class TomcatUpdater
             File modules = new File(modulesPath);
             if (!modules.exists())
             {
-                System.err.println("Could not find Mule iBeans modules: " + modulesPath + ". Make sure you have the CATALINE_HOME set or pass in the home path when running this util");
+                System.err.println("Could not find Mule iBeans modules: " + modulesPath + ". Make sure you have the -Dcatalina.home=[CATALINA_HOME] JVM parameter set or pass in the Catalina home path when running the updater.");
                 System.exit(1);
             }
             StringBuffer sharedLoader = new StringBuffer();
@@ -142,7 +142,7 @@ public class TomcatUpdater
                 newConfig.delete();
                 if (!newConfig.createNewFile())
                 {
-                    System.err.println("Failed to create temp catalina.properties");
+                    System.err.println("Failed to create temporary catalina.properties");
                     System.exit(1);
                 }
             }
