@@ -14,7 +14,7 @@
     <artifactId>ibeans-module-xml</artifactId>
     <packaging>pom</packaging>
     <name>iBeans XML module</name>
-    <description>Provides support for working with XML formats (using JAXP) and XSLT. The modules provides a number of
+    <description>Provides support for working with XML formats (using JAXP) and XSLT. The module provides a number of
         transformers for working with XML representations including String, DOM and streaming.
     </description>
 
