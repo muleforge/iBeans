@@ -27,27 +27,27 @@ public interface HTTP
     /**
      * Perform an HTTP POST call
      */
-    public static final String METHOD_POST = HttpConnector.HTTP_METHOD_PROPERTY + "=POST";
+    public static final String POST = HttpConnector.HTTP_METHOD_PROPERTY + "=POST";
     /**
      * Perform an HTTP GET call
      */
-    public static final String METHOD_GET = HttpConnector.HTTP_METHOD_PROPERTY + "=GET";
+    public static final String GET = HttpConnector.HTTP_METHOD_PROPERTY + "=GET";
     /**
      * Perform an HTTP PUT call
      */
-    public static final String METHOD_PUT = HttpConnector.HTTP_METHOD_PROPERTY + "=PUT";
+    public static final String PUT = HttpConnector.HTTP_METHOD_PROPERTY + "=PUT";
     /**
      * Perform an HTTP DELETE call
      */
-    public static final String METHOD_DELETE = HttpConnector.HTTP_METHOD_PROPERTY + "=DELETE";
+    public static final String DELETE = HttpConnector.HTTP_METHOD_PROPERTY + "=DELETE";
     /**
      * Perform an HTTP HEAD call
      */
-    public static final String METHOD_HEAD = HttpConnector.HTTP_METHOD_PROPERTY + "=HEAD";
+    public static final String HEAD = HttpConnector.HTTP_METHOD_PROPERTY + "=HEAD";
     /**
      * Perform an HTTP OPTIONS call
      */
-    public static final String METHOD_OPTIONS = HttpConnector.HTTP_METHOD_PROPERTY + "=OPTIONS";
+    public static final String OPTIONS = HttpConnector.HTTP_METHOD_PROPERTY + "=OPTIONS";
 
     /**
      * Whether redirects should be followed.  Redirects return an HTTP status code in the range of 300-304. The HTTP spec
