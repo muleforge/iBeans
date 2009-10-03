@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ErrorFilter
-public @interface GenericErrorFilter
+public @interface ExpressionErrorFilter
 {
     public abstract String expr();
 
