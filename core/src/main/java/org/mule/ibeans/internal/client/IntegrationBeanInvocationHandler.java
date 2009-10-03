@@ -12,6 +12,7 @@ package org.mule.ibeans.internal.client;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
+import org.mule.api.endpoint.ImmutableEndpoint;
 import org.mule.api.routing.InterfaceBinding;
 import org.mule.api.routing.filter.Filter;
 import org.mule.api.service.Service;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.xpath.XPathConstants;
 
@@ -115,6 +117,18 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         }
 
         InvocationContext ctx = helper.createInvocationContext(method, args);
+        //Not keen on proprty munging here be the endpoint sometimes has default props
+        //that we should make available to the context
+        ImmutableEndpoint endpoint = getCallHandler().getEndpointForMethod(method);
+        if(endpoint!=null && endpoint.getProperties().size() > 0)
+        {
+            for (Iterator iterator = endpoint.getProperties().entrySet().iterator(); iterator.hasNext();)
+            {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                ctx.getPropertyParams().put(entry.getKey().toString(), entry.getValue());
+            }
+        }
+        
         if (ctx.isStateCall())
         {
             //State methods return null

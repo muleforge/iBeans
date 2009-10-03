@@ -17,7 +17,7 @@ import org.mule.api.transport.PropertyScope;
 import org.mule.ibeans.api.client.State;
 import org.mule.ibeans.api.client.filters.AtomErrorFilter;
 import org.mule.ibeans.api.client.filters.ErrorFilter;
-import org.mule.ibeans.api.client.filters.GenericErrorFilter;
+import org.mule.ibeans.api.client.filters.ExpressionErrorFilter;
 import org.mule.ibeans.api.client.filters.JsonErrorFilter;
 import org.mule.ibeans.api.client.filters.RssErrorFilter;
 import org.mule.ibeans.api.client.filters.XmlErrorFilter;
@@ -138,9 +138,9 @@ public class IBeanParamsHelper
 
                 errorFilters.put(RssErrorFilter.mimeType, errorFilter);
             }
-            else if (anno.annotationType().equals(GenericErrorFilter.class))
+            else if (anno.annotationType().equals(ExpressionErrorFilter.class))
             {
-                GenericErrorFilter filter = (GenericErrorFilter) anno;
+                ExpressionErrorFilter filter = (ExpressionErrorFilter) anno;
                 errorFilter = new ErrorExpressionFilter( filter.expr());
                 errorFilters.put(filter.mimeType(), errorFilter);
             }
@@ -153,7 +153,7 @@ public class IBeanParamsHelper
         methodErrorFilters = new HashMap<Method, ErrorExpressionFilter>();
         for (AnnotationMetaData result : results)
         {
-            methodErrorFilters.put((Method)result.getMember(), new ErrorExpressionFilter(((GenericErrorFilter)result.getAnnotation()).expr()));
+            methodErrorFilters.put((Method)result.getMember(), new ErrorExpressionFilter(((ExpressionErrorFilter)result.getAnnotation()).expr()));
         }
 
         for (ExpressionFilter filter : errorFilters.values())

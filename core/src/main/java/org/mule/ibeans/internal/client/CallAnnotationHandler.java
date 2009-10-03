@@ -15,6 +15,7 @@ import org.mule.NullSessionHandler;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
 import org.mule.api.MuleSession;
+import org.mule.api.endpoint.ImmutableEndpoint;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.routing.InterfaceBinding;
 import org.mule.api.service.Service;
@@ -120,5 +121,15 @@ public class CallAnnotationHandler implements ClientAnnotationHandler
             throw new IllegalArgumentException(CoreMessages.cannotFindBindingForMethod(method.getName()).toString());
         }
         return router.getEndpoint().getEndpointURI().getScheme();
+    }
+
+    ImmutableEndpoint getEndpointForMethod(Method method)
+    {
+        InterfaceBinding router = routers.get(method.toString());
+        if (router != null)
+        {
+            return router.getEndpoint();
+        }
+        return null;
     }
 }
