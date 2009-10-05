@@ -527,12 +527,10 @@
                 </reportSets>
             </plugin>
 
-
             <!-- Javadoc settings -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin-version}</version>
                 <configuration>
                     <minmemory>128m</minmemory>
                     <maxmemory>512m</maxmemory>
@@ -740,6 +738,26 @@
                     </plugins>
                 </pluginManagement>
             </build>
+        </profile>
+
+        <profile>
+            <id>bamboo</id>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <!--
+                                 The javadocs need to go to 
+                                 /var/www/domains/mulesoft.org/ibeans/javadocs
+                            -->
+                            <destDir>javadocs</destDir>
+                            <reportOutputDirectory>/var/www/domains/mulesoft.org/ibeans</reportOutputDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
         </profile>
     </profiles>
 </project>
