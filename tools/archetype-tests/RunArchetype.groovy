@@ -50,6 +50,7 @@ if (project.properties.archetypeParams != null)
 cmdline += " -DibeansVersion=" + project.version
 cmdline += " -Dinteractive=false"
 cmdline += " -o" //run offline to speed things up a bit
+cmdline += " -X" //debug
 runMaven(cmdline, buildDir)
 
 // now that the source is generated, compile it using Maven
