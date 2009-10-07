@@ -7,7 +7,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.config.guice;
+package org.mule.ibeans.module.guice;
 
 import org.mule.api.registry.RegistrationException;
 import org.mule.ibeans.IBeansException;
@@ -16,8 +16,8 @@ import org.mule.ibeans.config.ScheduleConfigBuilder;
 import org.mule.module.guice.AbstractMuleGuiceModule;
 
 /**
- * A Base Guice module for iBeans that provides helper methods for binding {@link org.mule.ibeans.config.ChannelConfigBuilder} objects to
- * the iBeans context.
+ * A Base Guice module for ibeans that provides helper methods for binding {@link org.mule.ibeans.config.ChannelConfigBuilder} objects to
+ * the iBeans context
  */
 public abstract class AbstractGuiceIBeansModule extends AbstractMuleGuiceModule
 {
