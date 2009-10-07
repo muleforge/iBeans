@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.mule.ibeans.examples</groupId>
         <artifactId>ibeans-examples</artifactId>
-        <version>1.0-beta-7-SNAPSHOT</version>
+        <version>1.0-beta-7</version>
     </parent>
 
     <groupId>org.mule.ibeans.examples</groupId>
@@ -51,10 +51,10 @@
                 <configuration>
                     <!-- TODO: this is just a workaround so the sources plugin does not barf -->
                     <includePom>true</includePom>
-<!--                     <includes> -->
-<!--                         <include>pom.xml</include> -->
-<!--                         <include>src/main/webapp/**</include> -->
-<!--                     </includes> -->
+                    <!--                     <includes> -->
+                    <!--                         <include>pom.xml</include> -->
+                    <!--                         <include>src/main/webapp/**</include> -->
+                    <!--                     </includes> -->
                 </configuration>
             </plugin>
         </plugins>

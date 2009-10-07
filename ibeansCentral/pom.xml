@@ -5,8 +5,8 @@
 
     <parent>
         <groupId>org.mule.ibeans</groupId>
-        <artifactId>ibeans-contrib</artifactId>
-        <version>1.0-beta-7-SNAPSHOT</version>
+        <artifactId>mule-ibeans</artifactId>
+        <version>1.0-beta-7</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -68,5 +68,70 @@
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <!--<classifier>full</classifier>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-http</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <!--<classifier>full</classifier>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-xml</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <!--<classifier>full</classifier>-->
+        </dependency>
+
+        <!-- usually required for JSON support -->
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-ajax</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <!--<classifier>full</classifier>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-email</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <!--<classifier>full</classifier>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-scheduler</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <!--<classifier>full</classifier>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-atom</artifactId>
+            <version>${version}</version>
+            <scope>provided</scope>
+            <!--<classifier>full</classifier>            -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

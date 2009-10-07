@@ -7,7 +7,7 @@
     <!-- Project -->
     <groupId>org.mule.ibeans</groupId>
     <artifactId>mule-ibeans</artifactId>
-    <version>1.0-beta-7-SNAPSHOT</version>
+    <version>1.0-beta-7</version>
     <packaging>pom</packaging>
     <name>Mule Integration Beans Parent</name>
     <description>Mule Integration Beans</description>
