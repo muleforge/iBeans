@@ -9,11 +9,6 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <!--<servlet>-->
-    <!--<servlet-name>ajax</servlet-name>-->
-    <!--<servlet-class>org.mule.ibeans.web.IBeansAjaxServlet</servlet-class>-->
-    <!--</servlet>-->
-
     <servlet>
         <servlet-name>mule-ibeans</servlet-name>
         <servlet-class>org.mule.ibeans.web.IBeansServlet</servlet-class>
@@ -34,14 +29,9 @@
         <url-pattern>/ibeans/json-rpc/*</url-pattern>
     </servlet-mapping>
 
-
     <servlet-mapping>
         <servlet-name>mule-ibeans</servlet-name>
         <url-pattern>/ibeans/*</url-pattern>
     </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>ajax</servlet-name>-->
-    <!--<url-pattern>/ibeans/ajax/*</url-pattern>-->
-    <!--</servlet-mapping>-->
 </web-app>

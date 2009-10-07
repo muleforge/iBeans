@@ -36,7 +36,7 @@ public class BlogFeedToTwitterReader implements Initialisable
     {
         //Initialise the Bit.ly iBean
         bitly.init("bitlyapidemo", "R_0da49e0a9118ff35f52f629d2d71bf07");
-        bitly.setFormat("json", JsonData.class);
+        bitly.setFormat(BitlyIBean.FORMAT.JSON, JsonData.class);
 
         //Initialise the Twitter iBean
         twitter.setCredentials("muletest", "mule1234");

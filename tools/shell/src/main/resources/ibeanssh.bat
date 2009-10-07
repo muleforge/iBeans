@@ -19,7 +19,7 @@ IF "%CATALINA_HOME%"==""  (
 
 echo CATALINA HOME IS: %CATALINA_HOME%
 
-set SHELL_MODULE=%CATALINA_HOME%\mule-ibeans\lib\modules\deployed\shell
+set SHELL_MODULE=%CATALINA_HOME%\mule-ibeans\tools\shell\ibeans-shell-full.jar
 
 IF EXIST %SHELL_MODULE% (
     echo iBeans Shell module installed, starting...
@@ -27,8 +27,8 @@ IF EXIST %SHELL_MODULE% (
     goto installshell
 )
 
-set CP=.
-for %%i in (%SHELL_MODULE%\*.jar) do call cp.bat %%i
+set CP=.;%SHELL_MODULE%
+@REM for %%i in (%SHELL_MODULE%\*.jar) do call cp.bat %%i
 
 @REM need to add the servlet jar separately since iBeans does not ship with it when running in Tomcat
 set CP=%CP%;%CATALINA_HOME%\lib\servlet-api.jar

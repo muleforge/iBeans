@@ -72,6 +72,11 @@
             <source>../modules/xml/target/ibeans-module-xml-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
+        <file>
+            <source>../tools/shell/target/ibeans-shell-${version}-full.jar</source>
+            <outputDirectory>mule-ibeans/tools/shell</outputDirectory>
+            <destName>ibeans-shell-full.jar</destName>
+        </file>
     </files>
     <fileSets>
         <fileSet>
@@ -138,119 +143,6 @@
                 <exclude>**/target</exclude>
             </excludes>
         </fileSet>
-
-        <!-- example WARS -->
-        <!--<fileSet>-->
-        <!--<directory>../examples/geomail/target</directory>-->
-        <!--<outputDirectory>mule-ibeans/webapps</outputDirectory>-->
-        <!--<includes>-->
-        <!--<include>*.war</include>-->
-        <!--</includes>-->
-        <!--</fileSet>-->
-        <!--<fileSet>-->
-        <!--<directory>../examples/bookstore-admin-web/target</directory>-->
-        <!--<outputDirectory>webapps</outputDirectory>-->
-        <!--<includes>-->
-        <!--<include>*.war</include>-->
-        <!--</includes>-->
-        <!--</fileSet>-->
-        <!--<fileSet>-->
-        <!--<directory>../examples/bookstore-web/target</directory>-->
-        <!--<outputDirectory>webapps</outputDirectory>-->
-        <!--<includes>-->
-        <!--<include>*.war</include>-->
-        <!--</includes>-->
-        <!--</fileSet>-->
-
-        <!--<fileSet>-->
-        <!--<directory>../examples/notifications/target</directory>-->
-        <!--<outputDirectory>mule-ibeans/webapps</outputDirectory>-->
-        <!--<includes>-->
-        <!--<include>*.war</include>-->
-        <!--</includes>-->
-        <!--</fileSet>-->
-        <!--<fileSet>-->
-        <!--<directory>../examples/web/target</directory>-->
-        <!--<outputDirectory>mule-ibeans/webapps</outputDirectory>-->
-        <!--<includes>-->
-        <!--<include>*.war</include>-->
-        <!--</includes>-->
-        <!--</fileSet>-->
-        <!-- iBeans we ship with (note filtering is pretty dumb) -->
-        <fileSet>
-            <directory>../ibeans-central/twitter/target</directory>
-            <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../ibeans-central/hostip/target</directory>
-            <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../ibeans-central/flickr/target</directory>
-            <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../ibeans-central/gmail/target</directory>
-            <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../ibeans-central/email/target</directory>
-            <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../ibeans-central/bitly/target</directory>
-            <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../ibeans-central/googlebase/target</directory>
-            <outputDirectory>mule-ibeans/lib/ibeans/deployed</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-
-        <!-- sources -->
-        <!--<fileSet>-->
-        <!--<directory>../target</directory>-->
-        <!--<outputDirectory>mule-ibeans/src</outputDirectory>-->
-        <!--<includes>-->
-        <!--<include>*.jar</include>-->
-        <!--</includes>-->
-        <!--</fileSet>-->
-        <!-- apidocs -->
-        <!--<fileSet>-->
-        <!--<directory>../target/site/apidocs</directory>-->
-        <!--<outputDirectory>mule-ibeans/doc/api</outputDirectory>-->
-        <!--</fileSet>-->
-
-
-        <!--<fileSet>-->
-        <!--<directory>../modules</directory>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>-->
-        <!--<includes>-->
-        <!--<include>**/target/*-full.jar</include>-->
-        <!--</includes>-->
-        <!--</fileSet>-->
-
-
     </fileSets>
 
     <dependencySets>
@@ -273,11 +165,14 @@
         <dependencySet>
             <outputDirectory>mule-ibeans/lib</outputDirectory>
             <scope>runtime</scope>
-            <useTransitiveFiltering>false</useTransitiveFiltering>
-            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
             <includes>
                 <!-- include Log4j separately so folks can mess with the version -->
-                <include>org.apache.log4j:log4j</include>
+                <include>log4j:log4j</include>
+                <include>org.slf4j:slf4j-log4j12</include>
+                <include>org.slf4j:jcl104-over-slf4j</include>
+                <include>org.slf4j:slf4j-api</include>
             </includes>
         </dependencySet>
 

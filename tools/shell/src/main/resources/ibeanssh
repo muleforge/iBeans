@@ -14,17 +14,17 @@ if [ ! -d "$CATALINA_HOME" ] ; then
   CATALINA_HOME=../../..
 fi
 
-SHELL_MODULE=$CATALINA_HOME/mule-ibeans/lib/modules/deployed/shell
+SHELL_MODULE=$CATALINA_HOME/mule-ibeans/tools/shell/ibeans-shell-full.jar
 
-if [ -d "$SHELL_MODULE" ] ; then
+if [ -f "$SHELL_MODULE" ] ; then
   echo "iBeans Shell module installed, starting..."
 else
   echo "You need to have the iBeans Shell module for iBeans installed. Go to http://localhost:8080/ibeans (or where ever you have iBeans running) and install the iBeans Shell module"
   exit 1
 fi
 
-CP=.
-CP=`echo $SHELL_MODULE/*.jar | tr ' ' ':'`:$CP
+CP=.:$SHELL_MODULE
+#CP=`echo $SHELL_MODULE/*.jar | tr ' ' ':'`:$CP
 
 #need to add the servlet jar separately since iBeans does not ship with it when running in Tomcat
 CP=$CP:$CATALINA_HOME/lib/servlet-api.jar

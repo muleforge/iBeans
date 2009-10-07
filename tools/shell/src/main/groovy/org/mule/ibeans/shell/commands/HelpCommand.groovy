@@ -5,9 +5,9 @@ import org.codehaus.groovy.tools.shell.CommandRegistry
 import org.codehaus.groovy.tools.shell.CommandSupport
 import org.codehaus.groovy.tools.shell.Shell
 import org.codehaus.groovy.tools.shell.util.SimpleCompletor
-import org.mule.api.MuleContext
-import org.mule.ibeans.internal.config.IBeansInfo
+import org.mule.DefaultMuleContext
 import org.mule.ibeans.config.IBeanHolder
+import org.mule.ibeans.internal.config.IBeansInfo
 
 /**
  * TODO
@@ -65,7 +65,7 @@ extends CommandSupport
     String usage = null
     if (!command)
     {
-      MuleContext mc = (MuleContext) getBinding().getVariable("muleContext")
+      DefaultMuleContext mc = getBinding().getVariable("muleContext")
       Collection<IBeanHolder> col = mc.getRegistry().lookupObjects(IBeanHolder.class)
       for (ib in col)
       {

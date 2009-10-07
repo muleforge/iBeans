@@ -51,9 +51,9 @@
                                     <include>javax.activation:activation</include>
                                     <include>org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec</include>
                                     <include>org.apache.geronimo.specs:geronimo-j2ee-connector_1.5_spec</include>
-                                    <include>org.slf4j:jcl104-over-slf4j</include>
-                                    <include>org.slf4j:slf4j-api</include>
-                                    <include>org.slf4j:slf4j-log4j12</include>
+                                    <!--<include>org.slf4j:jcl104-over-slf4j</include>-->
+                                    <!--<include>org.slf4j:slf4j-api</include>-->
+                                    <!--<include>org.slf4j:slf4j-log4j12</include>-->
                                     <!--<include>log4j:log4j</include>-->
                                     <include>asm:asm</include>
                                     <include>asm:asm-commons</include>
