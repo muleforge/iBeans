@@ -59,7 +59,8 @@ runMaven(cmdline, existingProjectDir)
 
 def runMaven(String commandline, File directory)
 {
-  def maven = "mvn"
+  //TODO build server not picking mvn up in the path
+  def maven = "/opt/maven/current/bin/mvn"
   if (SystemUtils.IS_OS_WINDOWS)
   {
     maven = "mvn.bat"
