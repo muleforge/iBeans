@@ -10,7 +10,7 @@
 package org.mule.ibeans.example.channels.jms;
 
 import org.mule.ibeans.config.ChannelConfigBuilder;
-import org.mule.ibeans.config.guice.AbstractGuiceIBeansModule;
+import org.mule.ibeans.module.guice.AbstractGuiceIBeansModule;
 import org.mule.transport.jms.activemq.ActiveMQJmsConnector;
 
 /**

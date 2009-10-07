@@ -124,17 +124,17 @@ public class TomcatUpdater
             }
             StringBuffer sharedLoader = new StringBuffer();
             sharedLoader.append(SHARED_LOADER_PROPERTY).append("=");
-            sharedLoader.append("${catalina.home}/mule-ibeans/conf,${catalina.home}/mule-ibeans/lib/*.jar,${catalina.home}/mule-ibeans/lib/ibeans/deployed/*.jar");
-            File deployed = new File(modulesPath, "deployed");
-            File[] fileModules = deployed.listFiles();
-            for (int i = 0; i < fileModules.length; i++)
-            {
-                File fileModule = fileModules[i];
-                if (fileModule.isDirectory())
-                {
-                    sharedLoader.append(",${catalina.home}/mule-ibeans/lib/modules/deployed/").append(fileModule.getName()).append("/*.jar");
-                }
-            }
+            sharedLoader.append("${catalina.home}/mule-ibeans/conf,${catalina.home}/mule-ibeans/lib/*.jar,${catalina.home}/mule-ibeans/lib/ibeans/deployed/*.jar,${catalina.home}/mule-ibeans/lib/modules/deployed/*.jar");
+//            File deployed = new File(modulesPath, "deployed");
+//            File[] fileModules = deployed.listFiles();
+//            for (int i = 0; i < fileModules.length; i++)
+//            {
+//                File fileModule = fileModules[i];
+//                if (fileModule.isDirectory())
+//                {
+//                    sharedLoader.append(",${catalina.home}/mule-ibeans/lib/modules/deployed/").append(fileModule.getName()).append("/*.jar");
+//                }
+//            }
 
             File newConfig = new File(catalinaProps.getAbsolutePath() + ".new");
             if (newConfig.exists())

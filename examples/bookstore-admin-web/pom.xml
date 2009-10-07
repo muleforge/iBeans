@@ -46,7 +46,7 @@
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-rest</artifactId>
             <version>${version}</version>
-            <type>pom</type>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

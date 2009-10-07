@@ -33,77 +33,66 @@
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-http</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-atom</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-shell</artifactId>
             <version>${version}</version>
-            <!-- note this is a JAR not a POM-->
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-jms-client</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-email</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-xml</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-guice</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-ajax</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-scheduler</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-rest</artifactId>
             <version>${version}</version>
-            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-spring</artifactId>
             <version>${version}</version>
-            <type>jar</type>
         </dependency>
 
         <!--        <dependency>

@@ -87,10 +87,10 @@ public class PluginsServiceImpl extends RemoteServiceServlet implements PluginsS
     public List<Plugin> getInstalledPlugins() throws ClientIBeansException
     {
         List<Plugin> plugins = new ArrayList<Plugin>();
-        readIBeansDirectory(new File(ibeans, DEPLOYED_NAME), plugins);
-        readIBeansDirectory(new File(ibeans, NOT_DEPLOYED_NAME), plugins);
-        readModulesDirectory(new File(modules, DEPLOYED_NAME), plugins);
-        readModulesDirectory(new File(modules, NOT_DEPLOYED_NAME), plugins);
+        readLibDirectory(new File(ibeans, DEPLOYED_NAME), plugins, Plugin.TYPE_IBEAN);
+        readLibDirectory(new File(ibeans, NOT_DEPLOYED_NAME), plugins, Plugin.TYPE_IBEAN);
+        readLibDirectory(new File(modules, DEPLOYED_NAME), plugins, Plugin.TYPE_MODULE);
+        readLibDirectory(new File(modules, NOT_DEPLOYED_NAME), plugins, Plugin.TYPE_MODULE);
         readWebAppPlugins(plugins);
         return plugins;
     }
@@ -145,7 +145,7 @@ public class PluginsServiceImpl extends RemoteServiceServlet implements PluginsS
         return plugins;
     }
 
-    protected void readIBeansDirectory(File dir, List<Plugin> plugins)
+    protected void readLibDirectory(File dir, List<Plugin> plugins, String type)
     {
         File[] ibeanJars = dir.listFiles(new FilenameFilter()
         {
@@ -159,7 +159,7 @@ public class PluginsServiceImpl extends RemoteServiceServlet implements PluginsS
             File file = ibeanJars[i];
             try
             {
-                plugins.add(createIBean(file));
+                plugins.add(createPluginData(file, type));
             }
             catch (Throwable t)
             {
@@ -309,7 +309,7 @@ public class PluginsServiceImpl extends RemoteServiceServlet implements PluginsS
 
     }
 
-    protected Plugin createIBean(File jar) throws IOException
+    protected Plugin createPluginData(File jar, String type) throws IOException
     {
         Plugin plugin = new Plugin();
         JarFile file = new JarFile(jar);
@@ -329,7 +329,7 @@ public class PluginsServiceImpl extends RemoteServiceServlet implements PluginsS
         plugin.setVersion(manifest.getMainAttributes().getValue(Attributes.Name.IMPLEMENTATION_VERSION));
         plugin.setUrl(manifest.getMainAttributes().getValue(Attributes.Name.IMPLEMENTATION_URL));
         plugin.setInstalled(true);
-        plugin.setType(Plugin.TYPE_IBEAN);
+        plugin.setType(type);
         plugin.setEnabled(!jar.getAbsolutePath().contains(NOT_DEPLOYED_NAME));
         plugin.setFilename(jar.getName());
 

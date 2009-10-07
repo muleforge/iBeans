@@ -27,9 +27,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.mule.modules</groupId>
-            <artifactId>mule-module-guice</artifactId>
-            <version>${muleVersion}</version>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-guice</artifactId>
+            <version>${version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

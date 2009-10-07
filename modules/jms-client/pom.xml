@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.ibeans</groupId>
     <artifactId>ibeans-module-jms-client</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>iBeans JMS client module</name>
     <description>Provides support for interacting with JMS servers. The module also has support for converting
         javax.jms.Message instances.
@@ -59,4 +59,30 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.mule.transports:mule-transport-jms</include>
+                                    <include>org.apache.geronimo.specs:geronimo-jms_1.1_spec</include>
+                                    <include>org.apache.geronimo.specs:geronimo-j2ee-management_1.0_spec</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

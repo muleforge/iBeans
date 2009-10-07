@@ -26,11 +26,10 @@ import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.module.xml.transformer.XmlPrettyPrinter;
+import org.mule.routing.filters.ExpressionFilter;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringMessageUtils;
 import org.mule.util.TemplateParser;
-import org.mule.RequestContext;
-import org.mule.routing.filters.ExpressionFilter;
 
 import java.beans.ExceptionListener;
 import java.lang.reflect.InvocationHandler;
@@ -110,6 +109,14 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         {
             return toString();
         }
+        else if (method.getName().equals("hashCode"))
+        {
+            return hashCode();
+        }
+        else if (method.getName().equals("equals"))
+        {
+            return equals(args[0]);
+        }
         else if (method.getName().equals("setExceptionListener"))
         {
             exceptionListener = (ExceptionListener) args[0];
@@ -120,7 +127,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         //Not keen on proprty munging here be the endpoint sometimes has default props
         //that we should make available to the context
         ImmutableEndpoint endpoint = getCallHandler().getEndpointForMethod(method);
-        if(endpoint!=null && endpoint.getProperties().size() > 0)
+        if (endpoint != null && endpoint.getProperties().size() > 0)
         {
             for (Iterator iterator = endpoint.getProperties().entrySet().iterator(); iterator.hasNext();)
             {
@@ -128,7 +135,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                 ctx.getPropertyParams().put(entry.getKey().toString(), entry.getValue());
             }
         }
-        
+
         if (ctx.isStateCall())
         {
             //State methods return null
@@ -231,7 +238,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                 {
                     try
                     {
-                            finalResult = ctx.getIBeansContext().transform(result, retType);
+                        finalResult = ctx.getIBeansContext().transform(result, retType);
                     }
                     catch (TransformerException e)
                     {
@@ -285,7 +292,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
             expr = parser.parse(ctx.getPropertyParams(), expr);
         }
 
-        if(Boolean.class.equals(ctx.getReturnType()) || boolean.class.equals(ctx.getReturnType()))
+        if (Boolean.class.equals(ctx.getReturnType()) || boolean.class.equals(ctx.getReturnType()))
         {
             ExpressionFilter filter = new ExpressionFilter(expr);
             filter.setMuleContext(muleContext);

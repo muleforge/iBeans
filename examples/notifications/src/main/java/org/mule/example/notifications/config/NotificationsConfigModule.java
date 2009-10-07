@@ -20,7 +20,7 @@ import org.mule.example.notifications.EchoService;
 import org.mule.example.notifications.HeartbeatAgent;
 import org.mule.example.notifications.HeartbeatNotification;
 import org.mule.ibeans.config.ChannelConfigBuilder;
-import org.mule.ibeans.config.guice.AbstractGuiceIBeansModule;
+import org.mule.ibeans.module.guice.AbstractGuiceIBeansModule;
 import org.mule.module.json.transformers.ObjectToJson;
 import org.mule.routing.filters.PayloadTypeFilter;
 

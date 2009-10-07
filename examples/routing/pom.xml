@@ -20,14 +20,6 @@
             <artifactId>mule-core</artifactId>
             <version>${muleVersion}</version>
             <type>test-jar</type>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.modules</groupId>
-            <artifactId>mule-module-annotations</artifactId>
-            <version>${muleVersion}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -36,18 +28,11 @@
             <version>${version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.mule.tests</groupId>
-            <artifactId>mule-tests-functional</artifactId>
-            <version>${muleVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- JMS tests -->
         <dependency>
-            <groupId>org.mule.transports</groupId>
-            <artifactId>mule-transport-jms</artifactId>
-            <version>${muleVersion}</version>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-jms-client</artifactId>
+            <version>${version}</version>
             <scope>test</scope>
         </dependency>
 

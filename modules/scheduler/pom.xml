@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.ibeans</groupId>
     <artifactId>ibeans-module-scheduler</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>iBeans Scheduler module</name>
     <description>Provides support for scheduling talks using cron expressions or fixed time delays.</description>
 
@@ -57,4 +57,30 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.mule.transports:mule-transport-quartz</include>
+                                    <include>quartz:quartz-all</include>
+                                    <include>org.mule.modules:mule-module-client</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

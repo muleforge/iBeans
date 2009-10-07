@@ -13,7 +13,7 @@ import org.mule.api.MuleContext;
 import org.mule.api.config.MuleProperties;
 import org.mule.ibeans.ConfigManager;
 import org.mule.ibeans.config.IBeanHolder;
-import org.mule.ibeans.internal.ext.jabsorb.EnumSerializer;
+import org.mule.ibeans.web.jabsorb.EnumSerializer;
 
 import java.io.IOException;
 import java.util.Collection;

@@ -4,8 +4,6 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-
-
     <listener>
         <listener-class>org.mule.ibeans.web.IBeansServletContextListener</listener-class>
     </listener>
@@ -32,8 +30,8 @@
     </servlet>
 
     <!--<servlet-mapping>-->
-        <!--<servlet-name>ibeans</servlet-name>-->
-        <!--<url-pattern>/ibeans/*</url-pattern>-->
+    <!--<servlet-name>ibeans</servlet-name>-->
+    <!--<url-pattern>/ibeans/*</url-pattern>-->
     <!--</servlet-mapping>-->
 
     <servlet-mapping>

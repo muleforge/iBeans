@@ -15,18 +15,19 @@ import org.mule.ibeans.api.client.Call;
 import org.mule.ibeans.api.client.Template;
 import org.mule.ibeans.internal.util.UriParamFilter;
 import org.mule.impl.endpoint.AnnotatedEndpointData;
+import org.mule.util.PropertiesUtils;
 import org.mule.util.TemplateParser;
 
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 
 import javax.activation.DataSource;
 
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.util.ParameterParser;
 
 /**
  * Holds the current state of an iBean at the point a method invocation was made. This object is used by the {@link org.mule.ibeans.api.client.params.ParamFactory}
@@ -72,17 +73,16 @@ public class InvocationContext
         final String fullUri = call.uri();
         String uri = fullUri.substring(fullUri.indexOf('?') + 1);
 
-        // reparse the query string, we'll need to omit this 'signature' param
-        final List<NameValuePair> queryParams = new ParameterParser().parse(uri, '&');
-
-        for (NameValuePair param : queryParams)
+        Properties queryParams = PropertiesUtils.getPropertiesFromQueryString(uri);
+        for (Iterator<Object> iterator = queryParams.keySet().iterator(); iterator.hasNext();)
         {
-            if (!getUriParams().containsKey(param.getName()))
+            String key = (String) iterator.next();
+            if (!getUriParams().containsKey(key))
             {
-                getUriParams().put(param.getName(), param.getValue());
+                getUriParams().put(key, queryParams.getProperty(key));
             }
-        }
 
+        }
         //finally, add the endpoint properties to the propertyParams
         if (call.properties().length > 0)
         {

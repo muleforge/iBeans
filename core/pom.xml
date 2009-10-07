@@ -17,6 +17,60 @@
     <description>Mule Integration Beans Core Implementation</description>
     <url>http://www.mulesoft.org/ibeans</url>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.mule:mule-core</include>
+                                    <include>org.mule:mule-core:tests</include>
+                                    <include>org.mule.tests:mule-tests-functional</include>
+                                    <include>org.mule.modules:mule-module-annotations</include>
+                                    <include>javax.annotation:jsr250-api</include>
+                                    <include>javax.inject:jsr330-api</include>
+                                    <include>org.mule.modules:mule-module-builders</include>
+                                    <include>org.mule.modules:mule-module-management</include>
+                                    <include>org.mule.transports:mule-transport-vm</include>
+                                    <include>org.mule.transports:mule-transport-servlet</include>
+                                    <include>commons-beanutils:commons-beanutils</include>
+                                    <include>backport-util-concurrent:backport-util-concurrent</include>
+                                    <include>commons-cli:commons-cli</include>
+                                    <include>commons-collections:commons-collections</include>
+                                    <include>commons-io:commons-io</include>
+                                    <include>commons-lang:commons-lang</include>
+                                    <include>commons-pool:commons-pool</include>
+                                    <include>javax.activation:activation</include>
+                                    <include>org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec</include>
+                                    <include>org.apache.geronimo.specs:geronimo-j2ee-connector_1.5_spec</include>
+                                    <include>org.slf4j:jcl104-over-slf4j</include>
+                                    <include>org.slf4j:slf4j-api</include>
+                                    <include>org.slf4j:slf4j-log4j12</include>
+                                    <!--<include>log4j:log4j</include>-->
+                                    <include>asm:asm</include>
+                                    <include>asm:asm-commons</include>
+                                    <include>asm:asm-tree</include>
+                                    <include>junit:junit</include>
+                                    <include>cglib:cglib-nodep</include>
+                                    <include>org.mockito:mockito-all</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
     <dependencies>
         <dependency>
             <groupId>org.mule</groupId>
@@ -41,28 +95,35 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-http</artifactId>
-            <version>${version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-http</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
         <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-guice</artifactId>
-            <version>${version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-servlet</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-ajax</artifactId>
-            <version>${version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Mule Dependencies -->
 
         <dependency>
             <groupId>org.mule.modules</groupId>
@@ -151,7 +212,7 @@
 
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-servlet_2.4_spec</artifactId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
             <version>1.1</version>
             <scope>provided</scope>
         </dependency>
@@ -162,18 +223,28 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.jabsorb</groupId>
-            <artifactId>jabsorb</artifactId>
-            <version>1.3.1</version>
-        </dependency>
-
         <!-- For testing -->
         <dependency>
             <groupId>org.mule</groupId>
             <artifactId>mule-core</artifactId>
             <version>${muleVersion}</version>
             <type>test-jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-functional</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

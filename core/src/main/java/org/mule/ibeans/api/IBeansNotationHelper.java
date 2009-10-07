@@ -21,8 +21,9 @@ public class IBeansNotationHelper
     {
         String name = clazz.getSimpleName();
         int i = name.indexOf(IBEAN_POSTFIX);
-        if(i> -1)
+        if (i > -1)
         {
+            name = name.replaceAll("-", name);
             return name.substring(0, i).toLowerCase();
         }
         else
@@ -33,7 +34,7 @@ public class IBeansNotationHelper
 
     public static String getIBeanClassName(String id, String packageName)
     {
-        if(packageName==null)
+        if (packageName == null)
         {
             packageName = DEFAULT_BASE_PACKAGE + id;
         }

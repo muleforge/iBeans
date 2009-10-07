@@ -12,7 +12,7 @@ package org.mule.ibeans.example.routing.requestresponse;
 import org.mule.ibeans.api.application.ReceiveAndReply;
 import org.mule.ibeans.api.application.params.MessagePayload;
 
-import org.dom4j.Document;
+import org.w3c.dom.Document;
 
 /**
  * A bean the receives and replies on an URI. The {@link org.mule.ibeans.api.application.params.MessagePayload} parameter annotation
@@ -24,7 +24,7 @@ public class SimpleProcessingBean
     @ReceiveAndReply(uri = "vm://test")
     public Document processXml(@MessagePayload Document doc)
     {
-        doc.selectSingleNode("/foo/bar").setText("hello");
+        doc.getElementsByTagName("bar").item(0).setTextContent("hello");
         return doc;
     }
 }

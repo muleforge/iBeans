@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.example.channels.jms;
 
-import org.mule.ibeans.test.AbstractGuiceIBeansTestCase;
+import org.mule.ibeans.module.guice.AbstractGuiceIBeansTestCase;
 
 /**
  * Test using a Jms Channel configured using a Guice module

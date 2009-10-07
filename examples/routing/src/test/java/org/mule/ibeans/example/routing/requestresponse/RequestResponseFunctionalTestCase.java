@@ -9,9 +9,10 @@
  */
 package org.mule.ibeans.example.routing.requestresponse;
 
+import org.mule.ibeans.IBeansSupport;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
-import org.dom4j.Document;
+import org.w3c.dom.Document;
 
 
 /**
@@ -29,6 +30,6 @@ public class RequestResponseFunctionalTestCase extends AbstractIBeansTestCase
     {
         Document result = iBeansContext.request("vm://test", Document.class, "<foo><bar></bar></foo>");
         assertNotNull(result);
-        assertEquals("hello", result.selectSingleNode("/foo/bar").getText());
+        assertEquals("hello", IBeansSupport.selectOne("/foo/bar", result).getTextContent());
     }
 }

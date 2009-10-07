@@ -23,7 +23,7 @@
 * limitations under the License.
 *
 */
-package org.mule.ibeans.internal.ext.jabsorb;
+package org.mule.ibeans.web.jabsorb;
 
 import org.jabsorb.serializer.AbstractSerializer;
 import org.jabsorb.serializer.MarshallException;

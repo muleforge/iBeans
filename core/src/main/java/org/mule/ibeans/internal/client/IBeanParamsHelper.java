@@ -141,7 +141,7 @@ public class IBeanParamsHelper
             else if (anno.annotationType().equals(ExpressionErrorFilter.class))
             {
                 ExpressionErrorFilter filter = (ExpressionErrorFilter) anno;
-                errorFilter = new ErrorExpressionFilter( filter.expr());
+                errorFilter = new ErrorExpressionFilter(filter.expr());
                 errorFilters.put(filter.mimeType(), errorFilter);
             }
             else
@@ -153,7 +153,7 @@ public class IBeanParamsHelper
         methodErrorFilters = new HashMap<Method, ErrorExpressionFilter>();
         for (AnnotationMetaData result : results)
         {
-            methodErrorFilters.put((Method)result.getMember(), new ErrorExpressionFilter(((ExpressionErrorFilter)result.getAnnotation()).expr()));
+            methodErrorFilters.put((Method) result.getMember(), new ErrorExpressionFilter(((ExpressionErrorFilter) result.getAnnotation()).expr()));
         }
 
         for (ExpressionFilter filter : errorFilters.values())
@@ -393,11 +393,13 @@ public class IBeanParamsHelper
 
     private void checkReturnClass(Class c, Method m)
     {
-        if(c.isPrimitive() && !void.class.equals(c))
+        if (c.isPrimitive() && !void.class.equals(c) && !m.getName().equals("equals") && !m.getName().equals("hashcode"))
         {
-            throw new IllegalArgumentException("iBean methods can only return objects , not primitives." + (m!=null ? "Method is: " + m : ""));
+
+            throw new IllegalArgumentException("iBean methods can only return objects, not primitives." + (m != null ? "Method is: " + m : "") + ". Class is: " + c);
         }
     }
+
     private Class getReturnClass(Method method)
     {
         Class ret;

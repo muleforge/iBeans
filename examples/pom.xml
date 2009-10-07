@@ -113,17 +113,19 @@
         </dependency>
 
         <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${muleVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-all</artifactId>
             <version>1.0-beta-7-SNAPSHOT</version>
             <scope>provided</scope>
             <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.mule.tests</groupId>
-            <artifactId>mule-tests-functional</artifactId>
-            <version>${muleVersion}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>

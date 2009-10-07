@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.ibeans</groupId>
     <artifactId>ibeans-module-rest</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>iBeans REST module</name>
     <description>Provides support for creating REST-style services using JAX-RS.</description>
 
@@ -47,4 +47,30 @@
             <version>1.0.2</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.sun.jersey:jersey-server</include>
+                                    <include>com.sun.jersey:jersey-core</include>
+                                    <include>javax.ws.rs:jsr311-api</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

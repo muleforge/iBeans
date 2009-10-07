@@ -7,9 +7,10 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.test;
+package org.mule.ibeans.module.guice;
 
 import org.mule.api.config.ConfigurationException;
+import org.mule.ibeans.test.AbstractIBeansTestCase;
 import org.mule.module.guice.GuiceConfigurationBuilder;
 
 import com.google.inject.Module;

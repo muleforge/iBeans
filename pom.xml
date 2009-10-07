@@ -44,6 +44,7 @@
         <module>console</module>
         <module>tools</module>
         <module>ibeans-all</module>
+        <module>ibeansCentral</module>
     </modules>
 
     <!-- Organization -->
@@ -333,6 +334,11 @@
                     <artifactId>maven-googlewebtoolkit2-plugin</artifactId>
                     <version>2.0-RC1</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>1.2.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -504,6 +510,154 @@
                             <Dev-List-Email>dev@mule.codehaus.org</Dev-List-Email>
                         </manifestEntries>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>full</shadedClassifierName>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.apache.geronimo</pattern>
+                            <shadedPattern>org.mule.ibeans.org.apache.geronimo</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.commons</pattern>
+                            <shadedPattern>org.mule.ibeans.org.apache.commons</shadedPattern>
+                            <excludes>
+                                <exclude>org.apache.commons.beanutils.DynaBean</exclude>
+                                <exclude>org.apache.commons.logging.*</exclude>
+                                <!--<exclude>org.apache.commons.httpclient.*</exclude>-->
+                                <exclude>org.apache.log4j.RollingFileAppender</exclude>
+                            </excludes>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.sf</pattern>
+                            <shadedPattern>org.mule.ibeans.net.sf</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.log4j</pattern>
+                            <shadedPattern>org.mule.ibeans.org.apache.log4j</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.objectweb</pattern>
+                            <shadedPattern>org.mule.ibeans.org.objectweb</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.slf4j</pattern>
+                            <shadedPattern>org.mule.ibeans.org.slf4j</shadedPattern>
+                        </relocation>
+                        <!--<relocation>-->
+                        <!--<pattern>org.mockito</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.org.mockito</shadedPattern>-->
+                        <!--</relocation>-->
+                        <!--<relocation>-->
+                        <!--<pattern>edu.emory</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.edu.emory</shadedPattern>-->
+                        <!--</relocation>-->
+                        <relocation>
+                            <pattern>org.objenesis</pattern>
+                            <shadedPattern>org.mule.ibeans.org.objenesis</shadedPattern>
+                        </relocation>
+
+                        <!-- AJAX -->
+                        <relocation>
+                            <pattern>org.mortbay</pattern>
+                            <shadedPattern>org.mule.ibeans.org.mortbay</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jabsorb</pattern>
+                            <shadedPattern>org.mule.ibeans.org.jabsorb</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.json</pattern>
+                            <shadedPattern>org.mule.ibeans.org.json</shadedPattern>
+                        </relocation>
+                        <!-- ATOM -->
+                        <!--<relocation>-->
+                        <!--<pattern>org.apache.abdera</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.org.apache.abdera</shadedPattern>-->
+                        <!--<excludes>-->
+                        <!--<exclude>org.apache.abdera.model.*</exclude>-->
+                        <!--</excludes>-->
+                        <!--</relocation>-->
+                        <!-- XML -->
+                        <!--TODO REMOVE DEPENDENCY ON DOM4J AND JAXEN -->
+                        <!--<relocation>-->
+                        <!--<pattern>org.dom4j</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.org.dom4j</shadedPattern>-->
+                        <!--</relocation>-->
+                        <relocation>
+                            <pattern>org.xmlpull</pattern>
+                            <shadedPattern>org.mule.ibeans.org.xmlpull</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.java.dev</pattern>
+                            <shadedPattern>org.mule.ibeans.net.java.dev</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jaxen</pattern>
+                            <shadedPattern>org.mule.ibeans.org.jaxen</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.thoughtworks</pattern>
+                            <shadedPattern>org.mule.ibeans.com.thoughtworks</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.ctc</pattern>
+                            <shadedPattern>org.mule.ibeans.com.ctc</shadedPattern>
+                            <excludes>
+                                <!-- XML factories are referenced using a string class name and do not get replaced
+                        by shade, need to make these classes available -->
+                                <exclude>com.ctc.wstx.stax.*</exclude>
+                            </excludes>
+                        </relocation>
+                        <relocation>
+                            <pattern>javanet</pattern>
+                            <shadedPattern>org.mule.ibeans.javanet</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.codehaus</pattern>
+                            <shadedPattern>org.mule.ibeans.org.codehaus</shadedPattern>
+                        </relocation>
+                    </relocations>
+
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Specification-Title>${pom.artifactId}</Specification-Title>
+                                <Implementation-Title>${pom.name}</Implementation-Title>
+                                <Implementation-Version>${pom.version}</Implementation-Version>
+                                <Implementation-Vendor-Url>${pom.organization.url}</Implementation-Vendor-Url>
+                                <Implementation-Vendor>${pom.organization.name}</Implementation-Vendor>
+                                <Implementation-Vendor-Id>${pom.groupId}</Implementation-Vendor-Id>
+                                <Product-Description>${pom.description}</Product-Description>
+                                <Implementation-Url>${pom.url}</Implementation-Url>
+                                <Bug-Tracker>${issueManagement.url}</Bug-Tracker>
+                                <License-Url>${licenseUrl}</License-Url>
+                                <License-Title>${licenseId}</License-Title>
+                                <Support>For commercial support go to: ${pom.organization.url}}</Support>
+
+                                <!-- This would work if this issue gets closed: http://jira.codehaus.org/browse/MNG-1832 -->
+                                <!--Build-Date>${mvn.timestamp.yyyy-MM-dd-HH:mm:ss}</Build-Date-->
+                                <!-- include repository revision from buildnumber plugin -->
+
+                                <!-- MULE-3783 Exclude for now as otherwise bundle manifest don't get these properties
+                                     Only a few jars that are not converted to bundles yet will have these entries missing
+                                     and more important bundles will now have this entry.
+                                <Build-Revision>${buildNumber}</Build-Revision>
+                                <Build-Date>${timestamp}</Build-Date>
+                                -->
+                                <Dev-List-Email>dev@mule.codehaus.org</Dev-List-Email>
+                            </manifestEntries>
+                        </transformer>
+
+                    </transformers>
                 </configuration>
             </plugin>
         </plugins>

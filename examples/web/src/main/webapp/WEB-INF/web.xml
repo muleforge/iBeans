@@ -9,11 +9,6 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <servlet>
-        <servlet-name>test</servlet-name>
-        <servlet-class>org.mule.ibeans.TestServlet</servlet-class>
-    </servlet>
-
     <!--<servlet>-->
     <!--<servlet-name>ajax</servlet-name>-->
     <!--<servlet-class>org.mule.ibeans.web.IBeansAjaxServlet</servlet-class>-->

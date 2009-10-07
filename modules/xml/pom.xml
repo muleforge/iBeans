@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.ibeans</groupId>
     <artifactId>ibeans-module-xml</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>iBeans XML module</name>
     <description>Provides support for working with XML formats (using JAXP) and XSLT. The module provides a number of
         transformers for working with XML representations including String, DOM and streaming.
@@ -110,4 +110,36 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <!--TODO REMOVE DEPENDENCY ON DOM4J AND JAXEN -->
+                                    <include>org.mule.modules:mule-module-xml</include>
+                                    <include>dom4j:dom4j</include>
+                                    <include>jaxen:jaxen</include>
+                                    <include>com.thoughtworks.xstream:xstream</include>
+                                    <include>xpp3:xpp3_min</include>
+                                    <include>org.codehaus.woodstox:wstx-asl</include>
+                                    <include>net.java.dev.stax-utils:stax-utils</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -137,14 +137,12 @@
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-atom</artifactId>
             <version>${version}</version>
-            <type>pom</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-http</artifactId>
             <version>${version}</version>
-            <type>pom</type>
             <scope>provided</scope>
         </dependency>
     </dependencies>

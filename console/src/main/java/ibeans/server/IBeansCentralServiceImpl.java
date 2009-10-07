@@ -1,17 +1,17 @@
 package ibeans.server;
 
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.ibeanscentral.IbeansCentralIBean;
-import org.mule.ibeans.ibeanscentral.IBeanInfo;
 import org.mule.ibeans.IBeansContext;
+import org.mule.ibeans.api.client.CallException;
+import org.mule.ibeans.ibeanscentral.IBeanInfo;
+import org.mule.ibeans.ibeanscentral.IbeansCentralIBean;
 import org.mule.util.IOUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -77,6 +77,10 @@ public class IBeansCentralServiceImpl extends RemoteServiceServlet implements IB
             throw new ServletException("Could not find Mule iBeans directory: " + ibeansPath + ". Make sure you have the catalina.home set or pass in the home path when running this util");
         }
 
+        //TODO, listener does not fire in hsted mode for some reason
+//        IBeansServletContextListener l = new IBeansServletContextListener();
+//        l.initialize(getServletContext());
+
         iBeansContext = (IBeansContext) getServletContext().getAttribute(IBeansContext.CONTEXT_PROPERTY);
         ibeansCentral = iBeansContext.createIBean(IbeansCentralIBean.class);
 
@@ -131,7 +135,7 @@ public class IBeansCentralServiceImpl extends RemoteServiceServlet implements IB
         try
         {
             IBeanInfo ibean = userIbeansCentral.getIBeanByShortName(id, version);
-            if(ibean==null)
+            if (ibean == null)
             {
                 throw new ClientIBeansException("iBean  not found: " + id + "(" + version + ")");
             }
