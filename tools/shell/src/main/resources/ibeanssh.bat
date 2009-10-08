@@ -42,4 +42,4 @@ goto end
 echo You need to have the iBeans Shell module for iBeans installed. Go to http://localhost:8080/ibeans (or where ever you have iBeans running) and install the iBeans Shell module.
 
 :end
-ENDLOCAL
+ENDLOCAL
