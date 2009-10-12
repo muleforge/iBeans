@@ -10,6 +10,7 @@
 package org.mule.ibeans;
 
 import org.mule.ibeans.api.client.views.TextUsageView;
+import org.mule.ibeans.api.client.views.TextView;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
 /**
@@ -26,8 +27,17 @@ public class TextUsageViewTestCase extends AbstractIBeansTestCase
         assertNotNull(string);
         System.out.println(string);
 
+        TextView view2 = new TextView();
+        String string2 = view2.createView(TestUriIBean.class);
+
+        assertNotNull(string2);
+        System.out.println(string2);
+
+
         assertTrue(string.contains("doSomething("));
         assertTrue(string.contains("doSomethingElse("));
         assertTrue(string.contains("doSomethingNoParams("));
+
+        assertEquals(string, string2);
     }
 }

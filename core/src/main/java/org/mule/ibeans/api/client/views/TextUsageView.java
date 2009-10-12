@@ -36,6 +36,8 @@ import java.util.Set;
 
 /**
  * Creates a text representation of the iBean, which is useful for describing how to use the iBean
+ *
+ * @deprecated use {@link TextView}
  */
 public class TextUsageView implements IBeanView
 {
