@@ -95,8 +95,9 @@ public class IBeanCentralTransformers
         info.setDownloadUri(entry.getContentSrc().toString());
         info.setAuthorName(props.getProperty("jar.manifest.Implementation-Vendor"));
         info.setAuthorUrl(props.getProperty("jar.manifest.Implementation-Vendor-Url"));
-        info.setLicenseName(props.getProperty("License-Title"));
-        info.setLicenseUrl(props.getProperty("License-Url"));
+        info.setLicenseName(props.getProperty("jar.manifest.License-Title"));
+        info.setLicenseUrl(props.getProperty("jar.manifest.License-Url"));
+        info.setUrl(props.getProperty("jar.manifest.Implementation-Url"));
         return info;
     }
 

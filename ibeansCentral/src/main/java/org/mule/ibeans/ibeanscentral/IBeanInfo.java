@@ -30,7 +30,10 @@ public class IBeanInfo
     private String licenseUrl;
 
     private String authorName;
+
     private String authorUrl;
+
+    private String url;
 
     public String getShortName()
     {
@@ -135,5 +138,15 @@ public class IBeanInfo
     public void setAuthorUrl(String authorUrl)
     {
         this.authorUrl = authorUrl;
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
     }
 }

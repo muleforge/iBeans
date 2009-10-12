@@ -10,7 +10,6 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
-import com.extjs.gxt.ui.client.widget.Html;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
@@ -24,17 +23,6 @@ import com.extjs.gxt.ui.client.widget.grid.RowExpander;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +126,7 @@ public class IBeansCentralPanel extends LayoutContainer
         String template = "<table cellpadding='10' cellspacing='10'><tr>\n" +
                 "    <td rowspan=\"3\" valign=\"top\" width=\"58\"><img src=\"images/{type}.jpg\" height=\"54\" width=\"58\"></td>\n" +
                 "    <td width='*' colspan='2'>{description}</td>\n" +
-                "  </tr><tr><td><b>Author:</b> {author}</td><td></td></tr>" +
+                "  </tr><tr><td><b>Author: </b><a href='${authorUrl}' target='_blank'>{author}</a></td><td></td></tr>" +
                 "<tr><td><b>URL:</b> <a href='{url}' target='_blank'>{url}</a></td><td> </td></tr>" +
                 "<tr><td></td><td><b>License:<b> <a href='{licenseUrl}' target='_blank'>{licenseName}</a></td><td></td></tr></table>";
 

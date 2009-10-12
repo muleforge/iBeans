@@ -114,16 +114,9 @@ public class IBeansCentralServiceImpl extends RemoteServiceServlet implements IB
         p.setAuthor(info.getAuthorName());
         p.setLicenseName(info.getLicenseName());
         p.setLicenseUrl(info.getLicenseUrl());
+        p.setUrl(info.getUrl());
         //p.setDownloadUrl(ibeansCentral.getIBeanDownloadUrl(info).toString());
         return p;
-    }
-
-    public List<Plugin> getAvailableModules() throws ClientIBeansException
-    {
-        //Not used yet
-        List<Plugin> list = new ArrayList<Plugin>();
-        list.add(new Plugin("bar", "Bar Module", "Does some crazy stuff in bars", "1.0", Plugin.TYPE_MODULE));
-        return list;
     }
 
     public String downloadIBean(String user, String pass, String id, String version) throws ClientIBeansException

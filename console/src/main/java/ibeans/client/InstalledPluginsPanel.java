@@ -115,7 +115,7 @@ public class InstalledPluginsPanel extends LayoutContainer
         String template = "<table cellpadding='10' cellspacing='10'><tr>\n" +
                 "    <td rowspan=\"3\" valign=\"top\" width=\"58\"><img src=\"images/{type}.jpg\" height=\"54\" width=\"58\"></td>\n" +
                 "    <td width='*' colspan='2'>{description}</td>\n" +
-                "  </tr><tr><td><b>Author:</b> {author}</td><td></td></tr>" +
+                "  </tr><tr><td><b>Author:</b> <a href='${authorUrl}' target='_blank'>{author}</a></td><td></td></tr>" +
                 "<tr><td><b>URL:</b> <a href='{url}' target='_blank'>{url}</a></td><td> </td></tr>" +
                 "<tr><td></td><td><b>License:<b> <a href='{licenseUrl}' target='_blank'>{licenseName}</a></td><td></td></tr></table>";
 
