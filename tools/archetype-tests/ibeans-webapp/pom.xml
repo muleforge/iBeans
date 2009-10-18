@@ -41,17 +41,6 @@
                 <groupId>org.codehaus.mojo.groovy</groupId>
                 <artifactId>groovy-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <!-- TODO: this is just a workaround so the sources plugin does not barf 
-                         Ideally, we would be able to exclude the source plugin here but 
-                         somehow that does not work.
-                         -->
-                    <includePom>true</includePom>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 </project>

@@ -42,21 +42,4 @@
             <version>1.1.2</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <!-- TODO: this is just a workaround so the sources plugin does not barf -->
-                    <includePom>true</includePom>
-                    <!--                     <includes> -->
-                    <!--                         <include>pom.xml</include> -->
-                    <!--                         <include>src/main/webapp/**</include> -->
-                    <!--                     </includes> -->
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
