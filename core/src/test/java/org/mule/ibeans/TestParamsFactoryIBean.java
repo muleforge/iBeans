@@ -54,6 +54,9 @@ public interface TestParamsFactoryIBean extends ExceptionListenerAware
     @Template("Value is: {foo}")
     public MuleMessage doMethodHeaderParam(@UriParam("foo") String foo, @HeaderParam("echoHeader") EchoParamFactory factory) throws CallException;
 
+    @Template("Value is: {foo}")
+    public MuleMessage doMethodPropertyParam(@UriParam("foo") String foo, @PropertyParam("customProperty") String prop, @HeaderParam("propHeader") ReversePropertyParamFactory factory) throws CallException;
+
     @Template("<foo><bar>true</bar></foo>")
     @Return("xpath:/foo/bar")
     public Boolean isReturnExpressionWorking() throws CallException;

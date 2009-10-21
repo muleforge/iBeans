@@ -336,13 +336,20 @@ public class IBeanParamsHelper
                     }
                     else if (annotation.annotationType().equals(PropertyParam.class))
                     {
+                        //IBEANS-95 allow @PropertyParams on Call methods as a way to pass data to a Factory
+                        //but don't allow ParamFactories to be used for @PropertyParams on @Call method since
+                        //thier only purpose is to pass in data to a factory
                         if (stateCall)
                         {
                             addPropertyParam((PropertyParam) annotation, args[i], method, defaultPropertyParams, optional);
                         }
+                        else if (args[i] instanceof ParamFactory)
+                        {
+                            throw new IllegalArgumentException("The @PropertyParam can only be used on call methods without a ParamFactory return type");
+                        }
                         else
                         {
-                            throw new IllegalArgumentException("The @PropertyParam can only be used on methods marked with the @State annotation");
+                            addPropertyParam((PropertyParam) annotation, args[i], method, propertyParams, optional);
                         }
                     }
                     else if (annotation.annotationType().equals(PayloadParam.class))

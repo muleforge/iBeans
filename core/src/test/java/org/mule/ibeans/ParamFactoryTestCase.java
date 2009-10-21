@@ -59,4 +59,16 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         assertEquals("echoHeader", result.getProperty("echoHeader"));
     }
 
+    public void testPropertyParamsOnMethod() throws Exception
+    {
+        testIBean.init("shhh".getBytes());
+
+        MuleMessage result = testIBean.doMethodPropertyParam("secret", "hello", new ReversePropertyParamFactory("customProperty"));
+        assertNotNull(result);
+        assertEquals("Value is: secret", result.getPayloadAsString());
+        assertEquals("shhh", result.getProperty("header1"));
+        assertEquals("shhh secret", result.getProperty("header2"));
+        assertEquals("olleh", result.getProperty("propHeader"));
+    }
+
 }
