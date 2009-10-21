@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 /**
  * A general purpose parameter annotation that can be used to add meta data to an iBean's state or individual calls.  When used on
  * a method such as a {@link org.mule.ibeans.api.client.Call} method a PropertyParam can be used to pass in data to a {@link org.mule.ibeans.api.client.params.ParamFactory} or
- * {@link org.mule.ibeans.api.client.params.PayloadFactory}.  Note that in this scenario, the PropertyParam cannot be an instance of
- * a Factory.
+ * {@link org.mule.ibeans.api.client.params.PayloadFactory}.  Note that in this scenario, the PropertyParam parameter type cannot be of type
+ * {@link org.mule.ibeans.api.client.params.ParamFactory} or {@link org.mule.ibeans.api.client.params.PayloadFactory}.
  * <p/>
  * When with the {@link org.mule.ibeans.api.client.State} annotation that will configure a property value defined in
  * a @Call 'property' attribute. These properties are used to configure the channel (defined in the 'uri' attribute)
