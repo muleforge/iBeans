@@ -42,7 +42,7 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
 
     public void testSearchWithVersion() throws Exception
     {
-        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", "1.0-beta-6");
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", "1.0-beta-7");
         assertNotNull(result);
         assertEquals("Flickr iBean", result.getName());
         assertEquals("flickr", result.getShortName());
