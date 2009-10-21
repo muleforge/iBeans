@@ -16,10 +16,6 @@ import org.mule.ibeans.api.application.Transformer;
  */
 public class PrimitveTransformers
 {
-    public PrimitveTransformers()
-    {
-        System.out.println("");
-    }
 
     @Transformer
     public Boolean convertStringToBoolean(String s)

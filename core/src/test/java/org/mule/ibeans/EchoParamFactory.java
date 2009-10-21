@@ -13,7 +13,7 @@ import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.ibeans.api.client.params.ParamFactory;
 
 /**
- * TODO
+ * Will simply echo the param name
  */
 public class EchoParamFactory implements ParamFactory
 {

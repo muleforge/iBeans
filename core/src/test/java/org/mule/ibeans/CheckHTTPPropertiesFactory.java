@@ -13,9 +13,6 @@ import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.ibeans.api.client.params.ParamFactory;
 import org.mule.transport.http.HttpConnector;
 
-/**
- * TODO
- */
 public class CheckHTTPPropertiesFactory implements ParamFactory
 {
     public String create(String paramName, boolean optional, InvocationContext invocationContext)
