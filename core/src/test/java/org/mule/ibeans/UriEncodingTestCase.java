@@ -22,7 +22,7 @@ public class UriEncodingTestCase extends AbstractIBeansTestCase
         String param = "This is a value with spaces";
         String result = test.doSomething(param);
 
-        assertEquals(TestUriIBean.DO_SOMETHING_URI + "This+is+a+value+with+spaces", result);
+        assertEquals("http://" + TestUriIBean.DO_SOMETHING_URI + "This+is+a+value+with+spaces", result);
     }
 
     public void testEncoding2() throws Exception
@@ -30,6 +30,6 @@ public class UriEncodingTestCase extends AbstractIBeansTestCase
         String param = "This%20is%20a%20value%20with%20spaces";
         String result = test.doSomething(param);
 
-        assertEquals(TestUriIBean.DO_SOMETHING_URI + "This%20is%20a%20value%20with%20spaces", result);
+        assertEquals("http://" + TestUriIBean.DO_SOMETHING_URI + "This%20is%20a%20value%20with%20spaces", result);
     }
 }
