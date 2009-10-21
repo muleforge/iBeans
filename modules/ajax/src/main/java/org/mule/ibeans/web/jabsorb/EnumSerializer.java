@@ -39,7 +39,7 @@ public class EnumSerializer extends AbstractSerializer
     /**
      * Unique serialisation id.
      */
-    private final static long serialVersionUID = 2;
+    private final static long serialVersionUID = 773727271;
 
     /**
      * Classes that this can serialise to.

@@ -14,6 +14,7 @@ import org.mule.api.config.MuleProperties;
 import org.mule.ibeans.ConfigManager;
 import org.mule.ibeans.config.IBeanHolder;
 import org.mule.ibeans.web.jabsorb.EnumSerializer;
+import org.mule.ibeans.web.jabsorb.ClassSerializer;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,8 +22,10 @@ import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jabsorb.JSONRPCBridge;
 import org.jabsorb.JSONRPCServlet;
@@ -89,11 +92,31 @@ public class IBeansRpcServlet extends JSONRPCServlet
         super.service(servletRequest, servletResponse);
     }
 
+    @Override
+    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse response) throws ServletException, IOException
+    {
+        if(httpServletRequest.getPathInfo().endsWith("/info"))
+        {
+            displayIbeanInfo(httpServletRequest, response);
+        }
+        else
+        {
+            super.doGet(httpServletRequest, response);
+        }
+    }
+
+    protected void displayIbeanInfo(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+    {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/IBeanInfo.jsp"); 
+        dispatcher.forward(request,response);
+    }
+
     protected void initBridge(JSONRPCBridge bridge) throws ServletException
     {
         try
         {
             bridge.registerSerializer(new EnumSerializer());
+            bridge.registerSerializer(new ClassSerializer());
         }
         catch (Exception e)
         {

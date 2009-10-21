@@ -13,6 +13,10 @@ var _instance;
  * global instance 'ibeans'. Some parameters can be passed in to control how the iBeans client is created, these are
  * all optional.  Note that AJAX eventing is only initialised when first used since it polls the server.
  *
+ * @param enableRPC detemince whether iBeans over RPC will be used, turning RPC off when not being used will reduce
+ * network calls on the browser.
+ * @param host the host server to connect to. By default the browser host value will be used but on Mobile devices a remote
+ * host needs to be set.  Note that the port is always 80.
  * @param localAdapter - String : Allows the user to set the local adapter name for local host, useful for testing against
  * a loopback or all network adapters. Set this to 0.0.0.0 for all local adapters or 127.0.0.1 for loopback.
  *
@@ -22,21 +26,26 @@ function IBeansClient()
     //We only need one instance per page
     if (_instance) return _instance;
 
+    var host;
     var enableRPC = true;
     /* set this to 0.0.0.0 for all local adapters or 127.0.0.1 for loopback */
     var localAdapter = 'localhost';
-    if (typeof(arguments[0]) == 'boolean')
+    var arg = 0;
+    if (typeof(arguments[arg]) == 'boolean')
     {
-        enableRPC = arguments[0];
+        enableRPC = arguments[arg];
+        arg++;
     }
-    else if (typeof(arguments[0]) == 'string')
+    if (typeof(arguments[arg]) == 'string')
     {
-        localAdapter = arguments[0];
+        host = arguments[arg];
+        arg++;
     }
-    else if (arguments[1] != null)
-        {
-            localAdapter = arguments[1];
-        }
+    if (arguments[arg] != null)
+    {
+        localAdapter = arguments[arg];
+        arg++;
+    }
 
     var ibeans;
     var loc = new String(document.location);
