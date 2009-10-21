@@ -7,9 +7,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A parameter annotation for use with the {@link org.mule.ibeans.api.client.State} annotation that will configure a property value defined in
+ * A general purpose parameter annotation that can be used to add meta data to an iBean's state or individual calls.  When used on
+ * a method such as a {@link org.mule.ibeans.api.client.Call} method a PropertyParam can be used to pass in data to a {@link org.mule.ibeans.api.client.params.ParamFactory} or
+ * {@link org.mule.ibeans.api.client.params.PayloadFactory}.  Note that in this scenario, the PropertyParam cannot be an instance of
+ * a Factory.
+ * <p/>
+ * When with the {@link org.mule.ibeans.api.client.State} annotation that will configure a property value defined in
  * a @Call 'property' attribute. These properties are used to configure the channel (defined in the 'uri' attribute)
- * and thus can only be configured on methods marked with the {@link org.mule.ibeans.api.client.State} annotation. They are usually called before 
+ * and thus can only be configured on methods marked with the {@link org.mule.ibeans.api.client.State} annotation. They are usually called before
  * any other methods on the iBean. For example:
  * <code>
  * &amp;#064;State
@@ -27,7 +32,7 @@ import java.lang.annotation.Target;
  * public String getFriendTimeline(@UriParam("count") int count) boolean doRedirects) throws CallException;
  * </code>
  * <p/>
- * Note that you can specify a {@link java.util.Map} of properties where each entry in the map argument will be added as a PropertyParam. 
+ * Note that you can specify a {@link java.util.Map} of properties where each entry in the map argument will be added as a PropertyParam.
  * To do this, specify the parameter as a Map and provide an empty string as an argument to this annotation.
  * For example:
  * <code>
