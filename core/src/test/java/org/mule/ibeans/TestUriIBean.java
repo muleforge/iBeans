@@ -12,6 +12,7 @@ package org.mule.ibeans;
 import org.mule.ibeans.api.client.Call;
 import org.mule.ibeans.api.client.ExceptionListenerAware;
 import org.mule.ibeans.api.client.Template;
+import org.mule.ibeans.api.client.params.Optional;
 import org.mule.ibeans.api.client.params.UriParam;
 
 import java.net.UnknownHostException;
@@ -23,14 +24,17 @@ import java.net.UnknownHostException;
 public interface TestUriIBean extends ExceptionListenerAware
 {
     @UriParam("do_something_uri")
-    public static final String DO_SOMETHING_URI = "http://doesnotexist.bom?param1=";
+    public static final String DO_SOMETHING_URI = "doesnotexist.bom?param1=";
 
-    @Template("{do_something_uri}{foo}")
+    @Template("http://{do_something_uri}{foo}")
     public String doSomething(@UriParam("foo") String foo);
 
-    @Template("{do_something_uri}{foo}&param2={bar}")
+    @Template("http://{do_something_uri}{foo}&param2={bar}")
     public String doSomethingElse(@UriParam("foo") String foo, @UriParam("bar") String bar) throws UnknownHostException;
 
     @Call(uri = "http://{do_something_uri}")
     public String doSomethingNoParams() throws Exception;
+
+    @Template("http://{do_something_uri}{foo}&param2={bar}")
+    public String doSomethingOptional(@Optional @UriParam("foo") String foo, @Optional @UriParam("bar") String bar) throws UnknownHostException;
 }
