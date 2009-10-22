@@ -15,6 +15,8 @@ import java.lang.annotation.Target;
  * and setter methods for this field.
  * <p>If this annotatated field enforces Java language access control, and the underlying field is inaccessible, the method throws an
  * <code>IllegalAccessException</code>.
+ *
+ * @deprecated use an ibean instead. Keeping this around in case there are some valid reasons to use it we have not thought of yet.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
