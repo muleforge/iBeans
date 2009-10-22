@@ -47,9 +47,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.TypeVariable;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.activation.DataHandler;
@@ -431,15 +433,15 @@ public class IBeanParamsHelper
     public MuleMessage createMessage(InvocationContext ctx) throws Exception
     {
         MuleMessage message;
-        if (ctx.getPayloads().size() == 0)
+        if (ctx.getRequestPayloads().size() == 0)
         {
-            if (ctx.getPayloadParams().size() == 0)
+            if (ctx.getRequestPayloadParams().size() == 0)
             {
-                ctx.getPayloads().add(NullPayload.getInstance());
+                ctx.getRequestPayloads().add(NullPayload.getInstance());
             }
             else
             {
-                ctx.getPayloads().add(ctx.getPayloadParams());
+                ctx.getRequestPayloads().add(ctx.getRequestPayloadParams());
             }
         }
 
@@ -450,16 +452,26 @@ public class IBeanParamsHelper
 
         for (ParamFactoryHolder holder : defaultHeaderFactoryParams)
         {
-            ctx.getHeaderParams().put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, ctx));
+            ctx.getRequestHeaderParams().put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, ctx));
         }
 
-        if (ctx.getPayloads().size() == 1)
+        //We need to scrub any null header values since Mule does not allow Null headers
+        Map<String, Object> headers = new TreeMap<String, Object>();
+        for (Iterator<Map.Entry<String, Object>> iterator = ctx.getRequestHeaderParams().entrySet().iterator(); iterator.hasNext();)
         {
-            message = new DefaultMuleMessage(ctx.getPayloads().get(0), ctx.getHeaderParams(), muleContext);
+            Map.Entry<String, Object> entry = iterator.next();
+            if (entry.getValue() != null)
+            {
+                headers.put(entry.getKey(), entry.getValue());
+            }
+        }
+        if (ctx.getRequestPayloads().size() == 1)
+        {
+            message = new DefaultMuleMessage(ctx.getRequestPayloads().get(0), headers, muleContext);
         }
         else
         {
-            message = new DefaultMuleMessage(ctx.getPayloads(), ctx.getHeaderParams(), muleContext);
+            message = new DefaultMuleMessage(ctx.getRequestPayloads(), headers, muleContext);
         }
 
         //Some transports such as Axis, RMI and EJB can use the method information
