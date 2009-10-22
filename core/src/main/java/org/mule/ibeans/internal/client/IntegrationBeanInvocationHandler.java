@@ -153,7 +153,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
 
         if (invocationContext.exceptionThrown())
         {
-            invocationContext.throwException();
+            invocationContext.rethrowException();
         }
 
         return invocationContext.result;

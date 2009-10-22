@@ -316,7 +316,7 @@ public class InternalInvocationContext implements InvocationContext
     /* (non-Javadoc)
      * @see org.mule.ibeans.api.client.params.InvocationContextInterface#throwException()
      */
-    public void throwException() throws Throwable
+    public void rethrowException() throws Throwable
     {
         throw exception;
     }
