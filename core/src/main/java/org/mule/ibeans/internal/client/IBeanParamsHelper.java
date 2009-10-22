@@ -46,7 +46,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.TypeVariable;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,14 +116,16 @@ public class IBeanParamsHelper
             else if (anno.annotationType().equals(XmlErrorFilter.class))
             {
                 XmlErrorFilter filter = (XmlErrorFilter) anno;
-                errorFilter = new ErrorExpressionFilter(XmlErrorFilter.evaluator, filter.expr());
+                //Explicitly add the return type here
+                errorFilter = new ErrorExpressionFilter(XmlErrorFilter.evaluator, "[boolean]" + filter.expr());
                 errorFilter.setErrorCodeExpr(filter.errorCode());
                 errorFilters.put(XmlErrorFilter.mimeType, errorFilter);
             }
             else if (anno.annotationType().equals(AtomErrorFilter.class))
             {
                 AtomErrorFilter filter = (AtomErrorFilter) anno;
-                errorFilter = new ErrorExpressionFilter(AtomErrorFilter.evaluator, filter.expr());
+                //Explicitly add the return type here
+                errorFilter = new ErrorExpressionFilter(AtomErrorFilter.evaluator, "[boolean]" + filter.expr());
                 errorFilter.setErrorCodeExpr(filter.errorCode());
 
                 errorFilters.put(AtomErrorFilter.mimeType, errorFilter);
@@ -132,7 +133,8 @@ public class IBeanParamsHelper
             else if (anno.annotationType().equals(RssErrorFilter.class))
             {
                 RssErrorFilter filter = (RssErrorFilter) anno;
-                errorFilter = new ErrorExpressionFilter(RssErrorFilter.evaluator, filter.expr());
+                //Explicitly add the return type here
+                errorFilter = new ErrorExpressionFilter(RssErrorFilter.evaluator, "[boolean]" + filter.expr());
                 errorFilter.setErrorCodeExpr(filter.errorCode());
 
                 errorFilters.put(RssErrorFilter.mimeType, errorFilter);
@@ -268,11 +270,11 @@ public class IBeanParamsHelper
             }
         }
     }
-    
+
     public void populateInvocationContext(InvocationContext internalInvocationContext) throws Exception
     {
         InternalInvocationContext invocationContext = (InternalInvocationContext) internalInvocationContext;
-        
+
         invocationContext.getHeaderParams().putAll(defaultHeaderParams);
         invocationContext.getPayloadParams().putAll(defaultPayloadParams);
         invocationContext.getUriParams().putAll(defaultUriParams);
@@ -392,7 +394,7 @@ public class IBeanParamsHelper
 
         invocationContext.returnType = getReturnClass(method);
     }
-    
+
     private void checkReturnClass(Class c, Method m)
     {
         if (c.isPrimitive() && !void.class.equals(c) && !m.getName().equals("equals") && !m.getName().equals("hashcode"))

@@ -22,8 +22,6 @@ import org.mule.module.xml.i18n.XmlMessages;
 import org.mule.module.xml.stax.MapNamespaceContext;
 import org.mule.module.xml.util.NamespaceManager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -35,10 +33,18 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Uses JAXP XPath processing to evaluate xpath expressions against Xml fragments and documents
+ * <p/>
+ * Note that the Jaxp Expression evaluator differs from the Mule XPATH evaluator slightly since you cna set the JaxP
+ * return type as a prefix to the expression i.e.
+ * <code>
+ * xpath2:[node]/foo/bar
+ * </code>
+ * <p/>
+ * Where the type can either be boolean, string, number, node or nodeset.  iBeans will automatically convert numbers based on the
+ * return type as well as convert node to Document if required.
  */
 public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Disposable, MuleContextAware
 {
@@ -77,11 +83,40 @@ public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Dispos
      */
     public Object evaluate(String expression, MuleMessage message)
     {
-        //TODO FIXME
-        QName retType = (QName) message.removeProperty("xpath.return");
-        if (retType == null)
+        QName retType = returnType;
+        if (expression.startsWith("["))
         {
-            retType = returnType;
+            int x = expression.indexOf("]");
+            if (x == -1)
+            {
+                throw new IllegalArgumentException("Expression is malformed: " + expression);
+            }
+            String type = expression.substring(1, x);
+            expression = expression.substring(x + 1);
+            if (type.equalsIgnoreCase("boolean"))
+            {
+                retType = XPathConstants.BOOLEAN;
+            }
+            else if (type.equalsIgnoreCase("string"))
+            {
+                retType = XPathConstants.STRING;
+            }
+            else if (type.equalsIgnoreCase("node"))
+            {
+                retType = XPathConstants.NODE;
+            }
+            else if (type.equalsIgnoreCase("nodeset"))
+            {
+                retType = XPathConstants.NODESET;
+            }
+            else if (type.equalsIgnoreCase("number"))
+            {
+                retType = XPathConstants.NUMBER;
+            }
+            else
+            {
+                throw new IllegalArgumentException("Result type not recognised: " + type + ". Use either boolean, string, number, node or nodeset.");
+            }
         }
         try
         {
@@ -90,19 +125,20 @@ public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Dispos
             XPathExpression xpath = getXPath(expression);
 
             Object res = xpath.evaluate(payload, retType);
-            List result = extractResultsFromNodes(res);
-            if (result.size() == 1)
-            {
-                return result.get(0);
-            }
-            else if (result.size() == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return result;
-            }
+            //List result = extractResultsFromNodes(res);
+//            if (result.size() == 1)
+//            {
+//                return result.get(0);
+//            }
+//            else if (result.size() == 0)
+//            {
+//                return null;
+//            }
+//            else
+//            {
+//                return result;
+//            }
+            return res;
         }
         catch (Exception e)
         {
@@ -139,28 +175,28 @@ public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Dispos
         return xp.compile(expression);
     }
 
-    protected List extractResultsFromNodes(Object results)
-    {
-        List newResults = null;
-        if (results instanceof NodeList)
-        {
-
-            NodeList nl = (NodeList) results;
-            newResults = new ArrayList(nl.getLength());
-            for (int i = 0; i < nl.getLength(); i++)
-            {
-                Node n = nl.item(i);
-                newResults.add(extractResultFromNode(n));
-            }
-        }
-        else if (results != null)
-        {
-            newResults = new ArrayList(1);
-            newResults.add(extractResultFromNode(results));
-        }
-
-        return newResults;
-    }
+//    protected List extractResultsFromNodes(Object results)
+//    {
+//        List newResults = null;
+//        if (results instanceof NodeList)
+//        {
+//
+//            NodeList nl = (NodeList) results;
+//            newResults = new ArrayList(nl.getLength());
+//            for (int i = 0; i < nl.getLength(); i++)
+//            {
+//                Node n = nl.item(i);
+//                newResults.add(extractResultFromNode(n));
+//            }
+//        }
+//        else if (results != null)
+//        {
+//            newResults = new ArrayList(1);
+//            newResults.add(extractResultFromNode(results));
+//        }
+//
+//        return newResults;
+//    }
 
     /**
      * A lifecycle method where implementor should free up any resources. If an
@@ -187,17 +223,17 @@ public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Dispos
         return muleContext;
     }
 
-    protected Object extractResultFromNode(Object result)
-    {
-        if (result instanceof Node)
-        {
-            return ((Node) result).getNodeValue();
-        }
-        else
-        {
-            return result;
-        }
-    }
+//    protected Object extractResultFromNode(Object result)
+//    {
+//        if (result instanceof Node)
+//        {
+//            return ((Node) result).getNodeValue();
+//        }
+//        else
+//        {
+//            return result;
+//        }
+//    }
 
     public QName getReturnType()
     {

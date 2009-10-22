@@ -19,7 +19,6 @@ import org.mule.api.routing.filter.Filter;
 import org.mule.api.service.Service;
 import org.mule.api.transformer.Transformer;
 import org.mule.api.transformer.TransformerException;
-import org.mule.api.transport.PropertyScope;
 import org.mule.config.ExceptionHelper;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.ibeans.IBeansException;
@@ -29,13 +28,17 @@ import org.mule.ibeans.api.client.CallInterceptor;
 import org.mule.ibeans.api.client.Interceptor;
 import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.params.InvocationContext;
-import org.mule.module.xml.transformer.XmlPrettyPrinter;
 import org.mule.routing.filters.ExpressionFilter;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringMessageUtils;
 import org.mule.util.TemplateParser;
 
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+
 import java.beans.ExceptionListener;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -45,8 +48,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -147,7 +148,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         }
 
         InternalInvocationContext invocationContext = new InternalInvocationContext(proxy, method, args,
-            muleContext, exceptionListener, interceptorListCache.get(method));
+                muleContext, exceptionListener, interceptorListCache.get(method));
 
         invocationContext.proceed();
 
@@ -159,12 +160,12 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         return invocationContext.result;
     }
 
-    protected Object handlerReturnAnnotation(String expr, MuleMessage message, InvocationContext ctx)
+    protected Object handleReturnAnnotation(String expr, MuleMessage message, InvocationContext ctx)
     {
         if (parser.isContainsTemplate(expr))
         {
             expr = parser.parse(ctx.getUriParams(), expr);
-            expr = parser.parse(ctx.getHeaderParams(), expr);
+            expr = parser.parse(ctx.getRequestHeaderParams(), expr);
             expr = parser.parse(ctx.getPropertyParams(), expr);
         }
 
@@ -212,8 +213,6 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         }
         else
         {
-            // TODO Urgent, fix this
-            test.setProperty("xpath.return", XPathConstants.BOOLEAN, PropertyScope.INVOCATION);
             return f.accept(test);
         }
     }
@@ -244,7 +243,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         if (f != null && f.getErrorCodeExpr() != null)
         {
             errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(),
-                message, false);
+                    message, false);
         }
         Throwable root = ExceptionHelper.getRootException(t);
         MuleException muleException = ExceptionHelper.getRootMuleException(t);
@@ -290,7 +289,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
             return callHandler.getScheme(invocationContext.getMethod());
         }
     }
-    
+
     public String toString()
     {
         final StringBuffer sb = new StringBuffer();
@@ -309,16 +308,15 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         {
             Object finalResult = invocationContext.getResult();
             MuleMessage result = ((InternalInvocationContext) invocationContext).responseMuleMessage;
-            String scheme = getScheme(invocationContext);            
+            String scheme = getScheme(invocationContext);
 
             if (isErrorReply(invocationContext.getMethod(), invocationContext.getResult(), result))
             {
-                // TODO URGENT remove add dependency to Xml
                 String msg;
                 if (result.getPayload() instanceof Document)
                 {
 
-                    msg = (String) new XmlPrettyPrinter().transform(result.getPayload());
+                    msg = prettyPrint((Document) result.getPayload());
                 }
                 else
                 {
@@ -334,6 +332,14 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                     throw e;
                 }
             }
+        }
+
+        private String prettyPrint(Document document) throws IOException
+        {
+            StringWriter stringWriter = new StringWriter();
+            XMLSerializer serializer = new XMLSerializer(stringWriter, new OutputFormat(com.sun.org.apache.xml.internal.serialize.Method.XML, "UTF-8", true));
+            serializer.serialize(document);
+            return stringWriter.toString();
         }
     }
 
@@ -414,39 +420,39 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         {
             ExceptionListener exceptionListener = invocationContext.getExceptionListener();
             MuleMessage requestMessage = helper.createMessage(invocationContext);
-            
+
             if (logger.isTraceEnabled())
             {
                 try
                 {
                     logger.trace("Message Before invoking "
-                                 + invocationContext.getMethod()
-                                 + ": \n"
-                                 + StringMessageUtils.truncate(
-                                     StringMessageUtils.toString(requestMessage.getPayload()),
-                                     2000, false));
+                            + invocationContext.getMethod()
+                            + ": \n"
+                            + StringMessageUtils.truncate(
+                            StringMessageUtils.toString(requestMessage.getPayload()),
+                            2000, false));
                     logger.trace("Message Headers: \n"
-                                 + StringMessageUtils.headersToString(requestMessage));
+                            + StringMessageUtils.headersToString(requestMessage));
                 }
                 catch (Exception e)
                 {
                     // ignore
                 }
             }
-            
+
             MuleMessage result;
 
             if (templateHandler != null && templateHandler.isMatch(invocationContext.getMethod()))
             {
                 result = templateHandler.invoke(invocationContext.getProxy(),
-                    invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
+                        invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
             }
             else
             {
                 result = callHandler.invoke(invocationContext.getProxy(),
-                    invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
+                        invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
             }
-            
+
             ((InternalInvocationContext) invocationContext).responseMuleMessage = result;
 
             Object finalResult = null;
@@ -475,7 +481,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                     }
                 }
                 else if (result.getPayload() instanceof NullPayload
-                         || method.getReturnType().equals(Void.TYPE))
+                        || method.getReturnType().equals(Void.TYPE))
                 {
                     return;
                 }
@@ -483,12 +489,12 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                 {
                     String returnExpression = method.getAnnotation(Return.class).value();
 
-                    finalResult = handlerReturnAnnotation(returnExpression, result, invocationContext);
+                    finalResult = handleReturnAnnotation(returnExpression, result, invocationContext);
 
                     if (!invocationContext.getReturnType().isInstance(finalResult))
                     {
                         Transformer transformer = muleContext.getRegistry().lookupTransformer(
-                            finalResult.getClass(), invocationContext.getReturnType());
+                                finalResult.getClass(), invocationContext.getReturnType());
                         finalResult = transformer.transform(finalResult);
                     }
                 }

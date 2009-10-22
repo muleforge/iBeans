@@ -12,16 +12,41 @@ package org.mule.ibeans;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
+import org.w3c.dom.Document;
+
 public class ReturnAnnotationTestCase extends AbstractIBeansTestCase
 {
     @IntegrationBean
-    private TestParamsFactoryIBean test;
+    private ReturnExpressionsIBean test;
 
-    public void testReturn() throws Exception
+    @Override
+    protected void doSetUp() throws Exception
     {
         registerBeans(new PrimitveTransformers());
-        test.init("foo".getBytes());
-        boolean result = test.isReturnExpressionWorking();
+    }
+
+    public void testBooleanReturn() throws Exception
+    {
+        boolean result = test.testBooleanReturn();
         assertTrue(result);
+    }
+
+    public void testStringReturn() throws Exception
+    {
+        String result = test.testStringReturn();
+        assertEquals("true", result);
+    }
+
+    public void testNumberReturn() throws Exception
+    {
+        Integer result = test.testNumberReturn();
+        assertEquals(new Integer(14), result);
+    }
+
+    public void testDomXmlReturn() throws Exception
+    {
+        Document result = test.testDomReturn();
+        assertEquals("bar", result.getDocumentElement().getNodeName());
+        assertEquals("true", result.getDocumentElement().getTextContent());
     }
 }
