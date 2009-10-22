@@ -10,6 +10,7 @@
 package org.mule.ibeans;
 
 import org.mule.api.MuleMessage;
+import org.mule.api.transport.PropertyScope;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
@@ -43,8 +44,8 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         MuleMessage result = testIBean.doHeaderParam("secret");
         assertNotNull(result);
         assertEquals("Value is: secret", result.getPayloadAsString());
-        assertEquals("shhh", result.getProperty("header1"));
-        assertEquals("shhh secret", result.getProperty("header2"));
+        assertEquals("shhh", result.getProperty("header1", PropertyScope.OUTBOUND));
+        assertEquals("shhh secret", result.getProperty("header2", PropertyScope.OUTBOUND));
     }
 
     public void testHeaderParamsOnMethod() throws Exception
@@ -54,9 +55,9 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         MuleMessage result = testIBean.doMethodHeaderParam("secret", new EchoParamFactory());
         assertNotNull(result);
         assertEquals("Value is: secret", result.getPayloadAsString());
-        assertEquals("shhh", result.getProperty("header1"));
-        assertEquals("shhh secret", result.getProperty("header2"));
-        assertEquals("echoHeader", result.getProperty("echoHeader"));
+        assertEquals("shhh", result.getProperty("header1", PropertyScope.OUTBOUND));
+        assertEquals("shhh secret", result.getProperty("header2", PropertyScope.OUTBOUND));
+        assertEquals("echoHeader", result.getProperty("echoHeader", PropertyScope.OUTBOUND));
     }
 
     public void testPropertyParamsOnMethod() throws Exception
@@ -67,8 +68,16 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         assertNotNull(result);
         assertEquals("Value is: secret", result.getPayloadAsString());
         assertEquals("shhh", result.getProperty("header1"));
-        assertEquals("shhh secret", result.getProperty("header2"));
-        assertEquals("olleh", result.getProperty("propHeader"));
+        assertEquals("shhh secret", result.getProperty("header2", PropertyScope.OUTBOUND));
+        assertEquals("olleh", result.getProperty("propHeader", PropertyScope.OUTBOUND));
+    }
+
+    public void testHeadersWithNoParams() throws Exception
+    {
+        testIBean.init("shhh".getBytes());
+        MuleMessage result = testIBean.doTestHeadersWithNoParams();
+        assertNotNull(result);
+        assertEquals("shhh", result.getProperty("header1", PropertyScope.OUTBOUND));
     }
 
 }

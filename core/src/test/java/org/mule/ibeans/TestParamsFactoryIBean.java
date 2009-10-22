@@ -12,7 +12,6 @@ package org.mule.ibeans;
 import org.mule.api.MuleMessage;
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.ExceptionListenerAware;
-import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.State;
 import org.mule.ibeans.api.client.Template;
 import org.mule.ibeans.api.client.params.HeaderParam;
@@ -57,8 +56,8 @@ public interface TestParamsFactoryIBean extends ExceptionListenerAware
     @Template("Value is: {foo}")
     public MuleMessage doMethodPropertyParam(@UriParam("foo") String foo, @PropertyParam("customProperty") String prop, @HeaderParam("propHeader") ReversePropertyParamFactory factory) throws CallException;
 
-    @Template("<foo><bar>true</bar></foo>")
-    @Return("xpath:/foo/bar")
-    public Boolean isReturnExpressionWorking() throws CallException;
+    @Template("Foo")
+    public MuleMessage doTestHeadersWithNoParams() throws CallException;
+
 
 }
