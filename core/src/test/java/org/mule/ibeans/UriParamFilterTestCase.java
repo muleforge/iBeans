@@ -41,10 +41,18 @@ public class UriParamFilterTestCase extends AbstractMuleTestCase
         assertEquals("http://foo.com?param0=foo&param2=bar", test);
     }
 
-    public void testOptionalRemoveThrteeParamsEnd() throws Exception
+    public void testOptionalRemoveThreeParamsEnd() throws Exception
     {
         String test = "http://foo.com?param0=foo&param1=bar&param2=null.param";
         test = filter.filterParamsByValue(test, "null.param");
         assertEquals("http://foo.com?param0=foo&param1=bar", test);
+    }
+
+
+    public void testOptionalRemoveAllButOne() throws Exception
+    {
+        String test = "http://foo.com?param0=foo&param1=null.param&param2=null.param&param3=null.param";
+        test = filter.filterParamsByValue(test, "null.param");
+        assertEquals("http://foo.com?param0=foo", test);
     }
 }
