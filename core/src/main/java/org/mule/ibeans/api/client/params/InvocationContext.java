@@ -9,7 +9,6 @@
  */
 package org.mule.ibeans.api.client.params;
 
-import org.mule.api.MuleMessage;
 import org.mule.ibeans.IBeansContext;
 
 import java.beans.ExceptionListener;
@@ -105,7 +104,6 @@ public interface InvocationContext
 
     List<Object> getRequestPayloads();
     
-
 
 
     
@@ -209,7 +207,7 @@ public interface InvocationContext
 
     boolean exceptionThrown();
 
-    void throwException() throws Throwable;
+    void rethrowException() throws Throwable;
 
     
     
