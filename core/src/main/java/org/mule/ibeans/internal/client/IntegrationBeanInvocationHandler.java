@@ -7,6 +7,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
+
 package org.mule.ibeans.internal.client;
 
 import org.mule.api.MuleContext;
@@ -22,7 +23,10 @@ import org.mule.api.transport.PropertyScope;
 import org.mule.config.ExceptionHelper;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.api.client.AbstractCallInterceptor;
 import org.mule.ibeans.api.client.CallException;
+import org.mule.ibeans.api.client.CallInterceptor;
+import org.mule.ibeans.api.client.Interceptor;
 import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.module.xml.transformer.XmlPrettyPrinter;
@@ -36,7 +40,10 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.xpath.XPathConstants;
@@ -64,6 +71,12 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
 
     protected TemplateParser parser = TemplateParser.createCurlyBracesStyleParser();
 
+    protected List<CallInterceptor> defaultInterceptorList = new ArrayList<CallInterceptor>();
+
+    protected CallInterceptor invoker;
+
+    protected Map<Method, List<CallInterceptor>> interceptorListCache = new HashMap<Method, List<CallInterceptor>>();
+
     public IntegrationBeanInvocationHandler(Class iface, Service service, MuleContext muleContext)
     {
         if (muleContext == null)
@@ -85,6 +98,18 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         helper = new IBeanParamsHelper(muleContext, iface);
         templateHandler = new TemplateAnnotationHandler(muleContext);
         callHandler = new CallAnnotationHandler(muleContext, service, helper);
+
+        // Performs special handling for standard and non-integration methods
+        defaultInterceptorList.add(new NonIntegrationMethodsCallInterceptor());
+        // Populates invocationContext with field and method level params
+        defaultInterceptorList.add(new PopulateiBeansParamsInterceptor());
+        // Adds default endpoint properties so they are available to any ParmFactory's
+        defaultInterceptorList.add(new DefaultEndpointPropertiesInterceptor());
+        // 
+        defaultInterceptorList.add(new CreateMessageInterceptor());
+        defaultInterceptorList.add(new ProcessErrorsInterceptor());
+        defaultInterceptorList.add(new IntegrationBeanInvokerInterceptor());
+
     }
 
     public void addRouter(InterfaceBinding router)
@@ -105,182 +130,33 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
-        if (method.getName().equals("toString"))
+        if (interceptorListCache.get(method) == null)
         {
-            return toString();
-        }
-        else if (method.getName().equals("hashCode"))
-        {
-            return hashCode();
-        }
-        else if (method.getName().equals("equals"))
-        {
-            return equals(args[0]);
-        }
-        else if (method.getName().equals("setExceptionListener"))
-        {
-            exceptionListener = (ExceptionListener) args[0];
-            return null;
-        }
-
-        InvocationContext ctx = helper.createInvocationContext(method, args);
-        //Not keen on proprty munging here be the endpoint sometimes has default props
-        //that we should make available to the context
-        ImmutableEndpoint endpoint = getCallHandler().getEndpointForMethod(method);
-        if (endpoint != null && endpoint.getProperties().size() > 0)
-        {
-            for (Iterator iterator = endpoint.getProperties().entrySet().iterator(); iterator.hasNext();)
+            if (method.getAnnotation(Interceptor.class) != null)
             {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                ctx.getPropertyParams().put(entry.getKey().toString(), entry.getValue());
-            }
-        }
-
-        if (ctx.isStateCall())
-        {
-            //State methods return null
-            return null;
-        }
-        MuleMessage message = helper.createMessage(ctx);
-
-        MuleMessage result;
-        String scheme;
-
-        if (logger.isTraceEnabled())
-        {
-            try
-            {
-                logger.trace("Message Before invoking " + method + ": \n"
-                        + StringMessageUtils.truncate(StringMessageUtils.toString(message.getPayload()), 2000, false));
-                logger.trace("Message Headers: \n" + StringMessageUtils.headersToString(message));
-            }
-            catch (Exception e)
-            {
-                // ignore
-            }
-        }
-
-
-        if (getTemplateHandler() != null && getTemplateHandler().isMatch(method))
-        {
-            scheme = getTemplateHandler().getScheme(method);
-            result = getTemplateHandler().invoke(proxy, method, args, message);
-        }
-        else
-        {
-            scheme = getCallHandler().getScheme(method);
-
-            result = getCallHandler().invoke(proxy, method, args, message);
-        }
-
-        if (logger.isTraceEnabled())
-        {
-            try
-            {
-                logger.trace("Message After invoking " + method + ": \n"
-                        + StringMessageUtils.truncate(StringMessageUtils.toString(message.getPayload()), 2000, false));
-                logger.trace("Message Headers: \n" + StringMessageUtils.headersToString(result));
-            }
-            catch (Exception e)
-            {
-                // ignore
-            }
-        }
-
-
-        Object finalResult = null;
-        if (result != null)
-        {
-            if (result.getExceptionPayload() != null)
-            {
-                Throwable t = result.getExceptionPayload().getRootException();
-                if (exceptionListener != null)
-                {
-                    if (Exception.class.isAssignableFrom(t.getClass()))
-                    {
-                        exceptionListener.exceptionThrown((Exception) t);
-                    }
-                    else
-                    {
-                        exceptionListener.exceptionThrown(new Exception(t));
-                    }
-                }
-                else
-                {
-                    t = createCallException(result, t, scheme);
-                    throw t;
-                }
-            }
-            else if (result.getPayload() instanceof NullPayload || method.getReturnType().equals(Void.TYPE))
-            {
-                return null;
-            }
-            else if (method.getAnnotation(Return.class) != null)
-            {
-                String returnExpression = method.getAnnotation(Return.class).value();
-
-                finalResult = handlerReturnAnnotation(returnExpression, result, ctx);
-
-                if (!ctx.getReturnType().isInstance(finalResult))
-                {
-                    Transformer transformer = muleContext.getRegistry().lookupTransformer(finalResult.getClass(), ctx.getReturnType());
-                    finalResult = transformer.transform(finalResult);
-                }
+                Interceptor interceptorAnnotation = method.getAnnotation(Interceptor.class);
+                List interceptors = new ArrayList<CallInterceptor>();
+                interceptors.addAll(defaultInterceptorList);
+                interceptors.add(interceptors.size() - 3, interceptorAnnotation.value().newInstance());
+                interceptorListCache.put(method, interceptors);
             }
             else
             {
-                Class retType = ctx.getReturnType();
-                if (retType.equals(MuleMessage.class))
-                {
-                    finalResult = result;
-                }
-                else
-                {
-                    try
-                    {
-                        finalResult = ctx.getIBeansContext().transform(result, retType);
-                    }
-                    catch (TransformerException e)
-                    {
-                        Exception ex = createCallException(result, e, scheme);
-                        if (exceptionListener != null)
-                        {
-                            exceptionListener.exceptionThrown(ex);
-                        }
-                        else
-                        {
-                            throw ex;
-                        }
-                    }
-                }
+                interceptorListCache.put(method, defaultInterceptorList);
             }
-
-            if (isErrorReply(method, finalResult, result))
-            {
-                //TODO URGENT remove add dependency to Xml
-                String msg;
-                if (result.getPayload() instanceof Document)
-                {
-                    msg = (String) new XmlPrettyPrinter().transform(result.getPayload());
-                }
-                else
-                {
-                    msg = result.getPayloadAsString();
-                }
-                Exception e = createCallException(result, new IBeansException(msg), scheme);
-                if (exceptionListener != null)
-                {
-                    exceptionListener.exceptionThrown(e);
-                }
-                else
-                {
-                    throw e;
-                }
-            }
-            return finalResult;
-
         }
-        return null;
+
+        InternalInvocationContext invocationContext = new InternalInvocationContext(proxy, method, args,
+            muleContext, exceptionListener, interceptorListCache.get(method));
+
+        invocationContext.proceed();
+
+        if (invocationContext.exceptionThrown())
+        {
+            invocationContext.throwException();
+        }
+
+        return invocationContext.result;
     }
 
     protected Object handlerReturnAnnotation(String expr, MuleMessage message, InvocationContext ctx)
@@ -336,7 +212,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         }
         else
         {
-            //TODO Urgent, fix this
+            // TODO Urgent, fix this
             test.setProperty("xpath.return", XPathConstants.BOOLEAN, PropertyScope.INVOCATION);
             return f.accept(test);
         }
@@ -356,7 +232,6 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         return mime;
     }
 
-
     protected CallException createCallException(MuleMessage message, Throwable t, String protocol)
     {
         if (t instanceof InvocationTargetException || t instanceof UndeclaredThrowableException)
@@ -368,7 +243,8 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         Object errorCode = null;
         if (f != null && f.getErrorCodeExpr() != null)
         {
-            errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(), message, false);
+            errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(),
+                message, false);
         }
         Throwable root = ExceptionHelper.getRootException(t);
         MuleException muleException = ExceptionHelper.getRootMuleException(t);
@@ -403,6 +279,18 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         return ce;
     }
 
+    protected String getScheme(InvocationContext invocationContext)
+    {
+        if (templateHandler != null && templateHandler.isMatch(invocationContext.getMethod()))
+        {
+            return templateHandler.getScheme(invocationContext.getMethod());
+        }
+        else
+        {
+            return callHandler.getScheme(invocationContext.getMethod());
+        }
+    }
+    
     public String toString()
     {
         final StringBuffer sb = new StringBuffer();
@@ -412,4 +300,226 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         sb.append('}');
         return sb.toString();
     }
+
+    // Interceptors
+
+    private final class ProcessErrorsInterceptor extends AbstractCallInterceptor
+    {
+        public void afterCall(InvocationContext invocationContext) throws Exception
+        {
+            Object finalResult = invocationContext.getResult();
+            MuleMessage result = invocationContext.getResponseMuleMessage();
+            String scheme = getScheme(invocationContext);            
+            
+            if (isErrorReply(invocationContext.getMethod(), invocationContext.getResult(), result))
+            {
+                // TODO URGENT remove add dependency to Xml
+                String msg;
+                if (result.getPayload() instanceof Document)
+                {
+
+                    msg = (String) new XmlPrettyPrinter().transform(result.getPayload());
+                }
+                else
+                {
+                    msg = result.getPayloadAsString();
+                }
+                Exception e = createCallException(result, new IBeansException(msg), scheme);
+                if (invocationContext.getExceptionListener() != null)
+                {
+                    invocationContext.getExceptionListener().exceptionThrown(e);
+                }
+                else
+                {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    private final class CreateMessageInterceptor extends AbstractCallInterceptor
+    {
+        public void intercept(InvocationContext invocationContext) throws Exception
+        {
+            if (!invocationContext.isStateCall())
+            {
+                invocationContext.setRequestMuleMessage(helper.createMessage(invocationContext));
+                invocationContext.proceed();
+            }
+            else
+            {
+                // If this is a state call we don't need to create a message
+                // Neither do we proceed down the interceptor chain
+                return;
+            }
+        }
+    }
+
+    private final class DefaultEndpointPropertiesInterceptor extends AbstractCallInterceptor
+    {
+        public void beforeCall(InvocationContext invocationContext)
+        {
+            // Not keen on property munging here be the endpoint sometimes has
+            // default props that we should make available to the context
+            ImmutableEndpoint endpoint = callHandler.getEndpointForMethod(invocationContext.getMethod());
+            if (endpoint != null && endpoint.getProperties().size() > 0)
+            {
+                for (Iterator iterator = endpoint.getProperties().entrySet().iterator(); iterator.hasNext();)
+                {
+                    Map.Entry entry = (Map.Entry) iterator.next();
+                    invocationContext.getPropertyParams().put(entry.getKey().toString(), entry.getValue());
+                }
+            }
+        }
+    }
+
+    private final class PopulateiBeansParamsInterceptor extends AbstractCallInterceptor
+    {
+        public void beforeCall(InvocationContext invocationContext) throws Exception
+        {
+            helper.populateInvocationContext(invocationContext);
+        }
+    }
+
+    private final class NonIntegrationMethodsCallInterceptor implements CallInterceptor
+    {
+        public void intercept(InvocationContext invocationContext)
+        {
+            if (invocationContext.getMethod().getName().equals("toString"))
+            {
+                invocationContext.setResult(toString());
+            }
+            else if (invocationContext.getMethod().getName().equals("hashCode"))
+            {
+                invocationContext.setResult(hashCode());
+            }
+            else if (invocationContext.getMethod().getName().equals("equals"))
+            {
+                invocationContext.setResult(equals(invocationContext.getArgs()[0]));
+            }
+            else if (invocationContext.getMethod().getName().equals("setExceptionListener"))
+            {
+                exceptionListener = (ExceptionListener) invocationContext.getArgs()[0];
+            }
+            else
+            {
+                invocationContext.proceed();
+            }
+        }
+    }
+
+    class IntegrationBeanInvokerInterceptor implements CallInterceptor
+    {
+
+        public void intercept(InvocationContext invocationContext) throws Throwable
+        {
+            ExceptionListener exceptionListener = invocationContext.getExceptionListener();
+
+            if (logger.isTraceEnabled())
+            {
+                try
+                {
+                    logger.trace("Message Before invoking "
+                                 + invocationContext.getMethod()
+                                 + ": \n"
+                                 + StringMessageUtils.truncate(
+                                     StringMessageUtils.toString(invocationContext.getRequestMuleMessage().getPayload()),
+                                     2000, false));
+                    logger.trace("Message Headers: \n"
+                                 + StringMessageUtils.headersToString(invocationContext.getRequestMuleMessage()));
+                }
+                catch (Exception e)
+                {
+                    // ignore
+                }
+            }
+
+            if (templateHandler != null && templateHandler.isMatch(invocationContext.getMethod()))
+            {
+                invocationContext.setResponseMuleMessage(templateHandler.invoke(invocationContext.getProxy(),
+                    invocationContext.getMethod(), invocationContext.getArgs(), invocationContext.getRequestMuleMessage()));
+            }
+            else
+            {
+                invocationContext.setResponseMuleMessage(callHandler.invoke(invocationContext.getProxy(),
+                    invocationContext.getMethod(), invocationContext.getArgs(), invocationContext.getRequestMuleMessage()));
+            }
+
+            Object finalResult = null;
+            MuleMessage result = invocationContext.getResponseMuleMessage();
+            Method method = invocationContext.getMethod();
+            String scheme = getScheme(invocationContext);
+            if (result != null)
+            {
+                if (result.getExceptionPayload() != null)
+                {
+                    Throwable t = result.getExceptionPayload().getRootException();
+                    if (exceptionListener != null)
+                    {
+                        if (Exception.class.isAssignableFrom(t.getClass()))
+                        {
+                            exceptionListener.exceptionThrown((Exception) t);
+                        }
+                        else
+                        {
+                            exceptionListener.exceptionThrown(new Exception(t));
+                        }
+                    }
+                    else
+                    {
+                        t = createCallException(result, t, scheme);
+                        throw t;
+                    }
+                }
+                else if (result.getPayload() instanceof NullPayload
+                         || method.getReturnType().equals(Void.TYPE))
+                {
+                    return;
+                }
+                else if (method.getAnnotation(Return.class) != null)
+                {
+                    String returnExpression = method.getAnnotation(Return.class).value();
+
+                    finalResult = handlerReturnAnnotation(returnExpression, result, invocationContext);
+
+                    if (!invocationContext.getReturnType().isInstance(finalResult))
+                    {
+                        Transformer transformer = muleContext.getRegistry().lookupTransformer(
+                            finalResult.getClass(), invocationContext.getReturnType());
+                        finalResult = transformer.transform(finalResult);
+                    }
+                }
+                else
+                {
+                    Class retType = invocationContext.getReturnType();
+                    if (retType.equals(MuleMessage.class))
+                    {
+                        finalResult = result;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            finalResult = invocationContext.getIBeansContext().transform(result, retType);
+                        }
+                        catch (TransformerException e)
+                        {
+                            Exception ex = createCallException(result, e, scheme);
+                            if (exceptionListener != null)
+                            {
+                                exceptionListener.exceptionThrown(ex);
+                            }
+                            else
+                            {
+                                throw ex;
+                            }
+                        }
+                    }
+                }
+                invocationContext.setResult(finalResult);
+            }
+        }
+
+    }
+
 }

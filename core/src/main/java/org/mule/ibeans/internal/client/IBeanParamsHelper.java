@@ -51,7 +51,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.activation.DataHandler;
@@ -269,29 +268,33 @@ public class IBeanParamsHelper
             }
         }
     }
-
-    public InvocationContext createInvocationContext(Method method, Object[] args) throws Exception
+    
+    public void populateInvocationContext(InvocationContext internalInvocationContext) throws Exception
     {
-        Map<String, Object> headerParams = new TreeMap<String, Object>(defaultHeaderParams);
-        Map<String, Object> payloadParams = new TreeMap<String, Object>(defaultPayloadParams);
-        Map<String, Object> uriParams = new TreeMap<String, Object>(defaultUriParams);
-        Map<String, Object> propertyParams = new TreeMap<String, Object>(defaultPropertyParams);
-        List<DataSource> attachments = new ArrayList<DataSource>();
-        Class returnType = method.getReturnType();
+        InternalInvocationContext invocationContext = (InternalInvocationContext) internalInvocationContext;
+        
+        invocationContext.getHeaderParams().putAll(defaultHeaderParams);
+        invocationContext.getPayloadParams().putAll(defaultPayloadParams);
+        invocationContext.getUriParams().putAll(defaultUriParams);
+        invocationContext.getPropertyParams().putAll(defaultPropertyParams);
 
-        checkReturnClass(returnType, method);
+        Method method = invocationContext.getMethod();
+        Object[] args = invocationContext.getArgs();
+        Class returnType = invocationContext.getMethod().getReturnType();
+
+        checkReturnClass(returnType, invocationContext.getMethod());
 
         boolean stateCall = false;
         if (method.isAnnotationPresent(State.class))
         {
             stateCall = true;
             //Record any parameter as stateful
-            headerParams = defaultHeaderParams;
-            payloadParams = defaultPayloadParams;
-            uriParams = defaultUriParams;
+            invocationContext.headerParams = defaultHeaderParams;
+            invocationContext.payloadParams = defaultPayloadParams;
+            invocationContext.uriParams = defaultUriParams;
         }
 
-        List payloads = new ArrayList();
+        List payloads = invocationContext.getPayloads();
 
         //We can have method calls with no parameters
         if (method.getParameterAnnotations().length > 0)
@@ -312,26 +315,22 @@ public class IBeanParamsHelper
                     {
                         if (args[i] instanceof ParamFactory)
                         {
-                            InvocationContext ctx = new InvocationContext(method, muleContext, uriParams, headerParams, propertyParams, payloadParams, payloads, attachments, returnType, stateCall);
-
-                            addComplexParam(annotation, args[i], optional, ctx);
+                            addComplexParam(annotation, args[i], optional, invocationContext);
                         }
                         else
                         {
-                            addUriParam((UriParam) annotation, args[i], method, uriParams, optional);
+                            addUriParam((UriParam) annotation, args[i], method, invocationContext.getUriParams(), optional);
                         }
                     }
                     else if (annotation.annotationType().equals(HeaderParam.class))
                     {
                         if (args[i] instanceof ParamFactory)
                         {
-                            InvocationContext ctx = new InvocationContext(method, muleContext, uriParams, headerParams, propertyParams, payloadParams, payloads, attachments, returnType, stateCall);
-
-                            addComplexParam(annotation, args[i], optional, ctx);
+                            addComplexParam(annotation, args[i], optional, invocationContext);
                         }
                         else
                         {
-                            addHeaderParam((HeaderParam) annotation, args[i], method, headerParams, optional);
+                            addHeaderParam((HeaderParam) annotation, args[i], method, invocationContext.getHeaderParams(), optional);
                         }
                     }
                     else if (annotation.annotationType().equals(PropertyParam.class))
@@ -349,12 +348,12 @@ public class IBeanParamsHelper
                         }
                         else
                         {
-                            addPropertyParam((PropertyParam) annotation, args[i], method, propertyParams, optional);
+                            addPropertyParam((PropertyParam) annotation, args[i], method, invocationContext.getPropertyParams(), optional);
                         }
                     }
                     else if (annotation.annotationType().equals(PayloadParam.class))
                     {
-                        addPayloadParam((PayloadParam) annotation, args[i], method, payloadParams, optional);
+                        addPayloadParam((PayloadParam) annotation, args[i], method, invocationContext.getPayloadParams(), optional);
                     }
                     else if (annotation.annotationType().equals(Payload.class))
                     {
@@ -377,7 +376,7 @@ public class IBeanParamsHelper
                     // Add mime type support on the annotation itself
                     else if (annotation.annotationType().equals(Attachment.class))
                     {
-                        addAttachments((Attachment) annotation, args[i], method, attachments, optional);
+                        addAttachments((Attachment) annotation, args[i], method, invocationContext.getAttachments(), optional);
                     }
                     else
                     {
@@ -391,13 +390,9 @@ public class IBeanParamsHelper
             }
         }
 
-        returnType = getReturnClass(method);
-        InvocationContext ctx = new InvocationContext(method, muleContext, uriParams,
-                headerParams, propertyParams, payloadParams, payloads, attachments, returnType, stateCall);
-        return ctx;
-
+        invocationContext.returnType = getReturnClass(method);
     }
-
+    
     private void checkReturnClass(Class c, Method m)
     {
         if (c.isPrimitive() && !void.class.equals(c) && !m.getName().equals("equals") && !m.getName().equals("hashcode"))
@@ -555,7 +550,7 @@ public class IBeanParamsHelper
         params.put(annotation.value(), encode(arg));
     }
 
-    protected void addComplexParam(Annotation annotation, Object arg, boolean optional, InvocationContext ctx) throws UnsupportedEncodingException
+    protected void addComplexParam(Annotation annotation, Object arg, boolean optional, InternalInvocationContext ctx) throws UnsupportedEncodingException
     {
         if (arg == null && optional)
         {

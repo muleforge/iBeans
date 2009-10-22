@@ -18,6 +18,7 @@ import org.mule.ibeans.api.client.Template;
 import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.ibeans.internal.client.IBeanParamsHelper;
 import org.mule.ibeans.internal.client.IntegrationBeanInvocationHandler;
+import org.mule.ibeans.internal.client.InternalInvocationContext;
 import org.mule.ibeans.internal.client.TemplateAnnotationHandler;
 import org.mule.model.seda.SedaService;
 import org.mule.module.xml.transformer.XmlPrettyPrinter;
@@ -77,18 +78,23 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         }
         else if (method.isAnnotationPresent(State.class))
         {
-            ctx = helper.createInvocationContext(method, args);
+            InternalInvocationContext ctx = new InternalInvocationContext(proxy, method, args, muleContext,
+                exceptionListener, interceptorListCache.get(method));
+            helper.populateInvocationContext(ctx);
             return null;
         }
         else if (method.getName().startsWith("ibean"))
         {
             return method.invoke(this, args);
         }
+
         //Lets process Template as normal since mocking this behaviour doesn't help us much
         else if (method.isAnnotationPresent(Template.class))
         {
             getTemplateHandler().getEvals().put(method.toString(), method.getAnnotation(Template.class).value());
-            ctx = helper.createInvocationContext(method, args);
+            InternalInvocationContext ctx = new InternalInvocationContext(proxy, method, args, muleContext,
+                exceptionListener, interceptorListCache.get(method));
+            helper.populateInvocationContext(ctx);
             MuleMessage message = helper.createMessage(ctx);
             MuleMessage result = getTemplateHandler().invoke(proxy, method, args, message);
             return result.getPayload(method.getReturnType());
