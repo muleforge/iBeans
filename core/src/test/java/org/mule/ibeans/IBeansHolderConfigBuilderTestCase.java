@@ -28,8 +28,8 @@ public class IBeansHolderConfigBuilderTestCase extends AbstractIBeansTestCase
         //Ensure IBeanHolder is comarable
         Set<IBeanHolder> beans = new TreeSet<IBeanHolder>(col);
 
-        assertEquals(3, beans.size());
-        String[] ids = new String[3];
+        assertEquals(4, beans.size());
+        String[] ids = new String[4];
         int i = 0;
         for (Iterator<IBeanHolder> iterator = beans.iterator(); iterator.hasNext(); i++)
         {
@@ -37,7 +37,8 @@ public class IBeansHolderConfigBuilderTestCase extends AbstractIBeansTestCase
             ids[i] = iBeanHolder.getId();
         }
         assertEquals("testexception", ids[0]);
-        assertEquals("testparamsfactory", ids[1]);
-        assertEquals("testuri", ids[2]);
+        assertEquals("testimplicitpropertiesinfactory", ids[1]);
+        assertEquals("testparamsfactory", ids[2]);
+        assertEquals("testuri", ids[3]);
     }
 }
