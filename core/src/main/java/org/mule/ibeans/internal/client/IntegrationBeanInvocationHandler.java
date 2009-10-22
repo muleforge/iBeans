@@ -106,7 +106,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         // Adds default endpoint properties so they are available to any ParmFactory's
         defaultInterceptorList.add(new DefaultEndpointPropertiesInterceptor());
         // 
-        defaultInterceptorList.add(new CreateMessageInterceptor());
+        defaultInterceptorList.add(new StateCallInterceptor());
         defaultInterceptorList.add(new ProcessErrorsInterceptor());
         defaultInterceptorList.add(new IntegrationBeanInvokerInterceptor());
 
@@ -308,9 +308,9 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         public void afterCall(InvocationContext invocationContext) throws Exception
         {
             Object finalResult = invocationContext.getResult();
-            MuleMessage result = invocationContext.getResponseMuleMessage();
+            MuleMessage result = ((InternalInvocationContext) invocationContext).responseMuleMessage;
             String scheme = getScheme(invocationContext);            
-            
+
             if (isErrorReply(invocationContext.getMethod(), invocationContext.getResult(), result))
             {
                 // TODO URGENT remove add dependency to Xml
@@ -337,20 +337,19 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         }
     }
 
-    private final class CreateMessageInterceptor extends AbstractCallInterceptor
+    private final class StateCallInterceptor extends AbstractCallInterceptor
     {
         public void intercept(InvocationContext invocationContext) throws Exception
         {
-            if (!invocationContext.isStateCall())
-            {
-                invocationContext.setRequestMuleMessage(helper.createMessage(invocationContext));
-                invocationContext.proceed();
-            }
-            else
+            if (invocationContext.isStateCall())
             {
                 // If this is a state call we don't need to create a message
                 // Neither do we proceed down the interceptor chain
                 return;
+            }
+            else
+            {
+                invocationContext.proceed();
             }
         }
     }
@@ -414,7 +413,8 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
         public void intercept(InvocationContext invocationContext) throws Throwable
         {
             ExceptionListener exceptionListener = invocationContext.getExceptionListener();
-
+            MuleMessage requestMessage = helper.createMessage(invocationContext);
+            
             if (logger.isTraceEnabled())
             {
                 try
@@ -423,30 +423,33 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler
                                  + invocationContext.getMethod()
                                  + ": \n"
                                  + StringMessageUtils.truncate(
-                                     StringMessageUtils.toString(invocationContext.getRequestMuleMessage().getPayload()),
+                                     StringMessageUtils.toString(requestMessage.getPayload()),
                                      2000, false));
                     logger.trace("Message Headers: \n"
-                                 + StringMessageUtils.headersToString(invocationContext.getRequestMuleMessage()));
+                                 + StringMessageUtils.headersToString(requestMessage));
                 }
                 catch (Exception e)
                 {
                     // ignore
                 }
             }
+            
+            MuleMessage result;
 
             if (templateHandler != null && templateHandler.isMatch(invocationContext.getMethod()))
             {
-                invocationContext.setResponseMuleMessage(templateHandler.invoke(invocationContext.getProxy(),
-                    invocationContext.getMethod(), invocationContext.getArgs(), invocationContext.getRequestMuleMessage()));
+                result = templateHandler.invoke(invocationContext.getProxy(),
+                    invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
             }
             else
             {
-                invocationContext.setResponseMuleMessage(callHandler.invoke(invocationContext.getProxy(),
-                    invocationContext.getMethod(), invocationContext.getArgs(), invocationContext.getRequestMuleMessage()));
+                result = callHandler.invoke(invocationContext.getProxy(),
+                    invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
             }
+            
+            ((InternalInvocationContext) invocationContext).responseMuleMessage = result;
 
             Object finalResult = null;
-            MuleMessage result = invocationContext.getResponseMuleMessage();
             Method method = invocationContext.getMethod();
             String scheme = getScheme(invocationContext);
             if (result != null)

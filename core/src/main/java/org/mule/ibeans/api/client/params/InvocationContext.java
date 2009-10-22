@@ -152,18 +152,6 @@ public interface InvocationContext
 
 
     
-    // Mule Request & Response Messages
-    
-    MuleMessage getRequestMuleMessage();
-
-    void setRequestMuleMessage(MuleMessage requestMuleMessage);
-
-    MuleMessage getResponseMuleMessage();
-
-    void setResponseMuleMessage(MuleMessage responseMuleMessage);
-
-
-    
     // iBeans util methods
     
     /**
