@@ -14,12 +14,11 @@ import org.mule.api.context.MuleContextAware;
 import org.mule.api.registry.ObjectProcessor;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
-import org.mule.impl.annotations.processors.AnnotatedServiceObjectProcessor;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
 
 import java.lang.reflect.Field;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Will check all method level annotations to see if they are {@link org.mule.config.annotations.endpoints.Channel} annotations.
@@ -46,7 +45,7 @@ public class IntegrationBeanAnnotatedObjectProcessor implements ObjectProcessor,
     public Object process(Object object)
     {
 
-        List<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotations(object.getClass(), IntegrationBean.class);
+        Set<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotationsForHeirarchy(object.getClass(), IntegrationBean.class);
 
         for (AnnotationMetaData data : annos)
         {
@@ -58,13 +57,6 @@ public class IntegrationBeanAnnotatedObjectProcessor implements ObjectProcessor,
             Object proxy = router.createProxy(new Object());
             try
             {
-//                if(field.get(object)!=null)
-//                {
-//                    return object;
-//                    //TODO fix: The DefaultLifecycleAdapter calls applyprocessors that invoke the @IntegrationBean processor
-//                    // But iBeans also discovers IntegrationBean annotations
-//                    //throw new IllegalStateException("Integration Beans is already set on object: " + object);
-//                }
                 field.set(object, proxy);
             }
             catch (IllegalAccessException e)
