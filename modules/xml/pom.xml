@@ -65,10 +65,11 @@
                 <!--<groupId>dom4j</groupId>-->
                 <!--<artifactId>dom4j</artifactId>-->
                 <!--</exclusion>-->
-                <exclusion>
-                    <groupId>commons-jxpath</groupId>
-                    <artifactId>commons-jxpath</artifactId>
-                </exclusion>
+                <!-- tODO -->
+                <!--<exclusion>-->
+                <!--<groupId>commons-jxpath</groupId>-->
+                <!--<artifactId>commons-jxpath</artifactId>-->
+                <!--</exclusion>-->
                 <!--<exclusion>-->
                 <!--<groupId>jaxen</groupId>-->
                 <!--<artifactId>jaxen</artifactId>-->
@@ -126,7 +127,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <!--TODO REMOVE DEPENDENCY ON DOM4J AND JAXEN -->
+                                    <!--TODO REMOVE DEPENDENCY ON DOM4J AND JAXEN and JXPATH -->
                                     <include>org.mule.modules:mule-module-xml</include>
                                     <include>dom4j:dom4j</include>
                                     <include>jaxen:jaxen</include>
@@ -134,6 +135,7 @@
                                     <include>xpp3:xpp3_min</include>
                                     <include>org.codehaus.woodstox:wstx-asl</include>
                                     <include>net.java.dev.stax-utils:stax-utils</include>
+                                    <include>commons-jxpath:commons-jxpath</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
