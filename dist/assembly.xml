@@ -9,6 +9,7 @@
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <files>
+        <!-- core -->
         <file>
             <source>../core/target/ibeans-core-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib</outputDirectory>
@@ -18,19 +19,7 @@
             <source>../console/target/ibeans.war</source>
             <outputDirectory>mule-ibeans/webapps</outputDirectory>
         </file>
-
-        <file>
-            <source>../examples/gpswalker/target/gpswalker.war</source>
-            <outputDirectory>mule-ibeans/webapps</outputDirectory>
-        </file>
-        <file>
-            <source>../examples/notifications/target/notifications.war</source>
-            <outputDirectory>mule-ibeans/webapps</outputDirectory>
-        </file>
-        <file>
-            <source>../examples/web/target/web-examples.war</source>
-            <outputDirectory>mule-ibeans/webapps</outputDirectory>
-        </file>
+        <!-- modules -->
         <file>
             <source>../modules/ajax/target/ibeans-module-ajax-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
@@ -59,7 +48,6 @@
             <source>../modules/scheduler/target/ibeans-module-scheduler-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
-
         <file>
             <source>../modules/spring/target/ibeans-module-spring-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
@@ -72,6 +60,7 @@
             <source>../modules/xml/target/ibeans-module-xml-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
+        <!-- tools -->
         <file>
             <source>../tools/shell/target/ibeans-shell-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/tools/shell</outputDirectory>
@@ -106,7 +95,6 @@
                 <exclude>cp*</exclude>
             </excludes>
         </fileSet>
-
         <fileSet>
             <directory>../tools/shell/src/main/resources</directory>
             <outputDirectory>mule-ibeans/tools/shell</outputDirectory>
@@ -295,7 +283,5 @@
         <!--<include>org.mule.ibeans:ibeans-module-spring</include>-->
         <!--</includes>-->
         <!--</dependencySet>-->
-
     </dependencySets>
-
 </assembly>
