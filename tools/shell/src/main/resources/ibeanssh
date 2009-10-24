@@ -11,10 +11,10 @@
 
 if [ ! -d "$CATALINA_HOME" ] ; then
   echo "CATALINA_HOME is not set in your environment, assuming this script is being run from the iBeans shell directory."
-  CATALINA_HOME=../../..
+  CATALINA_HOME=../..
 fi
-
-SHELL_MODULE=$CATALINA_HOME/mule-ibeans/tools/shell/ibeans-shell-full.jar
+SHELL_HOME=$CATALINA_HOME/mule-ibeans/tools/shell
+SHELL_MODULE=$SHELL_HOME/ibeans-shell-full.jar
 
 if [ -f "$SHELL_MODULE" ] ; then
   echo "iBeans Shell module installed, starting..."
@@ -23,11 +23,8 @@ else
   exit 1
 fi
 
-CP=.:$SHELL_MODULE
-#CP=`echo $SHELL_MODULE/*.jar | tr ' ' ':'`:$CP
-
 #need to add the servlet jar separately since iBeans does not ship with it when running in Tomcat
-CP=$CP:$CATALINA_HOME/lib/servlet-api.jar
+CP=$SHELL_MODULE:$CATALINA_HOME/lib/servlet-api.jar
 
-SHELL_CONF=$CATALINA_HOME/mule-ibeans/tools/shell/launcher.conf
-java -Dcatalina.home=$CATALINA_HOME -cp "$CP" org.codehaus.groovy.tools.GroovyStarter --main org.mule.ibeans.shell.Main --conf $SHELL_CONF "$@"
+SHELL_CONF=$SHELL_HOME/launcher.conf
+java -Dcatalina.home=$CATALINA_HOME -Dibeans.shell.home=$SHELL_HOME -cp "$CP" org.codehaus.groovy.tools.GroovyStarter --main org.mule.ibeans.shell.Main --conf $SHELL_CONF "$@"

@@ -122,7 +122,7 @@ class Main extends org.codehaus.groovy.tools.shell.Main
     Verbosity verbosity = io.getVerbosity()
     //Silence this output
     io.setVerbosity(Verbosity.QUIET)
-    shell.execute("load initIbeans.groovy")
+    shell.execute("load " + System.getProperty("ibeans.shell.home") + "/initIbeans.groovy")
     io.setVerbosity(verbosity)
 
     //Remove shell

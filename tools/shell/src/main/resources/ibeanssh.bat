@@ -14,12 +14,13 @@ SETLOCAL
 
 IF "%CATALINA_HOME%"==""  (
   echo CATALINA_HOME is not set in your environment, assuming this script is being run from the iBeans shell directory.
-  set CATALINA_HOME=..\..\..
+  set CATALINA_HOME=..\..
 )
 
 echo CATALINA HOME IS: %CATALINA_HOME%
 
-set SHELL_MODULE=%CATALINA_HOME%\mule-ibeans\tools\shell\ibeans-shell-full.jar
+set SHELL_HOME=%CATALINA_HOME%\mule-ibeans\tools\shell
+set SHELL_MODULE=%SHELL_HOME%\ibeans-shell-full.jar
 
 IF EXIST %SHELL_MODULE% (
     echo iBeans Shell module installed, starting...
@@ -27,14 +28,11 @@ IF EXIST %SHELL_MODULE% (
     goto installshell
 )
 
-set CP=.;%SHELL_MODULE%
-@REM for %%i in (%SHELL_MODULE%\*.jar) do call cp.bat %%i
-
 @REM need to add the servlet jar separately since iBeans does not ship with it when running in Tomcat
-set CP=%CP%;%CATALINA_HOME%\lib\servlet-api.jar
+set CP=%SHELL_MODULE%;%CATALINA_HOME%\lib\servlet-api.jar
 
-set SHELL_CONF=%CATALINA_HOME%\mule-ibeans\tools\shell\launcher.conf
-java -Dcatalina.home=%CATALINA_HOME% -cp "%CP%" org.codehaus.groovy.tools.GroovyStarter --main org.mule.ibeans.shell.Main --conf %SHELL_CONF% "%*"
+set SHELL_CONF=%SHELL_HOME%\launcher.conf
+java -Dcatalina.home=%CATALINA_HOME% -Dibeans.shell.home=%SHELL_HOME% -cp "%CP%" org.codehaus.groovy.tools.GroovyStarter --main org.mule.ibeans.shell.Main --conf %SHELL_CONF% "%*"
 
 goto end
 
