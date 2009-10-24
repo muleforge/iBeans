@@ -1,0 +1,20 @@
+##############################################################################
+##                                                                          ##
+##  iBeans Uninstall script for UN*X                                        ##
+##                                                                          ##
+##############################################################################
+
+##
+## $Revision: $
+## $Id: $
+##
+
+if [ ! -d "$CATALINA_HOME" ] ; then
+  echo "CATALINA_HOME is not set in your environment, assuming this script is being run from the CATALINA/bin directory."
+  CATALINA_HOME=../..
+fi
+
+java -Dcatalina.home=$CATALINA_HOME -jar $CATALINA_HOME/mule-ibeans/tools/updater-1.0.jar -u
+echo "Removing the iBeans directory.."
+rm -fr $CATALINA_HOME/mule-ibeans
+echo "Uninstall complete."
