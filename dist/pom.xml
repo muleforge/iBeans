@@ -78,5 +78,26 @@
             <version>${version}</version>
         </dependency>
 
+        <!-- examples we ship -->
+        <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>gpswalker</artifactId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>notifications</artifactId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>web-examples</artifactId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 </project>

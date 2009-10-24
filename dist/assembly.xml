@@ -72,9 +72,18 @@
             <directory>src/main/resources</directory>
             <outputDirectory>mule-ibeans</outputDirectory>
             <excludes>
-                <exclude>conf</exclude>
+                <exclude>conf/**</exclude>
+                <exclude>scripts/**</exclude>
             </excludes>
         </fileSet>
+
+        <!-- uninstall Scripts -->
+        <fileSet>
+            <directory>src/main/resources/scripts</directory>
+            <outputDirectory>mule-ibeans/bin</outputDirectory>
+            <fileMode>755</fileMode>
+        </fileSet>
+
         <!-- updater tool -->
         <fileSet>
             <directory>../tools/updater/target</directory>
@@ -97,10 +106,9 @@
         </fileSet>
         <fileSet>
             <directory>../tools/shell/src/main/resources</directory>
-            <outputDirectory>mule-ibeans/tools/shell</outputDirectory>
+            <outputDirectory>mule-ibeans/bin</outputDirectory>
             <includes>
                 <include>ibeanssh*</include>
-                <include>cp*</include>
             </includes>
             <fileMode>755</fileMode>
         </fileSet>
@@ -140,6 +148,7 @@
             <scope>runtime</scope>
             <useTransitiveFiltering>false</useTransitiveFiltering>
             <useTransitiveDependencies>false</useTransitiveDependencies>
+            <useProjectArtifact>false</useProjectArtifact>
             <includes>
                 <include>org.mule.ibeans:twitter-ibean</include>
                 <include>org.mule.ibeans:flickr-ibean</include>
@@ -151,10 +160,25 @@
         </dependencySet>
 
         <dependencySet>
+            <outputDirectory>mule-ibeans/webapps</outputDirectory>
+            <scope>runtime</scope>
+            <useTransitiveFiltering>false</useTransitiveFiltering>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>org.mule.ibeans.examples:gpswalker</include>
+                <include>org.mule.ibeans.examples:notifications</include>
+                <include>org.mule.ibeans.examples:web-examples</include>
+            </includes>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
             <outputDirectory>mule-ibeans/lib</outputDirectory>
             <scope>runtime</scope>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useProjectArtifact>false</useProjectArtifact>
             <includes>
                 <!-- include Log4j separately so folks can mess with the version -->
                 <include>log4j:log4j</include>
@@ -164,124 +188,5 @@
             </includes>
         </dependencySet>
 
-
-        <!-- shell module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/shell</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-shell</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- email module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/email</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-email</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- jms module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/jms-client</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-jms-client</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- Rest module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/rest</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-rest</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- scheduling module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/scheduler</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-scheduler</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- Atom module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/atom</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-atom</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- Http module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/http</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-http</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/ajax</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-ajax</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- Guice module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/guice</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-guice</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!-- XML module -->
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/xml</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-xml</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
-
-        <!--<dependencySet>-->
-        <!--<outputDirectory>mule-ibeans/lib/modules/deployed/spring</outputDirectory>-->
-        <!--<scope>runtime</scope>-->
-        <!--<useTransitiveFiltering>true</useTransitiveFiltering>-->
-        <!--<useTransitiveDependencies>true</useTransitiveDependencies>-->
-        <!--<includes>-->
-        <!--<include>org.mule.ibeans:ibeans-module-spring</include>-->
-        <!--</includes>-->
-        <!--</dependencySet>-->
     </dependencySets>
 </assembly>
