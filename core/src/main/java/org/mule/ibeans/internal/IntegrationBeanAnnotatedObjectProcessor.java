@@ -18,7 +18,7 @@ import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
 
 import java.lang.reflect.Field;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Will check all method level annotations to see if they are {@link org.mule.config.annotations.endpoints.Channel} annotations.
@@ -45,7 +45,8 @@ public class IntegrationBeanAnnotatedObjectProcessor implements ObjectProcessor,
     public Object process(Object object)
     {
 
-        Set<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotationsForHeirarchy(object.getClass(), IntegrationBean.class);
+        List<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotations(object.getClass(), IntegrationBean.class);
+        //Set<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotationsForHeirarchy(object.getClass(), IntegrationBean.class);
 
         for (AnnotationMetaData data : annos)
         {
