@@ -72,7 +72,6 @@
             <directory>src/main/resources</directory>
             <outputDirectory>mule-ibeans</outputDirectory>
             <excludes>
-                <exclude>conf/**</exclude>
                 <exclude>scripts/**</exclude>
             </excludes>
         </fileSet>
