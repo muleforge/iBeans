@@ -250,7 +250,7 @@ public class ObjectToHttpClientMethodRequest2 extends AbstractMessageAwareTransf
                     throw new TransformerException(this, e);
                 }
             }
-
+            
             if (src instanceof String)
             {
 

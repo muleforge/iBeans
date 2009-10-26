@@ -54,6 +54,16 @@ import org.jabsorb.JSONRPCServlet;
  * </code>
  * <p/>
  * The default value for 'enabled.ibeans' is '*' (all of them)
+ *
+ * Users can look up iBean usage info using the following URI
+ * http://[host:port]/ibeans/[ibean id]/info.[format]
+ *
+ * For example:
+ *
+ * http://localhost:8080/ibeans/twitter/usage.text
+ *
+ * Currently the only format supported is 'text' But more including html, json and xml will be supported in later versions
+ *
  */
 public class IBeansRpcServlet extends JSONRPCServlet
 {
@@ -95,7 +105,8 @@ public class IBeansRpcServlet extends JSONRPCServlet
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse response) throws ServletException, IOException
     {
-        if(httpServletRequest.getPathInfo().endsWith("/info"))
+        //TODO fix
+        if(httpServletRequest.getPathInfo().endsWith("/usage.text"))
         {
             displayIbeanInfo(httpServletRequest, response);
         }
@@ -105,10 +116,37 @@ public class IBeansRpcServlet extends JSONRPCServlet
         }
     }
 
+    /*
+      TODO this is a stopgap solution for looking up iBean usage info until we have some nicer view implemented this is what you get
+     */
     protected void displayIbeanInfo(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/IBeanInfo.jsp"); 
-        dispatcher.forward(request,response);
+        String path = request.getPathInfo();
+        path = (path.startsWith("/") ? path.substring(1) : path);
+        int i = path.indexOf("/");
+        if(i < 2)
+        {
+            log("Invalid path for ibean info: " + path);
+            response.sendError(404, "Invalid path for ibean info: " + path);
+        }
+        String ibeanId = path.substring(0, i);
+        Collection<IBeanHolder> col = muleContext.getRegistry().lookupObjects(IBeanHolder.class);
+        for (IBeanHolder holder : col)
+        {
+            if(ibeanId.equals(holder.getId()))
+            {
+                String usage = holder.getUsage();
+                response.setContentType("text/plain");
+                response.getOutputStream().print(usage);
+                response.flushBuffer();
+                return;
+            }
+        }
+        log("ibean not found: " + ibeanId);
+        response.sendError(404, "ibean not found: " + ibeanId);
+
+//        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/IBeanInfo.jsp");
+//        dispatcher.forward(request,response);
     }
 
     protected void initBridge(JSONRPCBridge bridge) throws ServletException
