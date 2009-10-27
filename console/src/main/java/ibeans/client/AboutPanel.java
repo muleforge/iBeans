@@ -9,10 +9,10 @@
  */
 package ibeans.client;
 
+import com.extjs.gxt.ui.client.Style;
+import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.Html;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
-import com.extjs.gxt.ui.client.widget.Dialog;
-import com.extjs.gxt.ui.client.Style;
 
 /**
  * TODO
@@ -20,7 +20,8 @@ import com.extjs.gxt.ui.client.Style;
 public class AboutPanel extends LayoutContainer
 {
 
-    public AboutPanel() {
+    public AboutPanel()
+    {
         final Dialog simple = new Dialog();
         simple.setHeading("About...");
         simple.setButtons(Dialog.OK);
@@ -34,19 +35,19 @@ public class AboutPanel extends LayoutContainer
 
     // FIXME:
     // we need version info, license info, support info, etc...
-    public Html getAboutText() {
+    public Html getAboutText()
+    {
         Html html = new Html();
         html.setHtml("<div style='padding: 6px;'> <h1 class=\"welcome-h1\">Mule iBeans</h1>\n" +
                 "\n" +
                 "    Web Application integration made easy. Copyright 2009, MuleSoft, Inc. All rights reserved\n" +
-                "<p>&nbsp;</p>\n" +
-                "    <p>\n" +
+                "<h2><b>Useful Links<b></h2>\n" +
 
-                "        <ul><li>Getting start with iBeans <a href='http://www.mulesoft.org/display/IBEANS/Home' target='_blank'>go here</a></li>" +
-                "        <ul><li>For the Mule and iBeans community forums <a href='http://mulesoft.org' target='_blank'>go here</a></li>" +
-                "        <ul><li>To get an iBeans community account <a href='http://www.mulesoft.org/register/newuser.mule' target='_blank'>go here</a></li>" +
-                "<li>For bug reports and feature requests <a href='http://www.mulesoft.org/jira/browse/IBEANS' target='_blank'>go here</a></li>" +
-                "<li>For MuleSoft commercial support <a href='http://www.mulesoft.com/subscriptions-tcat-server-and-apache-tomcat' target='_blank'>go here</a></li>" +
+                "        <ul><li<a href='http://www.mulesoft.org/display/IBEANS/Home' target='_blank'>Getting started with iBeans</a></li>" +
+                "        <ul><li><a href='http://forums.mulesoft.org/forum.jspa?forumID=123' target='_blank'>Mule and iBeans community forums</a></li>" +
+                "        <ul><li><a href='http://www.mulesoft.org/register/newuser.mule' target='_blank'>Get an iBeans Community account</a></li>" +
+                "<li><a href='http://www.mulesoft.org/jira/browse/IBEANS' target='_blank'>Report bugs and feature requests</a></li>" +
+                "<li><a href='http://www.mulesoft.com/subscriptions-tcat-server-and-apache-tomcat' target='_blank'>MuleSoft and commercial support</a></li>" +
                 "    </ul>\n" +
                 "\n" +
                 "</div>");
