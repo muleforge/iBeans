@@ -50,6 +50,17 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
         assertNull(ibeanscentral.getIBeanByShortName("flickr", "1.0-beta-2"));
     }
 
+    //Twitter s actually a group of iBeans, make sure we it gets indexed properly
+    public void testIndexingWithgroups() throws Exception
+    {
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", "1.0-beta-7");
+        assertNotNull(result);
+        assertEquals("Twitter iBean", result.getName());
+        assertEquals("twitter", result.getShortName());
+
+        assertNull(ibeanscentral.getIBeanByShortName("twitter", "1.0-beta-2"));
+    }
+
     public void testGetAll() throws Exception
     {
         List<IBeanInfo> results = ibeanscentral.getIBeans();
