@@ -21,5 +21,6 @@ IF "%CATALINA_HOME%"==""  (
 java -Dcatalina.home=%CATALINA_HOME% -jar %CATALINA_HOME%\mule-ibeans\tools\updater-1.0.jar -u
 echo Removing the iBeans directory..
 rmdir /S /Q %CATALINA_HOME%/mule-ibeans
+del /Q $CATALINA_HOME/conf/Catalina/localhost/web-examples.xml
 echo Uninstall complete.
 
