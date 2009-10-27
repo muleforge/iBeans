@@ -70,6 +70,7 @@ public class IBeansConsole2 implements EntryPoint
     private List<StatusItem> statusList = new ArrayList<StatusItem>();
     private StatusPanel statusBar;
     private UserInfo user;
+    private AppInfo appInfo;
 
     /**
      * This is the entry point method.
@@ -97,6 +98,14 @@ public class IBeansConsole2 implements EntryPoint
         // prefetch the image, so that e.g. SessionKilled dialog can be properly displayed for the first time
         // when the server is already down and cannot serve it.
         Image.prefetch("images/lightbox.png");
+
+        applicationService.getApplicationInfo(new AbstractAsyncCallback<AppInfo>(this)
+        {
+            public void onSuccess(AppInfo info)
+            {
+                appInfo = info;
+            }
+        });
 
         user = getUserInfo();
 
@@ -194,34 +203,32 @@ public class IBeansConsole2 implements EntryPoint
         base.add(southPanel, data);
     }
 
+    public AppInfo getAppInfo()
+    {
+        return appInfo;
+    }
 
     /**
      * adds to the left of the  copyright info
      */
     protected void prependFooterConent(final FlowPanel panel)
     {
-
-        applicationService.getApplicationInfo(new AbstractAsyncCallback<AppInfo>(this)
+        product = new Label("About " + appInfo.getName());
+        product.setStyleName("footer-link");
+        product.addClickHandler(new ClickHandler()
         {
-            public void onSuccess(AppInfo info)
+            public void onClick(ClickEvent arg0)
             {
-                product = new Label("About " + info.getName());
-                product.setStyleName("footer-link");
-                product.addClickHandler(new ClickHandler()
-                {
-                    public void onClick(ClickEvent arg0)
-                    {
-                        new AboutPanel(IBeansConsole2.this);
-                    }
-                });
-                panel.add(product);
-                panel.add(newSpacerPipe());
-
-                Label copyright = new Label(info.getCopyright());
-                //copyright.setStyleName("footer-text");
-                panel.add(copyright);
+                new AboutPanel(IBeansConsole2.this);
             }
         });
+        panel.add(product);
+        panel.add(newSpacerPipe());
+
+        Label copyright = new Label(appInfo.getCopyright());
+        //copyright.setStyleName("footer-text");
+        panel.add(copyright);
+
     }
 
     public Label newSpacerPipe()
@@ -255,18 +262,12 @@ public class IBeansConsole2 implements EntryPoint
         northPanel.add(header);
         base.add(northPanel, data);
 
-        applicationService.getApplicationInfo(new AbstractAsyncCallback<AppInfo>(this)
-        {
-            public void onSuccess(AppInfo appInfo)
-            {
-                Label head = new Label(appInfo.getName());
-                head.setStyleName("header-title");
-                header.add(head);
-                Label subhead = new Label(appInfo.getVersion());
-                subhead.setStyleName("header-sub-title");
-                header.add(subhead);
-            }
-        });
+        Label head = new Label(appInfo.getName());
+        head.setStyleName("header-title");
+        header.add(head);
+        Label subhead = new Label(appInfo.getVersion());
+        subhead.setStyleName("header-sub-title");
+        header.add(subhead);
 
     }
 

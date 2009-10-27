@@ -21,11 +21,8 @@ import ibeans.client.model.AppInfo;
  */
 public class AboutPanel extends LayoutContainer
 {
-    private IBeansConsole2 console;
-
     public AboutPanel(IBeansConsole2 console)
     {
-        this.console = console;
         final Dialog simple = new Dialog();
         simple.setHeading("About...");
         simple.setButtons(Dialog.OK);
@@ -33,34 +30,28 @@ public class AboutPanel extends LayoutContainer
         simple.setScrollMode(Style.Scroll.AUTO);
         simple.setHideOnButtonClick(true);
         simple.setWidth(500);
-        getAboutText(simple);
+        simple.add(getAboutText(console.getAppInfo()));
+        simple.show();
     }
 
-    public void getAboutText(final Dialog d)
+    public Html getAboutText(final AppInfo appInfo)
     {
-        console.getApplicationService().getApplicationInfo(new AbstractAsyncCallback<AppInfo>(console)
-        {
-            public void onSuccess(AppInfo info)
-            {
-                Html html = new Html();
-                html.setHtml("<div style='padding: 6px;'> <h1 class=\"welcome-h1\">" + info.getName() + " - " + info.getVersion() + "</h1>\n" +
-                        "\n" +
-                        "Web Application integration made easy. " + info.getCopyright() + "\n" +
-                        info.getCopyright() + "\n" +
-                        "<p/><p/><b>Useful Links<b></h2><p/>\n" +
+        Html html = new Html();
+        html.setHtml("<div style='padding: 6px;'> <h1 class=\"welcome-h1\">" + appInfo.getName() + " - " + appInfo.getVersion() + "</h1>\n" +
+                "\n" +
+                "Web Application integration made easy. " + appInfo.getCopyright() + "\n" +
+                appInfo.getCopyright() + "\n" +
+                "<p/><p/><b>Useful Links<b></h2><p/>\n" +
 
-                        "        <ul><li<a href='http://www.mulesoft.org/display/IBEANS/Home' target='_blank'>Getting started with iBeans</a></li>" +
-                        "        <ul><li><a href='http://forums.mulesoft.org/forum.jspa?forumID=123' target='_blank'>Mule and iBeans community forums</a></li>" +
-                        "        <ul><li><a href='http://www.mulesoft.org/register/newuser.mule' target='_blank'>Get an iBeans Community account</a></li>" +
-                        "<li><a href='http://www.mulesoft.org/jira/browse/IBEANS' target='_blank'>Report bugs and feature requests</a></li>" +
-                        "<li><a href='http://www.mulesoft.com/subscriptions-tcat-server-and-apache-tomcat' target='_blank'>MuleSoft and commercial support</a></li>" +
-                        "    </ul>\n" +
-                        "\n" +
-                        "</div>");
+                "        <ul><li<a href='http://www.mulesoft.org/display/IBEANS/Home' target='_blank'>Getting started with iBeans</a></li>" +
+                "        <ul><li><a href='http://forums.mulesoft.org/forum.jspa?forumID=123' target='_blank'>Mule and iBeans community forums</a></li>" +
+                "        <ul><li><a href='http://www.mulesoft.org/register/newuser.mule' target='_blank'>Get an iBeans Community account</a></li>" +
+                "<li><a href='http://www.mulesoft.org/jira/browse/IBEANS' target='_blank'>Report bugs and feature requests</a></li>" +
+                "<li><a href='http://www.mulesoft.com/subscriptions-tcat-server-and-apache-tomcat' target='_blank'>MuleSoft and commercial support</a></li>" +
+                "    </ul>\n" +
+                "\n" +
+                "</div>");
+        return html;
 
-                d.add(html);
-                d.show();
-            }
-        });
     }
 }
