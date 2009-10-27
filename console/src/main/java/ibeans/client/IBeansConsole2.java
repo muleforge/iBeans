@@ -130,6 +130,11 @@ public class IBeansConsole2 implements EntryPoint
         return repositoryService;
     }
 
+    public ApplicationServiceAsync getApplicationService()
+    {
+        return applicationService;
+    }
+
     public void updateStatus(ibeans.client.Status status, String text)
     {
         String style;
@@ -206,7 +211,7 @@ public class IBeansConsole2 implements EntryPoint
                 {
                     public void onClick(ClickEvent arg0)
                     {
-                        new AboutPanel();
+                        new AboutPanel(IBeansConsole2.this);
                     }
                 });
                 panel.add(product);
@@ -309,8 +314,6 @@ public class IBeansConsole2 implements EntryPoint
             options.add(l);
         }
 
-        options.add(newSpacerPipe());
-        options.add(new ExternalHyperlink("Docs", "http://www.mulesoft.org/display/IBEANS", "_blank"));
         options.add(newSpacerPipe());
         options.add(new ExternalHyperlink("Help", "http://www.mulesoft.org/display/IBEANS/Managing+iBeans", "_blank"));
 

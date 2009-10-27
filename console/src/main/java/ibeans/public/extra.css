@@ -99,8 +99,6 @@
     margin-left: 40;
 }
 
-.faux-link
-{
-    text-decoration: underline;
-    cursor: hand;
+.faux-link {
+    cursor: pointer;
 }
