@@ -38,6 +38,7 @@ import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import java.beans.ExceptionListener;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -57,26 +58,26 @@ import org.w3c.dom.Document;
  * The proxy handler responsible for making calls on behalf of the the IntegrationBean.  This handler maintains any state
  * and parses any parameter annotations before making the call.
  */
-public class IntegrationBeanInvocationHandler implements InvocationHandler
+public class IntegrationBeanInvocationHandler implements InvocationHandler, Serializable
 {
-    protected static Log logger = LogFactory.getLog(IntegrationBeanInvocationHandler.class);
+    protected static transient Log logger = LogFactory.getLog(IntegrationBeanInvocationHandler.class);
 
-    protected MuleContext muleContext;
+    protected transient MuleContext muleContext;
 
-    protected TemplateAnnotationHandler templateHandler;
-    protected CallAnnotationHandler callHandler;
+    protected transient TemplateAnnotationHandler templateHandler;
+    protected transient CallAnnotationHandler callHandler;
 
-    protected ExceptionListener exceptionListener;
+    protected transient ExceptionListener exceptionListener;
 
-    protected IBeanParamsHelper helper;
+    protected transient IBeanParamsHelper helper;
 
-    protected TemplateParser parser = TemplateParser.createCurlyBracesStyleParser();
+    protected transient TemplateParser parser = TemplateParser.createCurlyBracesStyleParser();
 
-    protected List<CallInterceptor> defaultInterceptorList = new ArrayList<CallInterceptor>();
+    protected transient List<CallInterceptor> defaultInterceptorList = new ArrayList<CallInterceptor>();
 
-    protected CallInterceptor invoker;
+    protected transient CallInterceptor invoker;
 
-    protected Map<Method, List<CallInterceptor>> interceptorListCache = new HashMap<Method, List<CallInterceptor>>();
+    protected transient Map<Method, List<CallInterceptor>> interceptorListCache = new HashMap<Method, List<CallInterceptor>>();
 
     public IntegrationBeanInvocationHandler(Class iface, Service service, MuleContext muleContext)
     {
