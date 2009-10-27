@@ -13,8 +13,8 @@ import org.mule.api.MuleContext;
 import org.mule.api.config.MuleProperties;
 import org.mule.ibeans.ConfigManager;
 import org.mule.ibeans.config.IBeanHolder;
-import org.mule.ibeans.web.jabsorb.EnumSerializer;
 import org.mule.ibeans.web.jabsorb.ClassSerializer;
+import org.mule.ibeans.web.jabsorb.EnumSerializer;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -22,10 +22,8 @@ import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jabsorb.JSONRPCBridge;
 import org.jabsorb.JSONRPCServlet;
@@ -54,16 +52,15 @@ import org.jabsorb.JSONRPCServlet;
  * </code>
  * <p/>
  * The default value for 'enabled.ibeans' is '*' (all of them)
- *
+ * <p/>
  * Users can look up iBean usage info using the following URI
  * http://[host:port]/ibeans/[ibean id]/info.[format]
- *
+ * <p/>
  * For example:
- *
+ * <p/>
  * http://localhost:8080/ibeans/twitter/usage.text
- *
+ * <p/>
  * Currently the only format supported is 'text' But more including html, json and xml will be supported in later versions
- *
  */
 public class IBeansRpcServlet extends JSONRPCServlet
 {
@@ -100,53 +97,6 @@ public class IBeansRpcServlet extends JSONRPCServlet
             initBridge(bridge);
         }
         super.service(servletRequest, servletResponse);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse response) throws ServletException, IOException
-    {
-        //TODO fix
-        if(httpServletRequest.getPathInfo().endsWith("/usage.text"))
-        {
-            displayIbeanInfo(httpServletRequest, response);
-        }
-        else
-        {
-            super.doGet(httpServletRequest, response);
-        }
-    }
-
-    /*
-      TODO this is a stopgap solution for looking up iBean usage info until we have some nicer view implemented this is what you get
-     */
-    protected void displayIbeanInfo(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
-    {
-        String path = request.getPathInfo();
-        path = (path.startsWith("/") ? path.substring(1) : path);
-        int i = path.indexOf("/");
-        if(i < 2)
-        {
-            log("Invalid path for ibean info: " + path);
-            response.sendError(404, "Invalid path for ibean info: " + path);
-        }
-        String ibeanId = path.substring(0, i);
-        Collection<IBeanHolder> col = muleContext.getRegistry().lookupObjects(IBeanHolder.class);
-        for (IBeanHolder holder : col)
-        {
-            if(ibeanId.equals(holder.getId()))
-            {
-                String usage = holder.getUsage();
-                response.setContentType("text/plain");
-                response.getOutputStream().print(usage);
-                response.flushBuffer();
-                return;
-            }
-        }
-        log("ibean not found: " + ibeanId);
-        response.sendError(404, "ibean not found: " + ibeanId);
-
-//        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/IBeanInfo.jsp");
-//        dispatcher.forward(request,response);
     }
 
     protected void initBridge(JSONRPCBridge bridge) throws ServletException

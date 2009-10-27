@@ -29,10 +29,15 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>ibeans</servlet-name>-->
-    <!--<url-pattern>/ibeans/*</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>ibeans-usage</servlet-name>
+        <servlet-class>org.mule.ibeans.web.IBeansUsageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ibeans-usage</servlet-name>
+        <url-pattern>/usage/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>applicationServlet</servlet-name>
