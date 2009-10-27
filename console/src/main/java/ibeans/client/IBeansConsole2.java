@@ -33,7 +33,6 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -48,8 +47,8 @@ import java.util.List;
 import java.util.Map;
 
 import ibeans.client.model.AppInfo;
-import ibeans.client.util.InlineFlowPanel;
 import ibeans.client.util.ExternalHyperlink;
+import ibeans.client.util.InlineFlowPanel;
 
 /**
  * TODO
@@ -310,6 +309,11 @@ public class IBeansConsole2 implements EntryPoint
             options.add(l);
         }
 
+        options.add(newSpacerPipe());
+        options.add(new ExternalHyperlink("Docs", "http://www.mulesoft.org/display/IBEANS", "_blank"));
+        options.add(newSpacerPipe());
+        options.add(new ExternalHyperlink("Help", "http://www.mulesoft.org/display/IBEANS/Managing+iBeans", "_blank"));
+
         return options;
     }
 
@@ -341,17 +345,17 @@ public class IBeansConsole2 implements EntryPoint
                 public void onResponseReceived(Request request, Response response)
                 {
                     welcomeTab.add(new Html(response.getText()));
-                    final CheckBox box = new CheckBox(" Do not show this screen in future");
-                    //box.setStyleName("welcome-check");
-                    box.addClickHandler(new ClickHandler()
-                    {
-                        public void onClick(ClickEvent event)
-                        {
-                            user.setShowWelcome(box.getValue());
-                            saveUserInfo(user);
-                        }
-                    });
-                    welcomeTab.add(box);
+//                    final CheckBox box = new CheckBox(" Do not show this screen in future");
+//                    //box.setStyleName("welcome-check");
+//                    box.addClickHandler(new ClickHandler()
+//                    {
+//                        public void onClick(ClickEvent event)
+//                        {
+//                            user.setShowWelcome(box.getValue());
+//                            saveUserInfo(user);
+//                        }
+//                    });
+//                    welcomeTab.add(box);
                     welcomeTab.layout();
                 }
 
@@ -526,7 +530,7 @@ public class IBeansConsole2 implements EntryPoint
     }
 
 
-     class UserInfo
+    class UserInfo
     {
         private String user;
         private String pass;
@@ -538,11 +542,11 @@ public class IBeansConsole2 implements EntryPoint
 
         UserInfo(String raw)
         {
-            if(raw == null)
+            if (raw == null)
             {
                 return;
             }
-            
+
             int i = raw.indexOf(";");
             while (i > 0 && i < raw.length())
             {
