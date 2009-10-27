@@ -29,7 +29,7 @@
         <licenseUrl>http://mulesoft.org/display/MULE/License</licenseUrl>
 
         <maven-project-info-reports-plugin-version>2.1</maven-project-info-reports-plugin-version>
-        <maven-javadoc-plugin-version>2.6</maven-javadoc-plugin-version>
+        <maven-javadoc-plugin-version>2.6.1</maven-javadoc-plugin-version>
         <maven-jxr-plugin-version>2.1</maven-jxr-plugin-version>
         <maven-surefire-report-plugin-version>2.4.2</maven-surefire-report-plugin-version>
         <maven-checkstyle-plugin-version>2.3</maven-checkstyle-plugin-version>
@@ -708,6 +708,8 @@
                         <link>http://www.junit.org/junit/javadoc/3.8.1/</link>
                         <link>http://junit.sourceforge.net/javadoc/</link>
                     </links>
+                    <!-- required for publishing the public javadocs -->
+                    <destDir>javadocs</destDir>
                 </configuration>
             </plugin>
 
@@ -893,26 +895,6 @@
                     </plugins>
                 </pluginManagement>
             </build>
-        </profile>
-
-        <profile>
-            <id>bamboo</id>
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <!--
-                                 The javadocs need to go to 
-                                 /var/www/domains/mulesoft.org/ibeans/javadocs
-                            -->
-                            <destDir>javadocs</destDir>
-                            <reportOutputDirectory>/var/www/domains/mulesoft.org/ibeans</reportOutputDirectory>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </reporting>
         </profile>
     </profiles>
 </project>
