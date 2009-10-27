@@ -37,7 +37,7 @@ java -Dcatalina.home=%CATALINA_HOME% -Dibeans.shell.home=%SHELL_HOME% -cp "%CP%"
 goto end
 
 :installshell
-echo You need to have the iBeans Shell module for iBeans installed. Go to http://localhost:8080/ibeans (or where ever you have iBeans running) and install the iBeans Shell module.
+echo Could not find the shell.  Make sure you have your CATALINA_HOME property set.
 
 :end
 ENDLOCAL

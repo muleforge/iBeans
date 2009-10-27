@@ -19,7 +19,7 @@ SHELL_MODULE=$SHELL_HOME/ibeans-shell-full.jar
 if [ -f "$SHELL_MODULE" ] ; then
   echo "iBeans Shell module installed, starting..."
 else
-  echo "You need to have the iBeans Shell module for iBeans installed. Go to http://localhost:8080/ibeans (or where ever you have iBeans running) and install the iBeans Shell module"
+  echo "Could not find the shell.  Make sure you have your CATALINA_HOME property set."
   exit 1
 fi
 
