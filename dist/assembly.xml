@@ -73,6 +73,7 @@
             <outputDirectory>mule-ibeans</outputDirectory>
             <excludes>
                 <exclude>scripts/**</exclude>
+                <exclude>doc/**</exclude>
             </excludes>
         </fileSet>
 
