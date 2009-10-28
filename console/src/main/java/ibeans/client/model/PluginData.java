@@ -53,6 +53,7 @@ public class PluginData implements ModelData, Serializable
         add("installed", plugin.isInstalled());
         add("commentsCount", plugin.getCommentsCount());
         add("author", plugin.getAuthor());
+        add("authorUrl", plugin.getAuthorUrl());
         add("id", plugin.getId());
         add("filename", plugin.getFilename());
         add("bundled", plugin.isBundled());
@@ -67,6 +68,7 @@ public class PluginData implements ModelData, Serializable
     {
         Plugin p = new Plugin();
         p.setAuthor((String) get("author"));
+        p.setAuthorUrl((String) get("authorUrl"));
         p.setDescription((String) get("description"));
         p.setName((String) get("name"));
         p.setRating((Float) get("rating"));

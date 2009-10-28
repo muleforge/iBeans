@@ -42,7 +42,7 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
 
     public void testSearchWithVersion() throws Exception
     {
-        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", "1.0-beta-7");
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", "1.0-beta-8");
         assertNotNull(result);
         assertEquals("Flickr iBean", result.getName());
         assertEquals("flickr", result.getShortName());
@@ -53,7 +53,7 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
     //Twitter s actually a group of iBeans, make sure we it gets indexed properly
     public void testIndexingWithgroups() throws Exception
     {
-        IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", "1.0-beta-7");
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", "1.0-beta-8");
         assertNotNull(result);
         assertEquals("Twitter iBean", result.getName());
         assertEquals("twitter", result.getShortName());

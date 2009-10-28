@@ -39,9 +39,9 @@ public class AboutPanel extends LayoutContainer
         Html html = new Html();
         html.setHtml("<div style='padding: 6px;'> <h1 class=\"welcome-h1\">" + appInfo.getName() + " - " + appInfo.getVersion() + "</h1>\n" +
                 "\n" +
-                "Web Application integration made easy. " + appInfo.getCopyright() + "\n" +
-                appInfo.getCopyright() + "\n" +
-                "<p/><p/><b>Useful Links<b></h2><p/>\n" +
+                "Web Application integration made easy.\n" +
+                appInfo.getCopyright() + "\n\n" +
+                "<p>&nbsp;</p><b>Useful Links<b></h2><p/>\n" +
 
                 "        <ul><li<a href='http://www.mulesoft.org/display/IBEANS/Home' target='_blank'>Getting started with iBeans</a></li>" +
                 "        <ul><li><a href='http://forums.mulesoft.org/forum.jspa?forumID=123' target='_blank'>Mule and iBeans community forums</a></li>" +

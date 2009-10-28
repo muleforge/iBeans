@@ -104,17 +104,18 @@ public class IBeansConsole2 implements EntryPoint
             public void onSuccess(AppInfo info)
             {
                 appInfo = info;
-                createHeader(null /*new Image(LOGO)*/);
-                createFooter();
+                initView();
             }
         });
+    }
 
-
+    protected void initView()
+    {
         user = getUserInfo();
 
         base = new Viewport();
         base.setLayout(new BorderLayout());
-
+        createHeader(null /*new Image(LOGO)*/);
 
         tabPanel = new TabPanel();
         tabPanel.setAutoHeight(true);
@@ -123,11 +124,11 @@ public class IBeansConsole2 implements EntryPoint
 
         createBody();
         loadTabs(this);
+        createFooter();
 
         RootPanel.get().add(base);
         base.layout(true);
         updateStatus(Status.INFO, "Ready for action");
-
     }
 
     public PluginsServiceAsync getPluginsService()

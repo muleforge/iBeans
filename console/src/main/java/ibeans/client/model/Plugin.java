@@ -31,6 +31,7 @@ public class Plugin implements Serializable
     private String type;
     private int commentsCount;
     private String author;
+    private String authorUrl;
     private String filename;
     private String licenseName;
     private String licenseUrl;
@@ -160,6 +161,16 @@ public class Plugin implements Serializable
     public void setAuthor(String author)
     {
         this.author = author;
+    }
+
+    public String getAuthorUrl()
+    {
+        return authorUrl;
+    }
+
+    public void setAuthorUrl(String authorUrl)
+    {
+        this.authorUrl = authorUrl;
     }
 
     public String getId()

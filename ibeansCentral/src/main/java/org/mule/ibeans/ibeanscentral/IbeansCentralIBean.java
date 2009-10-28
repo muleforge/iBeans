@@ -49,13 +49,13 @@ public interface IbeansCentralIBean extends HttpBasicAuthentication
     @State
     void init(@PropertyParam("username") String username, @PropertyParam("password") String password);
 
-    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and child:type.name = 'iBean'", properties = HTTP.FOLLOW_REDIRECTS)
+    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title like '-ibean'", properties = HTTP.FOLLOW_REDIRECTS)
     List<IBeanInfo> getIBeans() throws CallException;
 
-    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and child:type.name = 'iBean' and jar.manifest.Specification-Title = '{shortName}-ibean'", properties = HTTP.FOLLOW_REDIRECTS)
+    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title = '{shortName}-ibean'", properties = HTTP.FOLLOW_REDIRECTS)
     IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName) throws CallException;
 
-    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and child:type.name = 'iBean' and jar.manifest.Specification-Title = '{shortName}-ibean' and name = '{version}'", properties = HTTP.FOLLOW_REDIRECTS)
+    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title = '{shortName}-ibean' and name = '{version}'", properties = HTTP.FOLLOW_REDIRECTS)
     IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName, @UriParam("version") String version) throws CallException;
 
     @Call(uri = "http://{host}:{port}{download_uri}", properties = HTTP.FOLLOW_REDIRECTS)

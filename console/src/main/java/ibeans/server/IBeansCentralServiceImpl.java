@@ -112,6 +112,7 @@ public class IBeansCentralServiceImpl extends RemoteServiceServlet implements IB
     {
         Plugin p = new Plugin(info.getShortName(), info.getName(), info.getDescription(), info.getVersion(), "iBean");
         p.setAuthor(info.getAuthorName());
+        p.setAuthorUrl(info.getAuthorUrl());
         p.setLicenseName(info.getLicenseName());
         p.setLicenseUrl(info.getLicenseUrl());
         p.setUrl(info.getUrl());
