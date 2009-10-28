@@ -96,13 +96,13 @@
         <snapshotRepository>
             <id>muleforge.webdav.snapshots</id>
             <url>dav:https://dav.muleforge.org/snapshots.repository/${domainName}</url>
+            <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
         <site>
             <id>muleforge.webdav.sites</id>
             <url>dav:https://dav.muleforge.org/${domainName}/maven/${version}</url>
         </site>
     </distributionManagement>
-
 
     <repositories>
         <repository>
@@ -704,7 +704,7 @@
                         <link>http://jakarta.apache.org/commons/pool/apidocs/</link>
                         <link>http://logging.apache.org/log4j/1.2/apidocs/</link>
                         <link>http://www.slf4j.org/api/</link>
-                        <link>http://dcl.mathcs.emory.edu/util/backport-util-concurrent/doc/api/</link>
+                        <link>http://backport-jsr166.sourceforge.net/doc/api/</link>
                         <link>http://www.junit.org/junit/javadoc/3.8.1/</link>
                         <link>http://junit.sourceforge.net/javadoc/</link>
                     </links>
