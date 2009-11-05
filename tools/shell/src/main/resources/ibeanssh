@@ -10,7 +10,7 @@
 ##
 
 if [ ! -d "$CATALINA_HOME" ] ; then
-  echo "CATALINA_HOME is not set in your environment, assuming this script is being run from the iBeans shell directory."
+  echo "CATALINA_HOME is not set in your environment, assuming this script is being run from the CATALINA_HOME/mule-ibeans/bin."
   CATALINA_HOME=../..
 fi
 SHELL_HOME=$CATALINA_HOME/mule-ibeans/tools/shell

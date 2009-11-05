@@ -13,7 +13,7 @@
 SETLOCAL
 
 IF "%CATALINA_HOME%"==""  (
-  echo CATALINA_HOME is not set in your environment, assuming this script is being run from the CATALINA/bin directory.
+  echo CATALINA_HOME is not set in your environment, assuming this script is being run from the CATALINA_HOME/mule-ibeans/bin directory.
   set CATALINA_HOME=../..
 )
 
