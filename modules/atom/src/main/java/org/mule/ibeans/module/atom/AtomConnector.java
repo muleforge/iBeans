@@ -17,8 +17,9 @@ import org.mule.api.service.Service;
 import org.mule.ibeans.channels.ATOM;
 import org.mule.ibeans.internal.ext.ServiceCallback;
 import org.mule.transport.abdera.InboundFeedSplitter;
-import org.mule.transport.abdera.filters.LastUpdatedFilter;
+import org.mule.transport.abdera.filters.EntryLastUpdatedFilter;
 import org.mule.transport.http.HttpConnector;
+import org.mule.util.MapUtils;
 import org.mule.util.StringUtils;
 
 import java.text.ParseException;
@@ -92,34 +93,36 @@ public class AtomConnector extends HttpConnector implements ServiceCallback
 
     public void process(Service service, ImmutableEndpoint endpoint) throws MuleException
     {
-        if (isSplitFeed())
-        {
-            String lastUpdate = (String) endpoint.getProperty(ATOM.LAST_UPDATE_DATE);
+        String lastUpdate = (String) endpoint.getProperty(ATOM.LAST_UPDATE_DATE);
 
-            Date lastUpdateDate;
-            if (StringUtils.isNotBlank(lastUpdate))
+        Date lastUpdateDate;
+        if (StringUtils.isNotBlank(lastUpdate))
+        {
+            try
             {
-                try
+                if (lastUpdate.length() == 10)
                 {
-                    if (lastUpdate.length() == 10)
-                    {
-                        lastUpdateDate = shortDateFormatter.parse(lastUpdate);
-                    }
-                    else
-                    {
-                        lastUpdateDate = dateFormatter.parse(lastUpdate);
-                    }
+                    lastUpdateDate = shortDateFormatter.parse(lastUpdate);
                 }
-                catch (ParseException e)
+                else
                 {
-                    throw new DefaultMuleException(e);
+                    lastUpdateDate = dateFormatter.parse(lastUpdate);
                 }
             }
-            else
+            catch (ParseException e)
             {
-                lastUpdateDate = getLastUpdate();
+                throw new DefaultMuleException(e);
             }
-            Filter filter = new LastUpdatedFilter(lastUpdateDate);
+        }
+        else
+        {
+            lastUpdateDate = getLastUpdate();
+        }
+
+        boolean splitFeed = MapUtils.getBooleanValue(endpoint.getProperties(), "splitFeed", isSplitFeed());
+        if (splitFeed)
+        {
+            Filter filter = new EntryLastUpdatedFilter(lastUpdateDate);
             InboundFeedSplitter splitter = new InboundFeedSplitter();
             splitter.setMuleContext(getMuleContext());
             splitter.setEntryFilter(filter);
