@@ -22,7 +22,7 @@
         <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
         <jdk5Name>jdk5</jdk5Name>
         <jdk6Name>jdk6</jdk6Name>
-        <muleVersion>3.0.0-M2-20091026</muleVersion>
+        <muleVersion>3.0.0-M2-SNAPSHOT</muleVersion>
         <shortId>IBEANS</shortId>
         <domainName>ibeans</domainName>
         <licenseId>CPAL 1.0</licenseId>
