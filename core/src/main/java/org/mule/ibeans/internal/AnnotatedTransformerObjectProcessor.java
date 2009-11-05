@@ -12,7 +12,7 @@ package org.mule.ibeans.internal;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.context.MuleContextAware;
-import org.mule.api.registry.ObjectProcessor;
+import org.mule.api.registry.PreInitProcessor;
 import org.mule.ibeans.api.application.Transformer;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Will check all method level annotations to see if they are {@link org.mule.config.annotations.endpoints.Channel} annotations.
  */
-public class AnnotatedTransformerObjectProcessor implements ObjectProcessor, MuleContextAware
+public class AnnotatedTransformerObjectProcessor implements PreInitProcessor, MuleContextAware
 {
 
     private MuleContext muleContext;

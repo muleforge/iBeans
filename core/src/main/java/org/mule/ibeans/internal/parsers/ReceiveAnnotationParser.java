@@ -20,6 +20,8 @@ import org.mule.impl.endpoint.MEP;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Responsible for parsing the {@link org.mule.ibeans.api.application.Receive} annotation.  This is an iBeans
@@ -28,7 +30,7 @@ import java.lang.reflect.Member;
 public class ReceiveAnnotationParser extends AbstractEndpointAnnotationParser
 {
     @Override
-    public InboundEndpoint parseInboundEndpoint(Annotation annotation) throws MuleException
+    public InboundEndpoint parseInboundEndpoint(Annotation annotation, Map metaInfo) throws MuleException
     {
         Receive receive = (Receive) annotation;
         ChannelConfigBuilder builder = lookupConfig(receive.config(), ChannelConfigBuilder.class);
@@ -38,7 +40,7 @@ public class ReceiveAnnotationParser extends AbstractEndpointAnnotationParser
         }
         else
         {
-            return super.parseInboundEndpoint(annotation);
+            return super.parseInboundEndpoint(annotation, Collections.EMPTY_MAP);
         }
     }
 

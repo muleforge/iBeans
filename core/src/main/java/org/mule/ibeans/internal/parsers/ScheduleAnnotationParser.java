@@ -13,6 +13,7 @@ import org.mule.api.MuleException;
 import org.mule.api.endpoint.InboundEndpoint;
 import org.mule.config.annotations.endpoints.Channel;
 import org.mule.ibeans.api.application.Schedule;
+import org.mule.ibeans.channels.CHANNEL;
 import org.mule.ibeans.config.ScheduleConfigBuilder;
 import org.mule.impl.endpoint.AbstractEndpointAnnotationParser;
 import org.mule.impl.endpoint.AnnotatedEndpointData;
@@ -23,6 +24,8 @@ import org.mule.util.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Creates a Quartz inbound endpoint for a service
@@ -31,7 +34,7 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
 {
 
     @Override
-    public InboundEndpoint parseInboundEndpoint(Annotation annotation) throws MuleException
+    public InboundEndpoint parseInboundEndpoint(Annotation annotation, Map metaInfo) throws MuleException
     {
         Schedule schedule = (Schedule) annotation;
         ScheduleConfigBuilder builder = lookupConfig(schedule.config(), ScheduleConfigBuilder.class);
@@ -41,7 +44,7 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
         }
         else
         {
-            return super.parseInboundEndpoint(annotation);
+            return super.parseInboundEndpoint(annotation, Collections.EMPTY_MAP);
         }
     }
 
@@ -54,10 +57,19 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
         AnnotatedEndpointData epData = new AnnotatedEndpointData(MEP.InOnly);
 
         epData.setProperties(convertProperties(getProperties(schedule)));
+        //By default the scheduler should only use a single thread
+        String threads = (String) epData.getProperties().get(CHANNEL.MAX_THREADS);
+        if (threads == null)
+        {
+            threads = "1";
+            epData.getProperties().put(CHANNEL.MAX_THREADS, threads);
+        }
         epData.setAddress(uri);
         epData.setConnector(getConnector(schedule));
         //Create event generator job
-        epData.getProperties().put(QuartzConnector.PROPERTY_JOB_CONFIG, new EventGeneratorJobConfig());
+        EventGeneratorJobConfig config = new EventGeneratorJobConfig();
+        config.setStateful(threads.equals("1"));
+        epData.getProperties().put(QuartzConnector.PROPERTY_JOB_CONFIG, config);
         return epData;
     }
 

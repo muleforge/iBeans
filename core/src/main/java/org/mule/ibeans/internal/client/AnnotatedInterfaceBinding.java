@@ -40,6 +40,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -102,7 +103,6 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
     public Object createProxy(Object target)
     {
         Map<String, String> evals = new HashMap<String, String>();
-
         try
         {
             IntegrationBeanInvocationHandler handler = new IntegrationBeanInvocationHandler(interfaceClass, service, muleContext);
@@ -114,6 +114,26 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
                 if (channel != null)
                 {
                     Collection c = muleContext.getRegistry().lookupObjects(EndpointAnnotationParser.class);
+                    String scheme = "";
+                    boolean http = false;
+                    if (metaData.getAnnotation().annotationType().equals(Call.class))
+                    {
+                        String uri = ((Call) metaData.getAnnotation()).uri();
+                        int i = uri.indexOf(":/");
+                        if (i == -1)
+                        {
+                            scheme = "dynamic";
+                        }
+                        else
+                        {
+                            scheme = uri.substring(0, i);
+                        }
+                        http = scheme.startsWith("http");
+                    }
+                    Map metaInfo = new HashMap();
+                    //By setting the connectorName we ensure that only one connector is created for each iBean
+                    metaInfo.put("connectorName", metaData.getClazz().getSimpleName() + "." + scheme + "#" + target.hashCode());
+
                     for (Iterator iterator = c.iterator(); iterator.hasNext();)
                     {
                         EndpointAnnotationParser parser = (EndpointAnnotationParser) iterator.next();
@@ -129,7 +149,6 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
                             //The other way to handle this is to introduce a new annotation to explicitly handle this (See the Get annotation).
                             //The issue is it may be difficult for the user to understand the difference between @Call and @Get. Instead we figure it out
                             //here.
-                            boolean http = ((Call) metaData.getAnnotation()).uri().startsWith("http");
                             for (int i = 0; i < method.getParameterAnnotations().length; i++)
                             {
                                 ann = method.getParameterAnnotations()[i][0];
@@ -149,17 +168,18 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
                             //using request
                             if (callChannel || http)
                             {
-                                OutboundEndpoint endpoint = parser.parseOutboundEndpoint(metaData.getAnnotation());
+                                OutboundEndpoint endpoint = parser.parseOutboundEndpoint(metaData.getAnnotation(), metaInfo);
                                 binding = new DefaultInterfaceBinding();
                                 binding.setEndpoint(endpoint);
                             }
                             else
                             {
-                                InboundEndpoint endpoint = parser.parseInboundEndpoint(metaData.getAnnotation());
+                                InboundEndpoint endpoint = parser.parseInboundEndpoint(metaData.getAnnotation(), Collections.EMPTY_MAP);
                                 binding = new DynamicRequestInterfaceBinding();
                                 binding.setEndpoint(endpoint);
                             }
-                            //Another HTTP hack.  We need to differenciate between GET and POST
+                            //We need to differenciate between GET and POST
+                            //TODO Consider making this explicit since an iBeans is really a service interaction definition
                             if (http)
                             {
                                 List<AnnotationMetaData> temp = AnnotationUtils.getParamAnnotations(method);

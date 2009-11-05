@@ -10,7 +10,7 @@
 package org.mule.ibeans.test;
 
 import org.mule.api.MuleContext;
-import org.mule.api.registry.ObjectProcessor;
+import org.mule.api.registry.InjectProcessor;
 import org.mule.ibeans.api.client.MockIntegrationBean;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
@@ -27,7 +27,7 @@ import org.mockito.Mockito;
  * a Mockito Mock object.  This is only used for testing, the {@link org.mule.ibeans.test.AbstractIBeansTestCase} will automatically
  * enable this processor.
  */
-public class MockIntegrationBeansAnnotationProcessor implements ObjectProcessor
+public class MockIntegrationBeansAnnotationProcessor implements InjectProcessor
 {
     public static final String NAME = "_mockIntegrationBeanProcessor";
 

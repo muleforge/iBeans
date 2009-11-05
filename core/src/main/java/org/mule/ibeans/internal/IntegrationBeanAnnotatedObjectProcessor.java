@@ -11,7 +11,7 @@ package org.mule.ibeans.internal;
 
 import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
-import org.mule.api.registry.ObjectProcessor;
+import org.mule.api.registry.InjectProcessor;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
 import org.mule.utils.AnnotationMetaData;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Will check all method level annotations to see if they are {@link org.mule.config.annotations.endpoints.Channel} annotations.
  */
-public class IntegrationBeanAnnotatedObjectProcessor implements ObjectProcessor, MuleContextAware
+public class IntegrationBeanAnnotatedObjectProcessor implements InjectProcessor, MuleContextAware
 {
     private MuleContext muleContext;
 
@@ -52,6 +52,17 @@ public class IntegrationBeanAnnotatedObjectProcessor implements ObjectProcessor,
         {
             Field field = (Field) data.getMember();
             field.setAccessible(true);
+            try
+            {
+                if (field.get(object) != null)
+                {
+                    continue;
+                }
+            }
+            catch (IllegalAccessException e)
+            {
+                continue;
+            }
             AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding();
             router.setMuleContext(muleContext);
             router.setInterface(field.getType());
@@ -62,7 +73,7 @@ public class IntegrationBeanAnnotatedObjectProcessor implements ObjectProcessor,
             }
             catch (IllegalAccessException e)
             {
-                throw new RuntimeException("Failed to create IbtegrationBean proxy for: " + field.getType(), e);
+                throw new RuntimeException("Failed to create IntegrationBean proxy for: " + field.getType(), e);
             }
         }
         return object;

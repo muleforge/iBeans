@@ -51,7 +51,7 @@ public class AnnotationsScannerConfigurationBuilder extends AbstractConfiguratio
         {
             TomcatJndiRegistry registry = new TomcatJndiRegistry();
             registry.initialise();
-            muleContext.addRegistry(5, registry);
+            muleContext.addRegistry(registry);
         }
         catch (Exception e)
         {

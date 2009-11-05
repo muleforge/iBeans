@@ -59,7 +59,7 @@ public class CallOutboundEndpoint extends DynamicOutboundEndpoint
         super(createOutboundEndpoint(context, epData), epData.getAddress());
     }
 
-    private static OutboundEndpoint createOutboundEndpoint(MuleContext context, AnnotatedEndpointData epData)
+    private synchronized static OutboundEndpoint createOutboundEndpoint(MuleContext context, AnnotatedEndpointData epData)
     {
         try
         {
@@ -72,10 +72,22 @@ public class CallOutboundEndpoint extends DynamicOutboundEndpoint
                 address = scheme + "://dynamic";
                 //This is used for creating the connector, since we don't know if the actual URI address is a vaild URI.
                 EndpointURI tempUri = new MuleEndpointURI(address, context);
-                AbstractConnector cnn = (AbstractConnector) new TransportFactory(context).createConnector(tempUri);
-                //Not needed anymore
-                //tempUri = null;
-                context.getRegistry().registerConnector(cnn);
+                AbstractConnector cnn = null;
+
+                if (epData.getConnectorName() != null)
+                {
+                    cnn = (AbstractConnector) context.getRegistry().lookupConnector(epData.getConnectorName());
+                }
+                if (cnn == null)
+                {
+                    cnn = (AbstractConnector) new TransportFactory(context).createConnector(tempUri);
+                    if (epData.getConnectorName() != null)
+                    {
+                        cnn.setName(epData.getConnectorName());
+                    }
+                    context.getRegistry().registerConnector(cnn);
+                }
+
                 //This allows connector properties to be set as propertieds on the endpoint
                 Map props = epData.getProperties();
                 if (props == null)
@@ -119,13 +131,20 @@ public class CallOutboundEndpoint extends DynamicOutboundEndpoint
     {
         if (transformers.size() == 0)
         {
-            List temp = ((AbstractConnector) getConnector()).getDefaultOutboundTransformers();
-            if (temp != null)
+            synchronized (transformers)
             {
-                transformers.addAll(((AbstractConnector) getConnector()).getDefaultOutboundTransformers());
-                for (Transformer transformer : transformers)
+                //double lock
+            }
+            if (transformers.size() == 0)
+            {
+                List temp = ((AbstractConnector) getConnector()).getDefaultOutboundTransformers();
+                if (temp != null)
                 {
-                    transformer.setEndpoint(this);
+                    transformers.addAll(((AbstractConnector) getConnector()).getDefaultOutboundTransformers());
+                    for (Transformer transformer : transformers)
+                    {
+                        transformer.setEndpoint(this);
+                    }
                 }
             }
         }
@@ -137,13 +156,21 @@ public class CallOutboundEndpoint extends DynamicOutboundEndpoint
     {
         if (responseTransformers.size() == 0)
         {
-            List temp = ((AbstractConnector) getConnector()).getDefaultResponseTransformers();
-            if (temp != null)
+            synchronized (responseTransformers)
             {
-                responseTransformers.addAll(temp);
-                for (Transformer transformer : responseTransformers)
+                //double lock
+                if (responseTransformers.size() == 0)
                 {
-                    transformer.setEndpoint(this);
+
+                    List temp = ((AbstractConnector) getConnector()).getDefaultResponseTransformers();
+                    if (temp != null)
+                    {
+                        responseTransformers.addAll(temp);
+                        for (Transformer transformer : responseTransformers)
+                        {
+                            transformer.setEndpoint(this);
+                        }
+                    }
                 }
             }
         }

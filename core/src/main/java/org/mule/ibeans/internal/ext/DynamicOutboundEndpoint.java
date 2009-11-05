@@ -24,7 +24,6 @@ import org.mule.transport.AbstractConnector;
 import org.mule.transport.service.TransportFactory;
 import org.mule.util.BeanUtils;
 import org.mule.util.TemplateParser;
-import org.mule.util.ClassUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -198,8 +197,8 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
 
 
         DynamicOutboundEndpoint that = (DynamicOutboundEndpoint) o;
-
-        if (localConnector != null ? !localConnector.equals(that.localConnector) : that.localConnector != null)
+//
+        if (localConnector != null ? !localConnector.getName().equals(that.localConnector.getName()) : that.localConnector != null)
         {
             return false;
         }
@@ -208,7 +207,8 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
             return false;
         }
 
-        return true;
+
+        return !true;
     }
 
     @Override
@@ -216,7 +216,7 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
     {
         int result = 0;
         result = 31 * result + (uriTemplate != null ? uriTemplate.hashCode() : 0);
-        result = 31 * result + (localConnector != null ? localConnector.hashCode() : 0);
-        return result;
+        result = 31 * result + (localConnector != null ? localConnector.getName().hashCode() : 0);
+        return new Double(Math.random()).intValue();//result;
     }
 }

@@ -9,11 +9,12 @@
  */
 package org.mule.ibeans.internal;
 
-import org.mule.api.DefaultMuleException;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.RouterAnnotationParser;
+import org.mule.api.component.JavaComponent;
 import org.mule.api.config.MuleProperties;
+import org.mule.api.config.ThreadingProfile;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.endpoint.InboundEndpoint;
 import org.mule.api.endpoint.OutboundEndpoint;
@@ -22,29 +23,32 @@ import org.mule.api.object.ObjectFactory;
 import org.mule.api.routing.OutboundRouter;
 import org.mule.api.service.Service;
 import org.mule.component.DefaultJavaComponent;
+import org.mule.component.PooledJavaComponent;
+import org.mule.config.ChainedThreadingProfile;
+import org.mule.config.PoolingProfile;
 import org.mule.config.annotations.endpoints.ChannelType;
 import org.mule.config.annotations.endpoints.Reply;
 import org.mule.config.annotations.routing.Router;
 import org.mule.config.annotations.routing.RouterType;
+import org.mule.endpoint.EndpointURIEndpointBuilder;
 import org.mule.expression.ExpressionConfig;
-import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
+import org.mule.ibeans.api.application.BeanConfig;
+import org.mule.ibeans.internal.ext.ServiceCallback;
 import org.mule.impl.annotations.AnnotatedServiceBuilder;
+import org.mule.impl.annotations.ObjectScope;
 import org.mule.model.seda.SedaService;
 import org.mule.object.AbstractObjectFactory;
-import org.mule.object.PrototypeObjectFactory;
 import org.mule.object.SingletonObjectFactory;
 import org.mule.routing.outbound.ExpressionMessageSplitter;
 import org.mule.routing.outbound.FilteringOutboundRouter;
 import org.mule.routing.outbound.ListMessageSplitter;
+import org.mule.transport.AbstractConnector;
 import org.mule.transport.quartz.QuartzConnector;
 import org.mule.transport.quartz.jobs.EndpointPollingJobConfig;
-import org.mule.util.BeanUtils;
 import org.mule.utils.AnnotationMetaData;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
@@ -66,32 +70,86 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     }
 
     @Override
-    protected ObjectFactory createObjectFactory(Object object)
+    protected ObjectFactory createObjectFactory(final Object object)
     {
         AbstractObjectFactory factory;
-        if (object.getClass().isAnnotationPresent(Singleton.class))
+
+        if (object.getClass().isAnnotationPresent(BeanConfig.class))
+        {
+            BeanConfig beanConfig = object.getClass().getAnnotation(BeanConfig.class);
+            if (beanConfig.scope().equals(ObjectScope.SINGLETON) || beanConfig.scope().equals(ObjectScope.SINGLETON_THREADSAFE))
+            {
+                return new SingletonObjectFactory(object);
+            }
+            else
+            {
+                factory = new AnnotatedPrototypeObjectFactory(object);
+            }
+        }
+        else if (object.getClass().isAnnotationPresent(Singleton.class))
         {
             factory = new SingletonObjectFactory(object);
-            factory.setMuleContext(context);
         }
         else
         {
-            factory = new PrototypeObjectFactory(object.getClass(), BeanUtils.describeBean(object));
-            factory.setMuleContext(context);
+            factory = new AnnotatedPrototypeObjectFactory(object);
         }
+
+
+        factory.setMuleContext(context);
+
         return factory;
     }
 
     @Override
     protected synchronized Service create(ObjectFactory componentFactory) throws InitialisationException
     {
-        Service serviceDescriptor = new SedaService();
+        JavaComponent component;
+        SedaService serviceDescriptor = new SedaService();
         serviceDescriptor.setMuleContext(context);
         componentFactory.initialise();
-        //Create a default service
-        serviceDescriptor.setName(componentFactory.getObjectClass().getName() + ".service");
-        serviceDescriptor.setComponent(new DefaultJavaComponent(componentFactory));
+        ServiceConfig config;
+        if (componentFactory.getObjectClass().isAnnotationPresent(BeanConfig.class))
+        {
+            config = new ServiceConfig(componentFactory.getObjectClass().getAnnotation(BeanConfig.class));
+        }
+        else
+        {
+            //Default to pooled since it handles concurrency better since each object does not need to be threadsafe
+            config = new ServiceConfig(ObjectScope.POOLED, 8, null);
+        }
 
+        if (config.getName() == null)
+        {
+            config.generateName(componentFactory.getObjectClass());
+        }
+
+        serviceDescriptor.setName(config.getName());
+
+        if (config.getScope() == ObjectScope.POOLED)
+        {
+            PoolingProfile pp = new PoolingProfile();
+            pp.setMaxActive(config.getMaxThreads());
+            pp.setMaxIdle(config.getMaxThreads());
+            PooledJavaComponent comp = new PooledJavaComponent(componentFactory, pp);
+            serviceDescriptor.setComponent(comp);
+        }
+        else
+        {
+            component = new DefaultJavaComponent(componentFactory);
+            serviceDescriptor.setComponent(component);
+            if (config.getScope() == ObjectScope.SINGLETON_THREADSAFE)
+            {
+                //Create a resolver set which will synchronise all method calls
+                component.setEntryPointResolverSet(new IBeansEntrypointResolverSet(true));
+            }
+        }
+
+        ThreadingProfile tp = new ChainedThreadingProfile(context.getDefaultServiceThreadingProfile(), true);
+        tp.setMaxThreadsActive(config.getMaxThreads());
+        tp.setMaxThreadsIdle(config.getMaxThreads());
+        tp.setPoolExhaustedAction(ThreadingProfile.WHEN_EXHAUSTED_WAIT);
+        serviceDescriptor.setThreadingProfile(tp);
         serviceDescriptor.getComponent().initialise();
         serviceDescriptor.setModel(getModel());
         return serviceDescriptor;
@@ -152,15 +210,26 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
                     poll = endpointEntry.getValue();
                 }
             }
+
+            int threads = ((AbstractConnector) poll.getConnector()).getReceiverThreadingProfile().getMaxThreadsActive();
             EndpointPollingJobConfig jobConfig = new EndpointPollingJobConfig();
+            //This may seem odd. Create a blocking job, that only gets fired once at t a time, Only quartz stateful jobs will
+            //block before executing the next job until the first has finished
+            jobConfig.setStateful(threads == 1);
+
             //Add the polling endpoint to the registry so the quartz job can access it
-            context.getRegistry().registerEndpoint(poll);
+            context.getRegistry().registerEndpointBuilder(poll.getName(), new EndpointURIEndpointBuilder(poll, context));
             //Pass in the endpoint name to the quartz jub config
             jobConfig.setEndpointRef(poll.getName());
             //Set the job on the scheule endpoint
             schedule.getProperties().put(QuartzConnector.PROPERTY_JOB_CONFIG, jobConfig);
             //And finally register just the schedule endpoint with the service
             service.getInboundRouter().addEndpoint(schedule);
+
+            if (poll.getConnector() instanceof ServiceCallback)
+            {
+                ((ServiceCallback) poll.getConnector()).process(service, poll);
+            }
         }
         else
         {
@@ -317,5 +386,46 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         }
         router.initialise();
         return router;
+    }
+
+    private class ServiceConfig
+    {
+        private ObjectScope scope;
+        private int maxThreads;
+        private String name;
+
+        private ServiceConfig(BeanConfig config)
+        {
+            scope = config.scope();
+            maxThreads = config.maxAsyncThreads();
+            name = (config.name().length() == 0 ? null : config.name());
+        }
+
+        private ServiceConfig(ObjectScope scope, int maxThreads, String name)
+        {
+            this.scope = scope;
+            this.maxThreads = maxThreads;
+            this.name = (name == null || name.length() == 0 ? null : name);
+        }
+
+        public ObjectScope getScope()
+        {
+            return scope;
+        }
+
+        public int getMaxThreads()
+        {
+            return maxThreads;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void generateName(Class serviceClass)
+        {
+            name = serviceClass.getSimpleName() + ".service";
+        }
     }
 }

@@ -26,6 +26,7 @@ import java.beans.ExceptionListener;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * TODO
@@ -85,15 +86,25 @@ public class CallAnnotationParser extends AbstractEndpointAnnotationParser
         return supports;
     }
 
-    public OutboundEndpoint parseOutboundEndpoint(Annotation annotation) throws MuleException
+    public OutboundEndpoint parseOutboundEndpoint(Annotation annotation, Map metaInfo) throws MuleException
     {
-        CallOutboundEndpoint endpoint = new CallOutboundEndpoint(muleContext, createEndpointData(annotation));
+        AnnotatedEndpointData data = createEndpointData(annotation);
+        if (data.getConnectorName() == null)
+        {
+            data.setConnectorName((String) metaInfo.get("connectorName"));
+        }
+        CallOutboundEndpoint endpoint = new CallOutboundEndpoint(muleContext, data);
         return endpoint;
     }
 
-    public InboundEndpoint parseInboundEndpoint(Annotation annotation) throws MuleException
+    public InboundEndpoint parseInboundEndpoint(Annotation annotation, Map metaInfo) throws MuleException
     {
-        CallRequestEndpoint endpoint = new CallRequestEndpoint(muleContext, createEndpointData(annotation));
+        AnnotatedEndpointData data = createEndpointData(annotation);
+        if (data.getConnectorName() == null)
+        {
+            data.setConnectorName((String) metaInfo.get("connectorName"));
+        }
+        CallRequestEndpoint endpoint = new CallRequestEndpoint(muleContext, data);
         return endpoint;
     }
 }

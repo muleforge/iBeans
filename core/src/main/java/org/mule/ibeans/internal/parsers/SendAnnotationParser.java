@@ -20,6 +20,8 @@ import org.mule.impl.endpoint.MEP;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Responsible for parsing the {@link org.mule.ibeans.api.application.Send} annotation.  This is an iBeans
@@ -31,7 +33,7 @@ import java.lang.reflect.Member;
 public class SendAnnotationParser extends AbstractEndpointAnnotationParser
 {
     @Override
-    public OutboundEndpoint parseOutboundEndpoint(Annotation annotation) throws MuleException
+    public OutboundEndpoint parseOutboundEndpoint(Annotation annotation, Map metaInfo) throws MuleException
     {
         Send send = (Send) annotation;
         ChannelConfigBuilder builder = lookupConfig(send.config(), ChannelConfigBuilder.class);
@@ -41,7 +43,7 @@ public class SendAnnotationParser extends AbstractEndpointAnnotationParser
         }
         else
         {
-            return super.parseOutboundEndpoint(annotation);
+            return super.parseOutboundEndpoint(annotation, Collections.EMPTY_MAP);
         }
     }
 

@@ -13,10 +13,10 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.model.Model;
 import org.mule.config.annotations.endpoints.Channel;
+import org.mule.ibeans.internal.ext.IBeansComponentLifecycleAdapterFactory;
 import org.mule.impl.annotations.processors.AnnotatedServiceObjectProcessor;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
-import org.mule.ibeans.internal.ext.IBeansComponentLifecycleAdapterFactory;
 
 import java.util.List;
 
@@ -78,6 +78,7 @@ public class MuleiBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectPr
     {
         Model m = super.createModel();
         m.setLifecycleAdapterFactory(new IBeansComponentLifecycleAdapterFactory());
+        m.setEntryPointResolverSet(new IBeansEntrypointResolverSet());
         return m;
 
     }
