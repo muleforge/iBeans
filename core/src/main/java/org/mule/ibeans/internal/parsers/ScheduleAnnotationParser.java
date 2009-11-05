@@ -21,6 +21,7 @@ import org.mule.impl.endpoint.MEP;
 import org.mule.transport.quartz.QuartzConnector;
 import org.mule.transport.quartz.jobs.EventGeneratorJobConfig;
 import org.mule.util.StringUtils;
+import org.mule.util.UUID;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
@@ -53,7 +54,7 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
         //This will only get called if there is no config builder configured
         Schedule schedule = (Schedule) annotation;
 
-        String uri = "quartz://schedule" + annotation.hashCode();
+        String uri = "quartz://schedule" + UUID.getUUID();
         AnnotatedEndpointData epData = new AnnotatedEndpointData(MEP.InOnly);
 
         epData.setProperties(convertProperties(getProperties(schedule)));
