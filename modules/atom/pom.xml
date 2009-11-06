@@ -115,9 +115,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mule.transports</groupId>
-            <artifactId>mule-transport-http</artifactId>
-            <version>${muleVersion}</version>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-http</artifactId>
+            <version>${version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.mule.modules</groupId>

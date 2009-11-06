@@ -15,7 +15,7 @@ import org.mule.api.routing.filter.Filter;
 import org.mule.api.service.Service;
 import org.mule.api.transport.Connector;
 import org.mule.transport.abdera.InboundFeedSplitter;
-import org.mule.transport.abdera.filters.LastUpdatedFilter;
+import org.mule.transport.abdera.filters.EntryLastUpdatedFilter;
 import org.mule.transport.http.HttpMessageReceiver;
 
 /**
@@ -35,7 +35,7 @@ public class AtomMessageReceiver extends HttpMessageReceiver
         AtomConnector con = (AtomConnector) getConnector();
         if (con.isSplitFeed())
         {
-            Filter filter = new LastUpdatedFilter(con.getLastUpdate());
+            Filter filter = new EntryLastUpdatedFilter(con.getLastUpdate());
             InboundFeedSplitter splitter = new InboundFeedSplitter();
             splitter.setEntryFilter(filter);
             splitter.setMuleContext(connector.getMuleContext());

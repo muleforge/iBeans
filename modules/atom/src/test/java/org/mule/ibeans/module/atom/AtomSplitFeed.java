@@ -23,7 +23,7 @@ public class AtomSplitFeed
 {
     private AtomicInteger count = new AtomicInteger(0);
 
-    @Schedule(interval = 2000)
+    @Schedule(interval = 1000)
     @Receive(uri = "atom:http://rossmason.blogspot.com/feeds/posts/default")
     public void readFeed(Entry entry) throws Exception
     {
