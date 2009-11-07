@@ -19,6 +19,7 @@ import org.mule.api.transport.DispatchException;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.endpoint.DynamicURIOutboundEndpoint;
 import org.mule.endpoint.MuleEndpointURI;
+import org.mule.ibeans.config.IBeansProperties;
 import org.mule.ibeans.internal.util.UriParamFilter;
 import org.mule.transport.AbstractConnector;
 import org.mule.transport.service.TransportFactory;
@@ -61,12 +62,23 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
 
     private UriParamFilter filter = new UriParamFilter();
 
+    /**
+     * The debug host and port can be set using the system properties ibeans.debug.proxy.host and ibeans.debug.proxy.port respectively
+     * these allow the developer to plug in a proxy server for http requests and use tools like TcpMon to monitor
+     * the outgoing traffic.  It is possible to switch on wire level tracing in iBeans but using a tool like
+     * TcpMon provides some nice features such as resending
+     */
+    private String debugProxyHost;
+    private int debugProxyPort;
+
 
     public DynamicOutboundEndpoint(OutboundEndpoint endpoint, String uriTemplate)
     {
         super(endpoint);
         this.uriTemplate = uriTemplate;
         this.localConnector = (AbstractConnector) endpoint.getConnector();
+        debugProxyHost = System.getProperty(IBeansProperties.DEBUG_PROXY_HOST, IBeansProperties.DEFAULT_PROXY_HOST);
+        debugProxyPort = Integer.valueOf(System.getProperty(IBeansProperties.DEBUG_PROXY_PORT, "-1"));
     }
 
     protected Map<String, Object> getPropertiesForTemplate(MuleMessage message)
@@ -102,6 +114,16 @@ public class DynamicOutboundEndpoint extends DynamicURIOutboundEndpoint
             logger.debug("Uri after parsing is: " + newUriString);
         }
 
+        if (debugProxyPort > -1 && newUriString.startsWith("http"))
+        {
+            int i = newUriString.indexOf("//");
+            int j = newUriString.indexOf("/", i + 2);
+            newUriString = newUriString.substring(0, i + 2) + debugProxyHost + ":" + debugProxyPort + newUriString.substring(j);
+            if (logger.isDebugEnabled())
+            {
+                logger.debug("Debug proxy host and port set, new URI is: " + newUriString);
+            }
+        }
 
         try
         {

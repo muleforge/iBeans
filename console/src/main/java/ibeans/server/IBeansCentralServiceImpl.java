@@ -2,6 +2,7 @@ package ibeans.server;
 
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.api.client.CallException;
+import org.mule.ibeans.config.IBeansProperties;
 import org.mule.ibeans.ibeanscentral.IBeanInfo;
 import org.mule.ibeans.ibeanscentral.IbeansCentralIBean;
 import org.mule.util.IOUtils;
