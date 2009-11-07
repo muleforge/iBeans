@@ -21,11 +21,22 @@ import java.lang.annotation.Target;
  * <p/>
  * Note that the mime type for attachments that are specified as {@link java.net.URL} or {@link java.io.File} will be added
  * based on the file extension. If you want to override the default, you should use {@link javax.activation.DataSource} objects instead.
+ * <p/>
+ * Attachment annotations can be used for HTTP calls,in this scenario the HTTP request is constructed as a 'multipart/form-data', the method used by http to
+ * transfer files.  An attachment doesn't have to be a File, it can just be a String, number or boolean as well.
+ * You cannot mix {@link org.mule.ibeans.api.client.params.Attachment} and {@link org.mule.ibeans.api.client.params.PayloadParam} on the
+ * same HTTP call method since {@link org.mule.ibeans.api.client.params.PayloadParam} uses 'application/x-www-form-urlencoded'.
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Attachment
 {
-
+    /**
+     * The value of this annotation defines the attachment name, whereas the actual parameter defines the attachment.
+     * If the annotated parameter is a {@link java.util.Map}, the value can be set to an empty string.
+     *
+     * @return The attachment name to associate with the parameter value
+     */
+    public String value();
 }
