@@ -18,12 +18,14 @@ import org.mule.api.context.MuleContextAware;
 import org.mule.api.transformer.TransformerException;
 import org.mule.api.transport.OutputHandler;
 import org.mule.api.transport.PropertyScope;
+import org.mule.ibeans.internal.util.StringDataSource;
 import org.mule.transformer.AbstractMessageAwareTransformer;
 import org.mule.transport.NullPayload;
 import org.mule.transport.http.HttpConnector;
 import org.mule.transport.http.HttpConstants;
 import org.mule.transport.http.StreamPayloadRequestEntity;
 import org.mule.transport.http.i18n.HttpMessages;
+import org.mule.util.IOUtils;
 import org.mule.util.StringUtils;
 
 import java.io.InputStream;
@@ -33,7 +35,10 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.activation.URLDataSource;
 
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpVersion;
@@ -48,6 +53,11 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.methods.TraceMethod;
+import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.SerializationUtils;
 
@@ -250,7 +260,19 @@ public class ObjectToHttpClientMethodRequest2 extends AbstractMessageAwareTransf
                     throw new TransformerException(this, e);
                 }
             }
-            
+
+            if (msg.getAttachmentNames() != null && msg.getAttachmentNames().size() > 0)
+            {
+                try
+                {
+                    postMethod.setRequestEntity(createMultiPart(msg, postMethod));
+                    return;
+                }
+                catch (Exception e)
+                {
+                    throw new TransformerException(this, e);
+                }
+            }
             if (src instanceof String)
             {
 
@@ -277,6 +299,22 @@ public class ObjectToHttpClientMethodRequest2 extends AbstractMessageAwareTransf
                 postMethod.setRequestEntity(new ByteArrayRequestEntity(buffer, mimeType));
             }
         }
+        else if (msg.getAttachmentNames() != null && msg.getAttachmentNames().size() > 0)
+        {
+            try
+            {
+                postMethod.setRequestEntity(createMultiPart(msg, postMethod));
+                return;
+            }
+            catch (Exception e)
+            {
+                throw new TransformerException(this, e);
+            }
+        }
+        else
+        {
+            //throw new TransformerException()
+        }
 
     }
 
@@ -293,14 +331,53 @@ public class ObjectToHttpClientMethodRequest2 extends AbstractMessageAwareTransf
                 httpMethod.addRequestHeader(headerName, msg.getProperty(headerName, PropertyScope.OUTBOUND).toString());
             }
         }
+    }
 
-        Set attNams = msg.getAttachmentNames();
-        if (msg.getPayload() instanceof InputStream
-                && attNams != null && attNams.size() > 0)
+    protected MultipartRequestEntity createMultiPart(MuleMessage msg, EntityEnclosingMethod method) throws Exception
+    {
+        Part[] parts;
+        int i = 0;
+        if (msg.getPayload() instanceof NullPayload)
         {
-            // must set this for receiver to properly parse attachments
-            httpMethod.addRequestHeader(HttpConstants.HEADER_CONTENT_TYPE, "multipart/related");
+            parts = new Part[msg.getAttachmentNames().size()];
+        }
+        else
+        {
+            parts = new Part[msg.getAttachmentNames().size() + 1];
+            parts[i++] = new FilePart("payload", new ByteArrayPartSource("payload", msg.getPayloadAsBytes()));
         }
 
+        for (Iterator<String> iterator = msg.getAttachmentNames().iterator(); iterator.hasNext(); i++)
+        {
+            String name = iterator.next();
+            String fileName = name;
+            DataHandler dh = msg.getAttachment(name);
+            if (dh.getDataSource() instanceof StringDataSource)
+            {
+                StringDataSource ds = (StringDataSource) dh.getDataSource();
+                parts[i] = new StringPart(ds.getName(), ds.getData());
+            }
+            else
+            {
+                if (dh.getDataSource() instanceof FileDataSource)
+                {
+                    fileName = ((FileDataSource) dh.getDataSource()).getFile().getName();
+                }
+                else if (dh.getDataSource() instanceof URLDataSource)
+                {
+                    fileName = ((URLDataSource) dh.getDataSource()).getURL().getFile();
+                    //Don't use the whole file path, just the file name
+                    int x = fileName.lastIndexOf("/");
+                    if (x > -1)
+                    {
+                        fileName = fileName.substring(x + 1);
+                    }
+                }
+                parts[i] = new FilePart(dh.getName(), new ByteArrayPartSource(fileName, IOUtils.toByteArray(dh.getInputStream())),
+                        dh.getContentType(), null);
+            }
+        }
+
+        return new MultipartRequestEntity(parts, method.getParams());
     }
 }

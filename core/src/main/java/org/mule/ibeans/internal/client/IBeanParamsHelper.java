@@ -34,12 +34,17 @@ import org.mule.ibeans.api.client.params.ReturnType;
 import org.mule.ibeans.api.client.params.UriParam;
 import org.mule.ibeans.i18n.IBeansMessages;
 import org.mule.ibeans.internal.ext.DynamicOutboundEndpoint;
+import org.mule.ibeans.internal.util.InputStreamDataSource;
+import org.mule.ibeans.internal.util.NamedFileDataSource;
+import org.mule.ibeans.internal.util.NamedURLDataSource;
+import org.mule.ibeans.internal.util.StringDataSource;
 import org.mule.routing.filters.ExpressionFilter;
 import org.mule.transport.NullPayload;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -57,6 +62,8 @@ import java.util.TreeSet;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.activation.FileTypeMap;
+import javax.activation.MimetypesFileTypeMap;
 import javax.activation.URLDataSource;
 
 /**
@@ -87,6 +94,8 @@ public class IBeanParamsHelper
      */
     protected Map<String, ErrorExpressionFilter> errorFilters;
     protected Map<Method, ErrorExpressionFilter> methodErrorFilters;
+
+    private static final FileTypeMap mimeType = new MimetypesFileTypeMap();
 
     public IBeanParamsHelper(MuleContext muleContext, Class iface)
     {
@@ -499,6 +508,7 @@ public class IBeanParamsHelper
         }
         else
         {
+            int counter = 1;
             if (arg instanceof DataSource)
             {
                 attachments.add((DataSource) arg);
@@ -514,7 +524,7 @@ public class IBeanParamsHelper
             }
             else if (arg instanceof File)
             {
-                attachments.add(new FileDataSource((File) arg));
+                attachments.add(new NamedFileDataSource((File) arg, annotation.value()));
             }
             else if (arg instanceof File[])
             {
@@ -522,12 +532,11 @@ public class IBeanParamsHelper
                 for (int i = 0; i < files.length; i++)
                 {
                     attachments.add(new FileDataSource(files[i]));
-
                 }
             }
             else if (arg instanceof URL)
             {
-                attachments.add(new URLDataSource((URL) arg));
+                attachments.add(new NamedURLDataSource((URL) arg, annotation.value()));
             }
             else if (arg instanceof URL[])
             {
@@ -538,9 +547,21 @@ public class IBeanParamsHelper
 
                 }
             }
+            else if (arg instanceof InputStream)
+            {
+                attachments.add(new InputStreamDataSource((InputStream) arg, (annotation.value().equals("") ? "isAttatchemnt" + counter++ : annotation.value())));
+            }
+            else if (arg instanceof InputStream[])
+            {
+                InputStream[] streams = (InputStream[]) arg;
+                for (int i = 0; i < streams.length; i++)
+                {
+                    attachments.add(new InputStreamDataSource(streams[i], (annotation.value().equals("") ? "isAttatchemnt" + counter++ : annotation.value())));
+                }
+            }
             else
             {
-                throw new IllegalArgumentException("Attachment format not recognised: " + arg.getClass());
+                attachments.add(new StringDataSource(annotation.value(), arg.toString()));
             }
         }
     }
