@@ -32,6 +32,7 @@ import org.mule.ibeans.api.client.params.PayloadParam;
 import org.mule.ibeans.api.client.params.PropertyParam;
 import org.mule.ibeans.api.client.params.ReturnType;
 import org.mule.ibeans.api.client.params.UriParam;
+import org.mule.ibeans.channels.CHANNEL;
 import org.mule.ibeans.i18n.IBeansMessages;
 import org.mule.ibeans.internal.ext.DynamicOutboundEndpoint;
 import org.mule.ibeans.internal.util.InputStreamDataSource;
@@ -493,6 +494,11 @@ public class IBeanParamsHelper
         for (DataSource dataSource : ctx.getAttachments())
         {
             message.addAttachment(dataSource.getName(), new DataHandler(dataSource));
+        }
+        //Special channel properties
+        if (ctx.getPropertyParams().containsKey(CHANNEL.TIMEOUT))
+        {
+            message.setProperty(CHANNEL.TIMEOUT, ctx.getPropertyParams().get(CHANNEL.TIMEOUT), PropertyScope.INVOCATION);
         }
         return message;
     }

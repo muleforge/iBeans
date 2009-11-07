@@ -13,26 +13,21 @@ import org.mule.api.MessagingException;
 import org.mule.api.MuleMessage;
 import org.mule.api.MuleSession;
 import org.mule.config.i18n.CoreMessages;
+import org.mule.ibeans.channels.CHANNEL;
 import org.mule.ibeans.internal.ext.DefaultRequestInterfaceBinding;
 import org.mule.ibeans.internal.ext.DynamicRequestEndpoint;
-import org.mule.util.MapUtils;
-
-import java.util.Map;
 
 /**
  * TODO
  */
 public class DynamicRequestInterfaceBinding extends DefaultRequestInterfaceBinding
 {
-    public static final String TIMEOUT_PROPERTY = "timeout";
-
     @Override
     public MuleMessage route(MuleMessage message, MuleSession session) throws MessagingException
     {
         try
         {
-            Map uriParams = (Map) message.getProperty(CallOutboundEndpoint.URI_PARAM_PROPERTIES);
-            int timeout = MapUtils.getInteger(uriParams, TIMEOUT_PROPERTY, getMuleContext().getConfiguration().getDefaultResponseTimeout());
+            int timeout = message.getIntProperty(CHANNEL.TIMEOUT, getMuleContext().getConfiguration().getDefaultResponseTimeout());
             if (inboundEndpoint instanceof DynamicRequestEndpoint)
             {
                 return ((DynamicRequestEndpoint) inboundEndpoint).request(timeout, message);
