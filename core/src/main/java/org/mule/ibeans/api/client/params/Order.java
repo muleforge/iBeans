@@ -21,5 +21,11 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Order
 {
+    /**
+     * A sequential positive integraer starting at 1. The value defines the order in which a {@link org.mule.ibeans.api.client.params.ParamFactory}
+     * field argument will get evaluated.
+     *
+     * @return the order in which a {@link org.mule.ibeans.api.client.params.ParamFactory} field will get evaluated
+     */
     public int value();
 }
