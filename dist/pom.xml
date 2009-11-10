@@ -4,36 +4,88 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.mule.ibeans</groupId>
         <artifactId>mule-ibeans</artifactId>
         <version>1.0-beta-9-SNAPSHOT</version>
     </parent>
-
-    <groupId>org.mule.ibeans</groupId>
     <artifactId>ibeans-dist</artifactId>
     <packaging>pom</packaging>
     <name>Mule iBeans Tomcat Distribtion</name>
 
+    <properties>
+        <sourceDir>${project.build.directory}/sources</sourceDir>
+    </properties>
+
     <build>
         <defaultGoal>assembly:assembly</defaultGoal>
         <plugins>
+            <!--
+                Unpack some (source) artifacts to target/sources. This will
+                be packed as src.zip in the next build step and incorporated
+                into the final assembly.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${sourceDir}</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.mule.ibeans</groupId>
+                                    <artifactId>mule-ibeans</artifactId>
+                                    <version>${version}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.mule.modules</groupId>
+                                    <artifactId>mule-module-annotations</artifactId>
+                                    <version>${muleVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
-                </configuration>
                 <executions>
+                    <!--
+                        Pack up everything in target/sources as source zip. This
+                        goes into the final distribution.
+                    -->
                     <execution>
-                        <id>make-assembly</id>
+                        <id>source-zip</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>src</finalName>
+                            <descriptors>
+                                <descriptor>source-zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>distribution</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

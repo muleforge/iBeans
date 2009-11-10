@@ -66,6 +66,11 @@
             <outputDirectory>mule-ibeans/tools/shell</outputDirectory>
             <destName>ibeans-shell-full.jar</destName>
         </file>
+        <!-- sources -->
+        <file>
+            <source>${project.build.directory}/src.zip</source>
+            <outputDirectory>src</outputDirectory>
+        </file>
     </files>
     <fileSets>
         <fileSet>
