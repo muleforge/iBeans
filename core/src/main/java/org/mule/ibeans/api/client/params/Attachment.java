@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * You cannot mix {@link org.mule.ibeans.api.client.params.Attachment} and {@link org.mule.ibeans.api.client.params.PayloadParam} on the
  * same HTTP call method since {@link org.mule.ibeans.api.client.params.PayloadParam} uses 'application/x-www-form-urlencoded'.
  */
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Attachment
