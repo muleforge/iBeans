@@ -22,7 +22,7 @@ public class RegisterObjectCommand extends CommandSupport
     String id = (String) (args[1] != null ? args[1] : "_bean#" + object.hashCode())
     MuleContext mc = (MuleContext) getBinding().getVariable("muleContext")
     mc.getRegistry().registerObject(id, object)
-    println("Registered as " + id)
+    if (!io.quiet) io.out.println("Registered as " + id)
     return ""
   }
 

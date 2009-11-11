@@ -55,7 +55,7 @@ public class CreateIBeanCommand extends CommandSupport
     name = (alias != null ? alias : name)
     def bean = ibeanHolder.create(mc)
     getBinding().setVariable(name, bean)
-    io.out.println("Loaded iBean: " + id + " as " + name)
+    if (!io.quiet) io.out.println("Loaded iBean: " + id + " as " + name)
     return ""
   }
 }
