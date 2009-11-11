@@ -125,19 +125,6 @@ public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Dispos
             XPathExpression xpath = getXPath(expression);
 
             Object res = xpath.evaluate(payload, retType);
-            //List result = extractResultsFromNodes(res);
-//            if (result.size() == 1)
-//            {
-//                return result.get(0);
-//            }
-//            else if (result.size() == 0)
-//            {
-//                return null;
-//            }
-//            else
-//            {
-//                return result;
-//            }
             return res;
         }
         catch (Exception e)
@@ -175,29 +162,6 @@ public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Dispos
         return xp.compile(expression);
     }
 
-//    protected List extractResultsFromNodes(Object results)
-//    {
-//        List newResults = null;
-//        if (results instanceof NodeList)
-//        {
-//
-//            NodeList nl = (NodeList) results;
-//            newResults = new ArrayList(nl.getLength());
-//            for (int i = 0; i < nl.getLength(); i++)
-//            {
-//                Node n = nl.item(i);
-//                newResults.add(extractResultFromNode(n));
-//            }
-//        }
-//        else if (results != null)
-//        {
-//            newResults = new ArrayList(1);
-//            newResults.add(extractResultFromNode(results));
-//        }
-//
-//        return newResults;
-//    }
-
     /**
      * A lifecycle method where implementor should free up any resources. If an
      * exception is thrown it should just be logged and processing should continue.
@@ -222,18 +186,6 @@ public class JaxpXPathExpressionEvaluator implements ExpressionEvaluator, Dispos
     {
         return muleContext;
     }
-
-//    protected Object extractResultFromNode(Object result)
-//    {
-//        if (result instanceof Node)
-//        {
-//            return ((Node) result).getNodeValue();
-//        }
-//        else
-//        {
-//            return result;
-//        }
-//    }
 
     public QName getReturnType()
     {
