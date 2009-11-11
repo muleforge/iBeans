@@ -102,7 +102,7 @@ public class CallOutboundEndpoint extends DynamicOutboundEndpoint
                         epData.getName(), props, null, null, true, null, epData.isSynchronous(),
                         context.getConfiguration().getDefaultResponseTimeout(), null,
                         context.getConfiguration().getDefaultEncoding(),
-                        null, context, null, null);
+                        null, context, null, "");
             }
             else
             {
