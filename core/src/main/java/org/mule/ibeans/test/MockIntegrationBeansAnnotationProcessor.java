@@ -49,14 +49,15 @@ public class MockIntegrationBeansAnnotationProcessor implements InjectProcessor
                 Field field = (Field) data.getMember();
                 field.setAccessible(true);
                 Object mockito = Mockito.mock(field.getType(), field.getName());
-                InvocationHandler handler = new MockIBeanHandler(field.getType(), muleContext, mockito);
-
-                Object mock = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{field.getType(), MockIBean.class}, handler);
                 try
                 {
+                    InvocationHandler handler = new MockIBeanHandler(field.getType(), muleContext, mockito);
+
+                    Object mock = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{field.getType(), MockIBean.class}, handler);
+
                     field.set(object, mock);
                 }
-                catch (IllegalAccessException e)
+                catch (Exception e)
                 {
                     throw new RuntimeException(e);
                 }

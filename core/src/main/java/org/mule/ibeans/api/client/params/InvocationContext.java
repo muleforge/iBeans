@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.activation.DataSource;
 
@@ -30,71 +31,65 @@ public interface InvocationContext
     IBeansContext getIBeansContext();
 
 
-    
     // iBeans Request Context
-    
+
     /**
      * Returns a map of all URI params including fixed params on the Call URI and any variablized params.
      * The map is sorted alphabetically (ascending order)
-     * 
+     *
      * @return A Map of all URI params
      */
     Map<String, Object> getUriParams();
 
     /**
+     * Returns a map of all URI params defined in the current Call URI, this ignores any global parame, though these are
+     * available using {@link #getUriParams()}.
+     * The map is sorted alphabetically (ascending order)
+     *
+     * @return A Map of URI params specifically on the current Call URI
+     */
+    Map<String, String> getCallSpecificUriParams();
+
+    /**
+     * There are often scanarios where a {@link org.mule.ibeans.api.client.Template} method is used to generate
+     * a URL. In the case where there is processing on the parameters, this method can be used to get only those that
+     * are set on the Template URI
+     *
+     * @return a map of Uri params set on a template URL
+     */
+    Map<String, String> getTemplateSpecificUriParams();
+
+    /**
      * Returns a map of all requestHeader params set on the iBean so far. The map is sorted
      * alphabetically (ascending order)
-     * 
+     *
      * @return a Map of all Header params
      * @deprecated
      */
     Map<String, Object> getHeaderParams();
-    
+
     /**
      * Returns a map of all request Header params set on the iBean so far. The map is sorted
      * alphabetically (ascending order)
-     * 
+     *
      * @return a Map of all request Header params
      */
     Map<String, Object> getRequestHeaderParams();
 
     /**
      * Adds a Header parameter.
-     * 
      */
     void addRequestHeaderParam(String name, Object value);
 
     /**
-     * 
-     * @deprecated
-     */
-    List<DataSource> getAttachments();
-
-    /**
-     * 
      * @return list of attachments that will be sent with the request
      */
-    List<DataSource> getRequestAttachments();
-    
+    Set<DataSource> getRequestAttachments();
+
     /**
      * @param attachment The attachment that will be be added
      */
     void addRequestAttachment(DataSource attachment);
-    
-    /**
-     * @deprecated
-     */
-    Map<String, Object> getPayloadParams();
-
-    /**
-     * @deprecated
-     */
-    List<Object> getPayloads();
-
-    /**
-     * @deprecated
-     */
-    void setPayloads(List<Object> payloads);
 
     void setRequestPayloads(List<Object> payloads);
 
@@ -103,14 +98,11 @@ public interface InvocationContext
     Map<String, Object> getRequestPayloadParams();
 
     List<Object> getRequestPayloads();
-    
 
-
-    
     // iBeans Response Context
 
     Object getResponseHeaderParam(String name);
-    
+
     Object getResult();
 
     void setResult(Object result);
@@ -118,30 +110,29 @@ public interface InvocationContext
     /**
      * The return type as . This is read-only in the invocation context because it is
      * determined by the return type of he annotated method
-     * 
+     *
      * @return the return type
      */
     Class getReturnType();
 
 
-    
     // ibeans Request/Response Context
-    
+
     /**
      * Returns a map of all property params.
-     * 
+     *
      * @return A map of all property params.
      */
     Map<String, Object> getPropertyParams();
-    
+
     String getStringPropertyParam(String name, String defaultValue);
-    
+
     boolean getBooleanPropertyParam(String name, boolean defaultValue);
 
     /**
      * Looks up a param in all of the param collections. The search order is
      * uriParams, headerParams, and then propertyParams.
-     * 
+     *
      * @param key The name of the parameter to find
      * @return The value of the parameter with the specified key or null if the
      *         parameter is not set
@@ -149,16 +140,11 @@ public interface InvocationContext
     Object getParam(String key);
 
 
-    
     // iBeans util methods
-    
+
     /**
      * The method called
-     * 
-     * @return The method callInvocationContextInterfaceblic abstract Method
-     *         getMethod(); /** A utility method for converting all parameter keys to
-     *         lower case. Note this returns an alphabetically sorted map
-     *         (ascending).
+     *
      * @param params The map of params to convert
      * @return The newly converted parameter name. Note that this is a different
      *         instance from the map passed in.
@@ -168,17 +154,8 @@ public interface InvocationContext
     /**
      * A utility method to convert all parameter keys to upper case. Note that this
      * returns an alphabetically sorted map (ascending).
-     * 
+     *
      * @param params The map of params to convert
-     * @return The newly converted parameter name. Note that this is a different
-     *         instance from the map paInvocationContextInterface public abstract
-     *         Map<String, Object> keysToUpperCase(Map<String, Object> params); /**
-     *         Will create a parsed URI for the
-     *         {@link org.mule.ibeans.api.client.Call} URI. If the invocationContent
-     *         is not for a Call method, null will be returned.
-     *         <p/>
-     *         Note that ordering is very imporant. If UriParam values have not been
-     *         evaluated, the UriParam value will retain its template value.
      * @return A URI with UriParam values parsed or null if this is not a
      *         {@link org.mule.ibeans.api.client.Call} method.
      * @throws URISyntaxException
@@ -189,18 +166,17 @@ public interface InvocationContext
      * A helper method that will strip query prameters from a URI. The URI used will
      * be the result of calling {@link #getParsedCallUri()}. If this is not a context
      * for a Call method, null will be returned.
-     * 
+     *
      * @param uriParamNames An array of one or more query params to remove from the
-     *            Call URI for this context.
+     *                      Call URI for this context.
      * @return A new URI with the query params filtered out or null if this context
      *         is not for a Call method.
      */
     String removeQueryParameters(String... uriParamNames) throws URISyntaxException;
 
 
-    
     // Exception Handling
-    
+
     ExceptionListener getExceptionListener();
 
     void setExceptionListener(ExceptionListener exceptionListener);
@@ -209,30 +185,27 @@ public interface InvocationContext
 
     void rethrowException() throws Throwable;
 
-    
-    
+
     // Interceptors
 
     void proceed();
 
 
-    
     // Proxy details
-    
+
     Method getMethod();
-    
+
     Object[] getArgs();
 
     Object getProxy();
-    
-    
-    
+
+
     // Other
-    
+
     boolean isStateCall();
-    
+
     boolean isCallMethod();
-    
+
     boolean isTemplateMethod();
 
 }

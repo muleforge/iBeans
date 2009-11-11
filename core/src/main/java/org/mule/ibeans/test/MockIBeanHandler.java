@@ -26,6 +26,7 @@ import org.mule.module.xml.transformer.XmlPrettyPrinter;
 import java.beans.ExceptionListener;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 
 import javax.activation.DataSource;
 
@@ -54,7 +55,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
     protected String mime;
 
 
-    public MockIBeanHandler(Class iface, MuleContext muleContext, Object mock)
+    public MockIBeanHandler(Class iface, MuleContext muleContext, Object mock) throws IBeansException
     {
         super(iface, new SedaService(), muleContext);
 
@@ -79,7 +80,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         else if (method.isAnnotationPresent(State.class))
         {
             InternalInvocationContext ctx = new InternalInvocationContext(proxy, method, args, muleContext,
-                exceptionListener, interceptorListCache.get(method));
+                    exceptionListener, interceptorListCache.get(method));
             helper.populateInvocationContext(ctx);
             return null;
         }
@@ -93,7 +94,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         {
             getTemplateHandler().getEvals().put(method.toString(), method.getAnnotation(Template.class).value());
             InternalInvocationContext ctx = new InternalInvocationContext(proxy, method, args, muleContext,
-                exceptionListener, interceptorListCache.get(method));
+                    exceptionListener, interceptorListCache.get(method));
             helper.populateInvocationContext(ctx);
             MuleMessage message = helper.createMessage(ctx);
             MuleMessage result = getTemplateHandler().invoke(proxy, method, args, message);
@@ -200,7 +201,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         }
         else
         {
-            return ctx.getPayloadParams().get(name);
+            return ctx.getRequestPayloadParams().get(name);
         }
     }
 
@@ -212,11 +213,11 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         }
         else
         {
-            return ctx.getPayloads();
+            return ctx.getRequestPayloads();
         }
     }
 
-    public List<DataSource> ibeanAttachments()
+    public Set<DataSource> ibeanAttachments()
     {
         if (ctx == null)
         {
@@ -224,7 +225,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         }
         else
         {
-            return ctx.getAttachments();
+            return ctx.getRequestAttachments();
         }
     }
 

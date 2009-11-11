@@ -10,6 +10,7 @@
 package org.mule.ibeans.test;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.activation.DataSource;
 
@@ -33,7 +34,7 @@ public interface MockIBean
 
     public List<Object> ibeanPayloads();
 
-    public List<DataSource> ibeanAttachments();
+    public Set<DataSource> ibeanAttachments();
 
     public void ibeanErrorCheck(Object data, String mimeType) throws Exception;
 

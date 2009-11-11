@@ -19,6 +19,7 @@ import org.mule.ibeans.api.client.CallInterceptor;
 import org.mule.ibeans.api.client.State;
 import org.mule.ibeans.api.client.Template;
 import org.mule.ibeans.api.client.params.InvocationContext;
+import org.mule.ibeans.internal.util.DataSourceComparator;
 import org.mule.ibeans.internal.util.UriParamFilter;
 import org.mule.impl.endpoint.AnnotatedEndpointData;
 import org.mule.util.ObjectUtils;
@@ -29,13 +30,22 @@ import java.beans.ExceptionListener;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.activation.DataSource;
+
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.util.ParameterParser;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Holds the current state of an iBean at the point a method invocation was made.
@@ -44,13 +54,17 @@ import javax.activation.DataSource;
  */
 public class InternalInvocationContext implements InvocationContext
 {
+    /**
+     * logger used by this class
+     */
+    protected transient final Log logger = LogFactory.getLog(InternalInvocationContext.class);
 
     Map<String, Object> headerParams = new TreeMap<String, Object>();
     Map<String, Object> payloadParams = new TreeMap<String, Object>();
     Map<String, Object> uriParams = new TreeMap<String, Object>();
     Map<String, Object> propertyParams = new TreeMap<String, Object>();
     List<Object> payloads = new ArrayList<Object>();
-    List<DataSource> attachments = new ArrayList<DataSource>();
+    Set<DataSource> attachments = new TreeSet<DataSource>(new DataSourceComparator());
     Method method;
     Call call;
     Template template;
@@ -69,11 +83,11 @@ public class InternalInvocationContext implements InvocationContext
     Throwable exception;
 
     public InternalInvocationContext(Object proxy,
-                             Method method,
-                             Object[] args,
-                             MuleContext muleContext,
-                             ExceptionListener exceptionListener,
-                             List<CallInterceptor> interceptors) throws Exception
+                                     Method method,
+                                     Object[] args,
+                                     MuleContext muleContext,
+                                     ExceptionListener exceptionListener,
+                                     List<CallInterceptor> interceptors) throws Exception
     {
         this.interceptorChain = new CallInterceptorChain(interceptors);
         this.method = method;
@@ -128,9 +142,61 @@ public class InternalInvocationContext implements InvocationContext
         return uriParams;
     }
 
+    public Map<String, String> getCallSpecificUriParams()
+    {
+        if (isCallMethod())
+        {
+            Call call = getMethod().getAnnotation(Call.class);
+            final String fullUri = call.uri();
+            String uri = fullUri.substring(fullUri.indexOf('?') + 1);
+
+            // reparse the query string, we'll need to omit this 'signature' param
+            final List<NameValuePair> queryParams = new ParameterParser().parse(uri, '&');
+
+            // filter and sort the queryParams
+            final SortedMap<String, String> filteredParams = new TreeMap<String, String>();
+
+            for (NameValuePair param : queryParams)
+            {
+                filteredParams.put(param.getName(), (String) getUriParams().get(param.getName()));
+            }
+            return filteredParams;
+
+        }
+        return Collections.EMPTY_MAP;
+    }
+
+    public Map<String, String> getTemplateSpecificUriParams()
+    {
+        if (isTemplateMethod())
+        {
+            Template call = getMethod().getAnnotation(Template.class);
+            final String fullUri = call.value();
+            String uri = fullUri.substring(fullUri.indexOf('?') + 1);
+            if (uri.length() == 0)
+            {
+                return Collections.EMPTY_MAP;
+            }
+
+            // reparse the query string, we'll need to omit this 'signature' param
+            final List<NameValuePair> queryParams = new ParameterParser().parse(uri, '&');
+
+            // filter and sort the queryParams
+            final SortedMap<String, String> filteredParams = new TreeMap<String, String>();
+
+            for (NameValuePair param : queryParams)
+            {
+                filteredParams.put(param.getName(), (String) getUriParams().get(param.getName()));
+            }
+            return filteredParams;
+
+        }
+        return Collections.EMPTY_MAP;
+    }
+
     /* (non-Javadoc)
-     * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getHeaderParams()
-     */
+    * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getHeaderParams()
+    */
     public Map<String, Object> getHeaderParams()
     {
         return headerParams;
@@ -246,14 +312,6 @@ public class InternalInvocationContext implements InvocationContext
     }
 
     /* (non-Javadoc)
-     * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getAttachments()
-     */
-    public List<DataSource> getAttachments()
-    {
-        return attachments;
-    }
-
-    /* (non-Javadoc)
      * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getReturnType()
      */
     public Class getReturnType()
@@ -273,24 +331,9 @@ public class InternalInvocationContext implements InvocationContext
         return stateCall;
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getPayloadParams()
-     */
-    public Map<String, Object> getPayloadParams()
-    {
-        return payloadParams;
-    }
 
     /* (non-Javadoc)
-     * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getPayloads()
-     */
-    public List<Object> getPayloads()
-    {
-        return payloads;
-    }
-
-    /* (non-Javadoc)
-     * @see org.mule.ibeans.api.client.params.InvocationContextInterface#setPayloads(java.util.List)
+     * @see org.mule.ibeans.api.client.params.InvocationContextInterface#setPayloads(java.util.Set)
      */
     public void setPayloads(List<Object> payloads)
     {
@@ -435,7 +478,7 @@ public class InternalInvocationContext implements InvocationContext
         headerParams.put(name, value);
     }
 
-    public List<DataSource> getRequestAttachments()
+    public Set<DataSource> getRequestAttachments()
     {
         return attachments;
     }
@@ -459,18 +502,19 @@ public class InternalInvocationContext implements InvocationContext
 
     public Map<String, Object> getRequestPayloadParams()
     {
-        return getPayloadParams();
+        return payloadParams;
     }
 
     public List<Object> getRequestPayloads()
     {
-        return getPayloads();
+        return payloads;
     }
 
     public void setRequestPayloads(List<Object> payloads)
     {
         setPayloads(payloads);
     }
+
 
     public boolean getBooleanPropertyParam(String name, boolean defaultValue)
     {

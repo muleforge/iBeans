@@ -11,16 +11,15 @@ package org.mule.ibeans.internal.client;
 
 import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleContext;
+import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
 import org.mule.api.config.MuleProperties;
+import org.mule.api.routing.filter.Filter;
 import org.mule.api.transport.PropertyScope;
+import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.State;
-import org.mule.ibeans.api.client.filters.AtomErrorFilter;
 import org.mule.ibeans.api.client.filters.ErrorFilter;
 import org.mule.ibeans.api.client.filters.ExpressionErrorFilter;
-import org.mule.ibeans.api.client.filters.JsonErrorFilter;
-import org.mule.ibeans.api.client.filters.RssErrorFilter;
-import org.mule.ibeans.api.client.filters.XmlErrorFilter;
 import org.mule.ibeans.api.client.params.Attachment;
 import org.mule.ibeans.api.client.params.HeaderParam;
 import org.mule.ibeans.api.client.params.InvocationContext;
@@ -35,12 +34,13 @@ import org.mule.ibeans.api.client.params.UriParam;
 import org.mule.ibeans.channels.CHANNEL;
 import org.mule.ibeans.i18n.IBeansMessages;
 import org.mule.ibeans.internal.ext.DynamicOutboundEndpoint;
+import org.mule.ibeans.internal.parsers.ErrorFilterParser;
 import org.mule.ibeans.internal.util.InputStreamDataSource;
 import org.mule.ibeans.internal.util.NamedFileDataSource;
 import org.mule.ibeans.internal.util.NamedURLDataSource;
 import org.mule.ibeans.internal.util.StringDataSource;
-import org.mule.routing.filters.ExpressionFilter;
 import org.mule.transport.NullPayload;
+import org.mule.util.StringUtils;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
 
@@ -52,6 +52,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.TypeVariable;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,10 +63,8 @@ import java.util.TreeSet;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.activation.FileTypeMap;
 import javax.activation.MimetypesFileTypeMap;
-import javax.activation.URLDataSource;
 
 /**
  * This class wraps the logic for parsing iBean annotations and stores any state associated with the annotations, including
@@ -81,9 +80,11 @@ public class IBeanParamsHelper
     protected Map<String, Object> defaultHeaderParams = new HashMap<String, Object>();
     protected Map<String, Object> defaultPayloadParams = new HashMap<String, Object>();
     protected Map<String, Object> defaultPropertyParams = new HashMap<String, Object>();
+    protected Map<String, Object> defaultAttachmentParams = new HashMap<String, Object>();
 
     protected Set<ParamFactoryHolder> defaultUriFactoryParams = new TreeSet<ParamFactoryHolder>();
     protected Set<ParamFactoryHolder> defaultHeaderFactoryParams = new TreeSet<ParamFactoryHolder>();
+    protected Set<ParamFactoryHolder> defaultAttachmentFactoryParams = new TreeSet<ParamFactoryHolder>();
 
     protected Class returnType = null;
     protected Class invocationReturnType = null;
@@ -93,12 +94,12 @@ public class IBeanParamsHelper
      * A lot of web servers do not use the http return code, instead they retuen an error message as the result of the call
      * This filter is used to determine whether an error was returned from the service
      */
-    protected Map<String, ErrorExpressionFilter> errorFilters;
-    protected Map<Method, ErrorExpressionFilter> methodErrorFilters;
+    protected Map<String, Filter> errorFilters;
+    protected Map<Method, Filter> methodErrorFilters;
 
     private static final FileTypeMap mimeType = new MimetypesFileTypeMap();
 
-    public IBeanParamsHelper(MuleContext muleContext, Class iface)
+    public IBeanParamsHelper(MuleContext muleContext, Class iface) throws IBeansException
     {
         this.muleContext = muleContext;
         this.ibeanInterface = iface;
@@ -106,77 +107,60 @@ public class IBeanParamsHelper
         readDefaultParams(iface);
     }
 
-    protected void readErrorFilters(Class clazz)
+    protected void readErrorFilters(Class clazz) throws IBeansException
     {
-        errorFilters = new HashMap<String, ErrorExpressionFilter>();
-        Annotation[] annos = clazz.getAnnotations();
-        for (int i = 0; i < annos.length; i++)
+        Collection<ErrorFilterParser> parsers = muleContext.getRegistry().lookupObjects(ErrorFilterParser.class);
+
+        errorFilters = new HashMap<String, Filter>();
+        List<AnnotationMetaData> annos = AnnotationUtils.getClassAnnotationInHeirarchy(clazz);
+        for (AnnotationMetaData metaData : annos)
         {
-            Annotation anno = annos[i];
+            Annotation anno = metaData.getAnnotation();
             if (!anno.annotationType().isAnnotationPresent(ErrorFilter.class))
             {
                 continue;
             }
-            ErrorExpressionFilter errorFilter;
-            if (anno.annotationType().equals(JsonErrorFilter.class))
-            {
-                JsonErrorFilter filter = (JsonErrorFilter) anno;
-                errorFilter = new ErrorExpressionFilter(JsonErrorFilter.evaluator, filter.expr());
-                errorFilter.setErrorCodeExpr(filter.errorCode());
-                errorFilters.put(JsonErrorFilter.mimeType, errorFilter);
-            }
-            else if (anno.annotationType().equals(XmlErrorFilter.class))
-            {
-                XmlErrorFilter filter = (XmlErrorFilter) anno;
-                //Explicitly add the return type here
-                errorFilter = new ErrorExpressionFilter(XmlErrorFilter.evaluator, "[boolean]" + filter.expr());
-                errorFilter.setErrorCodeExpr(filter.errorCode());
-                errorFilters.put(XmlErrorFilter.mimeType, errorFilter);
-            }
-            else if (anno.annotationType().equals(AtomErrorFilter.class))
-            {
-                AtomErrorFilter filter = (AtomErrorFilter) anno;
-                //Explicitly add the return type here
-                errorFilter = new ErrorExpressionFilter(AtomErrorFilter.evaluator, "[boolean]" + filter.expr());
-                errorFilter.setErrorCodeExpr(filter.errorCode());
 
-                errorFilters.put(AtomErrorFilter.mimeType, errorFilter);
-            }
-            else if (anno.annotationType().equals(RssErrorFilter.class))
+            for (ErrorFilterParser parser : parsers)
             {
-                RssErrorFilter filter = (RssErrorFilter) anno;
-                //Explicitly add the return type here
-                errorFilter = new ErrorExpressionFilter(RssErrorFilter.evaluator, "[boolean]" + filter.expr());
-                errorFilter.setErrorCodeExpr(filter.errorCode());
-
-                errorFilters.put(RssErrorFilter.mimeType, errorFilter);
-            }
-            else if (anno.annotationType().equals(ExpressionErrorFilter.class))
-            {
-                ExpressionErrorFilter filter = (ExpressionErrorFilter) anno;
-                errorFilter = new ErrorExpressionFilter(filter.expr());
-                errorFilters.put(filter.mimeType(), errorFilter);
-            }
-            else
-            {
-                throw new IllegalArgumentException("Unrecognised Error Filter: " + anno);
+                if (parser.isSupported(anno))
+                {
+                    try
+                    {
+                        ErrorFilterParser.ErrorFilterHolder holder = parser.parse(anno);
+                        errorFilters.put(holder.getMimeType(), holder.getFilter());
+                        break;
+                    }
+                    catch (MuleException e)
+                    {
+                        throw new IBeansException("Failed to register Error Filters", e);
+                    }
+                }
             }
         }
+
         List<AnnotationMetaData> results = AnnotationUtils.getMethodMetaAnnotations(clazz, ErrorFilter.class);
-        methodErrorFilters = new HashMap<Method, ErrorExpressionFilter>();
+        methodErrorFilters = new HashMap<Method, Filter>();
         for (AnnotationMetaData result : results)
         {
             methodErrorFilters.put((Method) result.getMember(), new ErrorExpressionFilter(((ExpressionErrorFilter) result.getAnnotation()).expr()));
         }
 
-        for (ExpressionFilter filter : errorFilters.values())
+        try
         {
-            filter.setMuleContext(muleContext);
-        }
+            for (Filter filter : errorFilters.values())
+            {
+                muleContext.getRegistry().applyProcessors(filter);
+            }
 
-        for (ExpressionFilter filter : methodErrorFilters.values())
+            for (Filter filter : methodErrorFilters.values())
+            {
+                muleContext.getRegistry().applyProcessors(filter);
+            }
+        }
+        catch (MuleException e)
         {
-            filter.setMuleContext(muleContext);
+            throw new IBeansException("Failed to apply processors to Filters", e);
         }
 
     }
@@ -240,6 +224,30 @@ public class IBeanParamsHelper
                 }
             }
 
+            Attachment attachment = field.getAnnotation(Attachment.class);
+            if (attachment != null)
+            {
+                try
+                {
+                    String key = (attachment.value().length() > 0 ? attachment.value() : field.getName());
+                    if (ParamFactory.class.isAssignableFrom(field.getType()))
+                    {
+                        ParamFactory pf = (ParamFactory) field.get(iface);
+                        Order order = field.getAnnotation(Order.class);
+                        ParamFactoryHolder holder = (order == null ? new ParamFactoryHolder(pf, key) : new ParamFactoryHolder(pf, key, order.value()));
+                        defaultAttachmentFactoryParams.add(holder);
+                    }
+                    else
+                    {
+                        getDefaultAttachmentParams().put(key, encode(field.get(iface)));
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+
             PropertyParam propertyParam = field.getAnnotation(PropertyParam.class);
             if (propertyParam != null)
             {
@@ -287,8 +295,8 @@ public class IBeanParamsHelper
     {
         InternalInvocationContext invocationContext = (InternalInvocationContext) internalInvocationContext;
 
-        invocationContext.getHeaderParams().putAll(defaultHeaderParams);
-        invocationContext.getPayloadParams().putAll(defaultPayloadParams);
+        invocationContext.getRequestHeaderParams().putAll(defaultHeaderParams);
+        invocationContext.getRequestPayloadParams().putAll(defaultPayloadParams);
         invocationContext.getUriParams().putAll(defaultUriParams);
         invocationContext.getPropertyParams().putAll(defaultPropertyParams);
 
@@ -308,7 +316,7 @@ public class IBeanParamsHelper
             invocationContext.uriParams = defaultUriParams;
         }
 
-        List payloads = invocationContext.getPayloads();
+        List payloads = invocationContext.getRequestPayloads();
 
         //We can have method calls with no parameters
         if (method.getParameterAnnotations().length > 0)
@@ -330,6 +338,10 @@ public class IBeanParamsHelper
                         if (args[i] instanceof ParamFactory)
                         {
                             addComplexParam(annotation, args[i], optional, invocationContext);
+                        }
+                        else if (args[i] instanceof Map)
+                        {
+                            addUriParamMap((UriParam) annotation, (Map) args[i], method, invocationContext.getUriParams());
                         }
                         else
                         {
@@ -367,7 +379,7 @@ public class IBeanParamsHelper
                     }
                     else if (annotation.annotationType().equals(PayloadParam.class))
                     {
-                        addPayloadParam((PayloadParam) annotation, args[i], method, invocationContext.getPayloadParams(), optional);
+                        addPayloadParam((PayloadParam) annotation, args[i], method, invocationContext.getRequestPayloadParams(), optional);
                     }
                     else if (annotation.annotationType().equals(Payload.class))
                     {
@@ -390,7 +402,7 @@ public class IBeanParamsHelper
                     // Add mime type support on the annotation itself
                     else if (annotation.annotationType().equals(Attachment.class))
                     {
-                        addAttachments((Attachment) annotation, args[i], method, invocationContext.getAttachments(), optional);
+                        addAttachments((Attachment) annotation, args[i], method, invocationContext.getRequestAttachments(), optional);
                     }
                     else
                     {
@@ -465,6 +477,12 @@ public class IBeanParamsHelper
             ctx.getRequestHeaderParams().put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, ctx));
         }
 
+        for (ParamFactoryHolder holder : defaultAttachmentFactoryParams)
+        {
+            //Array not supported
+            ctx.getRequestAttachments().add(createDataSource(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, ctx)));
+        }
+
         //We need to scrub any null header values since Mule does not allow Null headers
         Map<String, Object> headers = new TreeMap<String, Object>();
         for (Iterator<Map.Entry<String, Object>> iterator = ctx.getRequestHeaderParams().entrySet().iterator(); iterator.hasNext();)
@@ -477,7 +495,7 @@ public class IBeanParamsHelper
         }
         if (ctx.getRequestPayloads().size() == 1)
         {
-            message = new DefaultMuleMessage(ctx.getRequestPayloads().get(0), headers, muleContext);
+            message = new DefaultMuleMessage(ctx.getRequestPayloads().iterator().next(), headers, muleContext);
         }
         else
         {
@@ -491,7 +509,7 @@ public class IBeanParamsHelper
         message.setProperty(CallOutboundEndpoint.URI_PARAM_PROPERTIES, ctx.getUriParams(), PropertyScope.INVOCATION);
 
         //Add any attachments
-        for (DataSource dataSource : ctx.getAttachments())
+        for (DataSource dataSource : ctx.getRequestAttachments())
         {
             message.addAttachment(dataSource.getName(), new DataHandler(dataSource));
         }
@@ -503,7 +521,33 @@ public class IBeanParamsHelper
         return message;
     }
 
-    protected void addAttachments(Attachment annotation, Object arg, Method method, List<DataSource> attachments, boolean optional)
+    protected void addUriParamMap(UriParam annotation, Map arg, Method method, Map uriParams) throws UnsupportedEncodingException
+    {
+        String[] p = StringUtils.splitAndTrim(((UriParam) annotation).value(), ",");
+
+        for (int j = 0; j < p.length; j++)
+        {
+            String s = p[j];
+            if (arg.containsKey(s))
+            {
+                uriParams.put(s, encode(arg.get(s)));
+            }
+            else
+            {
+                uriParams.put(s, DynamicOutboundEndpoint.NULL_PARAM);
+            }
+        }
+        //Validate that we don't have any properties specified that aren't valid for this param map
+        for (Object o : arg.keySet())
+        {
+            if (!uriParams.containsKey(o))
+            {
+                throw new IllegalArgumentException("A UriParam named '" + o + "' was included in a @UriParam as a Map but was not specified on the @UriParam annotation: " + annotation);
+            }
+        }
+    }
+
+    protected void addAttachments(Attachment annotation, Object arg, Method method, Set<DataSource> attachments, boolean optional)
     {
         if (arg == null)
         {
@@ -512,63 +556,16 @@ public class IBeanParamsHelper
                 throw new IllegalArgumentException(IBeansMessages.parameterNotOptional(annotation, method).toString());
             }
         }
+        else if (arg.getClass().isArray())
+        {
+            for (int i = 0; i < ((Object[]) arg).length; i++)
+            {
+                attachments.add(createDataSource(annotation.value() + (i + 1), ((Object[]) arg)[i]));
+            }
+        }
         else
         {
-            int counter = 1;
-            if (arg instanceof DataSource)
-            {
-                attachments.add((DataSource) arg);
-            }
-            else if (arg instanceof DataSource[])
-            {
-                DataSource[] ds = (DataSource[]) arg;
-                for (int j = 0; j < ds.length; j++)
-                {
-                    attachments.add(ds[j]);
-
-                }
-            }
-            else if (arg instanceof File)
-            {
-                attachments.add(new NamedFileDataSource((File) arg, annotation.value()));
-            }
-            else if (arg instanceof File[])
-            {
-                File[] files = (File[]) arg;
-                for (int i = 0; i < files.length; i++)
-                {
-                    attachments.add(new FileDataSource(files[i]));
-                }
-            }
-            else if (arg instanceof URL)
-            {
-                attachments.add(new NamedURLDataSource((URL) arg, annotation.value()));
-            }
-            else if (arg instanceof URL[])
-            {
-                URL[] urls = (URL[]) arg;
-                for (int i = 0; i < urls.length; i++)
-                {
-                    attachments.add(new URLDataSource(urls[i]));
-
-                }
-            }
-            else if (arg instanceof InputStream)
-            {
-                attachments.add(new InputStreamDataSource((InputStream) arg, (annotation.value().equals("") ? "isAttatchemnt" + counter++ : annotation.value())));
-            }
-            else if (arg instanceof InputStream[])
-            {
-                InputStream[] streams = (InputStream[]) arg;
-                for (int i = 0; i < streams.length; i++)
-                {
-                    attachments.add(new InputStreamDataSource(streams[i], (annotation.value().equals("") ? "isAttatchemnt" + counter++ : annotation.value())));
-                }
-            }
-            else
-            {
-                attachments.add(new StringDataSource(annotation.value(), arg.toString()));
-            }
+            attachments.add(createDataSource(annotation.value(), arg));
         }
     }
 
@@ -624,7 +621,7 @@ public class IBeanParamsHelper
         }
 
         ParamFactory factory = (ParamFactory) arg;
-        final String value = factory.create(paramName, optional, ctx);
+        final Object value = factory.create(paramName, optional, ctx);
 
         if (annotation instanceof UriParam)
         {
@@ -634,9 +631,9 @@ public class IBeanParamsHelper
         {
             ctx.getHeaderParams().put(paramName, encode(value));
         }
-        else if (annotation instanceof PayloadParam)
+        else
         {
-            ctx.getPayloadParams().put(paramName, encode(value));
+            ctx.getRequestPayloadParams().put(paramName, encode(value));
         }
 
     }
@@ -669,6 +666,38 @@ public class IBeanParamsHelper
             params.put(key, arg);
         }
     }
+
+    protected DataSource createDataSource(String name, Object source)
+    {
+        if (StringUtils.isBlank(name))
+        {
+            name = "attachment" + source.hashCode();
+        }
+
+        if (source instanceof DataSource)
+        {
+            return (DataSource) source;
+        }
+
+        else if (source instanceof File)
+        {
+            return new NamedFileDataSource((File) source, name);
+        }
+        else if (source instanceof URL)
+        {
+            return new NamedURLDataSource((URL) source, name);
+        }
+
+        else if (source instanceof InputStream)
+        {
+            return new InputStreamDataSource((InputStream) source, name);
+        }
+        else
+        {
+            return new StringDataSource(name, source.toString());
+        }
+    }
+
 
     public Map<String, Object> getDefaultUriParams()
     {
@@ -708,6 +737,26 @@ public class IBeanParamsHelper
     public void setDefaultPropertyParams(Map<String, Object> defaultPropertyParams)
     {
         this.defaultPropertyParams = defaultPropertyParams;
+    }
+
+    public Map<String, Object> getDefaultAttachmentParams()
+    {
+        return defaultAttachmentParams;
+    }
+
+    public void setDefaultAttachmentParams(Map<String, Object> defaultAttachmentParams)
+    {
+        this.defaultAttachmentParams = defaultAttachmentParams;
+    }
+
+    public Set<ParamFactoryHolder> getDefaultAttachmentFactoryParams()
+    {
+        return defaultAttachmentFactoryParams;
+    }
+
+    public void setDefaultAttachmentFactoryParams(Set<ParamFactoryHolder> defaultAttachmentFactoryParams)
+    {
+        this.defaultAttachmentFactoryParams = defaultAttachmentFactoryParams;
     }
 
     public Class getReturnType()
@@ -750,6 +799,7 @@ public class IBeanParamsHelper
         {
             String result = obj.toString().replaceAll(" ", "+");
             result = result.replaceAll("@", "%40");
+            result = result.replaceAll("#", "%23");
             return result;
 //            int i = obj.toString().indexOf("?");
 //            if (i > -1)
@@ -829,12 +879,12 @@ public class IBeanParamsHelper
         return ibeanInterface;
     }
 
-    public Map<String, ErrorExpressionFilter> getErrorFilters()
+    public Map<String, Filter> getErrorFilters()
     {
         return errorFilters;
     }
 
-    public Map<Method, ErrorExpressionFilter> getMethodErrorFilters()
+    public Map<Method, Filter> getMethodErrorFilters()
     {
         return methodErrorFilters;
     }

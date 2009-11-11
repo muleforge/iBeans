@@ -79,21 +79,21 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
 
     protected transient Map<Method, List<CallInterceptor>> interceptorListCache = new HashMap<Method, List<CallInterceptor>>();
 
-    public IntegrationBeanInvocationHandler(Class iface, Service service, MuleContext muleContext)
+    public IntegrationBeanInvocationHandler(Class iface, Service service, MuleContext muleContext) throws IBeansException
     {
         if (muleContext == null)
         {
-            throw new IllegalArgumentException(CoreMessages.objectIsNull("MuleContext").toString());
+            throw new IBeansException(CoreMessages.objectIsNull("MuleContext").toString());
         }
 
         if (service == null)
         {
-            throw new IllegalArgumentException(CoreMessages.objectIsNull("Service").toString());
+            throw new IBeansException(CoreMessages.objectIsNull("Service").toString());
         }
 
         if (iface == null)
         {
-            throw new IllegalArgumentException(CoreMessages.objectIsNull("IBean Interface").toString());
+            throw new IBeansException(CoreMessages.objectIsNull("IBean Interface").toString());
         }
 
         this.muleContext = muleContext;
@@ -109,6 +109,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         defaultInterceptorList.add(new DefaultEndpointPropertiesInterceptor());
         // 
         defaultInterceptorList.add(new StateCallInterceptor());
+        defaultInterceptorList.add(new ResponseTransformInterceptor());
         defaultInterceptorList.add(new ProcessErrorsInterceptor());
         defaultInterceptorList.add(new IntegrationBeanInvokerInterceptor());
 
@@ -184,7 +185,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
 
     protected boolean isErrorReply(Method method, Object finalResult, MuleMessage message)
     {
-        if (finalResult == null)
+        if (finalResult == null || finalResult.equals(""))
         {
             return false;
         }
@@ -239,19 +240,26 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             t = t.getCause();
         }
         String mime = getMimeForMessage(message);
-        ErrorExpressionFilter f = helper.getErrorFilters().get(mime);
+        Filter filter = helper.getErrorFilters().get(mime);
         Object errorCode = null;
-        if (f != null && f.getErrorCodeExpr() != null)
-        {
-            errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(),
-                    message, false);
-        }
         Throwable root = ExceptionHelper.getRootException(t);
         MuleException muleException = ExceptionHelper.getRootMuleException(t);
-        if (errorCode == null)
+
+        if (filter instanceof ErrorExpressionFilter)
         {
-            String statusCodeName = ExceptionHelper.getErrorCodePropertyName(protocol);
-            errorCode = message.getProperty(statusCodeName);
+            ErrorExpressionFilter f = (ErrorExpressionFilter) filter;
+
+            if (f.getErrorCodeExpr() != null)
+            {
+                errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(),
+                        message, false);
+            }
+
+            if (errorCode == null)
+            {
+                String statusCodeName = ExceptionHelper.getErrorCodePropertyName(protocol);
+                errorCode = message.getProperty(statusCodeName);
+            }
         }
 
         if (errorCode != null)
@@ -311,7 +319,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             MuleMessage result = ((InternalInvocationContext) invocationContext).responseMuleMessage;
             String scheme = getScheme(invocationContext);
 
-            if (isErrorReply(invocationContext.getMethod(), invocationContext.getResult(), result))
+            if (isErrorReply(invocationContext.getMethod(), finalResult, result))
             {
                 String msg;
                 if (result.getPayload() instanceof Document)
@@ -455,8 +463,8 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             }
 
             ((InternalInvocationContext) invocationContext).responseMuleMessage = result;
+            invocationContext.setResult(result.getPayload());
 
-            Object finalResult = null;
             Method method = invocationContext.getMethod();
             String scheme = getScheme(invocationContext);
             if (result != null)
@@ -486,50 +494,61 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
                 {
                     return;
                 }
-                else if (method.getAnnotation(Return.class) != null)
-                {
-                    String returnExpression = method.getAnnotation(Return.class).value();
-
-                    finalResult = handleReturnAnnotation(returnExpression, result, invocationContext);
-
-                    if (!invocationContext.getReturnType().isInstance(finalResult))
-                    {
-                        Transformer transformer = muleContext.getRegistry().lookupTransformer(
-                                finalResult.getClass(), invocationContext.getReturnType());
-                        finalResult = transformer.transform(finalResult);
-                    }
-                }
-                else
-                {
-                    Class retType = invocationContext.getReturnType();
-                    if (retType.equals(MuleMessage.class))
-                    {
-                        finalResult = result;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            finalResult = invocationContext.getIBeansContext().transform(result, retType);
-                        }
-                        catch (TransformerException e)
-                        {
-                            Exception ex = createCallException(result, e, scheme);
-                            if (exceptionListener != null)
-                            {
-                                exceptionListener.exceptionThrown(ex);
-                            }
-                            else
-                            {
-                                throw ex;
-                            }
-                        }
-                    }
-                }
-                invocationContext.setResult(finalResult);
             }
         }
 
     }
 
+    class ResponseTransformInterceptor extends AbstractCallInterceptor
+    {
+        @Override
+        public void afterCall(InvocationContext invocationContext) throws Throwable
+        {
+            MuleMessage result = ((InternalInvocationContext) invocationContext).responseMuleMessage;
+            Object finalResult = null;
+            Method method = invocationContext.getMethod();
+            String scheme = getScheme(invocationContext);
+            if (method.getAnnotation(Return.class) != null)
+            {
+                String returnExpression = method.getAnnotation(Return.class).value();
+
+                finalResult = handleReturnAnnotation(returnExpression, result, invocationContext);
+
+                if (!invocationContext.getReturnType().isInstance(finalResult))
+                {
+                    Transformer transformer = muleContext.getRegistry().lookupTransformer(
+                            finalResult.getClass(), invocationContext.getReturnType());
+                    finalResult = transformer.transform(finalResult);
+                }
+            }
+            else
+            {
+                Class retType = invocationContext.getReturnType();
+                if (retType.equals(MuleMessage.class))
+                {
+                    finalResult = result;
+                }
+                else
+                {
+                    try
+                    {
+                        finalResult = invocationContext.getIBeansContext().transform(result, retType);
+                    }
+                    catch (TransformerException e)
+                    {
+                        Exception ex = createCallException(result, e, scheme);
+                        if (exceptionListener != null)
+                        {
+                            exceptionListener.exceptionThrown(ex);
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            invocationContext.setResult(finalResult);
+        }
+    }
 }
