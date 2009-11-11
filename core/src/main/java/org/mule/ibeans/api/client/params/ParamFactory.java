@@ -17,5 +17,5 @@ public interface ParamFactory
      * @param invocationContext
      * @return
      */
-    String create(String paramName, boolean optional, InvocationContext invocationContext);
+    Object create(String paramName, boolean optional, InvocationContext invocationContext);
 }
