@@ -69,7 +69,7 @@
         <!-- sources -->
         <file>
             <source>${project.build.directory}/src.zip</source>
-            <outputDirectory>src</outputDirectory>
+            <outputDirectory>mule-ibeans/src</outputDirectory>
         </file>
     </files>
     <fileSets>
