@@ -22,10 +22,11 @@ import java.lang.annotation.Target;
 @ErrorFilter
 public @interface XmlErrorFilter
 {
-    public String expr();
+    String expr();
 
-    public String errorCode() default "";
+    String errorCode() default "";
 
-    public final String mimeType = "text/xml";
-    public final String evaluator = "xpath2";
+    String mimeType() default "text/xml";
+
+    final String eval = "xpath2";
 }

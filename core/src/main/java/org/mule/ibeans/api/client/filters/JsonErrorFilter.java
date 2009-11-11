@@ -23,10 +23,11 @@ import java.lang.annotation.Target;
 @ErrorFilter
 public @interface JsonErrorFilter
 {
-    public String expr();
+    String expr();
 
-    public String errorCode() default "";
+    String errorCode() default "";
 
-    public final String mimeType = "application/json";
-    public final String evaluator = "json";
+    String mimeType() default "application/json";
+
+    final String eval = "json";
 }

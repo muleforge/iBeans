@@ -22,10 +22,11 @@ import java.lang.annotation.Target;
 @ErrorFilter
 public @interface AtomErrorFilter
 {
-    public String expr();
+    String expr();
 
-    public String errorCode() default "";
+    String errorCode() default "";
 
-    public final String mimeType = "application/atom+xml";
-    public final String evaluator = "xpath2";
+    String mimeType() default "application/atom+xml";
+
+    final String eval = "xpath2";
 }

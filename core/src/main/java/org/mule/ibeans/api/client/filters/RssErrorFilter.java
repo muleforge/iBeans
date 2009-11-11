@@ -22,10 +22,11 @@ import java.lang.annotation.Target;
 @ErrorFilter
 public @interface RssErrorFilter
 {
-    public String expr();
+    String expr();
 
-    public String errorCode() default "";
+    String errorCode() default "";
 
-    public final String mimeType = "application/rss+xml";
-    public final String evaluator = "xpath2";
+    String mimeType() default "application/rss+xml";
+
+    final String eval = "xpath2";
 }

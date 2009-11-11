@@ -20,7 +20,9 @@ import java.lang.annotation.Target;
 @ErrorFilter
 public @interface ExpressionErrorFilter
 {
-    public abstract String expr();
+    String expr();
 
-    public String mimeType() default "*";
+    String eval();
+
+    String mimeType() default "*";
 }
