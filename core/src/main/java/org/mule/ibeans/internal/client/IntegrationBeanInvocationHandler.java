@@ -160,6 +160,10 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             invocationContext.rethrowException();
         }
 
+        if (NullPayload.getInstance().equals(invocationContext.result))
+        {
+            return null;
+        }
         return invocationContext.result;
     }
 
