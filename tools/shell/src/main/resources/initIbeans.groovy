@@ -4,8 +4,7 @@ import org.mule.ibeans.IBeansContext
 import org.mule.ibeans.config.IBeanHolderConfigurationBuilder
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder
-import static org.mule.ibeans.IBeansSupport.select;
-import static org.mule.ibeans.IBeansSupport.selectValue;
+import static org.mule.ibeans.IBeansSupport.*;
 import org.w3c.dom.Document;
 
 //Usful to have avaialable in the shell
