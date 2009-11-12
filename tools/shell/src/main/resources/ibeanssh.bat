@@ -12,14 +12,23 @@
 @echo off
 SETLOCAL
 
+IF "%IBEANS_HOME%"==""  (
+    IF "%CATALINA_HOME%"==""  (
+      echo CATALINA_HOME is not set in your environment, assuming this script is being run from CATALINA_HOME/mule-ibeans/bin.
+      set CATALINA_HOME=..\..
+    ) ELSE (
+      set IBEANS_HOME=%CATALINA_HOME%\mule-ibeans
+    )
+)
+
+
 IF "%CATALINA_HOME%"==""  (
-  echo CATALINA_HOME is not set in your environment, assuming this script is being run from CATALINA_HOME/mule-ibeans/bin.
-  set CATALINA_HOME=..\..
+  set CATALINA_HOME=%IBEANS_HOME%\..
 )
 
 echo CATALINA HOME IS: %CATALINA_HOME%
 
-set SHELL_HOME=%CATALINA_HOME%\mule-ibeans\tools\shell
+set SHELL_HOME=%IBEANS_HOME%\tools\shell
 set SHELL_MODULE=%SHELL_HOME%\ibeans-shell-full.jar
 
 IF EXIST %SHELL_MODULE% (
