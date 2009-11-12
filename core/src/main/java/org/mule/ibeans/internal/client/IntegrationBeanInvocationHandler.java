@@ -31,6 +31,7 @@ import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.routing.filters.ExpressionFilter;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringMessageUtils;
+import org.mule.util.StringUtils;
 import org.mule.util.TemplateParser;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
@@ -253,13 +254,18 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             {
                 errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(),
                         message, false);
+                //if errorCode is non-numeric, return the http status code instead
+                if (!StringUtils.isNumeric(errorCode.toString()))
+                {
+                    errorCode = null;
+                }
             }
+        }
 
-            if (errorCode == null)
-            {
-                String statusCodeName = ExceptionHelper.getErrorCodePropertyName(protocol);
-                errorCode = message.getProperty(statusCodeName);
-            }
+        if (errorCode == null)
+        {
+            String statusCodeName = ExceptionHelper.getErrorCodePropertyName(protocol);
+            errorCode = message.getProperty(statusCodeName);
         }
 
         if (errorCode != null)
@@ -463,7 +469,10 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             }
 
             ((InternalInvocationContext) invocationContext).responseMuleMessage = result;
-            invocationContext.setResult(result.getPayload());
+            if (result != null)
+            {
+                invocationContext.setResult(result.getPayload());
+            }
 
             Method method = invocationContext.getMethod();
             String scheme = getScheme(invocationContext);
@@ -505,6 +514,11 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         public void afterCall(InvocationContext invocationContext) throws Throwable
         {
             MuleMessage result = ((InternalInvocationContext) invocationContext).responseMuleMessage;
+            if (result == null || NullPayload.getInstance().equals(result.getPayload()))
+            {
+                return;
+            }
+
             Object finalResult = null;
             Method method = invocationContext.getMethod();
             String scheme = getScheme(invocationContext);
