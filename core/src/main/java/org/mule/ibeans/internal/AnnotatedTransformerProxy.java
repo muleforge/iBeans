@@ -13,10 +13,10 @@ import org.mule.api.MuleMessage;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.transformer.DiscoverableTransformer;
 import org.mule.api.transformer.TransformerException;
+import org.mule.expression.transformers.ExpressionTransformer;
 import org.mule.transformer.AbstractMessageAwareTransformer;
 import org.mule.transport.NullPayload;
 import org.mule.utils.AnnotationUtils;
-import org.mule.expression.transformers.ExpressionTransformer;
 
 import java.lang.reflect.Method;
 
@@ -35,7 +35,8 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
     private boolean messageAware = false;
     private ExpressionTransformer paramTransformer = null;
 
-    public AnnotatedTransformerProxy(int weighting, Object proxy, Method transformMethod) throws TransformerException, InitialisationException
+
+    public AnnotatedTransformerProxy(int weighting, Object proxy, Method transformMethod, Class[] additionalSourceTypes) throws TransformerException, InitialisationException
     {
         this.weighting = weighting;
         this.proxy = proxy;
@@ -58,6 +59,21 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
 //        }
         messageAware = MuleMessage.class.isAssignableFrom(transformMethod.getParameterTypes()[0]);
         this.transformMethod = transformMethod;
+        if (additionalSourceTypes.length > 0)
+        {
+            if (messageAware)
+            {
+                logger.warn("Transformer: " + getName() + " is MuleMessage aware, this means additional source types configured on the transformer will be ignorred. Source types are: " + additionalSourceTypes);
+            }
+            else
+            {
+                for (int i = 0; i < additionalSourceTypes.length; i++)
+                {
+                    registerSourceType(additionalSourceTypes[i]);
+
+                }
+            }
+        }
         registerSourceType(transformMethod.getParameterTypes()[0]);
         setName(proxy.getClass().getSimpleName() + "." + transformMethod.getName());
 
@@ -90,6 +106,7 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
         }
         else
         {
+            //This will perform any additional transformation from the source type to the method parameter type
             firstArg = message.getPayload(transformMethod.getParameterTypes()[0]);
         }
         if (paramTransformer != null)

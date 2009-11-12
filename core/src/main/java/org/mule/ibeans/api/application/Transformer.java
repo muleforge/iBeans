@@ -33,4 +33,14 @@ public @interface Transformer
     //String sourceMimType() default "";
 
     //String resultMimType() default "";
+
+    /**
+     * SourceTypes define additional types that this transformer will accepts as a sourceType (beyond the method parameter).
+     * At run time if the current mesage matches one of these source types, iBeans will attempt to transform from
+     * the source type to the method parameter type.  This means that transformations can be chained.The user can create
+     * other transformers to be a part of this chain.
+     *
+     * @return an array of class types which allow the transformer to be matched on
+     */
+    Class[] sourceTypes() default {};
 }
