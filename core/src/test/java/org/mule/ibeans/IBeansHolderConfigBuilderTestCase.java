@@ -36,7 +36,7 @@ public class IBeansHolderConfigBuilderTestCase extends AbstractIBeansTestCase
             IBeanHolder iBeanHolder = iterator.next();
             ids[i] = iBeanHolder.getId();
         }
-        assertEquals("returnexpressions", ids[0]);
+        assertEquals("search", ids[0]);
         assertEquals("testexception", ids[1]);
         assertEquals("testimplicitpropertiesinfactory", ids[2]);
         assertEquals("testparamsfactory", ids[3]);
