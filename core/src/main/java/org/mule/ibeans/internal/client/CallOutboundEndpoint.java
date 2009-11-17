@@ -10,12 +10,16 @@
 package org.mule.ibeans.internal.client;
 
 import org.mule.api.MuleContext;
+import org.mule.api.MuleEvent;
 import org.mule.api.MuleMessage;
 import org.mule.api.endpoint.EndpointURI;
 import org.mule.api.endpoint.OutboundEndpoint;
 import org.mule.api.transformer.Transformer;
+import org.mule.api.transport.DispatchException;
+import org.mule.api.transport.PropertyScope;
 import org.mule.endpoint.DefaultOutboundEndpoint;
 import org.mule.endpoint.MuleEndpointURI;
+import org.mule.ibeans.channels.CHANNEL;
 import org.mule.ibeans.internal.ext.DynamicOutboundEndpoint;
 import org.mule.impl.endpoint.AnnotatedEndpointData;
 import org.mule.transport.AbstractConnector;
@@ -42,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CallOutboundEndpoint extends DynamicOutboundEndpoint
 {
-    public static final String URI_PARAM_PROPERTIES = "mule.uri.params";
+    public static final String URI_PARAM_PROPERTIES = "ibeans.uri.params";
 
     /**
      * logger used by this class
@@ -175,5 +179,16 @@ public class CallOutboundEndpoint extends DynamicOutboundEndpoint
             }
         }
         return responseTransformers;
+    }
+
+    @Override
+    public MuleMessage send(MuleEvent event) throws DispatchException
+    {
+        MuleMessage result = super.send(event);
+        if (result != null)
+        {
+            result.setProperty(CHANNEL.CALL_URI_PROPERTY, event.getEndpoint().getEndpointURI().toString(), PropertyScope.INVOCATION);
+        }
+        return result;
     }
 }
