@@ -14,11 +14,15 @@ import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.transformer.DiscoverableTransformer;
 import org.mule.api.transformer.TransformerException;
 import org.mule.expression.transformers.ExpressionTransformer;
+import org.mule.ibeans.api.application.params.MessagePayload;
 import org.mule.transformer.AbstractMessageAwareTransformer;
 import org.mule.transport.NullPayload;
 import org.mule.utils.AnnotationUtils;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Creates a Mule {@link org.mule.api.transformer.Transformer} proxy around a transform method. The
@@ -34,7 +38,9 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
     private Method transformMethod;
     private boolean messageAware = false;
     private ExpressionTransformer paramTransformer = null;
-
+    private Collection<ObjectResolver> resolvers;
+    private Map<Class, Object> cachedObjects = new WeakHashMap<Class, Object>();
+    private boolean sourceAnnotated = false;
 
     public AnnotatedTransformerProxy(int weighting, Object proxy, Method transformMethod, Class[] additionalSourceTypes) throws TransformerException, InitialisationException
     {
@@ -51,19 +57,13 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
         {
             throw new IllegalArgumentException("Method not a valid transform method, no parameters: " + transformMethod.getName());
         }
-//        else if (transformMethod.getParameterTypes().length > 1)
-//        {
-//
-//            throw new IllegalArgumentException("Method not a valid transform method, can only have 1 parameter: " + transformMethod.getName());
-//
-//        }
         messageAware = MuleMessage.class.isAssignableFrom(transformMethod.getParameterTypes()[0]);
         this.transformMethod = transformMethod;
         if (additionalSourceTypes.length > 0)
         {
             if (messageAware)
             {
-                logger.warn("Transformer: " + getName() + " is MuleMessage aware, this means additional source types configured on the transformer will be ignorred. Source types are: " + additionalSourceTypes);
+                logger.error("Transformer: " + getName() + " is MuleMessage aware, this means additional source types configured on the transformer will be ignorred. Source types are: " + additionalSourceTypes);
             }
             else
             {
@@ -74,7 +74,12 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
                 }
             }
         }
-        registerSourceType(transformMethod.getParameterTypes()[0]);
+        //The first Param is the always the object to transform
+        Class source = transformMethod.getParameterTypes()[0];
+        registerSourceType(source);
+        sourceAnnotated = (transformMethod.getParameterAnnotations()[0].length > 0 &&
+                transformMethod.getParameterAnnotations()[0][0] instanceof MessagePayload);
+
         setName(proxy.getClass().getSimpleName() + "." + transformMethod.getName());
 
     }
@@ -94,21 +99,17 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
                 throw new InitialisationException(e, this);
             }
         }
+        resolvers = muleContext.getRegistry().lookupObjects(ObjectResolver.class);
     }
 
     public Object transform(MuleMessage message, String outputEncoding) throws TransformerException
     {
-        Object firstArg;
-        Object[] params;
-        if (messageAware)
-        {
-            firstArg = message;
-        }
-        else
-        {
-            //This will perform any additional transformation from the source type to the method parameter type
-            firstArg = message.getPayload(transformMethod.getParameterTypes()[0]);
-        }
+        Object firstArg = null;
+        Object[] params = new Object[transformMethod.getParameterTypes().length];
+        int paramCounter = 0;
+
+        //the param treansformer will convert the message to one or more objects depending on the annotations on the method
+        //parameter
         if (paramTransformer != null)
         {
             Object paramArgs = paramTransformer.transform(message, outputEncoding);
@@ -116,23 +117,82 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
             if (paramArgs != null && paramArgs.getClass().isArray())
             {
                 Object[] temp = (Object[]) paramArgs;
-                params = new Object[temp.length + 1];
-                params[0] = firstArg;
+                //if the source is annotated, the paramTransformer will figure out the first parameter
+                if (!sourceAnnotated)
+                {
+                    paramCounter++;
+                }
                 for (int i = 0; i < temp.length; i++)
                 {
-                    params[i + 1] = temp[i];
+                    params[paramCounter++] = temp[i];
                 }
             }
             else
             {
-                params = new Object[2];
-                params[0] = firstArg;
-                params[1] = paramArgs;
+                //if the source is annotated, the paramTransformer will figure out the first parameter
+                if (!sourceAnnotated)
+                {
+                    paramCounter++;
+                }
+                params[paramCounter++] = paramArgs;
             }
         }
-        else
+
+        if (messageAware)
         {
-            params = new Object[]{firstArg};
+            firstArg = message;
+        }
+        else if (!sourceAnnotated)
+        {
+            //This will perform any additional transformation from the source type to the method parameter type
+            firstArg = message.getPayload(transformMethod.getParameterTypes()[0]);
+        }
+
+        //if the source is annotated, the paramTransformer will figure out the first parameter
+        if (!sourceAnnotated)
+        {
+            params[0] = firstArg;
+            if (paramCounter == 0)
+            {
+                paramCounter++;
+            }
+        }
+        //Lets see if there are any context objects to inject (i.e. JAXB)
+        if (paramCounter < transformMethod.getParameterTypes().length)
+        {
+            for (int i = paramCounter; i < transformMethod.getParameterTypes().length; i++)
+            {
+                Object o;
+                Class type = transformMethod.getParameterTypes()[i];
+                o = cachedObjects.get(type);
+                if (o != null)
+                {
+                    params[paramCounter++] = o;
+                    continue;
+                }
+                for (ObjectResolver resolver : resolvers)
+                {
+                    try
+                    {
+                        o = resolver.findObject(type, transformMethod, muleContext);
+                        if (o != null)
+                        {
+                            params[paramCounter++] = o;
+                            cachedObjects.put(type, o);
+                            break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new TransformerException(this, e);
+                    }
+
+                }
+                if (o == null)
+                {
+                    throw new IllegalArgumentException("Failed to find resolver for object type: " + type + " for transform method: " + transformMethod);
+                }
+            }
         }
         try
         {
@@ -208,4 +268,6 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
         result = 31 * result + (messageAware ? 1 : 0);
         return result;
     }
+
+
 }
