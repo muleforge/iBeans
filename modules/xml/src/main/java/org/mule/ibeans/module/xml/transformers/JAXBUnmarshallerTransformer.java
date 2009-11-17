@@ -22,6 +22,7 @@ import java.io.Writer;
 import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamReader;
@@ -90,19 +91,23 @@ public class JAXBUnmarshallerTransformer extends AbstractTransformer
             }
             else if (src instanceof Node)
             {
-                return u.unmarshal((Node) src, getReturnClass());
+                JAXBElement e = u.unmarshal((Node) src, getReturnClass());
+                return e.getValue();
             }
             else if (src instanceof Source)
             {
-                return u.unmarshal((Source) src, getReturnClass());
+                JAXBElement e = u.unmarshal((Source) src, getReturnClass());
+                return e.getValue();
             }
             else if (src instanceof XMLStreamReader)
             {
-                return u.unmarshal((XMLStreamReader) src, getReturnClass());
+                JAXBElement e = u.unmarshal((XMLStreamReader) src, getReturnClass());
+                return e.getValue();
             }
             else if (src instanceof XMLEventReader)
             {
-                return u.unmarshal((XMLEventReader) src, getReturnClass());
+                JAXBElement e = u.unmarshal((XMLEventReader) src, getReturnClass());
+                return e.getValue();
             }
 
         }
