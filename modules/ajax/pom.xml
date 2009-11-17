@@ -110,9 +110,11 @@
                                 <includes>
                                     <include>org.mule.transports:mule-transport-ajax</include>
                                     <include>org.mule.modules:mule-module-json</include>
-                                    <include>net.sf.json-lib:json-lib:jdk15</include>
+                                    <include>org.codehaus.jackson:jackson-core-asl</include>
+                                    <include>org.codehaus.jackson:jackson-mapper-asl</include>
+                                    <include>org.codehaus.jackson:jackson-jaxrs</include>
                                     <include>org.jabsorb:jabsorb</include>
-                                    <include>net.sf.ezmorph:ezmorph</include>
+                                    <!--<include>net.sf.ezmorph:ezmorph</include>-->
                                     <include>org.mortbay.jetty:cometd-bayeux</include>
                                     <include>org.mortbay.jetty:jetty-util</include>
                                     <include>org.mortbay.jetty:cometd-api</include>

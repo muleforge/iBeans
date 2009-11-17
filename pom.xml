@@ -578,10 +578,6 @@
                             <pattern>org.jabsorb</pattern>
                             <shadedPattern>org.mule.ibeans.org.jabsorb</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>org.json</pattern>
-                            <shadedPattern>org.mule.ibeans.org.json</shadedPattern>
-                        </relocation>
                         <!-- ATOM -->
                         <!--<relocation>-->
                         <!--<pattern>org.apache.abdera</pattern>-->
