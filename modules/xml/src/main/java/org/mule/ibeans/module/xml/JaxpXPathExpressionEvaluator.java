@@ -7,7 +7,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.internal.ext;
+package org.mule.ibeans.module.xml;
 
 import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
