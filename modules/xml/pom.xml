@@ -110,6 +110,19 @@
 
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-ajax</artifactId>
+            <version>${version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
