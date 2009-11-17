@@ -19,12 +19,12 @@ import org.mule.config.DefaultMuleConfiguration;
 import org.mule.config.annotations.endpoints.Channel;
 import org.mule.config.builders.SimpleConfigurationBuilder;
 import org.mule.context.DefaultMuleContextBuilder;
-import org.mule.context.DefaultMuleContextFactory;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.config.ChannelConfigBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
+import org.mule.ibeans.transformers.CommonTransformers;
 import org.mule.tck.AbstractMuleTestCase;
 import org.mule.util.IOUtils;
 import org.mule.utils.AnnotationMetaData;
@@ -92,6 +92,9 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
 
         //Allow the testcase to use annotations
         muleContext.getRegistry().registerObject(this.getClass().getName(), this);
+
+        //Load the common transformers
+        muleContext.getRegistry().registerObject("_commonTransformers", new CommonTransformers());
 
         return muleContext;
     }
@@ -174,7 +177,7 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
             public Object answer(InvocationOnMock invocation) throws Throwable
             {
                 Class ret = ((MockIBean) ibean).ibeanReturnType();
-                if(ret==null)
+                if (ret == null)
                 {
                     ret = invocation.getMethod().getReturnType();
                 }
