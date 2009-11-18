@@ -102,7 +102,9 @@ public class JAXBMarshallerTransformer extends AbstractTransformer
                         }
                         catch (JAXBException e)
                         {
-                            throw new IOException("failed to mashal objec tto XML", e);
+                            IOException iox = new IOException("failed to mashal objec tto XML");
+                            iox.initCause(e);
+                            throw iox;
                         }
                     }
                 };
