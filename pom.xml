@@ -195,6 +195,14 @@
     <build>
         <defaultGoal>install</defaultGoal>
 
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.index</include>
+                </includes>
+            </testResource>
+        </testResources>
         <extensions>
             <!-- WebDAV for remote deployment -->
             <extension>
