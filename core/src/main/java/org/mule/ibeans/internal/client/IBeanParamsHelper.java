@@ -14,9 +14,11 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
 import org.mule.api.config.MuleProperties;
+import org.mule.api.registry.RegistrationException;
 import org.mule.api.routing.filter.Filter;
 import org.mule.api.transport.PropertyScope;
 import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.api.client.Namespace;
 import org.mule.ibeans.api.client.State;
 import org.mule.ibeans.api.client.filters.ErrorFilter;
 import org.mule.ibeans.api.client.filters.ExpressionErrorFilter;
@@ -39,6 +41,7 @@ import org.mule.ibeans.internal.util.InputStreamDataSource;
 import org.mule.ibeans.internal.util.NamedFileDataSource;
 import org.mule.ibeans.internal.util.NamedURLDataSource;
 import org.mule.ibeans.internal.util.StringDataSource;
+import org.mule.module.xml.util.NamespaceManager;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringUtils;
 import org.mule.utils.AnnotationMetaData;
@@ -166,14 +169,43 @@ public class IBeanParamsHelper
     }
 
 
-    public void readDefaultParams(Class iface)
+    public void readDefaultParams(Class iface) throws IBeansException
     {
+        NamespaceManager nsManager = null;
+        try
+        {
+            nsManager = muleContext.getRegistry().lookupObject(NamespaceManager.class);
+        }
+        catch (RegistrationException e)
+        {
+            throw new IBeansException(e);
+        }
+
         Set<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotationsForHeirarchy(iface);
         for (AnnotationMetaData metaData : annos)
         {
             if (metaData.getAnnotation() instanceof Order)
             {
                 continue;
+            }
+
+            if (metaData.getAnnotation() instanceof Namespace)
+            {
+
+                try
+                {
+                    String prefix = ((Namespace) metaData.getAnnotation()).value();
+//                    if(nsManager.getNamespaces().containsKey(prefix))
+//                    {
+//                        throw new IBeansException("Illegal namespace prefix '" + prefix + "', Namespace already registered");
+//                    }
+                    nsManager.getNamespaces().put(prefix, ((Field) metaData.getMember()).get(iface));
+                    continue;
+                }
+                catch (IllegalAccessException e)
+                {
+                    throw new IBeansException(e);
+                }
             }
             Field field = (Field) metaData.getMember();
             UriParam uriParam = field.getAnnotation(UriParam.class);
@@ -196,7 +228,7 @@ public class IBeanParamsHelper
                 }
                 catch (Exception e)
                 {
-                    throw new RuntimeException(e);
+                    throw new IBeansException(e);
                 }
             }
 
@@ -220,7 +252,7 @@ public class IBeanParamsHelper
                 }
                 catch (Exception e)
                 {
-                    throw new RuntimeException(e);
+                    throw new IBeansException(e);
                 }
             }
 
@@ -244,7 +276,7 @@ public class IBeanParamsHelper
                 }
                 catch (Exception e)
                 {
-                    throw new RuntimeException(e);
+                    throw new IBeansException(e);
                 }
             }
 
@@ -265,7 +297,7 @@ public class IBeanParamsHelper
                 }
                 catch (Exception e)
                 {
-                    throw new RuntimeException(e);
+                    throw new IBeansException(e);
                 }
             }
 
@@ -285,7 +317,7 @@ public class IBeanParamsHelper
                 }
                 catch (Exception e)
                 {
-                    throw new RuntimeException(e);
+                    throw new IBeansException(e);
                 }
             }
         }
