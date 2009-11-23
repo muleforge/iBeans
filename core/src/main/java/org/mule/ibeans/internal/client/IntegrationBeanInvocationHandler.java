@@ -100,7 +100,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         this.muleContext = muleContext;
         helper = new IBeanParamsHelper(muleContext, iface);
         templateHandler = new TemplateAnnotationHandler(muleContext);
-        callHandler = new CallAnnotationHandler(muleContext, service, helper);
+        callHandler = createCallHandler(muleContext, service, helper);
 
         // Performs special handling for standard and non-integration methods
         defaultInterceptorList.add(new NonIntegrationMethodsCallInterceptor());
@@ -108,12 +108,34 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         defaultInterceptorList.add(new PopulateiBeansParamsInterceptor());
         // Adds default endpoint properties so they are available to any ParmFactory's
         defaultInterceptorList.add(new DefaultEndpointPropertiesInterceptor());
-        // 
+        //
         defaultInterceptorList.add(new StateCallInterceptor());
-        defaultInterceptorList.add(new ResponseTransformInterceptor());
+        defaultInterceptorList.add(createResponseTransformHandler());
         defaultInterceptorList.add(new ProcessErrorsInterceptor());
-        defaultInterceptorList.add(new IntegrationBeanInvokerInterceptor());
+        defaultInterceptorList.add(createInvokerHandler());
 
+    }
+
+    /**
+     * Can be overriden to change the behaviur of the actual invocation.  It is unlikely that users will ever
+     * do this but iBeans may require different strategies i.e. in order to mock out a request
+     *
+     * @return the {@link org.mule.ibeans.api.client.CallInterceptor} responsible for perfroming the invocation
+     *         of the request over the Call channel
+     */
+    protected CallInterceptor createInvokerHandler()
+    {
+        return new IntegrationBeanInvokerInterceptor();
+    }
+
+    protected CallInterceptor createResponseTransformHandler()
+    {
+        return new ResponseTransformInterceptor();
+    }
+
+    protected CallAnnotationHandler createCallHandler(MuleContext muleContext, Service service, IBeanParamsHelper helper)
+    {
+        return new CallAnnotationHandler(muleContext, service, helper);
     }
 
     public void addRouter(InterfaceBinding router)
@@ -432,7 +454,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         }
     }
 
-    class IntegrationBeanInvokerInterceptor implements CallInterceptor
+    protected class IntegrationBeanInvokerInterceptor implements CallInterceptor
     {
 
         public void intercept(InvocationContext invocationContext) throws Throwable
@@ -512,7 +534,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
 
     }
 
-    class ResponseTransformInterceptor extends AbstractCallInterceptor
+    protected class ResponseTransformInterceptor extends AbstractCallInterceptor
     {
         @Override
         public void afterCall(InvocationContext invocationContext) throws Throwable
