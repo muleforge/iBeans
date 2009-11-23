@@ -22,6 +22,7 @@ import org.mule.ibeans.module.xml.transformers.JAXBUnmarshallerTransformer;
 import org.mule.utils.AnnotationUtils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -115,20 +116,29 @@ public class JAXBTransformerResolver implements TransformerResolver, MuleContext
                 jaxbClasses.add(annotatedType);
             }
 
-            jax = muleContext.getRegistry().lookupObject(JAXBContext.class);
-            if (jax == null)
+            List<Transformer> ts = muleContext.getRegistry().lookupTransformers(criteria.getInputTypes()[0], criteria.getOutputType());
+            if (ts.size() == 1)
             {
-                logger.info("No common JAXB context configured, creating a local one for: " + annotatedType);
-                jax = JAXBContext.newInstance(annotatedType);
-            }
-
-            if (marshal)
-            {
-                t = new JAXBMarshallerTransformer(jax, criteria.getOutputType());
+                t = ts.get(0);
             }
             else
             {
-                t = new JAXBUnmarshallerTransformer(jax, criteria.getOutputType());
+
+                jax = muleContext.getRegistry().lookupObject(JAXBContext.class);
+                if (jax == null)
+                {
+                    logger.info("No common JAXB context configured, creating a local one for: " + annotatedType);
+                    jax = JAXBContext.newInstance(annotatedType.getPackage().getName());
+                }
+
+                if (marshal)
+                {
+                    t = new JAXBMarshallerTransformer(jax, criteria.getOutputType());
+                }
+                else
+                {
+                    t = new JAXBUnmarshallerTransformer(jax, criteria.getOutputType());
+                }
             }
 
             transformerCache.put(annotatedType.getName() + (marshal ? "-marshal" : "-unmarshal"), t);
