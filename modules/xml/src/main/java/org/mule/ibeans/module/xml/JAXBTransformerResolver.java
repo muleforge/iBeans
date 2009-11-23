@@ -72,7 +72,7 @@ public class JAXBTransformerResolver implements TransformerResolver, MuleContext
             {
                 if (jaxbClasses.contains(criteria.getInputTypes()[i]))
                 {
-                    cacheKey = criteria.getInputTypes()[i].getClass().getName() + "-marshal";
+                    cacheKey = criteria.getInputTypes()[i].getName() + "-marshal";
                     annotatedType = criteria.getInputTypes()[i];
                     marshal = true;
                     break;
