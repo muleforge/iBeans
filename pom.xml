@@ -202,6 +202,9 @@
                     <include>**/*.index</include>
                 </includes>
             </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
         </testResources>
         <extensions>
             <!-- WebDAV for remote deployment -->
