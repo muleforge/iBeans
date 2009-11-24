@@ -14,7 +14,6 @@ import org.mule.api.config.ConfigurationException;
 import org.mule.api.lifecycle.LifecycleManager;
 import org.mule.config.annotations.Service;
 import org.mule.config.annotations.endpoints.Channel;
-import org.mule.config.builders.AbstractConfigurationBuilder;
 import org.mule.ibeans.internal.TomcatJndiRegistry;
 import org.mule.util.ClassUtils;
 import org.mule.util.scan.ClasspathScanner;
@@ -27,26 +26,34 @@ import java.util.Set;
 /**
  * This builder discovers objects to load on the classpath by scanning for objects with methods annotated with iBeans annotations.
  */
-public class AnnotationsScannerConfigurationBuilder extends AbstractConfigurationBuilder
+public class AnnotationsScannerConfigurationBuilder extends AbstractAnnotationConfigurationBuilder
 {
-    private ClassLoader classLoader;
-
     public AnnotationsScannerConfigurationBuilder()
     {
-        this.classLoader = Thread.currentThread().getContextClassLoader();
+    }
+
+    public AnnotationsScannerConfigurationBuilder(String... basepackages)
+    {
+        super(basepackages);
     }
 
     public AnnotationsScannerConfigurationBuilder(ClassLoader classLoader)
     {
-        this.classLoader = classLoader;
+        super(classLoader);
+    }
+
+    public AnnotationsScannerConfigurationBuilder(ClassLoader classLoader, String... basepackages)
+    {
+        super(classLoader, basepackages);
+    }
+
+    protected String getScanPackagesProperty()
+    {
+        return "annotations.scan.packages";
     }
 
     protected void doConfigure(MuleContext muleContext) throws Exception
     {
-//        DefaultJmxSupportAgent agent = new DefaultJmxSupportAgent();
-//        agent.setLoadMx4jAgent(false);
-//        muleContext.getRegistry().registerAgent(agent);
-
         try
         {
             TomcatJndiRegistry registry = new TomcatJndiRegistry();
@@ -58,7 +65,9 @@ public class AnnotationsScannerConfigurationBuilder extends AbstractConfiguratio
             logger.error("Not running in Tcat/Tomcat, context configuration features will not work");
         }
 
-        Map<String, Object> services = findServices();
+        ClasspathScanner scanner = createClasspathScanner();
+
+        Map<String, Object> services = findServices(scanner);
         for (Map.Entry<String, Object> entry : services.entrySet())
         {
             muleContext.getRegistry().registerObject(entry.getKey(), entry.getValue());
@@ -66,7 +75,6 @@ public class AnnotationsScannerConfigurationBuilder extends AbstractConfiguratio
 
         //Load any classes that contain @transformer annotations.  The registry will take care of initializing the
         //actual transformer objects
-        ClasspathScanner scanner = new ClasspathScanner(classLoader, "");
         Set<Class> transformerClasses = scanner.scanFor(org.mule.ibeans.api.application.Transformer.class);
 
         for (Class aClass : transformerClasses)
@@ -76,14 +84,14 @@ public class AnnotationsScannerConfigurationBuilder extends AbstractConfiguratio
         }
     }
 
+
     protected void applyLifecycle(LifecycleManager lifecycleManager) throws Exception
     {
         //do nothing
     }
 
-    protected Map<String, Object> findServices() throws ConfigurationException
+    protected Map<String, Object> findServices(ClasspathScanner scanner) throws ConfigurationException
     {
-        ClasspathScanner scanner = new ClasspathScanner(classLoader, "");
         Set<Class> serviceClasses;
         try
         {

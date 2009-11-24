@@ -22,75 +22,77 @@ import org.mule.util.scan.ClasspathScanner;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.Enumeration;
+import java.util.StringTokenizer;
+import java.net.URL;
 
 /**
  * A configuration builder that registers iBean objects on the classpath with the Mule registry.
  * <p/>
  * The registry can then be used to query avaialble iBeans.
  */
-public class IBeanHolderConfigurationBuilder extends AbstractConfigurationBuilder
+public class IBeanHolderConfigurationBuilder extends AbstractAnnotationConfigurationBuilder
 {
-    public static final String[] DEFAULT_BASEPATHS = new String[]{"org/mule/ibeans"};
-
-    private ClassLoader classLoader;
-    private String[] basepaths;
+    public static final String IBEAN_HOLDER_PREFIX = "_ibeanHolder.";
+    public static final String TRANSFORMER_PREFIX = "_transformer.";
 
     public IBeanHolderConfigurationBuilder()
     {
-        this(DEFAULT_BASEPATHS);
     }
 
-    public IBeanHolderConfigurationBuilder(String... basepaths)
+    public IBeanHolderConfigurationBuilder(String... basepackages)
     {
-        this.classLoader = Thread.currentThread().getContextClassLoader();
-        this.basepaths = basepaths;
+        super(basepackages);
     }
 
     public IBeanHolderConfigurationBuilder(ClassLoader classLoader)
     {
-        this(classLoader, DEFAULT_BASEPATHS);
+        super(classLoader);
     }
 
-    public IBeanHolderConfigurationBuilder(ClassLoader classLoader, String... basepaths)
+    public IBeanHolderConfigurationBuilder(ClassLoader classLoader, String... basepackages)
     {
-        this.classLoader = classLoader;
-        this.basepaths = basepaths;
+        super(classLoader, basepackages);
+    }
+
+    protected String getScanPackagesProperty()
+    {
+        return "ibeans.scan.packages";
     }
 
     protected void doConfigure(MuleContext muleContext) throws Exception
     {
+
         Set<Class> ibeanClasses = new HashSet<Class>();
         Set<Object> transformers = new HashSet<Object>();
 
-        for (int i = 0; i < basepaths.length; i++)
-        {
-            String basepath = basepaths[i];
-            ClasspathScanner scanner = new ClasspathScanner(classLoader, basepath);
+        ClasspathScanner scanner = createClasspathScanner();
 
-            try
-            {
-                //There will be some overlap here but only
-                ibeanClasses = scanner.scanFor(Call.class);
-                ibeanClasses.addAll(scanner.scanFor(Template.class));
-                //Some ibeans will extend other iBeans but have not methods of there own
-                ibeanClasses.addAll(scanner.scanFor(IBeanGroup.class));
-                transformers.addAll(findTransformers(scanner));
-            }
-            catch (IOException e)
-            {
-                throw new ConfigurationException(e);
-            }
+        try
+        {
+            //There will be some overlap here but only
+            ibeanClasses.addAll(scanner.scanFor(Call.class));
+            ibeanClasses.addAll(scanner.scanFor(Template.class));
+            //Some ibeans will extend other iBeans but have not methods of there own
+            ibeanClasses.addAll(scanner.scanFor(IBeanGroup.class));
+            transformers.addAll(findTransformers(scanner));
+        }
+        catch (IOException e)
+        {
+            throw new ConfigurationException(e);
         }
 
         for (Class ibeanClass : ibeanClasses)
         {
-            muleContext.getRegistry().registerObject("_ibeanHolder." + ibeanClass.getName(), new IBeanHolder(ibeanClass));
+            muleContext.getRegistry().registerObject(IBEAN_HOLDER_PREFIX + ibeanClass.getName(), new IBeanHolder(ibeanClass));
         }
 
         for (Object transformer : transformers)
         {
-            muleContext.getRegistry().registerObject("_transformer." + transformer.getClass().getName(), transformer);
-
+            muleContext.getRegistry().registerObject(TRANSFORMER_PREFIX + transformer.getClass().getName(), transformer);
         }
     }
 
