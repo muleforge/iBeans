@@ -1,6 +1,7 @@
 package ibeans.server;
 
 import org.mule.ibeans.IBeansContext;
+import org.mule.ibeans.internal.config.IBeansInfo;
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.config.IBeansProperties;
 import org.mule.ibeans.ibeanscentral.IBeanInfo;
@@ -94,7 +95,7 @@ public class IBeansCentralServiceImpl extends RemoteServiceServlet implements IB
     {
         try
         {
-            List<IBeanInfo> ibeans = ibeansCentral.getIBeans();
+            List<IBeanInfo> ibeans = ibeansCentral.getIBeans(IBeansInfo.getProductVersion());
             List<Plugin> plugins = new ArrayList<Plugin>(ibeans.size());
             for (IBeanInfo ibean : ibeans)
             {
