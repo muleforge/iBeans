@@ -19,6 +19,10 @@ import java.util.List;
 
 public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
 {
+    public static final String IBEANS_VERISON = "1.0-beta-8";
+
+    public static final String NOT_EXIST_VERISON = "1.0-beta-0";
+
     @IntegrationBean
     private IbeansCentralIBean ibeanscentral;
 
@@ -42,23 +46,23 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
 
     public void testSearchWithVersion() throws Exception
     {
-        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", "1.0-beta-8");
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", IBEANS_VERISON);
         assertNotNull(result);
         assertEquals("Flickr iBean", result.getName());
         assertEquals("flickr", result.getShortName());
 
-        assertNull(ibeanscentral.getIBeanByShortName("flickr", "1.0-beta-2"));
+        assertNull(ibeanscentral.getIBeanByShortName("flickr", NOT_EXIST_VERISON));
     }
 
     //Twitter s actually a group of iBeans, make sure we it gets indexed properly
-    public void testIndexingWithgroups() throws Exception
+    public void testIndexingWithGroups() throws Exception
     {
-        IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", "1.0-beta-8");
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", IBEANS_VERISON);
         assertNotNull(result);
         assertEquals("Twitter iBean", result.getName());
         assertEquals("twitter", result.getShortName());
 
-        assertNull(ibeanscentral.getIBeanByShortName("twitter", "1.0-beta-2"));
+        assertNull(ibeanscentral.getIBeanByShortName("twitter", NOT_EXIST_VERISON));
     }
 
     public void testGetAll() throws Exception
@@ -66,9 +70,13 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
         List<IBeanInfo> results = ibeanscentral.getIBeans();
         assertNotNull(results);
         assertTrue(results.size() > 0);
-//        IBeanInfo result = results.get(0);
-//        assertEquals("Flickr iBean", result.getName());
-//        assertEquals("flickr", result.getShortName());
+    }
+
+    public void testGetAllWithVersion() throws Exception
+    {
+        List<IBeanInfo> results = ibeanscentral.getIBeans(IBEANS_VERISON);
+        assertNotNull(results);
+        assertTrue(results.size() > 0);
     }
 
 
