@@ -15,6 +15,7 @@
                 <exclude>**/*.gif</exclude>
                 <exclude>**/*.jpg</exclude>
                 <exclude>**/*.png</exclude>
+                <exclude>ibeans/public/**</exclude>
             </excludes>
         </fileSet>
     </fileSets>
