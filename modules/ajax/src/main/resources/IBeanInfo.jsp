@@ -1,9 +1,7 @@
-<%@ page import="org.mule.ibeans.IBeansContext" %>
-<%@ page import="org.mule.ibeans.config.IBeanHolder" %>
-<%@ page import="java.util.List" %>
-<%@ page import="static org.mule.ibeans.IBeansSupport.select" %>
 <%@ page import="org.mule.api.MuleContext" %>
 <%@ page import="org.mule.api.config.MuleProperties" %>
+<%@ page import="org.mule.ibeans.config.IBeanHolder" %>
+<%@ page import="static org.mule.ibeans.IBeansSupport.select" %>
 <%@ page import="java.util.Collection" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -15,7 +13,6 @@
 </head>
 <body>
 <%
-    IBeansContext ibeansContext = (IBeansContext) getServletConfig().getServletContext().getAttribute(IBeansContext.CONTEXT_PROPERTY);
     MuleContext ctx = (MuleContext) getServletConfig().getServletContext().getAttribute(MuleProperties.MULE_CONTEXT_PROPERTY);
     String id = (String) request.getAttribute("ibeanId");
     if (id == null)
