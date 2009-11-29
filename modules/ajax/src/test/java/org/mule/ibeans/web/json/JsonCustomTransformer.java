@@ -15,13 +15,15 @@ import org.mule.ibeans.api.application.params.ReceivedHeaders;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
 
-/**
- * TODO
- */
 public class JsonCustomTransformer
 {
     //This is used to test other source types and injecting an ObjectMapper instance
@@ -34,10 +36,37 @@ public class JsonCustomTransformer
 
     //NOTE the @MessagePayload annotation is ignorred for transformer but we're just testing that that it doesn't break things
     @Transformer
-    public Feature toFeature(@MessagePayload InputStream in, @ReceivedHeaders("*") Map headers, ObjectMapper context) throws IOException
+    public Feature toFeature(@MessagePayload InputStream in, @ReceivedHeaders("*") Map headers, ObjectMapper mapper) throws IOException
     {
-        return context.readValue(in, Feature.class);
+        return mapper.readValue(in, Feature.class);
     }
 
 
+    @Transformer(sourceTypes = {InputStream.class})
+    public List<Feature> toFeatures(@MessagePayload String in, ObjectMapper mapper) throws IOException
+    {
+        List<Feature> features = new ArrayList<Feature>();
+        ArrayNode nodes = (ArrayNode) mapper.readTree(in);
+        for (Iterator<JsonNode> iterator = nodes.getElements(); iterator.hasNext();)
+        {
+            //TODO, we're reparsing content here
+            features.add(mapper.readValue(iterator.next().toString(), Feature.class));
+        }
+
+        return features;
+    }
+
+    @Transformer(sourceTypes = {InputStream.class})
+    public List<Car> toCars(@MessagePayload String in, ObjectMapper mapper) throws IOException
+    {
+        List<Car> cars = new ArrayList<Car>();
+        ArrayNode nodes = (ArrayNode) mapper.readTree(in);
+        for (Iterator<JsonNode> iterator = nodes.getElements(); iterator.hasNext();)
+        {
+            //TODO, we're reparsing content here
+             cars.add(mapper.readValue(iterator.next().toString(), Car.class));
+        }
+
+        return cars;
+    }
 }

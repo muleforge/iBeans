@@ -12,15 +12,19 @@ package org.mule.ibeans.web.json;
 import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleMessage;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.transformer.types.CollectionDataType;
+import org.mule.transformer.types.ListDataType;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
 {
     public static final String CAR_JSON = "{\"features\":[{\"code\":\"1234\",\"description\":\"Electric motor\"},{\"code\":\"0194\",\"description\":\"Electric windows\"}],\"make\":\"Toyota\",\"model\":\"Prius\"}";
     public static final String FEATURE_JSON = "{\"code\":\"1234\",\"description\":\"Electric motor\"}";
+    public static final String FEATURES_JSON = "[{\"code\":\"1234\",\"description\":\"Electric motor\"},{\"code\":\"0194\",\"description\":\"Electric windows\"}]";
 
     @Override
     protected void doSetUp() throws Exception
@@ -30,12 +34,6 @@ public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
 
     public void testCustomTransform() throws Exception
     {
-//        Car car = new Car("Toyota", "Prius");
-//        car.getFeatures().add(new Feature("1234", "Electric motor"));
-//        car.getFeatures().add(new Feature("0194", "Electric windows"));
-//        String result = iBeansContext.transform(car, String.class);
-//        System.out.println(result);
-
         Car car = iBeansContext.transform(CAR_JSON, Car.class);
         assertNotNull(car);
         assertEquals("Toyota", car.getMake());
@@ -57,5 +55,31 @@ public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
         assertNotNull(feature);
         assertEquals("1234", feature.getCode());
         assertEquals("Electric motor", feature.getDescription());
+    }
+
+    public void testCustomListTransform() throws Exception
+    {
+        List<Feature> features = iBeansContext.transform(FEATURES_JSON, new CollectionDataType<List<Feature>>(List.class, Feature.class));
+        assertNotNull(features);
+        assertEquals("1234", features.get(0).getCode());
+        assertEquals("Electric motor", features.get(0).getDescription());
+        assertEquals("0194", features.get(1).getCode());
+        assertEquals("Electric windows", features.get(1).getDescription());
+
+
+        String cars_json = "[" + CAR_JSON + "," + CAR_JSON + "]";
+        List<Car> cars = iBeansContext.transform(cars_json, new CollectionDataType<List<Car>>(List.class, Car.class));
+        assertNotNull(cars);
+        assertEquals(2, cars.size());
+    }
+
+    public void testDifferentListTransformer() throws Exception
+    {
+        //Test that we can resolve other collections
+
+        String cars_json = "[" + CAR_JSON + "," + CAR_JSON + "]";
+        List<Car> cars = iBeansContext.transform(cars_json, new ListDataType<List<Car>>(Car.class));
+        assertNotNull(cars);
+        assertEquals(2, cars.size());
     }
 }
