@@ -14,6 +14,7 @@ import org.mule.api.NamedObject;
 import org.mule.api.config.ConfigurationBuilder;
 import org.mule.api.context.MuleContextFactory;
 import org.mule.api.registry.RegistrationException;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transformer.TransformerException;
 import org.mule.config.DefaultMuleConfiguration;
 import org.mule.config.annotations.endpoints.Channel;
@@ -26,6 +27,8 @@ import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 import org.mule.ibeans.transformers.CommonTransformers;
 import org.mule.tck.AbstractMuleTestCase;
+import org.mule.transformer.types.DataTypeFactory;
+import org.mule.transformer.types.SimpleDataType;
 import org.mule.util.IOUtils;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
@@ -146,21 +149,21 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
         return context;
     }
 
-    protected <T> T loadData(String resource, Class<T> type) throws IOException, TransformerException
+    protected <T> T loadData(String resource, DataType<T> type) throws IOException, TransformerException
     {
         InputStream in = IOUtils.getResourceAsStream(resource, getClass());
         assertNotNull("Resource stream for: " + resource + " must not be null", in);
         return getDataAs(in, type);
     }
 
-    protected <T> T getDataAs(Object data, Class<T> type) throws TransformerException
+    protected <T> T getDataAs(Object data, DataType<T> type) throws TransformerException
     {
         return iBeansContext.transform(data, type);
     }
 
     protected String loadData(String resource) throws TransformerException, IOException
     {
-        return loadData(resource, String.class);
+        return loadData(resource, new SimpleDataType<String>(String.class));
     }
 
     /**
@@ -176,10 +179,10 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
         {
             public Object answer(InvocationOnMock invocation) throws Throwable
             {
-                Class ret = ((MockIBean) ibean).ibeanReturnType();
+                DataType ret = ((MockIBean) ibean).ibeanReturnType();
                 if (ret == null)
                 {
-                    ret = invocation.getMethod().getReturnType();
+                    ret = new DataTypeFactory().createFromReturnType(invocation.getMethod());
                 }
                 Object data = loadData(resource, ret);
                 ((MockIBean) ibean).ibeanSetMimeType(mimeType);
@@ -227,7 +230,7 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
             public Object answer(InvocationOnMock
                     invocation) throws Throwable
             {
-                return loadData(resource, returnType);
+                return loadData(resource, new DataTypeFactory().create(returnType));
             }
         };
     }

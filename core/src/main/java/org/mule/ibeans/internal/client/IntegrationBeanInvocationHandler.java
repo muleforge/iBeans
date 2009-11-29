@@ -17,6 +17,7 @@ import org.mule.api.endpoint.ImmutableEndpoint;
 import org.mule.api.routing.InterfaceBinding;
 import org.mule.api.routing.filter.Filter;
 import org.mule.api.service.Service;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transformer.Transformer;
 import org.mule.api.transformer.TransformerException;
 import org.mule.config.ExceptionHelper;
@@ -28,7 +29,9 @@ import org.mule.ibeans.api.client.CallInterceptor;
 import org.mule.ibeans.api.client.Interceptor;
 import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.params.InvocationContext;
+import org.mule.ibeans.channels.MimeTypes;
 import org.mule.routing.filters.ExpressionFilter;
+import org.mule.transformer.types.DataTypeFactory;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringMessageUtils;
 import org.mule.util.StringUtils;
@@ -112,6 +115,12 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         defaultInterceptorList.add(new StateCallInterceptor());
         defaultInterceptorList.add(createResponseTransformHandler());
         defaultInterceptorList.add(new ProcessErrorsInterceptor());
+
+        String logDirectory = System.getProperty("ibeans.log.responses");
+        if(logDirectory!=null)
+        {
+            defaultInterceptorList.add(new LogResponsesInterceptor(logDirectory));
+        }
         defaultInterceptorList.add(createInvokerHandler());
 
     }
@@ -198,7 +207,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             expr = parser.parse(ctx.getPropertyParams(), expr);
         }
 
-        if (Boolean.class.equals(ctx.getReturnType()) || boolean.class.equals(ctx.getReturnType()))
+        if (Boolean.class.equals(ctx.getReturnType().getType()) || boolean.class.equals(ctx.getReturnType().getType()))
         {
             ExpressionFilter filter = new ExpressionFilter(expr);
             filter.setMuleContext(muleContext);
@@ -251,7 +260,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         String mime = (String) message.getProperty("Content-Type");
         if (mime == null)
         {
-            mime = "*";
+            mime = MimeTypes.ANY;
         }
         else if (mime.indexOf(";") > -1)
         {
@@ -554,17 +563,18 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
 
                 finalResult = handleReturnAnnotation(returnExpression, result, invocationContext);
 
-                if (!invocationContext.getReturnType().isInstance(finalResult))
+                DataType finalType = new DataTypeFactory().createFromObject(finalResult);
+                if (!invocationContext.getReturnType().isCompatibleWith(finalType))
                 {
                     Transformer transformer = muleContext.getRegistry().lookupTransformer(
-                            finalResult.getClass(), invocationContext.getReturnType());
+                            finalType, invocationContext.getReturnType());
                     finalResult = transformer.transform(finalResult);
                 }
             }
             else
             {
-                Class retType = invocationContext.getReturnType();
-                if (retType.equals(MuleMessage.class))
+                DataType retType = invocationContext.getReturnType();
+                if (retType.getType().equals(MuleMessage.class))
                 {
                     finalResult = result;
                 }

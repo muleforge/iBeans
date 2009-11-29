@@ -12,6 +12,7 @@ package org.mule.ibeans.internal.client;
 
 import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transport.PropertyScope;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.api.client.Call;
@@ -59,24 +60,24 @@ public class InternalInvocationContext implements InvocationContext
      */
     protected transient final Log logger = LogFactory.getLog(InternalInvocationContext.class);
 
-    Map<String, Object> headerParams = new TreeMap<String, Object>();
-    Map<String, Object> payloadParams = new TreeMap<String, Object>();
-    Map<String, Object> uriParams = new TreeMap<String, Object>();
-    Map<String, Object> propertyParams = new TreeMap<String, Object>();
-    List<Object> payloads = new ArrayList<Object>();
-    Set<DataSource> attachments = new TreeSet<DataSource>(new DataSourceComparator());
-    Method method;
-    Call call;
-    Template template;
-    Boolean stateCall;
-    Class returnType;
-    IBeansContext iBeansContext;
+    protected Map<String, Object> headerParams = new TreeMap<String, Object>();
+    protected Map<String, Object> payloadParams = new TreeMap<String, Object>();
+    protected Map<String, Object> uriParams = new TreeMap<String, Object>();
+    protected Map<String, Object> propertyParams = new TreeMap<String, Object>();
+    protected List<Object> payloads = new ArrayList<Object>();
+    protected Set<DataSource> attachments = new TreeSet<DataSource>(new DataSourceComparator());
+    protected Method method;
+    protected Call call;
+    protected Template template;
+    protected Boolean stateCall;
+    protected DataType returnType;
+    protected IBeansContext iBeansContext;
 
-    Object proxy;
-    Object[] args;
+    protected Object proxy;
+    protected Object[] args;
 
-    ExceptionListener exceptionListener;
-    CallInterceptorChain interceptorChain;
+    protected ExceptionListener exceptionListener;
+    protected CallInterceptorChain interceptorChain;
     MuleMessage requestMuleMessage;
     MuleMessage responseMuleMessage;
     Object result;
@@ -158,7 +159,7 @@ public class InternalInvocationContext implements InvocationContext
 
             for (NameValuePair param : queryParams)
             {
-                filteredParams.put(param.getName(), (String) getUriParams().get(param.getName()));
+                filteredParams.put(param.getName(), getUriParams().get(param.getName()).toString());
             }
             return filteredParams;
 
@@ -314,7 +315,7 @@ public class InternalInvocationContext implements InvocationContext
     /* (non-Javadoc)
      * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getReturnType()
      */
-    public Class getReturnType()
+    public DataType getReturnType()
     {
         return returnType;
     }

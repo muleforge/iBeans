@@ -16,6 +16,7 @@ import org.mule.api.MuleMessage;
 import org.mule.api.config.MuleProperties;
 import org.mule.api.registry.RegistrationException;
 import org.mule.api.routing.filter.Filter;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transport.PropertyScope;
 import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.Namespace;
@@ -42,6 +43,7 @@ import org.mule.ibeans.internal.util.NamedFileDataSource;
 import org.mule.ibeans.internal.util.NamedURLDataSource;
 import org.mule.ibeans.internal.util.StringDataSource;
 import org.mule.module.xml.util.NamespaceManager;
+import org.mule.transformer.types.DataTypeFactory;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringUtils;
 import org.mule.utils.AnnotationMetaData;
@@ -66,8 +68,6 @@ import java.util.TreeSet;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.activation.FileTypeMap;
-import javax.activation.MimetypesFileTypeMap;
 
 /**
  * This class wraps the logic for parsing iBean annotations and stores any state associated with the annotations, including
@@ -89,9 +89,10 @@ public class IBeanParamsHelper
     protected Set<ParamFactoryHolder> defaultHeaderFactoryParams = new TreeSet<ParamFactoryHolder>();
     protected Set<ParamFactoryHolder> defaultAttachmentFactoryParams = new TreeSet<ParamFactoryHolder>();
 
-    protected Class returnType = null;
-    protected Class invocationReturnType = null;
+    protected DataType returnType = null;
+    protected DataType invocationReturnType = null;
     protected Class ibeanInterface = null;
+    protected DataTypeFactory dtFactory = new DataTypeFactory();
 
     /**
      * A lot of web servers do not use the http return code, instead they retuen an error message as the result of the call
@@ -100,7 +101,6 @@ public class IBeanParamsHelper
     protected Map<String, Filter> errorFilters;
     protected Map<Method, Filter> methodErrorFilters;
 
-    private static final FileTypeMap mimeType = new MimetypesFileTypeMap();
 
     public IBeanParamsHelper(MuleContext muleContext, Class iface) throws IBeansException
     {
@@ -308,7 +308,7 @@ public class IBeanParamsHelper
                 {
                     if (field.getType().equals(Class.class))
                     {
-                        setReturnType((Class) field.get(iface));
+                        setReturnType(dtFactory.create((Class) field.get(iface)));
                     }
                     else
                     {
@@ -334,7 +334,7 @@ public class IBeanParamsHelper
 
         Method method = invocationContext.getMethod();
         Object[] args = invocationContext.getArgs();
-        Class returnType = invocationContext.getMethod().getReturnType();
+        DataType returnType = dtFactory.createFromReturnType(invocationContext.getMethod());
 
         checkReturnClass(returnType, invocationContext.getMethod());
 
@@ -423,11 +423,11 @@ public class IBeanParamsHelper
                         {
                             if (stateCall)
                             {
-                                this.returnType = (Class) args[i];
+                                this.returnType = dtFactory.create((Class) args[i]);
                             }
                             else
                             {
-                                invocationReturnType = (Class) args[i];
+                                invocationReturnType = dtFactory.create((Class) args[i]);
                             }
                         }
                     }
@@ -451,18 +451,19 @@ public class IBeanParamsHelper
         invocationContext.returnType = getReturnClass(method);
     }
 
-    private void checkReturnClass(Class c, Method m)
+    private void checkReturnClass(DataType dataType, Method m)
     {
+        Class c = dataType.getType();
         if (c.isPrimitive() && !void.class.equals(c) && !m.getName().equals("equals") && !m.getName().equals("hashcode"))
         {
-
             throw new IllegalArgumentException("iBean methods can only return objects, not primitives." + (m != null ? "Method is: " + m : "") + ". Class is: " + c);
         }
     }
 
-    private Class getReturnClass(Method method)
+    private DataType getReturnClass(Method method)
     {
-        Class ret;
+        DataTypeFactory factory = new DataTypeFactory();
+        DataType ret;
         if (getInvocationReturnType() != null)
         {
             ret = getInvocationReturnType();
@@ -471,7 +472,7 @@ public class IBeanParamsHelper
         //Only use the @ReturnType value if the method return type is a Generics type variable
         else if (method.getGenericReturnType() instanceof TypeVariable)
         {
-            ret = (getReturnType() == null ? method.getReturnType() : getReturnType());
+            ret = (getReturnType() == null ? factory.createFromReturnType(method) : getReturnType());
         }
 //        else if(getReturnType()!=null)
 //        {
@@ -479,7 +480,7 @@ public class IBeanParamsHelper
 //        }
         else
         {
-            ret = method.getReturnType();
+            ret = factory.createFromReturnType(method);
         }
         return ret;
     }
@@ -499,21 +500,9 @@ public class IBeanParamsHelper
             }
         }
 
-        for (ParamFactoryHolder holder : defaultUriFactoryParams)
-        {
-            ctx.getUriParams().put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, ctx));
-        }
-
-        for (ParamFactoryHolder holder : defaultHeaderFactoryParams)
-        {
-            ctx.getRequestHeaderParams().put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, ctx));
-        }
-
-        for (ParamFactoryHolder holder : defaultAttachmentFactoryParams)
-        {
-            //Array not supported
-            ctx.getRequestAttachments().add(createDataSource(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, ctx)));
-        }
+        createParameters(defaultUriFactoryParams, ctx.getUriParams(), ctx);
+        createParameters(defaultHeaderFactoryParams, ctx.getRequestHeaderParams(), ctx);
+        createAttachments(defaultAttachmentFactoryParams, ctx.getRequestAttachments(), ctx);
 
         //We need to scrub any null header values since Mule does not allow Null headers
         Map<String, Object> headers = new TreeMap<String, Object>();
@@ -551,6 +540,32 @@ public class IBeanParamsHelper
             message.setProperty(CHANNEL.TIMEOUT, ctx.getPropertyParams().get(CHANNEL.TIMEOUT), PropertyScope.INVOCATION);
         }
         return message;
+    }
+
+    protected void createAttachments(Set<ParamFactoryHolder> factories, Set<DataSource> attachments, InvocationContext context)
+    {
+        for (ParamFactoryHolder holder : factories)
+        {
+            Object param =holder.getParamFactory().create(holder.getParamName(), false, context);
+            if(param!=null)
+            {
+                //Array of attachments not supported, only single attachments can be created via a ParamFactory
+                attachments.add(createDataSource(holder.getParamName(), param));
+            }
+        }
+
+    }
+    protected void createParameters(Set<ParamFactoryHolder> factories, Map<String, Object> params, InvocationContext context)
+    {
+
+        for (ParamFactoryHolder holder : factories)
+        {
+            Object param = holder.getParamFactory().create(holder.getParamName(), false, context);
+            if(param!=null)
+            {
+                params.put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, context));
+            }
+        }
     }
 
     protected void addUriParamMap(UriParam annotation, Map arg, Method method, Map uriParams) throws UnsupportedEncodingException
@@ -791,23 +806,23 @@ public class IBeanParamsHelper
         this.defaultAttachmentFactoryParams = defaultAttachmentFactoryParams;
     }
 
-    public Class getReturnType()
+    public DataType getReturnType()
     {
         return returnType;
     }
 
-    public void setReturnType(Class returnType)
+    public void setReturnType(DataType returnType)
     {
         checkReturnClass(returnType, null);
         this.returnType = returnType;
     }
 
-    public Class getInvocationReturnType()
+    public DataType getInvocationReturnType()
     {
         return invocationReturnType;
     }
 
-    public void setInvocationReturnType(Class invocationReturnType)
+    public void setInvocationReturnType(DataType invocationReturnType)
     {
         this.invocationReturnType = invocationReturnType;
     }

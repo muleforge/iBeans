@@ -10,13 +10,12 @@
 package org.mule.ibeans.internal;
 
 import org.mule.api.MuleContext;
-
-import java.lang.reflect.Method;
+import org.mule.api.transformer.DataType;
 
 /**
  * Used by the transformer proxy to find or create context objects such as JAXB to be passed into a transform method
  */
-public interface ObjectResolver
+public interface TransformerArgumentResolver
 {
-    Object findObject(Class type, Method method, MuleContext context) throws Exception;
+    <T> T resolve(Class<T> type, DataType source, DataType result, MuleContext context) throws Exception;
 }

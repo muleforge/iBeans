@@ -9,6 +9,7 @@
  */
 package org.mule.ibeans.api.client.params;
 
+import org.mule.api.transformer.DataType;
 import org.mule.ibeans.IBeansContext;
 
 import java.beans.ExceptionListener;
@@ -113,7 +114,7 @@ public interface InvocationContext
      *
      * @return the return type
      */
-    Class getReturnType();
+    DataType getReturnType();
 
 
     // ibeans Request/Response Context

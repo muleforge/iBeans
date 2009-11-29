@@ -11,11 +11,15 @@ package org.mule.ibeans.internal;
 
 import org.mule.api.MuleMessage;
 import org.mule.api.lifecycle.InitialisationException;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transformer.DiscoverableTransformer;
 import org.mule.api.transformer.TransformerException;
 import org.mule.expression.transformers.ExpressionTransformer;
 import org.mule.ibeans.api.application.params.MessagePayload;
 import org.mule.transformer.AbstractMessageAwareTransformer;
+import org.mule.transformer.types.CollectionDataType;
+import org.mule.transformer.types.DataTypeFactory;
+import org.mule.transformer.types.SimpleDataType;
 import org.mule.transport.NullPayload;
 import org.mule.utils.AnnotationUtils;
 
@@ -38,11 +42,11 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
     private Method transformMethod;
     private boolean messageAware = false;
     private ExpressionTransformer paramTransformer = null;
-    private Collection<ObjectResolver> resolvers;
+    private Collection<TransformerArgumentResolver> resolvers;
     private Map<Class, Object> cachedObjects = new WeakHashMap<Class, Object>();
     private boolean sourceAnnotated = false;
 
-    public AnnotatedTransformerProxy(int weighting, Object proxy, Method transformMethod, Class[] additionalSourceTypes) throws TransformerException, InitialisationException
+    public AnnotatedTransformerProxy(int weighting, Object proxy, Method transformMethod, Class[] additionalSourceTypes, String sourceMimeType, String resultMimeType) throws TransformerException, InitialisationException
     {
         this.weighting = weighting;
         this.proxy = proxy;
@@ -51,7 +55,14 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
             throw new IllegalArgumentException("Method not a valid transform method, void return type: " + transformMethod.getName());
         }
         this.transformMethod = transformMethod;
-        setReturnClass(transformMethod.getReturnType());
+        if(CollectionDataType.isReturnTypeACollection(transformMethod))
+        {
+            setReturnDataType(CollectionDataType.createFromMethodReturn(transformMethod, resultMimeType));
+        }
+        else
+        {
+            setReturnDataType(new SimpleDataType(transformMethod.getReturnType(),resultMimeType));
+        }
 
         if (transformMethod.getParameterTypes().length == 0)
         {
@@ -69,7 +80,7 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
             {
                 for (int i = 0; i < additionalSourceTypes.length; i++)
                 {
-                    registerSourceType(additionalSourceTypes[i]);
+                    registerSourceType(new SimpleDataType(additionalSourceTypes[i], sourceMimeType));
 
                 }
             }
@@ -99,7 +110,7 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
                 throw new InitialisationException(e, this);
             }
         }
-        resolvers = muleContext.getRegistry().lookupObjects(ObjectResolver.class);
+        resolvers = muleContext.getRegistry().lookupObjects(TransformerArgumentResolver.class);
     }
 
     public Object transform(MuleMessage message, String outputEncoding) throws TransformerException
@@ -170,11 +181,14 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
                     params[paramCounter++] = o;
                     continue;
                 }
-                for (ObjectResolver resolver : resolvers)
+                DataTypeFactory factory = new DataTypeFactory();
+                DataType source = factory.createFromParameterType(transformMethod, 0);
+
+                for (TransformerArgumentResolver resolver : resolvers)
                 {
                     try
                     {
-                        o = resolver.findObject(type, transformMethod, muleContext);
+                        o = resolver.resolve(type, source, this.returnType, muleContext);
                         if (o != null)
                         {
                             params[paramCounter++] = o;
@@ -222,6 +236,7 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
         {
             return null;
         }
+
         return super.checkReturnClass(object);
     }
 

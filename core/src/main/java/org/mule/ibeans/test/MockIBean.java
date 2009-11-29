@@ -9,6 +9,8 @@
  */
 package org.mule.ibeans.test;
 
+import org.mule.api.transformer.DataType;
+
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +24,7 @@ import javax.activation.DataSource;
  */
 public interface MockIBean
 {
-    public Class ibeanReturnType();
+    public DataType ibeanReturnType();
 
     public Object ibeanUriParam(String name);
 

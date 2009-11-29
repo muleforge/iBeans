@@ -12,6 +12,7 @@ package org.mule.ibeans.test;
 import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
+import org.mule.api.transformer.DataType;
 import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.State;
 import org.mule.ibeans.api.client.Template;
@@ -145,9 +146,9 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         }
     }
 
-    public Class ibeanReturnType()
+    public DataType ibeanReturnType()
     {
-        if (ctx == null || ctx.getReturnType().getName().equals("void"))
+        if (ctx == null || ctx.getReturnType().getType().getName().equals("void"))
         {
             return helper.getReturnType();
         }

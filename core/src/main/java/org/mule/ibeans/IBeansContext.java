@@ -22,6 +22,7 @@ import org.mule.api.context.notification.ServerNotificationListener;
 import org.mule.api.endpoint.ImmutableEndpoint;
 import org.mule.api.endpoint.InboundEndpoint;
 import org.mule.api.endpoint.OutboundEndpoint;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transformer.Transformer;
 import org.mule.api.transformer.TransformerException;
 import org.mule.api.transport.DispatchException;
@@ -33,6 +34,7 @@ import org.mule.context.notification.NotificationException;
 import org.mule.ibeans.config.ChannelConfigBuilder;
 import org.mule.ibeans.i18n.IBeansMessages;
 import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
+import org.mule.transformer.types.DataTypeFactory;
 import org.mule.transport.AbstractConnector;
 import org.mule.transport.NullPayload;
 
@@ -41,7 +43,6 @@ import java.util.Map;
 
 import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentHashMap;
 import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -633,21 +634,62 @@ public final class IBeansContext
      * @throws TransformerException if there is no transformer found to convert from the source to the returnType, or if
      *                              the transform fails.
      */
-    public <T extends Object> T transform(Object source, Class<T> resultType) throws TransformerException
+    public <T> T transform(Object source, Class<T> resultType) throws TransformerException
     {
-        Class srcType = source.getClass();
+//        Class srcType = source.getClass();
+//        if (source instanceof MuleMessage)
+//        {
+//            if (resultType.equals(MuleMessage.class))
+//            {
+//                return (T) source;
+//            }
+//            srcType = ((MuleMessage) source).getPayload().getClass();
+//        }
+//
+//        if (resultType.isAssignableFrom(srcType))
+//        {
+//            if (srcType.equals(source.getClass()))
+//            {
+//                return (T) source;
+//            }
+//            else
+//            {
+//                return (T) ((MuleMessage) source).getPayload();
+//            }
+//        }
+        return (T)transform(source, new DataTypeFactory().create(resultType));
+    }
+    /**
+     * Performs an auto-transformation on the 'source' object. Mule iBeans provides an auto-transformation feature
+     * that will automatically perform basic transformations. For example, if the result is an XML string you
+     * can specify the returnType to be a Document object.  To see what transformations are available inside
+     * the current iBeans container go to - http://<host>:8080/ibeans/transformers. You can add your own
+     * transformers to the container. See the {@link org.mule.ibeans.api.application.Transformer} annotation
+     * documentation for more information.
+     *
+     * @param source     the object to transform
+     * @param result the return type for the transformed object
+     * @return the transformed object
+     * @throws TransformerException if there is no transformer found to convert from the source to the returnType, or if
+     *                              the transform fails.
+     */
+    public <T>T transform(Object source, DataType<T> result) throws TransformerException
+    {
+        DataType sourceType = new DataTypeFactory().createFromObject(source);
+
+        Class sourceClass = source.getClass();
         if (source instanceof MuleMessage)
         {
-            if (resultType.equals(MuleMessage.class))
+            if (result.getType().equals(MuleMessage.class))
             {
                 return (T) source;
             }
-            srcType = ((MuleMessage) source).getPayload().getClass();
+            sourceClass = ((MuleMessage) source).getPayload().getClass();
         }
 
-        if (resultType.isAssignableFrom(srcType))
+        if (result.isCompatibleWith(sourceType))
         {
-            if (srcType.equals(source.getClass()))
+            if (sourceClass.equals(source.getClass()))
             {
                 return (T) source;
             }
@@ -657,8 +699,8 @@ public final class IBeansContext
             }
         }
 
-        Transformer transformer = getMuleContext().getRegistry().lookupTransformer(srcType, resultType);
-        return (T) transformer.transform(source);
+        Transformer transformer = getMuleContext().getRegistry().lookupTransformer(sourceType, result);
+        return (T)transformer.transform(source);
     }
 
     /**
