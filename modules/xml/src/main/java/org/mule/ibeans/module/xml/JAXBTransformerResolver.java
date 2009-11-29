@@ -12,20 +12,20 @@ package org.mule.ibeans.module.xml;
 import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.lifecycle.Disposable;
+import org.mule.api.registry.RegistrationException;
 import org.mule.api.registry.ResolverException;
-import org.mule.api.registry.TransformCriteria;
 import org.mule.api.registry.TransformerResolver;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transformer.Transformer;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.ibeans.module.xml.transformers.JAXBMarshallerTransformer;
 import org.mule.ibeans.module.xml.transformers.JAXBUnmarshallerTransformer;
 import org.mule.utils.AnnotationUtils;
 
-import java.util.HashSet;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.bind.JAXBContext;
 
@@ -37,121 +37,102 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JAXBTransformerResolver implements TransformerResolver, MuleContextAware, Disposable
 {
+    public static final String[] ignorredPackages = {"java.,javax.,org.w3c.,org.mule.transport."};
+
     /**
      * logger used by this class
      */
     protected transient final Log logger = LogFactory.getLog(JAXBTransformerResolver.class);
+
     private MuleContext muleContext;
 
     //We cache the the transformers, this will get cleared when the server shuts down
-    private Map<String, Transformer> transformerCache = new WeakHashMap<String, Transformer>();
+    private Map<String, Transformer> transformerCache = new ConcurrentHashMap<String, Transformer>();
 
-    //We cache the JAXB classes so we don't scan them each time a transformer is needed
-    private Set<Class> jaxbClasses = new HashSet<Class>();
+    private JAXBContextResolver resolver;
 
     public void setMuleContext(MuleContext context)
     {
         muleContext = context;
     }
 
-    public Transformer resolve(TransformCriteria criteria) throws ResolverException
+    public Transformer resolve(DataType source, DataType result) throws ResolverException
     {
-        boolean marshal = false;
-        Class annotatedType = null;
-
-
-        String cacheKey = null;
-        if (jaxbClasses.contains(criteria.getOutputType()))
-        {
-            cacheKey = criteria.getOutputType().getName() + "-unmarshal";
-            annotatedType = criteria.getOutputType();
-            marshal = false;
-        }
-        else
-        {
-            for (int i = 0; i < criteria.getInputTypes().length; i++)
-            {
-                if (jaxbClasses.contains(criteria.getInputTypes()[i]))
-                {
-                    cacheKey = criteria.getInputTypes()[i].getName() + "-marshal";
-                    annotatedType = criteria.getInputTypes()[i];
-                    marshal = true;
-                    break;
-                }
-
-            }
-        }
-        Transformer t = transformerCache.get(cacheKey);
+        Transformer t = transformerCache.get(source.toString() + result.toString());
         if (t != null)
         {
             return t;
         }
 
-        JAXBContext jax;
-
         try
         {
+            JAXBContext jaxb = getContextResolver().resolve(JAXBContext.class, source, result, muleContext);
+
+            if(jaxb==null)
+            {
+                return null;
+            }
+            boolean marshal = false;
+            Class annotatedType = null;
+
+
+            if (getContextResolver().getMatchingClasses().contains(result.getType()))
+            {
+                annotatedType = result.getType();
+                marshal = false;
+            }
+            else
+            {
+                if (getContextResolver().getMatchingClasses().contains(source.getType()))
+                {
+                    annotatedType = source.getType();
+                    marshal = true;
+                }
+            }
+
             if (annotatedType == null)
             {
-                annotatedType = criteria.getOutputType();
-                boolean isJAXB = AnnotationUtils.hasAnnotationWithPackage("javax.xml.bind.annotation", annotatedType);
+                annotatedType = result.getType();
+                boolean isJAXB = hasJaxbAnnotations(annotatedType);
                 if (!isJAXB)
                 {
                     marshal = true;
-                    for (int j = 0; j < criteria.getInputTypes().length; j++)
-                    {
-                        annotatedType = criteria.getInputTypes()[j];
-                        isJAXB = AnnotationUtils.hasAnnotationWithPackage("javax.xml.bind.annotation", annotatedType);
-                        if (isJAXB)
-                        {
-                            break;
-                        }
-                    }
+                    annotatedType = source.getType();
+                    isJAXB = hasJaxbAnnotations(annotatedType);
                 }
 
                 if (!isJAXB)
                 {
                     return null;
                 }
-                jaxbClasses.add(annotatedType);
             }
-
-            List<Transformer> ts = muleContext.getRegistry().lookupTransformers(criteria.getInputTypes()[0], criteria.getOutputType());
+            //At this point we know we are dealing with JAXB, now lets check the registry to see if there is an exact
+            //transformer that matches our criteria
+            List<Transformer> ts = muleContext.getRegistry().lookupTransformers(source, result);
             if (ts.size() == 1)
             {
                 t = ts.get(0);
             }
             else
             {
-
-                jax = muleContext.getRegistry().lookupObject(JAXBContext.class);
-                if (jax == null)
-                {
-                    logger.info("No common JAXB context configured, creating a local one for: " + annotatedType);
-                    jax = JAXBContext.newInstance(annotatedType.getPackage().getName());
-                }
-
                 if (marshal)
                 {
-                    t = new JAXBMarshallerTransformer(jax, criteria.getOutputType());
+                    t = new JAXBMarshallerTransformer(jaxb, result);
                 }
                 else
                 {
-                    t = new JAXBUnmarshallerTransformer(jax, criteria.getOutputType());
+                    t = new JAXBUnmarshallerTransformer(jaxb, result);
                 }
             }
 
-            transformerCache.put(annotatedType.getName() + (marshal ? "-marshal" : "-unmarshal"), t);
+            transformerCache.put(source.toString() + result.toString(), t);
             return t;
 
         }
         catch (Exception e)
         {
-            //TODO
             throw new ResolverException(CoreMessages.createStaticMessage("Failed to unmarshal"), e);
         }
-
-
     }
 
     public void transformerChange(Transformer transformer, RegistryAction registryAction)
@@ -162,6 +143,33 @@ public class JAXBTransformerResolver implements TransformerResolver, MuleContext
     public void dispose()
     {
         transformerCache.clear();
-        jaxbClasses.clear();
+    }
+
+    protected JAXBContextResolver getContextResolver() throws RegistrationException
+    {
+        if(resolver==null)
+        {
+            resolver = muleContext.getRegistry().lookupObject(JAXBContextResolver.class);
+        }
+        return resolver;
+    }
+
+    protected boolean hasJaxbAnnotations(Class annotatedType)
+    {
+        String p = annotatedType.getPackage().getName();
+        for (int i = 0; i < ignorredPackages.length; i++)
+        {
+            if(p.startsWith(ignorredPackages[i])) return false;
+        }
+
+        try
+        {
+             return AnnotationUtils.hasAnnotationWithPackage("javax.xml.bind.annotation", annotatedType);
+        }
+        catch (IOException e)
+        {
+            logger.warn("Failed to scan class for Jaxb annotations: " + annotatedType, e);
+            return false;
+        }
     }
 }

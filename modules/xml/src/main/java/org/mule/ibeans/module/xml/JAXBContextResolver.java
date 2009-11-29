@@ -10,20 +10,10 @@
 package org.mule.ibeans.module.xml;
 
 import org.mule.api.MuleContext;
-import org.mule.ibeans.internal.ObjectResolver;
-import org.mule.ibeans.internal.util.generics.GenericsUtil;
-import org.mule.ibeans.internal.util.generics.MethodParameter;
-import org.mule.utils.AnnotationUtils;
-import org.mule.util.ClassUtils;
-
-import java.lang.reflect.Method;
-import java.util.Collection;
+import org.mule.ibeans.internal.AbstractAnnotatedTransformerArgumentResolver;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This resolver is used by the transform engine to inject a JAXBContext into a method that requires it.
@@ -36,82 +26,30 @@ import org.apache.commons.logging.LogFactory;
  * must be in the package.  This allows for Jaxb generated classes to be used easily.  If this method fails a context will
  * be created using just the annotated class to initialise the context.
  */
-public class JAXBContextResolver implements ObjectResolver
+public class JAXBContextResolver extends AbstractAnnotatedTransformerArgumentResolver
 {
-    /**
-     * logger used by this class
-     */
-    protected transient final Log logger = LogFactory.getLog(JAXBContextResolver.class);
+    protected Class getArgumentClass()
+       {
+           return JAXBContext.class;
+       }
 
-    public Object findObject(Class type, Method method, MuleContext context) throws Exception
+    protected Object createArgument(Class annotatedType, MuleContext muleContext) throws Exception
     {
-        JAXBContext jax;
-        Class annotatedType = checkCollectionReturnType(method);
-
-        boolean isJAXB = AnnotationUtils.hasAnnotationWithPackage("javax.xml.bind.annotation", annotatedType);
-        int i = 0;
-        if (!isJAXB)
+       try
         {
-            for (int j = 0; j < method.getParameterTypes().length; j++)
-            {
-                annotatedType = checkCollectionType(new MethodParameter(method, j));
-                isJAXB = AnnotationUtils.hasAnnotationWithPackage("javax.xml.bind.annotation", method.getParameterTypes()[j]);
-                if (isJAXB)
-                {
-                    break;
-                }
-            }
+            return JAXBContext.newInstance(annotatedType.getPackage().getName());
         }
-
-        if (!isJAXB)
+        catch (JAXBException e)
         {
-            return null;
+            //Fallback to just adding the annotated class to the context
+            logger.warn(e.getMessage() + ". Initializing context using JAXB annotated class: " + annotatedType);
+            return JAXBContext.newInstance(annotatedType);
         }
-
-        jax = context.getRegistry().lookupObject(JAXBContext.class);
-        if (jax == null)
-        {
-            logger.info("No common JAXB context configured, creating a local one for: " + method);
-
-            try
-            {
-                jax = JAXBContext.newInstance(annotatedType.getPackage().getName());
-            }
-            catch (JAXBException e)
-            {
-                //Fallback to just adding the annotated class to the context
-                logger.warn(e.getMessage() + ". Initializing context using JAXB annotated class: " + annotatedType);
-                jax = JAXBContext.newInstance(annotatedType);
-            }
-
-        }
-        return jax;
-
     }
 
-    protected Class checkCollectionReturnType(Method m)
-    {
-        if(Collection.class.isAssignableFrom(m.getReturnType()))
-        {
-            Class tempType = GenericsUtil.getCollectionReturnType(m);
-            if(tempType!=null)
-            {
-                return tempType;
-            }
-        }
-        return m.getReturnType();
-    }
+   protected String getAnnotationsPackageName()
+   {
+       return "javax.xml.bind.annotation";
+   }
 
-    protected Class checkCollectionType(MethodParameter param)
-    {
-        if(Collection.class.isAssignableFrom(param.getParameterType()))
-        {
-            Class tempType = GenericsUtil.getCollectionParameterType(param);
-            if(tempType!=null)
-            {
-                return tempType;
-            }
-        }
-        return param.getParameterType();
-    }
 }

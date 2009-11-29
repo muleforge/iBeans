@@ -11,6 +11,7 @@ package org.mule.ibeans.module.xml.transformers;
 
 import org.mule.api.MuleEvent;
 import org.mule.api.lifecycle.InitialisationException;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transformer.TransformerException;
 import org.mule.api.transport.OutputHandler;
 import org.mule.config.i18n.CoreMessages;
@@ -43,11 +44,11 @@ public class JAXBMarshallerTransformer extends AbstractTransformer
         registerSourceType(Object.class);
     }
 
-    public JAXBMarshallerTransformer(JAXBContext jaxbContext, Class returnType)
+    public JAXBMarshallerTransformer(JAXBContext jaxbContext, DataType returnType)
     {
         this();
         this.jaxbContext = jaxbContext;
-        setReturnClass(returnType);
+        setReturnDataType(returnType);
     }
 
     @Override
