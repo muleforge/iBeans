@@ -10,13 +10,8 @@
 package org.mule.ibeans.web.json;
 
 import org.mule.api.MuleContext;
-import org.mule.ibeans.internal.ObjectResolver;
-import org.mule.utils.AnnotationUtils;
+import org.mule.ibeans.internal.AbstractAnnotatedTransformerArgumentResolver;
 
-import java.lang.reflect.Method;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -27,44 +22,29 @@ import org.codehaus.jackson.map.ObjectMapper;
  * <p/>
  * If there is no shared Object Mapper one will be created for the transformer using the return type as the Json root element.
  */
-public class JsonMapperResolver implements ObjectResolver
+public class JsonMapperResolver extends AbstractAnnotatedTransformerArgumentResolver
 {
     /**
-     * logger used by this class
+     * {@inheritDoc}
      */
-    protected transient final Log logger = LogFactory.getLog(JsonMapperResolver.class);
-
-    public Object findObject(Class type, Method method, MuleContext context) throws Exception
+    protected Class getArgumentClass()
     {
-        ObjectMapper mapper;
-        Class annotatedType = method.getReturnType();
-        boolean isJson = AnnotationUtils.hasAnnotationWithPackage(Constants.ANNOTATIONS_PACKAGE_NAME, annotatedType);
-        int i = 0;
-        if (!isJson)
-        {
-            for (int j = 0; j < method.getParameterTypes().length; j++)
-            {
-                annotatedType = method.getParameterTypes()[j];
-                isJson = AnnotationUtils.hasAnnotationWithPackage(Constants.ANNOTATIONS_PACKAGE_NAME, method.getParameterTypes()[j]);
-                if (isJson)
-                {
-                    break;
-                }
-            }
-        }
+        return ObjectMapper.class;
+    }
 
-        if (!isJson)
-        {
-            return null;
-        }
+    /**
+     * {@inheritDoc}
+     */
+    protected Object createArgument(Class annotatedType, MuleContext context) throws Exception
+    {
+        return new ObjectMapper();
+    }
 
-        mapper = context.getRegistry().lookupObject(ObjectMapper.class);
-        if (mapper == null)
-        {
-            logger.info("No common Json Object Mapper configured, creating a local one for: " + method);
-            mapper = new ObjectMapper();
-        }
-        return mapper;
-
+    /**
+     * {@inheritDoc}
+     */
+    protected String getAnnotationsPackageName()
+    {
+        return Constants.ANNOTATIONS_PACKAGE_NAME;
     }
 }
