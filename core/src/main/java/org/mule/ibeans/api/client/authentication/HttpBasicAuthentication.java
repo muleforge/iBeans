@@ -11,6 +11,7 @@ package org.mule.ibeans.api.client.authentication;
 
 import org.mule.ibeans.api.client.State;
 import org.mule.ibeans.api.client.params.HeaderParam;
+import org.mule.ibeans.api.client.params.Optional;
 import org.mule.ibeans.api.client.params.PropertyParam;
 
 /**
@@ -23,5 +24,5 @@ public interface HttpBasicAuthentication extends ClientAuthentication
     HttpBasicHeaderParamFactory HTTP_BASIC_HEADER_FACTORY = new HttpBasicHeaderParamFactory();
 
     @State
-    public void setCredentials(@PropertyParam("username") String username, @PropertyParam("password") String password);
+    public void setCredentials(@Optional @PropertyParam("username") String username, @Optional @PropertyParam("password") String password);
 }
