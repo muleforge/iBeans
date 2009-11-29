@@ -9,18 +9,13 @@
  */
 package org.mule.ibeans.ibeanscentral;
 
-import org.mule.api.transformer.TransformerException;
-import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.api.application.Transformer;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.apache.abdera.model.Element;
@@ -29,25 +24,15 @@ import org.apache.abdera.model.ExtensibleElement;
 import org.apache.abdera.model.Feed;
 
 /**
- * TODO
+ * Transformers used to convert from an ATOM feed to {@link org.mule.ibeans.ibeanscentral.IBeanInfo} objects.
  */
 public class IBeanCentralTransformers
 {
     public static final QName METADATA_QNAME = new QName("http://galaxy.mule.org/2.0", "metadata");
 
-    @Inject
-    private IBeansContext iBeansContext;
-
-    @Transformer
-    public URL stringToUrl(String url) throws MalformedURLException
+    @Transformer(sourceTypes = {InputStream.class, String.class})
+    public List<IBeanInfo> feedXmlToIBeanInfoList(Feed feed)
     {
-        return new URL(url);
-    }
-
-    @Transformer
-    public List<IBeanInfo> feedXmlToIBeanInfoList(InputStream in) throws TransformerException
-    {
-        Feed feed = iBeansContext.transform(in, Feed.class);
         List<IBeanInfo> results = new ArrayList<IBeanInfo>(feed.getEntries().size());
         for (Entry entry : feed.getEntries())
         {
@@ -58,10 +43,9 @@ public class IBeanCentralTransformers
         return results;
     }
 
-    @Transformer
-    public IBeanInfo feedXmlToIBeanInfo(InputStream in) throws TransformerException
+    @Transformer(sourceTypes = {InputStream.class, String.class})
+    public IBeanInfo feedXmlToIBeanInfo(Feed feed)
     {
-        Feed feed = iBeansContext.transform(in, Feed.class);
         if (feed.getEntries().size() == 0)
         {
             return null;
@@ -71,8 +55,7 @@ public class IBeanCentralTransformers
         return entryToIBeanInfo(entry);
     }
 
-    @Transformer
-    public IBeanInfo entryToIBeanInfo(Entry entry) throws TransformerException
+    public IBeanInfo entryToIBeanInfo(Entry entry)
     {
         IBeanInfo info = new IBeanInfo();
 
@@ -99,12 +82,6 @@ public class IBeanCentralTransformers
         info.setLicenseUrl(props.getProperty("jar.manifest.License-Url"));
         info.setUrl(props.getProperty("jar.manifest.Implementation-Url"));
         return info;
-    }
-
-    @Transformer
-    public Null stringToUrl(InputStream in) throws MalformedURLException
-    {
-        return Null.INSTANCE;
     }
 }
 
