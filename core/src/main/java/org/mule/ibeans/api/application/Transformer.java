@@ -28,11 +28,11 @@ public @interface Transformer
      *         method will have the same weighting.
      */
     int priorityWeighting() default 5;
-
-    //TODO add if/when we get support for Transformer mime types
-    //String sourceMimType() default "";
-
-    //String resultMimType() default "";
+    
+    //TODO add when we get support for Transformer mime types
+//    String sourceMimeType() default MimeTypes.ANY;
+//
+//    String resultMimeType() default MimeTypes.ANY;
 
     /**
      * SourceTypes define additional types that this transformer will accepts as a sourceType (beyond the method parameter).

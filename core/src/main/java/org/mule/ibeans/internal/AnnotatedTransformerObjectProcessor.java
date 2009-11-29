@@ -48,7 +48,8 @@ public class AnnotatedTransformerObjectProcessor implements PreInitProcessor, Mu
                 Transformer anno = (Transformer) data.getAnnotation();
                 AnnotatedTransformerProxy trans = new AnnotatedTransformerProxy(
                         anno.priorityWeighting(),
-                        object, (Method) data.getMember(), anno.sourceTypes());
+                        object, (Method) data.getMember(), anno.sourceTypes(),
+                        null /*anno.sourceMimeType()*/, null /*anno.resultMimeType()*/);
 
                 muleContext.getRegistry().registerTransformer(trans);
             }

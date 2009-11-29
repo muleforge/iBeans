@@ -1,5 +1,7 @@
 package org.mule.ibeans.api.client.filters;
 
+import org.mule.ibeans.channels.MimeTypes;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -27,7 +29,7 @@ public @interface JsonErrorFilter
 
     String errorCode() default "";
 
-    String mimeType() default "application/json";
+    String mimeType() default MimeTypes.JSON;
 
     final String eval = "json";
 }

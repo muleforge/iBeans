@@ -1,5 +1,7 @@
 package org.mule.ibeans.api.client.filters;
 
+import org.mule.ibeans.channels.MimeTypes;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,7 +28,7 @@ public @interface RssErrorFilter
 
     String errorCode() default "";
 
-    String mimeType() default "application/rss+xml";
+    String mimeType() default MimeTypes.RSS;
 
     final String eval = "xpath2";
 }
