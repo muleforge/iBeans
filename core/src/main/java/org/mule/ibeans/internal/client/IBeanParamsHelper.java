@@ -703,6 +703,11 @@ public class IBeanParamsHelper
             {
                 throw new IllegalArgumentException(IBeansMessages.parameterNotOptional(annotation, method).toString());
             }
+            else
+            {
+                //If the param has explicitly been set to null, remove it
+                params.remove(key);
+            }
         }
         else if (arg instanceof Map)
         {
