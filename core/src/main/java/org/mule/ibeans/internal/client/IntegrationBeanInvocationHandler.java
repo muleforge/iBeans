@@ -290,7 +290,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
                 errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(),
                         message, false);
                 //if errorCode is non-numeric, return the http status code instead
-                if (!StringUtils.isNumeric(errorCode.toString()))
+                if (errorCode!=null && !StringUtils.isNumeric(errorCode.toString()))
                 {
                     errorCode = null;
                 }
