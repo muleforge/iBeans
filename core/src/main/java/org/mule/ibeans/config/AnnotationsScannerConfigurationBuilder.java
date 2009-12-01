@@ -105,8 +105,10 @@ public class AnnotationsScannerConfigurationBuilder extends AbstractAnnotationCo
         Map<String, Object> services = new HashMap<String, Object>(serviceClasses.size());
         for (Class serviceClass : serviceClasses)
         {
+            if(logger.isInfoEnabled()) logger.info("Found annotations on class: " + serviceClass.getName());
             if (serviceClass.isInterface())
             {
+                if(logger.isInfoEnabled()) logger.info("Class is an interface, not processing: " + serviceClass.getName());
                 continue;
             }
             try

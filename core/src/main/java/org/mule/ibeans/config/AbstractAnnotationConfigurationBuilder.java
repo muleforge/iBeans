@@ -11,15 +11,16 @@ package org.mule.ibeans.config;
 
 import org.mule.config.builders.AbstractConfigurationBuilder;
 import org.mule.util.ClassUtils;
+import org.mule.util.StringMessageUtils;
 import org.mule.util.scan.ClasspathScanner;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 /**
  * Provides implementation support for configuration builders that configure Mule by scanning annotations on the
@@ -72,6 +73,8 @@ public abstract class AbstractAnnotationConfigurationBuilder extends AbstractCon
             basepackages = findPackages();
         }
 
+        String[] paths = convertPackagesToPaths(basepackages);
+        if(logger.isInfoEnabled()) logger.info("Scanning for annotations using the following paths: " + StringMessageUtils.toString(paths));
         return new ClasspathScanner(classLoader, convertPackagesToPaths(basepackages));
     }
 
@@ -91,9 +94,12 @@ public abstract class AbstractAnnotationConfigurationBuilder extends AbstractCon
         List<String> paths = new ArrayList<String>();
         Properties p = new Properties();
         Enumeration e = ClassUtils.getResources(IBEANS_PROPERTIES, getClass());
+        boolean scanAll = false;
         while (e.hasMoreElements())
         {
             URL url = (URL) e.nextElement();
+
+            if(logger.isInfoEnabled()) logger.info("reading packages from: " + url);
             p.load(url.openStream());
             String path = p.getProperty(getScanPackagesProperty());
             if (path != null)
@@ -101,14 +107,18 @@ public abstract class AbstractAnnotationConfigurationBuilder extends AbstractCon
                 for (StringTokenizer tokenizer = new StringTokenizer(path, ","); tokenizer.hasMoreTokens();)
                 {
                     String s = tokenizer.nextToken();
+                    if("*".equals(s)) {
+                        scanAll=true;
+                        break;
+                    }
                     paths.add(s);
                 }
             }
         }
 
-        if (paths.size() == 0)
+        if (paths.size() == 0 || scanAll)
         {
-            return new String[]{""};
+            return DEFAULT_BASE_PACKAGE;
         }
         return paths.toArray(new String[]{});
     }
