@@ -10,13 +10,13 @@
 package org.mule.ibeans.channels;
 
 /**
- * TODO
+ * Channel properties and specific header names supported by the ATOM channel
  */
 public interface ATOM
 {
     /**
      * Whether to split the incoming feed into entries. By default this is true and for most usecases, splitting is what you
-     * want.  Note that the Feed object itself is available as a header called "AtomFeed".
+     * want.  Note that the Feed object itself is available as a header called {@link #FEED_HEADER}.
      */
     public static final String DONT_SPLIT_FEED = "splitFeed=false";
 
@@ -26,4 +26,10 @@ public interface ATOM
      * is important you can omit the time part.
      */
     public static final String LAST_UPDATE_DATE = "lastUpdate";
+
+    /**
+     * The header name used to store the Feed object on the incoming message.  This is only set if {@link #DONT_SPLIT_FEED} is
+     * not used.
+     */
+    public static final String FEED_HEADER = "AtomFeed";
 }
