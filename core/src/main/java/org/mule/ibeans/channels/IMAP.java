@@ -10,13 +10,12 @@
 package org.mule.ibeans.channels;
 
 /**
- * TODO
+ * Defines properties that cna be used on the IMAP channel
  */
-
 public interface IMAP
 {
     /**
-     * Whether once a messsge is deleted once it has been read.  The default is false (deletemessage once read).
+     * Whether once a messsge is deleted once it has been read.  The default is false (delete message once read).
      */
     public static String KEEP_READ_MESSAGES = "deleteReadMessages=false";
 
