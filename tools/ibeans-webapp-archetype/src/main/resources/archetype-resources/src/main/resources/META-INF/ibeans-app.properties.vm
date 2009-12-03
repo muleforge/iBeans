@@ -1,0 +1,5 @@
+#A comma separated list of packages that will be scanned for ibeans
+ibeans.scan.packages=${groupId}.${ModuleNameLower}
+
+#A comma separate list of packages that will be scanned for annotated application object
+application.scan.packages=${groupId}.${ModuleNameLower}
