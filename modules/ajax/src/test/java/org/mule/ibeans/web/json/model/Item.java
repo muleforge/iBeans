@@ -9,10 +9,10 @@
  */
 package org.mule.ibeans.web.json.model;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-@JsonSerialize
+@JsonAutoDetect(org.codehaus.jackson.annotate.JsonMethod.FIELD)
 public class Item
 {
     @JsonProperty
