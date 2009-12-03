@@ -11,16 +11,19 @@ package org.mule.ibeans.module.xml;
 
 import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleMessage;
+import org.mule.ibeans.module.xml.model.EmailAddress;
+import org.mule.ibeans.module.xml.model.Person;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.transformer.types.ListDataType;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JaxbTransformerTestCase extends AbstractIBeansTestCase
 {
-    public static final String CAR_XML = "<car><make>Toyota</make><model>Prius</model><features><feature><code>1234</code><description>Electric motor</description></feature><feature><code>0194</code><description>Electric windows</description></feature></features></car>";
-    public static final String FEATURE_XML = "<feature><code>1234</code><description>Electric motor</description></feature>";
+    public static final String PERSON_XML = "<person><name>John Doe</name><dob>01/01/1970</dob><emailAddresses><emailAddress><type>home</type><address>john.doe@gmail.com</address></emailAddress><emailAddress><type>work</type><address>jdoe@bigco.com</address></emailAddress></emailAddresses></person>";
 
     @Override
     protected void doSetUp() throws Exception
@@ -30,26 +33,29 @@ public class JaxbTransformerTestCase extends AbstractIBeansTestCase
 
     public void testCustomTransform() throws Exception
     {
-        Car car = iBeansContext.transform(CAR_XML, Car.class);
-        assertNotNull(car);
-        assertEquals("Toyota", car.getMake());
-        assertEquals("Prius", car.getModel());
-        assertEquals(2, car.getFeatures().size());
-        assertEquals("1234", car.getFeatures().get(0).getCode());
-        assertEquals("Electric motor", car.getFeatures().get(0).getDescription());
-        assertEquals("0194", car.getFeatures().get(1).getCode());
-        assertEquals("Electric windows", car.getFeatures().get(1).getDescription());
+        Person person = iBeansContext.transform(PERSON_XML, Person.class);
+        assertNotNull(person);
+        assertEquals("John Doe", person.getName());
+        assertEquals("01/01/1970", person.getDob());
+        assertEquals(2, person.getEmailAddresses().size());
+        assertEquals("home", person.getEmailAddresses().get(0).getType());
+        assertEquals("john.doe@gmail.com", person.getEmailAddresses().get(0).getAddress());
+        assertEquals("work", person.getEmailAddresses().get(1).getType());
+        assertEquals("jdoe@bigco.com", person.getEmailAddresses().get(1).getAddress());
     }
 
     public void testCustomTransformWithMuleMessage() throws Exception
     {
-        ByteArrayInputStream in = new ByteArrayInputStream(FEATURE_XML.getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream(PERSON_XML.getBytes());
         Map props = new HashMap();
         props.put("foo", "fooValue");
         MuleMessage msg = new DefaultMuleMessage(in, props, muleContext);
-        Feature feature = iBeansContext.transform(msg, Feature.class);
-        assertNotNull(feature);
-        assertEquals("1234", feature.getCode());
-        assertEquals("Electric motor", feature.getDescription());
+        List<EmailAddress> emailAddresses = iBeansContext.transform(msg, new ListDataType<List<EmailAddress>>(EmailAddress.class));
+        assertNotNull(emailAddresses);
+        assertEquals(2, emailAddresses.size());
+        assertEquals("home", emailAddresses.get(0).getType());
+        assertEquals("john.doe@gmail.com", emailAddresses.get(0).getAddress());
+        assertEquals("work", emailAddresses.get(1).getType());
+        assertEquals("jdoe@bigco.com", emailAddresses.get(1).getAddress());
     }
 }

@@ -7,7 +7,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.module.xml;
+package org.mule.ibeans.module.xml.model;
 
 import java.util.List;
 
@@ -18,46 +18,46 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * TODO
+ * A Person object
  */
-@XmlRootElement(name = "car")
+@XmlRootElement(name = "person")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Car
+public class Person
 {
-    private String make;
-    private String model;
+    private String name;
+    private String dob;
 
-    @XmlElementWrapper(name = "features")
-    @XmlElement(name = "feature")
-    private List<Feature> features;
+    @XmlElementWrapper(name = "emailAddresses")
+    @XmlElement(name = "emailAddress")
+    private List<EmailAddress> emailAddresses;
 
-    public String getMake()
+    public String getName()
     {
-        return make;
+        return name;
     }
 
-    public void setMake(String make)
+    public void setName(String name)
     {
-        this.make = make;
+        this.name = name;
     }
 
-    public String getModel()
+    public String getDob()
     {
-        return model;
+        return dob;
     }
 
-    public void setModel(String model)
+    public void setDob(String dob)
     {
-        this.model = model;
+        this.dob = dob;
     }
 
-    public List<Feature> getFeatures()
+    public List<EmailAddress> getEmailAddresses()
     {
-        return features;
+        return emailAddresses;
     }
 
-    public void setFeatures(List<Feature> features)
+    public void setEmailAddresses(List<EmailAddress> emailAddresses)
     {
-        this.features = features;
+        this.emailAddresses = emailAddresses;
     }
 }

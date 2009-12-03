@@ -7,47 +7,39 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.module.xml;
+package org.mule.ibeans.module.xml.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "house")
+/**
+ * TODO
+ */
+@XmlRootElement(name = "emailAddress")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class House
+public class EmailAddress
 {
-    private String street;
-    private int windows;
-    private boolean brick;
+    private String type;
+    private String address;
 
-    public String getStreet()
+    public String getType()
     {
-        return street;
+        return type;
     }
 
-    public void setStreet(String street)
+    public void setType(String type)
     {
-        this.street = street;
+        this.type = type;
     }
 
-    public int getWindows()
+    public String getAddress()
     {
-        return windows;
+        return address;
     }
 
-    public void setWindows(int windows)
+    public void setAddress(String address)
     {
-        this.windows = windows;
-    }
-
-    public boolean isBrick()
-    {
-        return brick;
-    }
-
-    public void setBrick(boolean brick)
-    {
-        this.brick = brick;
+        this.address = address;
     }
 }

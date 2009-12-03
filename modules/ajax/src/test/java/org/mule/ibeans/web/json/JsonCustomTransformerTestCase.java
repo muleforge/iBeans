@@ -12,8 +12,12 @@ package org.mule.ibeans.web.json;
 import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleMessage;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.web.json.model.EmailAddress;
+import org.mule.ibeans.web.json.model.Item;
+import org.mule.ibeans.web.json.model.Person;
 import org.mule.transformer.types.CollectionDataType;
 import org.mule.transformer.types.ListDataType;
+import org.mule.transformer.types.SimpleDataType;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
@@ -22,9 +26,9 @@ import java.util.Map;
 
 public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
 {
-    public static final String CAR_JSON = "{\"features\":[{\"code\":\"1234\",\"description\":\"Electric motor\"},{\"code\":\"0194\",\"description\":\"Electric windows\"}],\"make\":\"Toyota\",\"model\":\"Prius\"}";
-    public static final String FEATURE_JSON = "{\"code\":\"1234\",\"description\":\"Electric motor\"}";
-    public static final String FEATURES_JSON = "[{\"code\":\"1234\",\"description\":\"Electric motor\"},{\"code\":\"0194\",\"description\":\"Electric windows\"}]";
+    public static final String PERSON_JSON = "{\"emailAddresses\":[{\"type\":\"home\",\"address\":\"john.doe@gmail.com\"},{\"type\":\"work\",\"address\":\"jdoe@bigco.com\"}],\"name\":\"John Doe\",\"dob\":\"01/01/1970\"}";
+    public static final String EMAIL_JSON = "{\"type\":\"home\",\"address\":\"john.doe@gmail.com\"}";
+    public static final String ITEMS_JSON = "[{\"code\":\"1234\",\"description\":\"Vacuum Cleaner\",\"in-stock\":true},{\"code\":\"1234-1\",\"description\":\"Cleaner Bag\",\"in-stock\":false}]";
 
     @Override
     protected void doSetUp() throws Exception
@@ -34,52 +38,53 @@ public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
 
     public void testCustomTransform() throws Exception
     {
-        Car car = iBeansContext.transform(CAR_JSON, Car.class);
-        assertNotNull(car);
-        assertEquals("Toyota", car.getMake());
-        assertEquals("Prius", car.getModel());
-        assertEquals(2, car.getFeatures().size());
-        assertEquals("1234", car.getFeatures().get(0).getCode());
-        assertEquals("Electric motor", car.getFeatures().get(0).getDescription());
-        assertEquals("0194", car.getFeatures().get(1).getCode());
-        assertEquals("Electric windows", car.getFeatures().get(1).getDescription());
+        Person person = iBeansContext.transform(PERSON_JSON, Person.class);
+        assertNotNull(person);
+        assertEquals("John Doe", person.getName());
+        assertEquals("01/01/1970", person.getDob());
+        assertEquals(2, person.getEmailAddresses().size());
+        assertEquals("home", person.getEmailAddresses().get(0).getType());
+        assertEquals("john.doe@gmail.com", person.getEmailAddresses().get(0).getAddress());
+        assertEquals("work", person.getEmailAddresses().get(1).getType());
+        assertEquals("jdoe@bigco.com", person.getEmailAddresses().get(1).getAddress());
     }
 
     public void testCustomTransformWithMuleMessage() throws Exception
     {
-        ByteArrayInputStream in = new ByteArrayInputStream(FEATURE_JSON.getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream(EMAIL_JSON.getBytes());
         Map props = new HashMap();
         props.put("foo", "fooValue");
         MuleMessage msg = new DefaultMuleMessage(in, props, muleContext);
-        Feature feature = iBeansContext.transform(msg, Feature.class);
-        assertNotNull(feature);
-        assertEquals("1234", feature.getCode());
-        assertEquals("Electric motor", feature.getDescription());
+        EmailAddress emailAddress = iBeansContext.transform(msg, new SimpleDataType<EmailAddress>(EmailAddress.class));
+        assertNotNull(emailAddress);
+        assertEquals("home", emailAddress.getType());
+        assertEquals("john.doe@gmail.com", emailAddress.getAddress());
     }
 
     public void testCustomListTransform() throws Exception
     {
-        List<Feature> features = iBeansContext.transform(FEATURES_JSON, new CollectionDataType<List<Feature>>(List.class, Feature.class));
-        assertNotNull(features);
-        assertEquals("1234", features.get(0).getCode());
-        assertEquals("Electric motor", features.get(0).getDescription());
-        assertEquals("0194", features.get(1).getCode());
-        assertEquals("Electric windows", features.get(1).getDescription());
+        List<Item> items = iBeansContext.transform(ITEMS_JSON, new CollectionDataType<List<Item>>(List.class, Item.class));
+        assertNotNull(items);
+        assertEquals("1234", items.get(0).getCode());
+        assertEquals("Vacuum Cleaner", items.get(0).getDescription());
+        assertEquals("1234-1", items.get(1).getCode());
+        assertEquals("Cleaner Bag", items.get(1).getDescription());
 
-
-        String cars_json = "[" + CAR_JSON + "," + CAR_JSON + "]";
-        List<Car> cars = iBeansContext.transform(cars_json, new CollectionDataType<List<Car>>(List.class, Car.class));
-        assertNotNull(cars);
-        assertEquals(2, cars.size());
+        //Call this transformer here to test that the cached transformer from the previous invocation does not interfer with
+        //Finding the List<Person> transformer
+        String people_json = "[" + PERSON_JSON + "," + PERSON_JSON + "]";
+        List<Person> people = iBeansContext.transform(people_json, new CollectionDataType<List<Person>>(List.class, Person.class));
+        assertNotNull(people);
+        assertEquals(2, people.size());
     }
 
     public void testDifferentListTransformer() throws Exception
     {
         //Test that we can resolve other collections
 
-        String cars_json = "[" + CAR_JSON + "," + CAR_JSON + "]";
-        List<Car> cars = iBeansContext.transform(cars_json, new ListDataType<List<Car>>(Car.class));
-        assertNotNull(cars);
-        assertEquals(2, cars.size());
+        String cars_json = "[" + PERSON_JSON + "," + PERSON_JSON + "]";
+        List<Person> people = iBeansContext.transform(cars_json, new ListDataType<List<Person>>(Person.class));
+        assertNotNull(people);
+        assertEquals(2, people.size());
     }
 }

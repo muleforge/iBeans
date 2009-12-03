@@ -12,6 +12,9 @@ package org.mule.ibeans.web.json;
 import org.mule.ibeans.api.application.Transformer;
 import org.mule.ibeans.api.application.params.MessagePayload;
 import org.mule.ibeans.api.application.params.ReceivedHeaders;
+import org.mule.ibeans.web.json.model.EmailAddress;
+import org.mule.ibeans.web.json.model.Item;
+import org.mule.ibeans.web.json.model.Person;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,45 +31,49 @@ public class JsonCustomTransformer
 {
     //This is used to test other source types and injecting an ObjectMapper instance
     @Transformer(sourceTypes = String.class)
-    public Car toCar(byte[] doc, ObjectMapper context) throws IOException
+    public Person toCar(byte[] doc, ObjectMapper context) throws IOException
     {
-        return context.readValue(doc, 0, doc.length, Car.class);
+        return context.readValue(doc, 0, doc.length, Person.class);
     }
 
 
     //NOTE the @MessagePayload annotation is ignorred for transformer but we're just testing that that it doesn't break things
     @Transformer
-    public Feature toFeature(@MessagePayload InputStream in, @ReceivedHeaders("*") Map headers, ObjectMapper mapper) throws IOException
+    public EmailAddress toEmail(@MessagePayload InputStream in, @ReceivedHeaders("*") Map headers, ObjectMapper mapper) throws IOException
     {
-        return mapper.readValue(in, Feature.class);
+        if(!headers.get("foo").equals("fooValue"))
+        {
+            throw new IllegalArgumentException("Header foo not set to 'fooValue'");
+        }
+        return mapper.readValue(in, EmailAddress.class);
     }
 
 
     @Transformer(sourceTypes = {InputStream.class})
-    public List<Feature> toFeatures(@MessagePayload String in, ObjectMapper mapper) throws IOException
+    public List<Item> toItemList(@MessagePayload String in, ObjectMapper mapper) throws IOException
     {
-        List<Feature> features = new ArrayList<Feature>();
+        List<Item> items = new ArrayList<Item>();
         ArrayNode nodes = (ArrayNode) mapper.readTree(in);
         for (Iterator<JsonNode> iterator = nodes.getElements(); iterator.hasNext();)
         {
             //TODO, we're reparsing content here
-            features.add(mapper.readValue(iterator.next().toString(), Feature.class));
+            items.add(mapper.readValue(iterator.next().toString(), Item.class));
         }
 
-        return features;
+        return items;
     }
 
     @Transformer(sourceTypes = {InputStream.class})
-    public List<Car> toCars(@MessagePayload String in, ObjectMapper mapper) throws IOException
+    public List<Person> toPeople(@MessagePayload String in, ObjectMapper mapper) throws IOException
     {
-        List<Car> cars = new ArrayList<Car>();
+        List<Person> people = new ArrayList<Person>();
         ArrayNode nodes = (ArrayNode) mapper.readTree(in);
         for (Iterator<JsonNode> iterator = nodes.getElements(); iterator.hasNext();)
         {
             //TODO, we're reparsing content here
-             cars.add(mapper.readValue(iterator.next().toString(), Car.class));
+             people.add(mapper.readValue(iterator.next().toString(), Person.class));
         }
 
-        return cars;
+        return people;
     }
 }

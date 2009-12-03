@@ -7,21 +7,22 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.module.xml;
+package org.mule.ibeans.module.xml.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * TODO
- */
-@XmlRootElement(name = "feature")
+@XmlRootElement(name = "item")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Feature
+public class Item
 {
     private String code;
     private String description;
+
+    @XmlElement(name = "in-stock")
+    private boolean inStock;
 
     public String getCode()
     {
@@ -41,5 +42,15 @@ public class Feature
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    public boolean isInStock()
+    {
+        return inStock;
+    }
+
+    public void setInStock(boolean inStock)
+    {
+        this.inStock = inStock;
     }
 }

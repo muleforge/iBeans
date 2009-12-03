@@ -10,27 +10,27 @@
 package org.mule.ibeans.web.json;
 
 import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.web.json.model.Item;
 import org.mule.module.json.JsonData;
 
 public class JsonAutoTransformerTestCase extends AbstractIBeansTestCase
 {
-    public static final String HOUSE_JSON = "{\"street\":\"Seymore Road\",\"windows\":12,\"brick\":true}";
-
+    public static final String ITEM_JSON = "{\"code\":\"1234\",\"description\":\"Vacuum Cleaner\",\"in-stock\":true}";
     public void testCustomTransform() throws Exception
     {
-        House house = iBeansContext.transform(HOUSE_JSON, House.class);
-        assertNotNull(house);
-        assertEquals("Seymore Road", house.getStreet());
-        assertEquals(12, house.getWindows());
-        assertTrue(house.isBrick());
+        Item item = iBeansContext.transform(ITEM_JSON, Item.class);
+        assertNotNull(item);
+        assertEquals("1234", item.getCode());
+        assertEquals("Vacuum Cleaner", item.getDescription());
+        assertTrue(item.isInStock());
 
         //and back again
-        String json = iBeansContext.transform(house, String.class);
+        String json = iBeansContext.transform(item, String.class);
         assertNotNull(json);
-        assertEquals(HOUSE_JSON, json);
+        assertEquals(ITEM_JSON, json);
         JsonData data = new JsonData(json);
-        assertEquals("Seymore Road", data.get("street"));
-        assertEquals("12", data.get("windows"));
-        assertEquals("true", data.get("brick"));
+        assertEquals("1234", data.get("code"));
+        assertEquals("Vacuum Cleaner", data.get("description"));
+        assertEquals("true", data.get("in-stock"));
     }
 }

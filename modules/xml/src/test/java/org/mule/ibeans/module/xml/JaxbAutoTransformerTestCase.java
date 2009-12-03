@@ -10,27 +10,28 @@
 package org.mule.ibeans.module.xml;
 
 import org.mule.ibeans.IBeansSupport;
+import org.mule.ibeans.module.xml.model.Item;
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
 import org.w3c.dom.Document;
 
 public class JaxbAutoTransformerTestCase extends AbstractIBeansTestCase
 {
-    public static final String HOUSE_XML = "<house><street>Seymore Road</street><windows>12</windows><brick>true</brick></house>";
+    public static final String ITEM_XML = "<item><code>1234</code><description>Vacuum Cleaner</description><in-stock>true</in-stock></item>";
 
     public void testCustomTransform() throws Exception
     {
-        House house = iBeansContext.transform(HOUSE_XML, House.class);
-        assertNotNull(house);
-        assertEquals("Seymore Road", house.getStreet());
-        assertEquals(12, house.getWindows());
-        assertTrue(house.isBrick());
+        Item item = iBeansContext.transform(ITEM_XML, Item.class);
+        assertNotNull(item);
+        assertEquals("1234", item.getCode());
+        assertEquals("Vacuum Cleaner", item.getDescription());
+        assertTrue(item.isInStock());
 
         //and back again
-        Document doc = iBeansContext.transform(house, Document.class);
+        Document doc = iBeansContext.transform(item, Document.class);
         assertNotNull(doc);
-        assertEquals("Seymore Road", IBeansSupport.selectValue("/house/street", doc));
-        assertEquals("12", IBeansSupport.selectValue("/house/windows", doc));
-        assertEquals("true", IBeansSupport.selectValue("/house/brick", doc));
+        assertEquals("1234", IBeansSupport.selectValue("/item/code", doc));
+        assertEquals("Vacuum Cleaner", IBeansSupport.selectValue("/item/description", doc));
+        assertEquals("true", IBeansSupport.selectValue("/item/in-stock", doc));
     }
 }
