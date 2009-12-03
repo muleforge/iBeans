@@ -37,7 +37,7 @@ import java.util.StringTokenizer;
  */
 public abstract class AbstractAnnotationConfigurationBuilder extends AbstractConfigurationBuilder
 {
-    public static final String IBEANS_PROPERTIES = "META-INF/ibeans.properties";
+    public static final String IBEANS_PROPERTIES = "META-INF/ibeans-app.properties";
 
     public static final String[] DEFAULT_BASE_PACKAGE = new String[]{""};
 
