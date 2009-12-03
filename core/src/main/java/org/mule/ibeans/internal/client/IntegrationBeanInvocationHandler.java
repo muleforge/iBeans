@@ -30,6 +30,7 @@ import org.mule.ibeans.api.client.Interceptor;
 import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.ibeans.channels.MimeTypes;
+import org.mule.ibeans.config.IBeansProperties;
 import org.mule.routing.filters.ExpressionFilter;
 import org.mule.transformer.types.DataTypeFactory;
 import org.mule.transport.NullPayload;
@@ -116,7 +117,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         defaultInterceptorList.add(createResponseTransformHandler());
         defaultInterceptorList.add(new ProcessErrorsInterceptor());
 
-        String logDirectory = System.getProperty("ibeans.log.responses");
+        String logDirectory = System.getProperty(IBeansProperties.LOG_RESPONSES_DIR);
         if(logDirectory!=null)
         {
             defaultInterceptorList.add(new LogResponsesInterceptor(logDirectory));

@@ -10,7 +10,7 @@
 package org.mule.ibeans.config;
 
 /**
- * TODO
+ * Constants for system properties or other properties used by iBeans
  */
 public interface IBeansProperties
 {
@@ -21,6 +21,7 @@ public interface IBeansProperties
     public static final String DEBUG_PROXY_HOST = IBEANS_PREFIX + "debug.proxy.host";
     public static final String DEBUG_PROXY_PORT = IBEANS_PREFIX + "debug.proxy.port";
 
+    public static final String LOG_RESPONSES_DIR = IBEANS_PREFIX + "log.responses";
 
     /**
      * Default values *
