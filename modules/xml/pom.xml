@@ -138,6 +138,7 @@
                                     <include>net.java.dev.stax-utils:stax-utils</include>
                                     <include>commons-jxpath:commons-jxpath</include>
                                     <include>org.apache.geronimo.specs:geronimo-stax-api_1.0_spec</include>
+                                    <include>javax.xml.bind:jaxb-api</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
