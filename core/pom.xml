@@ -70,7 +70,6 @@
         </plugins>
     </build>
 
-
     <dependencies>
         <dependency>
             <groupId>org.mule</groupId>
@@ -203,7 +202,6 @@
             </exclusions>
         </dependency>
 
-
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
@@ -250,7 +248,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.5</version>
+            <version>4.7</version>
         </dependency>
 
         <dependency>
@@ -258,6 +256,5 @@
             <artifactId>mockito-all</artifactId>
             <version>1.8.0</version>
         </dependency>
-
     </dependencies>
 </project>
