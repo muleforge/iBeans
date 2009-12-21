@@ -40,9 +40,9 @@
     </licenses>
 
     <modules>
-        <module>atom</module>
         <module>ajax</module>
         <module>email</module>
+        <module>feeds</module>
         <module>guice</module>
         <module>jms-client</module>
         <!--         <module>jpa</module> -->
