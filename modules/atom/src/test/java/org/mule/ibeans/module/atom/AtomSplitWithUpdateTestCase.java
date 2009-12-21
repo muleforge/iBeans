@@ -26,7 +26,7 @@ public class AtomSplitWithUpdateTestCase extends AbstractIBeansTestCase
 
     public void testConsumeFeed() throws Exception
     {
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         int count = splitFeed.getCount();
         int withUpdateCount = splitFeedWithLastUpdate.getCount();
         assertTrue(count > 0);

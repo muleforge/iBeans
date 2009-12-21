@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:google="http://base.google.com/ns/1.0" xml:lang="en-US"
+      xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns="http://www.w3.org/2005/Atom"
+      xmlns:twitter="http://api.twitter.com/">
+    <id>tag:search.twitter.com,2005:search/ibeans</id>
+    <link type="text/html" href="http://search.twitter.com/search?q=ibeans" rel="alternate"/>
+    <link type="application/atom+xml" href="http://search.twitter.com/search.atom?q=ibeans" rel="self"/>
+    <title>ibeans - Twitter Search</title>
+    <link type="application/opensearchdescription+xml" href="http://search.twitter.com/opensearch.xml" rel="search"/>
+    <link type="application/atom+xml" href="http://search.twitter.com/search.atom?q=ibeans&amp;since_id=6200518054"
+          rel="refresh"/>
+    <twitter:warning>since_id removed for pagination.</twitter:warning>
+    <updated>2009-11-30T11:35:56Z</updated>
+    <openSearch:itemsPerPage>15</openSearch:itemsPerPage>
+    <link type="application/atom+xml"
+          href="http://search.twitter.com/search.atom?max_id=6200518054&amp;page=2&amp;q=ibeans" rel="next"/>
+    <entry>
+        <id>tag:search.twitter.com,2005:6198955581</id>
+        <published>2009-11-30T11:35:56Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6198955581" rel="alternate"/>
+        <title>xml test from iBeans</title>
+        <content type="html">xml test from &lt;b&gt;iBeans&lt;/b&gt;</content>
+        <updated>2009-11-30T11:35:56Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6198954264</id>
+        <published>2009-11-30T11:35:51Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6198954264" rel="alternate"/>
+        <title>json test from iBeans</title>
+        <content type="html">json test from &lt;b&gt;iBeans&lt;/b&gt;</content>
+        <updated>2009-11-30T11:35:51Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6176288132</id>
+        <published>2009-11-29T18:41:01Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6176288132" rel="alternate"/>
+        <title>xml test from iBeans: 82b92c09-6c72-47c4-96c8-775fe291fdfe</title>
+        <content type="html">xml test from &lt;b&gt;iBeans&lt;/b&gt;: 82b92c09-6c72-47c4-96c8-775fe291fdfe</content>
+        <updated>2009-11-29T18:41:01Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>fr</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6176285373</id>
+        <published>2009-11-29T18:40:54Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6176285373" rel="alternate"/>
+        <title>json test from iBeans: 8793042b-f195-4fb1-93c4-7e30f48ddd3a</title>
+        <content type="html">json test from &lt;b&gt;iBeans&lt;/b&gt;: 8793042b-f195-4fb1-93c4-7e30f48ddd3a</content>
+        <updated>2009-11-29T18:40:54Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6176137628</id>
+        <published>2009-11-29T18:34:30Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6176137628" rel="alternate"/>
+        <title>xml test from iBeans: a87a5c0b-3c32-4cd0-91ef-c0b8711b1321</title>
+        <content type="html">xml test from &lt;b&gt;iBeans&lt;/b&gt;: a87a5c0b-3c32-4cd0-91ef-c0b8711b1321</content>
+        <updated>2009-11-29T18:34:30Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>fr</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6176136018</id>
+        <published>2009-11-29T18:34:26Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6176136018" rel="alternate"/>
+        <title>json test from iBeans: 40821281-bd67-4ebb-ac5f-b12df3e9a57c</title>
+        <content type="html">json test from &lt;b&gt;iBeans&lt;/b&gt;: 40821281-bd67-4ebb-ac5f-b12df3e9a57c</content>
+        <updated>2009-11-29T18:34:26Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6164272740</id>
+        <published>2009-11-29T07:12:04Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6164272740" rel="alternate"/>
+        <title>test from iBeans: eb84097b-a65b-4490-9b38-95a98d536617</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: eb84097b-a65b-4490-9b38-95a98d536617</content>
+        <updated>2009-11-29T07:12:04Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6164270607</id>
+        <published>2009-11-29T07:11:56Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6164270607" rel="alternate"/>
+        <title>test from iBeans: a1eca7c9-4eed-4f3c-afff-fc7d31ffdeec</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: a1eca7c9-4eed-4f3c-afff-fc7d31ffdeec</content>
+        <updated>2009-11-29T07:11:56Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6080543603</id>
+        <published>2009-11-26T12:58:35Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6080543603" rel="alternate"/>
+        <title>test from iBeans: 081a7bd6-0206-42a1-8eea-c7cbcbc52f55</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: 081a7bd6-0206-42a1-8eea-c7cbcbc52f55</content>
+        <updated>2009-11-26T12:58:35Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6080542667</id>
+        <published>2009-11-26T12:58:32Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6080542667" rel="alternate"/>
+        <title>test from iBeans: 5cb0ce0e-a04c-4a7d-926a-fc7450949987</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: 5cb0ce0e-a04c-4a7d-926a-fc7450949987</content>
+        <updated>2009-11-26T12:58:32Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6047040049</id>
+        <published>2009-11-25T11:18:16Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6047040049" rel="alternate"/>
+        <title>test from iBeans: 7aaa8b0a-0552-4419-aac1-f10c3196822d</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: 7aaa8b0a-0552-4419-aac1-f10c3196822d</content>
+        <updated>2009-11-25T11:18:16Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6047038954</id>
+        <published>2009-11-25T11:18:11Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6047038954" rel="alternate"/>
+        <title>test from iBeans: 41000a72-84d4-4779-93c0-fcf64966afdd</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: 41000a72-84d4-4779-93c0-fcf64966afdd</content>
+        <updated>2009-11-25T11:18:11Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6046914614</id>
+        <published>2009-11-25T11:09:44Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6046914614" rel="alternate"/>
+        <title>test from iBeans: bfddeaf0-4350-47a7-8516-01a00089eb3d</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: bfddeaf0-4350-47a7-8516-01a00089eb3d</content>
+        <updated>2009-11-25T11:09:44Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6046913529</id>
+        <published>2009-11-25T11:09:39Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6046913529" rel="alternate"/>
+        <title>test from iBeans: fcb6be48-c409-4a94-aad7-488d7e3818b3</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: fcb6be48-c409-4a94-aad7-488d7e3818b3</content>
+        <updated>2009-11-25T11:09:39Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>en</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+    <entry>
+        <id>tag:search.twitter.com,2005:6046707071</id>
+        <published>2009-11-25T10:55:35Z</published>
+        <link type="text/html" href="http://twitter.com/ibeanstest/statuses/6046707071" rel="alternate"/>
+        <title>test from iBeans: c2d10683-77a1-40a3-b824-f61a2c53001d</title>
+        <content type="html">test from &lt;b&gt;iBeans&lt;/b&gt;: c2d10683-77a1-40a3-b824-f61a2c53001d</content>
+        <updated>2009-11-25T10:55:35Z</updated>
+        <link type="image/png" href="http://a0.twimg.com/profile_images/profile_normal.png" rel="image"/>
+        <twitter:geo>
+        </twitter:geo>
+        <twitter:source>&lt;a href=&quot;http://apiwiki.twitter.com/&quot;
+            rel=&quot;nofollow&quot;&gt;API&lt;/a&gt;</twitter:source>
+        <twitter:lang>fr</twitter:lang>
+        <author>
+            <name>ibeanstest (iBeans Test Account)</name>
+            <uri>http://twitter.com/ibeanstest</uri>
+        </author>
+    </entry>
+</feed>

@@ -11,7 +11,9 @@ package org.mule.ibeans.module.atom;
 
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
-public class AtomSplitBasicTestCase extends AbstractIBeansTestCase
+import java.util.Properties;
+
+public class HttpAtomSplitBasicTestCase extends AbstractIBeansTestCase
 {
     private AtomSplitFeed splitFeed;
 
@@ -20,6 +22,14 @@ public class AtomSplitBasicTestCase extends AbstractIBeansTestCase
     {
         splitFeed = new AtomSplitFeed();
         registerBeans(splitFeed);
+    }
+
+    @Override
+    protected Properties getStartUpProperties()
+    {
+        Properties p = new Properties();
+        p.setProperty("atom.uri", "atom:http://rossmason.blogspot.com/feeds/posts/default");
+        return p;
     }
 
     public void testConsumeFeed() throws Exception

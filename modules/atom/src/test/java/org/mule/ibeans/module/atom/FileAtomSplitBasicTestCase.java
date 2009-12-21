@@ -9,18 +9,15 @@
  */
 package org.mule.ibeans.module.atom;
 
-import org.mule.api.transformer.TransformerException;
-import org.mule.transport.abdera.ObjectToFeed;
-import org.mule.transport.http.HttpMessageAdapter;
+import java.util.Properties;
 
-/**
- * TODO
- */
-public class AtomMessageAdapter extends HttpMessageAdapter
+public class FileAtomSplitBasicTestCase extends HttpAtomSplitBasicTestCase
 {
-    public AtomMessageAdapter(Object o) throws TransformerException
+    @Override
+    protected Properties getStartUpProperties()
     {
-        super(o);
-        message = new ObjectToFeed().transform(getPayload());
+        Properties p = new Properties();
+        p.setProperty("atom.uri", "atom:file://./src/test/resources/blog.atom");
+        return p;
     }
 }
