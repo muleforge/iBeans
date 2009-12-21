@@ -17,6 +17,7 @@ import org.mule.api.config.MuleProperties;
 import org.mule.api.config.ThreadingProfile;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.endpoint.InboundEndpoint;
+import org.mule.api.endpoint.InboundEndpointDecorator;
 import org.mule.api.endpoint.OutboundEndpoint;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.object.ObjectFactory;
@@ -25,6 +26,7 @@ import org.mule.api.service.Service;
 import org.mule.component.DefaultJavaComponent;
 import org.mule.component.PooledJavaComponent;
 import org.mule.config.ChainedThreadingProfile;
+import org.mule.config.EndpointAnnotationsParserFactory;
 import org.mule.config.PoolingProfile;
 import org.mule.config.annotations.endpoints.ChannelType;
 import org.mule.config.annotations.endpoints.Reply;
@@ -33,7 +35,6 @@ import org.mule.config.annotations.routing.RouterType;
 import org.mule.endpoint.EndpointURIEndpointBuilder;
 import org.mule.expression.ExpressionConfig;
 import org.mule.ibeans.api.application.BeanConfig;
-import org.mule.ibeans.internal.ext.ServiceCallback;
 import org.mule.impl.annotations.AnnotatedServiceBuilder;
 import org.mule.impl.annotations.ObjectScope;
 import org.mule.model.seda.SedaService;
@@ -67,6 +68,8 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     public MuleiBeansAnnotatedServiceBuilder(MuleContext context) throws MuleException
     {
         super(context);
+        this.parserFactory = context.getRegistry().lookupObject(EndpointAnnotationsParserFactory.class);
+        assert parserFactory!=null;
     }
 
     @Override
@@ -218,7 +221,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             jobConfig.setStateful(threads == 1);
 
             //Add the polling endpoint to the registry so the quartz job can access it
-            context.getRegistry().registerEndpointBuilder(poll.getName(), new EndpointURIEndpointBuilder(poll, context));
+            context.getRegistry().registerEndpointBuilder(poll.getName(), new EndpointURIEndpointBuilder(poll));
             //Pass in the endpoint name to the quartz jub config
             jobConfig.setEndpointRef(poll.getName());
             //Set the job on the scheule endpoint
@@ -226,9 +229,10 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             //And finally register just the schedule endpoint with the service
             service.getInboundRouter().addEndpoint(schedule);
 
-            if (poll.getConnector() instanceof ServiceCallback)
+            //TODO it doesn't feel right that I have to make this check here
+            if (poll instanceof InboundEndpointDecorator)
             {
-                ((ServiceCallback) poll.getConnector()).process(service, poll);
+                ((InboundEndpointDecorator) poll).onListenerAdded(service);
             }
         }
         else
