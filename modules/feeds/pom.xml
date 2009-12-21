@@ -11,11 +11,11 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.ibeans</groupId>
-    <artifactId>ibeans-module-atom</artifactId>
+    <artifactId>ibeans-module-feeds</artifactId>
     <packaging>jar</packaging>
-    <name>iBeans ATOM module</name>
-    <description>Provides support for working with ATOM feeds. The module can be used both for consuming ATOM
-        syndication feeds over HTTP and also publishing new feeds.
+    <name>iBeans Feeds module</name>
+    <description>Provides support for working with ATOM and RSS feeds. The module can be used both for consuming ATOM and
+        RSS syndication feeds over HTTP.
     </description>
     <url>http://mulesoft.org/ibeans</url>
 
@@ -87,31 +87,19 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.abdera</groupId>
-            <artifactId>abdera-client</artifactId>
-            <version>0.4.0-incubating</version>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-rss</artifactId>
+            <version>${muleVersion}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.apache.geronimo.specs</groupId>
-                    <artifactId>geronimo-activation_1.0.2_spec</artifactId>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>jaxen</groupId>
-                    <artifactId>jaxen</artifactId>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>commons-codec</groupId>
-                    <artifactId>commons-codec</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-httpclient</groupId>
-                    <artifactId>commons-httpclient</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xml-apis</artifactId>
-                </exclusion>
-            </exclusions>
+	    </exclusions>
         </dependency>
 
         <dependency>
@@ -152,6 +140,7 @@
                                     <include>org.apache.abdera:abdera-i18n</include>
                                     <include>org.apache.ws.commons.axiom:axiom-impl</include>
                                     <include>org.apache.ws.commons.axiom:axiom-api</include>
+                                    <include>rome:rome</include>
                                 </includes>
                             </artifactSet>
 
