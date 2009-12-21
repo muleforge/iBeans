@@ -12,8 +12,7 @@
     <name>Mule Example Archetype</name>
     <!-- Do not specify group here, otherwise deployment will break -->
     <artifactId>ibeans-webapp-archetype</artifactId>
-    <description>An archetype for creating an ibeans webapp project with a simple AJAX example
-    </description>
+    <description>Creates an iBeans-enabled webapp project with an AJAX Echo example to get you going.</description>
 
     <dependencies>
         <dependency>
