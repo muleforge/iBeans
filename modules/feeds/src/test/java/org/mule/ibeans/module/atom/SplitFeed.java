@@ -11,7 +11,6 @@ package org.mule.ibeans.module.atom;
 
 import org.mule.ibeans.api.application.Receive;
 import org.mule.ibeans.api.application.Schedule;
-import org.mule.ibeans.channels.ATOM;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,12 +19,12 @@ import javax.inject.Singleton;
 import org.apache.abdera.model.Entry;
 
 @Singleton
-public class AtomSplitFeedWithLastUpdate
+public class SplitFeed
 {
     private AtomicInteger count = new AtomicInteger(0);
 
     @Schedule(interval = 1000)
-    @Receive(uri = "atom:http://rossmason.blogspot.com/feeds/posts/default", properties = ATOM.LAST_UPDATE_DATE + "=2009-03-01")
+    @Receive(uri = "${feed.uri}")
     public void readFeed(Entry entry) throws Exception
     {
         count.getAndIncrement();

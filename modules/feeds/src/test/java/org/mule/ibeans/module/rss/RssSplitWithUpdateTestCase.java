@@ -7,13 +7,13 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.module.atom;
+package org.mule.ibeans.module.rss;
 
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
 import java.util.Properties;
 
-public class AtomSplitWithUpdateTestCase extends AbstractIBeansTestCase
+public class RssSplitWithUpdateTestCase extends AbstractIBeansTestCase
 {
     private SplitFeed splitFeed;
     private SplitFeedWithLastUpdate splitFeedWithLastUpdate;
@@ -29,7 +29,7 @@ public class AtomSplitWithUpdateTestCase extends AbstractIBeansTestCase
     @Override
     protected void addStartUpProperties(Properties properties)
     {
-        properties.setProperty("feed.uri", "atom:http://rossmason.blogspot.com/feeds/posts/default");
+        properties.setProperty("feed.uri", "rss:http://blogs.mulesoft.org/feed/");
     }
 
     public void testConsumeFeed() throws Exception
@@ -39,7 +39,7 @@ public class AtomSplitWithUpdateTestCase extends AbstractIBeansTestCase
         int withUpdateCount = splitFeedWithLastUpdate.getCount();
         assertTrue(count > 0);
         assertTrue(withUpdateCount > 0);
-        assertTrue(count > withUpdateCount);
+        assertTrue(count >= withUpdateCount);
         Thread.sleep(3000);
         //We should only receive entries once
         assertEquals(count, splitFeed.getCount());

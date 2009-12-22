@@ -13,17 +13,15 @@ import org.mule.ibeans.test.AbstractIBeansTestCase;
 
 import java.util.Properties;
 
-public class AtomSplitWithUpdateTestCase extends AbstractIBeansTestCase
+public class AtomHttpSplitBasicTestCase extends AbstractIBeansTestCase
 {
     private SplitFeed splitFeed;
-    private SplitFeedWithLastUpdate splitFeedWithLastUpdate;
 
     @Override
     protected void doSetUp() throws Exception
     {
         splitFeed = new SplitFeed();
-        splitFeedWithLastUpdate = new SplitFeedWithLastUpdate();
-        registerBeans(splitFeed, splitFeedWithLastUpdate);
+        registerBeans(splitFeed);
     }
 
     @Override
@@ -34,16 +32,12 @@ public class AtomSplitWithUpdateTestCase extends AbstractIBeansTestCase
 
     public void testConsumeFeed() throws Exception
     {
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         int count = splitFeed.getCount();
-        int withUpdateCount = splitFeedWithLastUpdate.getCount();
         assertTrue(count > 0);
-        assertTrue(withUpdateCount > 0);
-        assertTrue(count > withUpdateCount);
         Thread.sleep(3000);
         //We should only receive entries once
         assertEquals(count, splitFeed.getCount());
-        assertEquals(withUpdateCount, splitFeedWithLastUpdate.getCount());
 
     }
 }

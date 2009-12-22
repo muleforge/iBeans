@@ -11,13 +11,10 @@ package org.mule.ibeans.module.atom;
 
 import java.util.Properties;
 
-public class FileAtomSplitBasicTestCase extends HttpAtomSplitBasicTestCase
+public class FileAtomHttpSplitBasicTestCase extends AtomHttpSplitBasicTestCase
 {
-    @Override
-    protected Properties getStartUpProperties()
+    protected void addProperties(Properties properties)
     {
-        Properties p = new Properties();
-        p.setProperty("atom.uri", "atom:file://./src/test/resources/blog.atom");
-        return p;
+        properties.setProperty("feed.uri", "atom:file://./src/test/resources/blog.atom");
     }
 }

@@ -10,9 +10,9 @@
 package org.mule.ibeans.channels;
 
 /**
- * Channel properties and specific header names supported by the ATOM channel
+ * Channel properties and specific header names supported by the FEED channel
  */
-public interface ATOM
+public interface FEED
 {
     /**
      * Whether to split the incoming feed into entries. By default this is true and for most usecases, splitting is what you
@@ -31,5 +31,5 @@ public interface ATOM
      * The header name used to store the Feed object on the incoming message.  This is only set if {@link #DONT_SPLIT_FEED} is
      * not used.
      */
-    public static final String FEED_HEADER = "AtomFeed";
+    public static final String FEED_HEADER = "feed.object";
 }

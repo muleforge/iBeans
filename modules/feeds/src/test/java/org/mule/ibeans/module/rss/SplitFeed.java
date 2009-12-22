@@ -7,28 +7,27 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.module.atom;
+package org.mule.ibeans.module.rss;
 
 import org.mule.ibeans.api.application.Receive;
 import org.mule.ibeans.api.application.Schedule;
-import org.mule.ibeans.channels.ATOM;
+
+import com.sun.syndication.feed.synd.SyndEntry;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Singleton;
 
-import org.apache.abdera.model.Feed;
-
 @Singleton
-public class AtomNoSplitFeed
+public class SplitFeed
 {
     private AtomicInteger count = new AtomicInteger(0);
 
-    @Schedule(interval = 6000)
-    @Receive(uri = "atom:http://rossmason.blogspot.com/feeds/posts/default", properties = ATOM.DONT_SPLIT_FEED)
-    public void readFeed(Feed feed) throws Exception
+    @Schedule(interval = 1000)
+    @Receive(uri = "${feed.uri}")
+    public void readFeed(SyndEntry entry) throws Exception
     {
-        count.getAndAdd(feed.getEntries().size());
+        count.getAndIncrement();
     }
 
     public int getCount()

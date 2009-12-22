@@ -7,13 +7,13 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.ibeans.module.atom;
+package org.mule.ibeans.module.rss;
 
 import org.mule.ibeans.test.AbstractIBeansTestCase;
 
 import java.util.Properties;
 
-public class AtomDontSplitTestCase extends AbstractIBeansTestCase
+public class RssDontSplitTestCase extends AbstractIBeansTestCase
 {
     private DontSplitFeed noSplitFeed;
 
@@ -27,7 +27,7 @@ public class AtomDontSplitTestCase extends AbstractIBeansTestCase
     @Override
     protected void addStartUpProperties(Properties properties)
     {
-        properties.setProperty("feed.uri", "atom:http://rossmason.blogspot.com/feeds/posts/default");
+        properties.setProperty("feed.uri", "rss:http://blogs.mulesoft.org/feed/");
     }
 
     public void testConsumeFeed() throws Exception
