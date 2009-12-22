@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -53,6 +54,19 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
     {
         // Ensure no illegal annotations are used on this test class
         validateTestClass();
+    }
+
+    protected void addStartUpProperties(Properties properties)
+    {
+
+    }
+
+    @Override
+    protected final Properties getStartUpProperties()
+    {
+        Properties p = new Properties();
+        addStartUpProperties(p);
+        return p;
     }
 
     /**

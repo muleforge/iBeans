@@ -77,7 +77,7 @@
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-atom</artifactId>
+            <artifactId>ibeans-module-feeds</artifactId>
             <version>${ibeans.version}</version>
             <scope>provided</scope>
         </dependency>
