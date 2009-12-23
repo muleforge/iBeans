@@ -1,0 +1,2 @@
+#IBEANS-165
+org.mule.ibeans.module.rss.RssDontSplitTestCase
