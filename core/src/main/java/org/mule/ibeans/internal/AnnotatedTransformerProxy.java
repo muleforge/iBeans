@@ -17,7 +17,6 @@ import org.mule.api.transformer.TransformerException;
 import org.mule.expression.transformers.ExpressionTransformer;
 import org.mule.ibeans.api.application.params.MessagePayload;
 import org.mule.transformer.AbstractMessageAwareTransformer;
-import org.mule.transformer.types.CollectionDataType;
 import org.mule.transformer.types.DataTypeFactory;
 import org.mule.transformer.types.SimpleDataType;
 import org.mule.transport.NullPayload;
@@ -33,7 +32,7 @@ import java.util.WeakHashMap;
  * transformer will be given a generated name which is the short name of the class and the method name
  * separated with a '.' i.e. 'MyTransformers.fooToBar'
  */
-class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implements DiscoverableTransformer
+public class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implements DiscoverableTransformer
 {
     private int weighting;
 
@@ -50,19 +49,14 @@ class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer implemen
     {
         this.weighting = weighting;
         this.proxy = proxy;
+        DataTypeFactory factory = new DataTypeFactory();
+        
         if (transformMethod.getReturnType().equals(Void.TYPE))
         {
             throw new IllegalArgumentException("Method not a valid transform method, void return type: " + transformMethod.getName());
         }
         this.transformMethod = transformMethod;
-        if(CollectionDataType.isReturnTypeACollection(transformMethod))
-        {
-            setReturnDataType(CollectionDataType.createFromMethodReturn(transformMethod, resultMimeType));
-        }
-        else
-        {
-            setReturnDataType(new SimpleDataType(transformMethod.getReturnType(),resultMimeType));
-        }
+        setReturnDataType(factory.createFromReturnType(transformMethod));
 
         if (transformMethod.getParameterTypes().length == 0)
         {
