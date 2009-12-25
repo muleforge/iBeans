@@ -11,7 +11,7 @@
     </parent>
     <artifactId>ibeans-dist</artifactId>
     <packaging>pom</packaging>
-    <name>Mule iBeans Tomcat Distribtion</name>
+    <name>Mule iBeans Tomcat Distribution</name>
 
     <properties>
         <sourceDir>${project.build.directory}/sources</sourceDir>
