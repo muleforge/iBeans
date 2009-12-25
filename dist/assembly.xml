@@ -25,7 +25,7 @@
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/atom/target/ibeans-module-feed-${version}-full.jar</source>
+            <source>../modules/atom/target/ibeans-module-feeds-${version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
