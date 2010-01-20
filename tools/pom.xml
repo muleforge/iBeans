@@ -24,13 +24,15 @@
         <module>archetype-tests</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-all</artifactId>
-            <version>1.0-beta-10-SNAPSHOT</version>
-            <scope>provided</scope>
-            <type>pom</type>
-        </dependency>
-    </dependencies>
+    <!-- MJM This parent tooling pom can't include all as all includes shell,
+    resulting in a circular reference -->
+    <!-- <dependencies>
+            <dependency>
+                <groupId>org.mule.ibeans</groupId>
+                <artifactId>ibeans-all</artifactId>
+                <version>1.0-beta-10-SNAPSHOT</version>
+                <scope>provided</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies> -->
 </project>
