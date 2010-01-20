@@ -29,7 +29,7 @@ artifactId=${artifactId}
 description=${description}
 ibeansVersion=${ibeansVersion}
 
-version=${version}
+version=${project.version}
 groupId=${groupId}
 basedir=${basedir}
 --------------------------------------------------------------------

@@ -14,7 +14,7 @@
    <artifactId>${artifactId}</artifactId>
    <packaging>war</packaging>
    <name>${ModuleName}</name>
-   <version>${version}</version>
+   <version>${project.version}</version>
    <description>${description}</description>
 
    <properties>

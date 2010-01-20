@@ -14,7 +14,7 @@
    <artifactId>${artifactId}</artifactId>
    <packaging>jar</packaging>
    <name>${ModuleName} ${ModuleType}</name>
-   <version>${version}</version>
+   <version>${project.version}</version>
    <description>${description}</description>
 
    <properties>

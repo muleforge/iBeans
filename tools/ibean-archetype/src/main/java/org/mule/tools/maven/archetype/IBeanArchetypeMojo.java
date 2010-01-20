@@ -88,7 +88,7 @@ public class IBeanArchetypeMojo extends AbstractMojo
     private String artifactId;
 
     /**
-     * @parameter expression="${version}" alias="newVersion" default-value="1.0-SNAPSHOT"
+     * @parameter expression="${project.version}" alias="newVersion" default-value="1.0-SNAPSHOT"
      * @require
      */
     private String version;
