@@ -91,7 +91,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeanscentral-ibean</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -130,19 +130,19 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-feeds</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-http</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

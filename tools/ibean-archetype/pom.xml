@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mule.tools</groupId>

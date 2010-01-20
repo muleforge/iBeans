@@ -100,7 +100,7 @@
         </snapshotRepository>
         <site>
             <id>muleforge.webdav.sites</id>
-            <url>dav:https://dav.muleforge.org/${domainName}/maven/${version}</url>
+            <url>dav:https://dav.muleforge.org/${domainName}/maven/${project.version}</url>
         </site>
     </distributionManagement>
 
@@ -499,18 +499,18 @@
                         </manifest>
                         <!-- Custom Entries -->
                         <manifestEntries>
-                            <Specification-Title>${pom.artifactId}</Specification-Title>
-                            <Implementation-Title>${pom.name}</Implementation-Title>
-                            <Implementation-Version>${pom.version}</Implementation-Version>
-                            <Implementation-Vendor-Url>${pom.organization.url}</Implementation-Vendor-Url>
-                            <Implementation-Vendor>${pom.organization.name}</Implementation-Vendor>
-                            <Implementation-Vendor-Id>${pom.groupId}</Implementation-Vendor-Id>
-                            <Product-Description>${pom.description}</Product-Description>
-                            <Implementation-Url>${pom.url}</Implementation-Url>
-                            <Bug-Tracker>${issueManagement.url}</Bug-Tracker>
+                            <Specification-Title>${project.artifactId}</Specification-Title>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Vendor-Url>${project.organization.url}</Implementation-Vendor-Url>
+                            <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                            <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                            <Product-Description>${project.description}</Product-Description>
+                            <Implementation-Url>${project.url}</Implementation-Url>
+                            <Bug-Tracker>${project.issueManagement.url}</Bug-Tracker>
                             <License-Url>${licenseUrl}</License-Url>
                             <License-Title>${licenseId}</License-Title>
-                            <Support>For commercial support go to: ${pom.organization.url}}</Support>
+                            <Support>For commercial support go to: ${project.organization.url}}</Support>
 
                             <!-- This would work if this issue gets closed: http://jira.codehaus.org/browse/MNG-1832 -->
                             <!--Build-Date>${mvn.timestamp.yyyy-MM-dd-HH:mm:ss}</Build-Date-->
@@ -644,18 +644,18 @@
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <manifestEntries>
-                                <Specification-Title>${pom.artifactId}</Specification-Title>
-                                <Implementation-Title>${pom.name}</Implementation-Title>
-                                <Implementation-Version>${pom.version}</Implementation-Version>
-                                <Implementation-Vendor-Url>${pom.organization.url}</Implementation-Vendor-Url>
-                                <Implementation-Vendor>${pom.organization.name}</Implementation-Vendor>
-                                <Implementation-Vendor-Id>${pom.groupId}</Implementation-Vendor-Id>
-                                <Product-Description>${pom.description}</Product-Description>
-                                <Implementation-Url>${pom.url}</Implementation-Url>
-                                <Bug-Tracker>${issueManagement.url}</Bug-Tracker>
+                                <Specification-Title>${project.artifactId}</Specification-Title>
+                                <Implementation-Title>${project.name}</Implementation-Title>
+                                <Implementation-Version>${project.version}</Implementation-Version>
+                                <Implementation-Vendor-Url>${project.organization.url}</Implementation-Vendor-Url>
+                                <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                                <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                                <Product-Description>${project.description}</Product-Description>
+                                <Implementation-Url>${project.url}</Implementation-Url>
+                                <Bug-Tracker>${project.issueManagement.url}</Bug-Tracker>
                                 <License-Url>${licenseUrl}</License-Url>
                                 <License-Title>${licenseId}</License-Title>
-                                <Support>For commercial support go to: ${pom.organization.url}}</Support>
+                                <Support>For commercial support go to: ${project.organization.url}}</Support>
 
                                 <!-- This would work if this issue gets closed: http://jira.codehaus.org/browse/MNG-1832 -->
                                 <!--Build-Date>${mvn.timestamp.yyyy-MM-dd-HH:mm:ss}</Build-Date-->
@@ -699,6 +699,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin-version}</version>
                 <configuration>
                     <minmemory>128m</minmemory>
                     <maxmemory>512m</maxmemory>

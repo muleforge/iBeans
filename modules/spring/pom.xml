@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
 

@@ -97,7 +97,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-ajax</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

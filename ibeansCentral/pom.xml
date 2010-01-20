@@ -20,7 +20,7 @@
 
     <properties>
         <status>almost there</status>
-        <ibeans.version>${version}</ibeans.version>
+        <ibeans.version>${project.version}</ibeans.version>
         <!-- Tools properties -->
         <eclipsePluginVersion>2.5</eclipsePluginVersion>
         <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
@@ -72,7 +72,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>-->
         </dependency>
@@ -80,7 +80,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-http</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>-->
         </dependency>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-xml</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>-->
         </dependency>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-ajax</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>-->
         </dependency>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-email</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>-->
         </dependency>
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-scheduler</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>-->
         </dependency>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-feeds</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>            -->
         </dependency>

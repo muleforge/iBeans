@@ -26,79 +26,79 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-http</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-feeds</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-shell</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-jms-client</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-email</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-xml</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-guice</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-ajax</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-scheduler</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-rest</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-spring</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!--        <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-jpa</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <type>pom</type>
         </dependency>-->
     </dependencies>

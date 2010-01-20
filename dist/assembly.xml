@@ -11,7 +11,7 @@
     <files>
         <!-- core -->
         <file>
-            <source>../core/target/ibeans-core-${version}-full.jar</source>
+            <source>../core/target/ibeans-core-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib</outputDirectory>
         </file>
         <!-- iBeans Console -->
@@ -21,48 +21,48 @@
         </file>
         <!-- modules -->
         <file>
-            <source>../modules/ajax/target/ibeans-module-ajax-${version}-full.jar</source>
+            <source>../modules/ajax/target/ibeans-module-ajax-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/feeds/target/ibeans-module-feeds-${version}-full.jar</source>
+            <source>../modules/feeds/target/ibeans-module-feeds-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/email/target/ibeans-module-email-${version}-full.jar</source>
+            <source>../modules/email/target/ibeans-module-email-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/http/target/ibeans-module-http-${version}-full.jar</source>
+            <source>../modules/http/target/ibeans-module-http-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/jms-client/target/ibeans-module-jms-client-${version}-full.jar</source>
+            <source>../modules/jms-client/target/ibeans-module-jms-client-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/guice/target/ibeans-module-guice-${version}-full.jar</source>
+            <source>../modules/guice/target/ibeans-module-guice-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/scheduler/target/ibeans-module-scheduler-${version}-full.jar</source>
+            <source>../modules/scheduler/target/ibeans-module-scheduler-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/spring/target/ibeans-module-spring-${version}-full.jar</source>
+            <source>../modules/spring/target/ibeans-module-spring-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/rest/target/ibeans-module-rest-${version}-full.jar</source>
+            <source>../modules/rest/target/ibeans-module-rest-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <file>
-            <source>../modules/xml/target/ibeans-module-xml-${version}-full.jar</source>
+            <source>../modules/xml/target/ibeans-module-xml-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
         <!-- tools -->
         <file>
-            <source>../tools/shell/target/ibeans-shell-${version}-full.jar</source>
+            <source>../tools/shell/target/ibeans-shell-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/tools/shell</outputDirectory>
             <destName>ibeans-shell-full.jar</destName>
         </file>
