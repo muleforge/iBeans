@@ -25,8 +25,8 @@ import org.mule.api.routing.OutboundRouter;
 import org.mule.api.service.Service;
 import org.mule.component.DefaultJavaComponent;
 import org.mule.component.PooledJavaComponent;
+import org.mule.config.AnnotationsParserFactory;
 import org.mule.config.ChainedThreadingProfile;
-import org.mule.config.EndpointAnnotationsParserFactory;
 import org.mule.config.PoolingProfile;
 import org.mule.config.annotations.endpoints.ChannelType;
 import org.mule.config.annotations.endpoints.Reply;
@@ -35,11 +35,10 @@ import org.mule.config.annotations.routing.RouterType;
 import org.mule.endpoint.EndpointURIEndpointBuilder;
 import org.mule.expression.ExpressionConfig;
 import org.mule.ibeans.api.application.BeanConfig;
+import org.mule.ibeans.config.IBeansProperties;
 import org.mule.impl.annotations.AnnotatedServiceBuilder;
 import org.mule.impl.annotations.ObjectScope;
 import org.mule.model.seda.SedaService;
-import org.mule.object.AbstractObjectFactory;
-import org.mule.object.SingletonObjectFactory;
 import org.mule.routing.outbound.ExpressionMessageSplitter;
 import org.mule.routing.outbound.FilteringOutboundRouter;
 import org.mule.routing.outbound.ListMessageSplitter;
@@ -68,36 +67,35 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     public MuleiBeansAnnotatedServiceBuilder(MuleContext context) throws MuleException
     {
         super(context);
-        this.parserFactory = context.getRegistry().lookupObject(EndpointAnnotationsParserFactory.class);
+        this.parserFactory = context.getRegistry().lookupObject(AnnotationsParserFactory.class);
         assert parserFactory!=null;
     }
 
     @Override
     protected ObjectFactory createObjectFactory(final Object object)
     {
-        AbstractObjectFactory factory;
+        IBeansObjectFactory factory;
 
         if (object.getClass().isAnnotationPresent(BeanConfig.class))
         {
             BeanConfig beanConfig = object.getClass().getAnnotation(BeanConfig.class);
             if (beanConfig.scope().equals(ObjectScope.SINGLETON) || beanConfig.scope().equals(ObjectScope.SINGLETON_THREADSAFE))
             {
-                return new SingletonObjectFactory(object);
+                return new IBeansSingletonObjectFactory(object);
             }
             else
             {
-                factory = new AnnotatedPrototypeObjectFactory(object);
+                factory = new IBeansPrototypeObjectFactory(object);
             }
         }
         else if (object.getClass().isAnnotationPresent(Singleton.class))
         {
-            factory = new SingletonObjectFactory(object);
+            factory = new IBeansSingletonObjectFactory(object);
         }
         else
         {
-            factory = new AnnotatedPrototypeObjectFactory(object);
+            factory = new IBeansPrototypeObjectFactory(object);
         }
-
 
         factory.setMuleContext(context);
 
@@ -112,6 +110,9 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         serviceDescriptor.setMuleContext(context);
         componentFactory.initialise();
         ServiceConfig config;
+
+        ((IBeansObjectFactory)componentFactory).setService(serviceDescriptor);
+
         if (componentFactory.getObjectClass().isAnnotationPresent(BeanConfig.class))
         {
             config = new ServiceConfig(componentFactory.getObjectClass().getAnnotation(BeanConfig.class));
@@ -336,6 +337,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
 
                     }
                 }
+                outboundEndpoint.getProperties().put(IBeansProperties.ENDPOINT_METHOD, method.toString());
                 router.addEndpoint(outboundEndpoint);
                 outboundFound = true;
             }
