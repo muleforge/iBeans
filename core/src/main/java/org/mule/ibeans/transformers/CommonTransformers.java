@@ -22,6 +22,14 @@ public class CommonTransformers
     @Transformer
     public URL transformStringToURL(String string) throws MalformedURLException
     {
-        return new URL(string);
+        try
+        {
+            return new URL(string);
+        }
+        catch (MalformedURLException e)
+        {
+            //provide a more descriptive error message
+            throw new MalformedURLException(e.getMessage() + " " + string);
+        }
     }
 }
