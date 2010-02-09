@@ -13,7 +13,7 @@ import org.mule.ibeans.test.AbstractIBeansTestCase;
 import org.mule.tck.testmodels.fruit.Banana;
 
 /**
- * Test that the {@link FruitTransformers} is loaded into the iBeans contaner and is used
+ * Test that the {@link FruitTransformers} is loaded into the iBeans container and is used
  * by this test case
  */
 public class TransformerTestCase extends AbstractIBeansTestCase

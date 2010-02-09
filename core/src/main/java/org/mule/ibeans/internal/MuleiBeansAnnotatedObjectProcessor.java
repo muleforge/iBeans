@@ -48,7 +48,7 @@ public class MuleiBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectPr
                 {
                     //Since this processor creates a service entry based on annotations on the service component, we only want olny
                     //want to create the service once.  If the ObjectFactory for the service is prototype, this processor will
-                    //get called for every instnace of the object
+                    //get called for every instance of the object
                     String serviceName = object.getClass().getName() + ".service";
                     if (context.getRegistry().lookupService(serviceName) != null)
                     {
