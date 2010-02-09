@@ -12,6 +12,7 @@ package org.mule.ibeans.internal;
 import org.mule.api.MuleException;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.registry.ObjectProcessor;
+import org.mule.api.service.Service;
 import org.mule.impl.annotations.processors.DirectBindAnnotationProcessor;
 import org.mule.impl.annotations.processors.InjectAnnotationProcessor;
 import org.mule.impl.annotations.processors.NamedAnnotationProcessor;
@@ -27,20 +28,27 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Since annotated objects define thier configuration, we cannot just create a new instance each since new configuration
+ * Since annotated objects define their configuration, we cannot just create a new instance each time since new configuration
  * will also be created.  Instead this Factory manages the creation of new prototypes providing a subset of injection support.
  * All application annotations will be processed only once, these include {@link org.mule.ibeans.api.application.Send}, {@link org.mule.ibeans.api.application.Receive}
  * {@link org.mule.ibeans.api.application.ReceiveAndReply} and {@link org.mule.ibeans.api.application.Schedule} annotations.
  * <p/>
  * Fieid level injectors such as {@link org.mule.ibeans.api.client.IntegrationBean} and JSR 330 annotations such as {@link javax.inject.Inject} will be processed.
  */
-public class AnnotatedPrototypeObjectFactory extends AbstractObjectFactory
+public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implements IBeansObjectFactory
 {
-    private Set<ObjectProcessor> processors;
+    protected Set<ObjectProcessor> processors;
 
-    private SoftReference<Object> source;
+    protected SoftReference<Object> source;
 
-    public AnnotatedPrototypeObjectFactory(Object source)
+    protected Service service;
+
+    public void setService(Service service)
+    {
+        this.service = service;
+    }
+
+    public IBeansPrototypeObjectFactory(Object source)
     {
         super(source.getClass());
         this.source = new SoftReference<Object>(source);
@@ -49,6 +57,7 @@ public class AnnotatedPrototypeObjectFactory extends AbstractObjectFactory
     public Object getInstance() throws Exception
     {
         Object o = ClassUtils.instanciateClass(this.getObjectClass(), ClassUtils.NO_ARGS);
+
         for (ObjectProcessor processor : processors)
         {
             processor.process(o);
