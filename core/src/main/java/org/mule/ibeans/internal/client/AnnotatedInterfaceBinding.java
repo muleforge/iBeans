@@ -22,6 +22,7 @@ import org.mule.api.routing.OutboundRouter;
 import org.mule.api.service.Service;
 import org.mule.config.annotations.endpoints.Channel;
 import org.mule.config.i18n.CoreMessages;
+import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.Call;
 import org.mule.ibeans.api.client.Template;
 import org.mule.ibeans.api.client.params.HeaderParam;
@@ -105,7 +106,7 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
         Map<String, String> evals = new HashMap<String, String>();
         try
         {
-            IntegrationBeanInvocationHandler handler = new IntegrationBeanInvocationHandler(interfaceClass, service, muleContext);
+            IntegrationBeanInvocationHandler handler = createHandler();
 
             List<AnnotationMetaData> annos = AnnotationUtils.getAllMethodAnnotations(getInterface());
             for (AnnotationMetaData metaData : annos)
@@ -132,7 +133,7 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
                     }
                     Map metaInfo = new HashMap();
                     //By setting the connectorName we ensure that only one connector is created for each iBean
-                    metaInfo.put("connectorName", metaData.getClazz().getSimpleName() + "." + scheme + "#" + target.hashCode());
+                    metaInfo.put("connectorName", metaData.getClazz().getSimpleName() + "." + scheme ); //RM*  THis affects the connector name generation + "#" + target.hashCode());
 
                     for (Iterator iterator = c.iterator(); iterator.hasNext();)
                     {
@@ -269,5 +270,10 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
         {
             return null;
         }
+    }
+
+    protected IntegrationBeanInvocationHandler createHandler() throws IBeansException
+    {
+        return new IntegrationBeanInvocationHandler(interfaceClass, service, muleContext);
     }
 }

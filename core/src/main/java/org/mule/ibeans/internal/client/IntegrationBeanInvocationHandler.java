@@ -164,6 +164,16 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         return callHandler;
     }
 
+    public void setTemplateHandler(TemplateAnnotationHandler templateHandler)
+    {
+        this.templateHandler = templateHandler;
+    }
+
+    public void setCallHandler(CallAnnotationHandler callHandler)
+    {
+        this.callHandler = callHandler;
+    }
+
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
         if (interceptorListCache.get(method) == null)
