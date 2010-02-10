@@ -39,7 +39,11 @@ public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implemen
 {
     protected Set<ObjectProcessor> processors;
 
-    protected SoftReference<Object> source;
+    /**
+     * this is a reference to a created instance of the object that can be pre-configured
+     * the bean properties on this object can be copied to the prototype object created by this factory
+     */
+    protected SoftReference<Object> template;
 
     protected Service service;
 
@@ -48,10 +52,10 @@ public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implemen
         this.service = service;
     }
 
-    public IBeansPrototypeObjectFactory(Object source)
+    public IBeansPrototypeObjectFactory(Object template)
     {
-        super(source.getClass());
-        this.source = new SoftReference<Object>(source);
+        super(template.getClass());
+        this.template = new SoftReference<Object>(template);
     }
 
     public Object getInstance() throws Exception
@@ -101,15 +105,20 @@ public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implemen
         public Object process(Object object)
         {
             String key = null;
+            Object value = null;
             try
             {
-                Map props = BeanUtils.describe(source.get());
+                Map props = BeanUtils.describe(template.get());
                 for (Iterator iterator = props.keySet().iterator(); iterator.hasNext();)
                 {
                     key = (String) iterator.next();
+                    value = props.get(key);
+                    //we do this because BeanUtils.describe() will include all null fields too
+                    //the impact is that users cannot nullify a field that is not null
+                    if(value==null) continue;
                     Field field = object.getClass().getDeclaredField(key);
                     field.setAccessible(true);
-                    field.set(object, props.get(key));
+                    field.set(object, value);
                 }
             }
             catch (Exception e)
