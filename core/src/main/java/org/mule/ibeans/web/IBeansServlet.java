@@ -12,8 +12,9 @@ package org.mule.ibeans.web;
 import org.mule.api.MuleContext;
 import org.mule.api.config.MuleProperties;
 import org.mule.api.registry.RegistrationException;
-import org.mule.ibeans.internal.ext.servlet.ExtendedMuleReceiverServlet;
 import org.mule.routing.filters.WildcardFilter;
+import org.mule.transport.http.HttpConstants;
+import org.mule.transport.servlet.MuleReceiverServlet;
 import org.mule.util.IOUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -45,7 +46,7 @@ import javax.servlet.http.HttpServletResponse;
  * load the ibeans.js files since they are loaded in a Jar on the classpath.  The default value for this is '*.js', this is required if using the iBeans AJAX
  * client in the browser.  You can other file type i.e. '*.js,*.txt'.
  */
-public class IBeansServlet extends ExtendedMuleReceiverServlet
+public class IBeansServlet extends MuleReceiverServlet
 {
     public static final String CONFIG_BUILDER_PARAM = "config.builder";
     public static final String STATIC_FILE_TYPES_PARAM = "static.file.types";
@@ -110,14 +111,14 @@ public class IBeansServlet extends ExtendedMuleReceiverServlet
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        if (staticFileFilter.accept(request.getPathInfo()))
+        if (HttpConstants.METHOD_GET.equalsIgnoreCase(request.getMethod()) && staticFileFilter.accept(request.getPathInfo()))
         {
             loadJarResource(request.getPathInfo(), response);
             return;
         }
-        super.doGet(request, response);
+        super.service(request, response);
     }
 
     @Override
