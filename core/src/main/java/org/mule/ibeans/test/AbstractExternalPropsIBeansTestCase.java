@@ -74,8 +74,21 @@ public class AbstractExternalPropsIBeansTestCase extends AbstractIBeansTestCase
 
     }
 
-    protected Object get(String key)
+    protected String get(String key)
     {
-        return iBeansContext.getConfig().get(key);
+        Object result = iBeansContext.getConfig().get(key);
+        if(result==null)
+        {
+            return null;
+        }
+        else if(result instanceof String)
+        {
+            return (String)result;
+        }
+        else
+        {
+            fail("Property with key: " + key + " returned a value that is not a String. Value is: " + result);
+            return null;
+        }
     }
 }
