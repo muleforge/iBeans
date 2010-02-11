@@ -20,7 +20,7 @@ public interface MimeTypes
     public static final String ATOM = "application/atom+xml";
     public static final String RSS = "application/rss+xml";
     public static final String XML = "text/xml";
-    public static final String APLLICATION_XML = "application/xml";
+    public static final String APPLICATION_XML = "application/xml";
     public static final String TEXT = "text/plain";
     public static final String HTML = "text/html";
 }

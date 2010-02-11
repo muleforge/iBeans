@@ -102,7 +102,7 @@ public class LogResponsesInterceptor extends AbstractCallInterceptor
         {
             return ".rss";
         }
-        else if(mimeType.equals(MimeTypes.XML) || mimeType.equals(MimeTypes.APLLICATION_XML))
+        else if(mimeType.equals(MimeTypes.XML) || mimeType.equals(MimeTypes.APPLICATION_XML))
         {
             return ".xml";
         }
