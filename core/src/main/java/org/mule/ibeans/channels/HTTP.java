@@ -25,29 +25,33 @@ import org.mule.transport.http.HttpConnector;
 public interface HTTP
 {
     /**
+     * The HTTP method property key
+     */
+    public static final String METHOD_KEY = HttpConnector.HTTP_METHOD_PROPERTY;
+    /**
      * Perform an HTTP POST call
      */
-    public static final String POST = HttpConnector.HTTP_METHOD_PROPERTY + "=POST";
+    public static final String POST = METHOD_KEY + "=POST";
     /**
      * Perform an HTTP GET call
      */
-    public static final String GET = HttpConnector.HTTP_METHOD_PROPERTY + "=GET";
+    public static final String GET = METHOD_KEY + "=GET";
     /**
      * Perform an HTTP PUT call
      */
-    public static final String PUT = HttpConnector.HTTP_METHOD_PROPERTY + "=PUT";
+    public static final String PUT = METHOD_KEY + "=PUT";
     /**
      * Perform an HTTP DELETE call
      */
-    public static final String DELETE = HttpConnector.HTTP_METHOD_PROPERTY + "=DELETE";
+    public static final String DELETE = METHOD_KEY + "=DELETE";
     /**
      * Perform an HTTP HEAD call
      */
-    public static final String HEAD = HttpConnector.HTTP_METHOD_PROPERTY + "=HEAD";
+    public static final String HEAD = METHOD_KEY + "=HEAD";
     /**
      * Perform an HTTP OPTIONS call
      */
-    public static final String OPTIONS = HttpConnector.HTTP_METHOD_PROPERTY + "=OPTIONS";
+    public static final String OPTIONS = METHOD_KEY + "=OPTIONS";
 
     /**
      * Whether redirects should be followed.  Redirects return an HTTP status code in the range of 300-304. The HTTP spec
