@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
- * TODO
+ * The parser responsible for parsing {@link org.mule.ibeans.api.client.Call} annotations.
  */
 public class CallAnnotationParser extends AbstractEndpointAnnotationParser
 {
@@ -38,10 +38,6 @@ public class CallAnnotationParser extends AbstractEndpointAnnotationParser
         Call call = (Call) annotation;
         AnnotatedEndpointData epd = new AnnotatedEndpointData(MEP.OutIn);
         epd.setAddress(call.uri());
-//        if(epd.getAddress().startsWith("{"))
-//        {
-//            throw new IllegalArgumentException("Illegal scheme on: " + epd.getAddress() + ". the scheme must be literal, not parameterized");
-//        }
         epd.setProperties(AnnotatedEndpointData.convert(call.properties()));
         return epd;
     }
