@@ -63,11 +63,6 @@ public class ReceiveAndReplyAnnotationParser extends AbstractEndpointAnnotationP
     @Override
     public boolean supports(Annotation annotation, Class clazz, Member member)
     {
-        if (clazz.isInterface())
-        {
-            //You cannot use the @ReceiveAndReply annotation on an interface
-            return false;
-        }
-        return super.supports(annotation, clazz, member);
+        return !clazz.isInterface() && super.supports(annotation, clazz, member);
     }
 }

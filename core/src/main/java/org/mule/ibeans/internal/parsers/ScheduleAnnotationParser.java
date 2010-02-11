@@ -20,12 +20,15 @@ import org.mule.impl.endpoint.AnnotatedEndpointData;
 import org.mule.impl.endpoint.MEP;
 import org.mule.transport.quartz.QuartzConnector;
 import org.mule.transport.quartz.jobs.EventGeneratorJobConfig;
+import org.mule.util.CollectionUtils;
 import org.mule.util.StringUtils;
 import org.mule.util.UUID;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,27 +78,27 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
     }
 
 
-    protected String getProperties(Schedule schedule) throws MuleException
+    protected String[] getProperties(Schedule schedule) throws MuleException
     {
-        StringBuilder sb = new StringBuilder();
+        List<String> props = new ArrayList<String>(2);
         if (StringUtils.isNotBlank(schedule.cron()))
         {
-            sb.append(QuartzConnector.PROPERTY_CRON_EXPRESSION).append("=").append(schedule.cron());
+            props.add(QuartzConnector.PROPERTY_CRON_EXPRESSION + "=" + schedule.cron());
         }
         else if (schedule.interval() > -1)
         {
-            sb.append(QuartzConnector.PROPERTY_REPEAT_INTERVAL).append("=").append(schedule.interval());
+            props.add(QuartzConnector.PROPERTY_REPEAT_INTERVAL + "=" + schedule.interval());
 
             if (schedule.startDelay() > -1)
             {
-                sb.append(",").append(QuartzConnector.PROPERTY_START_DELAY).append("=").append(schedule.startDelay());
+                props.add(QuartzConnector.PROPERTY_START_DELAY +"=" + schedule.startDelay());
             }
         }
         else
         {
             throw new IllegalArgumentException("cron or repeatInterval must be set");
         }
-        return sb.toString();
+        return CollectionUtils.toArrayOfComponentType(props, String.class);
 
     }
 

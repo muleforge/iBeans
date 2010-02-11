@@ -73,9 +73,9 @@ public @interface ReceiveAndReply
 
     /**
      * Defines one or more key/value pairs of data that will be used for adding properties to the channel. Properties
-     * wdefine settings that the underlying transport can use to configure how the listener is registered. Properties are expressed as
+     * define settings that the underlying transport can use to configure how the listener is registered. Properties are expressed as
      * a comma-separated list of key/value pairs, such as:
-     * <code>properties = "http.method=GET"</code>
+     * <code>properties = HTTP.GET</code>
      * <p/>
      * These properties will be channel-specific and are documented in the transports section of the
      * <a href="http://www.mulesoft.org/display/MULE2USER/Home">Mule User Guide</a>.
@@ -84,14 +84,14 @@ public @interface ReceiveAndReply
      * can be passed in using property placeholders. For example, but adding a property "default.http.method=GET to the iBeans context, that
      * property can be referenced using -
      * <p/>
-     * <code>properties = "http.method=${default.http.method}"</code>
+     * <code>properties = HTTP.METHOD_KEY + "=${default.http.method}"</code>
      * <p/>
      * Note that the placeholder starts with a '$' this is because it is resolved by iBeans by looking in the iBeans context (the property can also be
      * set as a system property).
      *
-     * @return A comma-separated list of key/value pairs or an empty string if no
+     * @return An array list of key/value pairs or an empty string if no
      *         properties are set
      */
-    String properties() default "";
+    String[] properties() default {""};
 
 }
