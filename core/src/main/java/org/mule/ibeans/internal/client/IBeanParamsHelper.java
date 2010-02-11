@@ -14,7 +14,6 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
 import org.mule.api.config.MuleProperties;
-import org.mule.api.registry.RegistrationException;
 import org.mule.api.routing.filter.Filter;
 import org.mule.api.transformer.DataType;
 import org.mule.api.transport.PropertyScope;
@@ -42,10 +41,12 @@ import org.mule.ibeans.internal.util.InputStreamDataSource;
 import org.mule.ibeans.internal.util.NamedFileDataSource;
 import org.mule.ibeans.internal.util.NamedURLDataSource;
 import org.mule.ibeans.internal.util.StringDataSource;
+import org.mule.impl.registry.RegistryMap;
 import org.mule.module.xml.util.NamespaceManager;
 import org.mule.transformer.types.DataTypeFactory;
 import org.mule.transport.NullPayload;
 import org.mule.util.StringUtils;
+import org.mule.util.TemplateParser;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
 
@@ -93,6 +94,8 @@ public class IBeanParamsHelper
     protected DataType invocationReturnType = null;
     protected Class ibeanInterface = null;
     protected DataTypeFactory dtFactory = new DataTypeFactory();
+    protected TemplateParser templateParser = TemplateParser.createAntStyleParser();
+    protected RegistryMap registryMap;
 
     /**
      * A lot of web servers do not use the http return code, instead they retuen an error message as the result of the call
@@ -106,6 +109,7 @@ public class IBeanParamsHelper
     {
         this.muleContext = muleContext;
         this.ibeanInterface = iface;
+        this.registryMap = new RegistryMap(muleContext.getRegistry());
         readErrorFilters(iface);
         readDefaultParams(iface);
     }
@@ -168,32 +172,36 @@ public class IBeanParamsHelper
 
     }
 
+    protected Object parsePropertyPlaceholderValues(Object value)
+    {
+        if (value != null && value instanceof String)
+        {
+            return templateParser.parse(registryMap, (String)value);
+        }
+        else
+        {
+            return value;
+        }
+    }
 
     public void readDefaultParams(Class iface) throws IBeansException
     {
-        NamespaceManager nsManager = null;
+        NamespaceManager nsManager;
         try
         {
             nsManager = muleContext.getRegistry().lookupObject(NamespaceManager.class);
-        }
-        catch (RegistrationException e)
-        {
-            throw new IBeansException(e);
-        }
 
-        Set<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotationsForHeirarchy(iface);
-        for (AnnotationMetaData metaData : annos)
-        {
-            if (metaData.getAnnotation() instanceof Order)
+
+            Set<AnnotationMetaData> annos = AnnotationUtils.getFieldAnnotationsForHeirarchy(iface);
+            for (AnnotationMetaData metaData : annos)
             {
-                continue;
-            }
-
-            if (metaData.getAnnotation() instanceof Namespace)
-            {
-
-                try
+                if (metaData.getAnnotation() instanceof Order)
                 {
+                    continue;
+                }
+                else if (metaData.getAnnotation() instanceof Namespace)
+                {
+
                     String prefix = ((Namespace) metaData.getAnnotation()).value();
 //                    if(nsManager.getNamespaces().containsKey(prefix))
 //                    {
@@ -201,17 +209,11 @@ public class IBeanParamsHelper
 //                    }
                     nsManager.getNamespaces().put(prefix, ((Field) metaData.getMember()).get(iface));
                     continue;
+
                 }
-                catch (IllegalAccessException e)
-                {
-                    throw new IBeansException(e);
-                }
-            }
-            Field field = (Field) metaData.getMember();
-            UriParam uriParam = field.getAnnotation(UriParam.class);
-            if (uriParam != null)
-            {
-                try
+                Field field = (Field) metaData.getMember();
+                UriParam uriParam = field.getAnnotation(UriParam.class);
+                if (uriParam != null)
                 {
                     String key = (uriParam.value().length() > 0 ? uriParam.value() : field.getName());
                     if (ParamFactory.class.isAssignableFrom(field.getType()))
@@ -225,17 +227,11 @@ public class IBeanParamsHelper
                     {
                         getDefaultUriParams().put(key, encode(field.get(iface)));
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new IBeansException(e);
-                }
-            }
 
-            HeaderParam headerParam = field.getAnnotation(HeaderParam.class);
-            if (headerParam != null)
-            {
-                try
+                }
+
+                HeaderParam headerParam = field.getAnnotation(HeaderParam.class);
+                if (headerParam != null)
                 {
                     String key = (headerParam.value().length() > 0 ? headerParam.value() : field.getName());
                     if (ParamFactory.class.isAssignableFrom(field.getType()))
@@ -250,16 +246,9 @@ public class IBeanParamsHelper
                         getDefaultHeaderParams().put(key, encode(field.get(iface)));
                     }
                 }
-                catch (Exception e)
-                {
-                    throw new IBeansException(e);
-                }
-            }
 
-            Attachment attachment = field.getAnnotation(Attachment.class);
-            if (attachment != null)
-            {
-                try
+                Attachment attachment = field.getAnnotation(Attachment.class);
+                if (attachment != null)
                 {
                     String key = (attachment.value().length() > 0 ? attachment.value() : field.getName());
                     if (ParamFactory.class.isAssignableFrom(field.getType()))
@@ -274,16 +263,9 @@ public class IBeanParamsHelper
                         getDefaultAttachmentParams().put(key, encode(field.get(iface)));
                     }
                 }
-                catch (Exception e)
-                {
-                    throw new IBeansException(e);
-                }
-            }
 
-            PropertyParam propertyParam = field.getAnnotation(PropertyParam.class);
-            if (propertyParam != null)
-            {
-                try
+                PropertyParam propertyParam = field.getAnnotation(PropertyParam.class);
+                if (propertyParam != null)
                 {
                     if (Map.class.isAssignableFrom(field.getType()))
                     {
@@ -295,16 +277,9 @@ public class IBeanParamsHelper
                         getDefaultPropertyParams().put(key, field.get(iface));
                     }
                 }
-                catch (Exception e)
-                {
-                    throw new IBeansException(e);
-                }
-            }
 
-            ReturnType returnTypeAnno = field.getAnnotation(ReturnType.class);
-            if (returnTypeAnno != null)
-            {
-                try
+                ReturnType returnTypeAnno = field.getAnnotation(ReturnType.class);
+                if (returnTypeAnno != null)
                 {
                     if (field.getType().equals(Class.class))
                     {
@@ -315,11 +290,11 @@ public class IBeanParamsHelper
                         throw new IllegalArgumentException("The @ReturnType annotation can only be set on Fields and parameters of type java.lang.Class");
                     }
                 }
-                catch (Exception e)
-                {
-                    throw new IBeansException(e);
-                }
             }
+        }
+        catch (Exception e)
+        {
+            throw new IBeansException(e);
         }
     }
 
@@ -348,7 +323,7 @@ public class IBeanParamsHelper
             invocationContext.uriParams = defaultUriParams;
         }
 
-        List payloads = invocationContext.getRequestPayloads();
+        List<Object> payloads = invocationContext.getRequestPayloads();
 
         //We can have method calls with no parameters
         if (method.getParameterAnnotations().length > 0)
@@ -395,7 +370,7 @@ public class IBeanParamsHelper
                     {
                         //IBEANS-95 allow @PropertyParams on Call methods as a way to pass data to a Factory
                         //but don't allow ParamFactories to be used for @PropertyParams on @Call method since
-                        //thier only purpose is to pass in data to a factory
+                        //their only purpose is to pass in data to a factory
                         if (stateCall)
                         {
                             addPropertyParam((PropertyParam) annotation, args[i], method, defaultPropertyParams, optional);
@@ -546,8 +521,8 @@ public class IBeanParamsHelper
     {
         for (ParamFactoryHolder holder : factories)
         {
-            Object param =holder.getParamFactory().create(holder.getParamName(), false, context);
-            if(param!=null)
+            Object param = holder.getParamFactory().create(holder.getParamName(), false, context);
+            if (param != null)
             {
                 //Array of attachments not supported, only single attachments can be created via a ParamFactory
                 attachments.add(createDataSource(holder.getParamName(), param));
@@ -555,29 +530,30 @@ public class IBeanParamsHelper
         }
 
     }
+
     protected void createParameters(Set<ParamFactoryHolder> factories, Map<String, Object> params, InvocationContext context)
     {
 
         for (ParamFactoryHolder holder : factories)
         {
             Object param = holder.getParamFactory().create(holder.getParamName(), false, context);
-            if(param!=null)
+            if (param != null)
             {
                 params.put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, context));
             }
         }
     }
 
-    protected void addUriParamMap(UriParam annotation, Map arg, Method method, Map uriParams) throws UnsupportedEncodingException
+    protected void addUriParamMap(UriParam annotation, Map<String, Object> arg, Method method, Map<String, Object> uriParams) throws UnsupportedEncodingException
     {
-        String[] p = StringUtils.splitAndTrim(((UriParam) annotation).value(), ",");
+        String[] p = StringUtils.splitAndTrim(annotation.value(), ",");
 
         for (int j = 0; j < p.length; j++)
         {
             String s = p[j];
             if (arg.containsKey(s))
             {
-                uriParams.put(s, encode(arg.get(s)));
+                uriParams.put(s, encode(parsePropertyPlaceholderValues(arg.get(s))));
             }
             else
             {
@@ -585,11 +561,11 @@ public class IBeanParamsHelper
             }
         }
         //Validate that we don't have any properties specified that aren't valid for this param map
-        for (Object o : arg.keySet())
+        for (String key : arg.keySet())
         {
-            if (!uriParams.containsKey(o))
+            if (!uriParams.containsKey(key))
             {
-                throw new IllegalArgumentException("A UriParam named '" + o + "' was included in a @UriParam as a Map but was not specified on the @UriParam annotation: " + annotation);
+                throw new IllegalArgumentException("A UriParam named '" + key + "' was included in a @UriParam as a Map but was not specified on the @UriParam annotation: " + annotation);
             }
         }
     }
@@ -618,7 +594,8 @@ public class IBeanParamsHelper
 
     protected void addPropertyParam(PropertyParam annotation, Object arg, Method method, Map<String, Object> params, boolean optional)
     {
-        addParams(annotation, arg, annotation.value(), method, params, optional);
+        //Allow Property Param values to use property placeholders. These will get resolved in the registry
+        addParams(annotation, parsePropertyPlaceholderValues(arg), annotation.value(), method, params, optional);
     }
 
     protected void addUriParam(UriParam annotation, Object arg, Method method, Map<String, Object> params, boolean optional) throws UnsupportedEncodingException
@@ -632,7 +609,8 @@ public class IBeanParamsHelper
             throw new IllegalArgumentException(IBeansMessages.parameterNotOptional(annotation, method).toString());
         }
 
-        params.put(annotation.value(), encode(arg));
+        //Allow Property Param values to use property placeholders. These will get resolved in the registry
+        params.put(annotation.value(), encode(parsePropertyPlaceholderValues(arg)));
     }
 
     protected void addComplexParam(Annotation annotation, Object arg, boolean optional, InternalInvocationContext ctx) throws UnsupportedEncodingException
@@ -692,7 +670,8 @@ public class IBeanParamsHelper
 
     protected void addHeaderParam(HeaderParam annotation, Object arg, Method method, Map<String, Object> params, boolean optional)
     {
-        addParams(annotation, arg, annotation.value(), method, params, optional);
+        //Allow Property Param values to use property placeholders. These will get resolved in the registry        
+        addParams(annotation, parsePropertyPlaceholderValues(arg), annotation.value(), method, params, optional);
     }
 
     protected void addParams(Annotation annotation, Object arg, String key, Method method, Map<String, Object> params, boolean optional)
