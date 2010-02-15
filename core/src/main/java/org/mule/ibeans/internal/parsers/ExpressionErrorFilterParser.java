@@ -43,17 +43,22 @@ public class ExpressionErrorFilterParser implements ErrorFilterParser
             String expr = (String) anno.annotationType().getMethod("expr").invoke(anno);
             String errorCode = (String) anno.annotationType().getMethod("errorCode").invoke(anno);
             String mimeType = (String) anno.annotationType().getMethod("mimeType").invoke(anno);
-            Field f = anno.annotationType().getDeclaredField("eval");
+
+            Field f;
             String evaluator;
-            if (f == null)
+
+            try
             {
-                evaluator = (String) anno.annotationType().getMethod("eval").invoke(anno);
-            }
-            else
-            {
+                f = anno.annotationType().getDeclaredField("eval");
                 evaluator = (String) f.get(anno);
             }
+            catch (NoSuchFieldException nsfe)
+            {
+                //This is a custom ExpressionErrorFilter
+                evaluator = (String) anno.annotationType().getMethod("eval").invoke(anno);
+            }
 
+            //special handling for xpath queries
             if (evaluator.equals("xpath2"))
             {
                 expr = "[boolean]" + expr;
@@ -64,7 +69,7 @@ public class ExpressionErrorFilterParser implements ErrorFilterParser
         }
         catch (Exception e)
         {
-            throw new DefaultMuleException("Failed to parse error filter from annotaiton: " + anno, e);
+            throw new DefaultMuleException("Failed to parse error filter from annotation: " + anno, e);
         }
     }
 }
