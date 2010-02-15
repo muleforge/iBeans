@@ -27,4 +27,6 @@ public @interface ExpressionErrorFilter
     String eval();
 
     String mimeType() default MimeTypes.ANY;
+
+    String errorCode() default "";
 }
