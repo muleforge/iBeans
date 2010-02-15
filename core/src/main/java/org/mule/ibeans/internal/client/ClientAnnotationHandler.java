@@ -10,6 +10,7 @@
 package org.mule.ibeans.internal.client;
 
 import org.mule.api.MuleMessage;
+import org.mule.ibeans.api.client.params.InvocationContext;
 
 import java.lang.reflect.Method;
 
@@ -19,7 +20,7 @@ import java.lang.reflect.Method;
 
 public interface ClientAnnotationHandler
 {
-    public MuleMessage invoke(Object proxy, Method method, Object[] args, MuleMessage message) throws Exception;
+    public MuleMessage invoke(InvocationContext invocationContext, MuleMessage message) throws Exception;
 
     public String getScheme(Method method);
 }

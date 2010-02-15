@@ -11,6 +11,7 @@ package org.mule.ibeans.internal.client;
 
 import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
+import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.ibeans.internal.ext.DynamicOutboundEndpoint;
 import org.mule.ibeans.internal.util.UriParamFilter;
 import org.mule.util.TemplateParser;
@@ -53,10 +54,10 @@ public class TemplateAnnotationHandler implements ClientAnnotationHandler
         this.evals = evals;
     }
 
-    public MuleMessage invoke(Object proxy, Method method, Object[] args, MuleMessage message) throws Exception
+    public MuleMessage invoke(InvocationContext ctx, MuleMessage message) throws Exception
     {
 
-        String eval = evals.get(method.toString());
+        String eval = evals.get(ctx.getMethod().toString());
         if (eval == null)
         {
             return null;

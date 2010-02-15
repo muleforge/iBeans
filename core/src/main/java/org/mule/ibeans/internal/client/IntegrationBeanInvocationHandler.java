@@ -505,13 +505,11 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
 
             if (templateHandler != null && templateHandler.isMatch(invocationContext.getMethod()))
             {
-                result = templateHandler.invoke(invocationContext.getProxy(),
-                        invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
+                result = templateHandler.invoke(invocationContext, requestMessage);
             }
             else
             {
-                result = callHandler.invoke(invocationContext.getProxy(),
-                        invocationContext.getMethod(), invocationContext.getArgs(), requestMessage);
+                result = callHandler.invoke(invocationContext, requestMessage);
             }
 
             ((InternalInvocationContext) invocationContext).responseMuleMessage = result;
