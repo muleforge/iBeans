@@ -22,6 +22,7 @@ import org.mule.config.builders.SimpleConfigurationBuilder;
 import org.mule.context.DefaultMuleContextBuilder;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.config.ChannelConfigBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
@@ -193,13 +194,25 @@ public abstract class AbstractIBeansTestCase extends AbstractMuleTestCase
         {
             public Object answer(InvocationOnMock invocation) throws Throwable
             {
+                String mime = mimeType;
                 DataType ret = ((MockIBean) ibean).ibeanReturnType();
-                if (ret == null)
+                Object data;
+
+                /**
+                 * We need to have some special handling when dealing with a Mockito mock 
+                 * 1) If the return type on the ibeans is not set, use the method return type
+                 * 2) the return annotation changes the return type so use the one defined on the actual Method
+                 * 3) If the return type and the method return type are not assignable, then use the method return type
+                 */
+                if(ret==null || invocation.getMethod().isAnnotationPresent(Return.class) ||
+                        !invocation.getMethod().getReturnType().isAssignableFrom(ret.getType()))
                 {
                     ret = new DataTypeFactory().createFromReturnType(invocation.getMethod());
+                    mime = null;
                 }
-                Object data = loadData(resource, ret);
-                ((MockIBean) ibean).ibeanSetMimeType(mimeType);
+
+                data = loadData(resource, ret);
+                ((MockIBean) ibean).ibeanSetMimeType(mime);
                 return data;
             }
         };
