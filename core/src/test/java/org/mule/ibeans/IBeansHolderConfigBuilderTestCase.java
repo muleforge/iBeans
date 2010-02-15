@@ -25,22 +25,23 @@ public class IBeansHolderConfigBuilderTestCase extends AbstractIBeansTestCase
         IBeanHolderConfigurationBuilder builder = new IBeanHolderConfigurationBuilder();
         builder.configure(muleContext);
         Collection<IBeanHolder> col = muleContext.getRegistry().lookupObjects(IBeanHolder.class);
-        //Ensure IBeanHolder is comarable
+        //Ensure IBeanHolder is comparable
         Set<IBeanHolder> beans = new TreeSet<IBeanHolder>(col);
 
-        assertEquals(6, beans.size());
-        String[] ids = new String[6];
+        assertEquals(7, beans.size());
+        String[] ids = new String[7];
         int i = 0;
         for (Iterator<IBeanHolder> iterator = beans.iterator(); iterator.hasNext(); i++)
         {
             IBeanHolder iBeanHolder = iterator.next();
             ids[i] = iBeanHolder.getId();
         }
-        assertEquals("search", ids[0]);
-        assertEquals("test", ids[1]);
-        assertEquals("testexception", ids[2]);
-        assertEquals("testimplicitpropertiesinfactory", ids[3]);
-        assertEquals("testparamsfactory", ids[4]);
-        assertEquals("testuri", ids[5]);
+        assertEquals("hostip", ids[0]);
+        assertEquals("search", ids[1]);
+        assertEquals("test", ids[2]);
+        assertEquals("testexception", ids[3]);
+        assertEquals("testimplicitpropertiesinfactory", ids[4]);
+        assertEquals("testparamsfactory", ids[5]);
+        assertEquals("testuri", ids[6]);
     }
 }
