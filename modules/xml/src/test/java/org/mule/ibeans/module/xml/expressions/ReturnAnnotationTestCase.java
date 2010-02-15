@@ -26,27 +26,32 @@ public class ReturnAnnotationTestCase extends AbstractIBeansTestCase
         registerBeans(new PrimitveTransformers());
     }
 
+    protected ReturnExpressionsIBean getTestIBean()
+    {
+        return test;
+    }
+
     public void testBooleanReturn() throws Exception
     {
-        boolean result = test.testBooleanReturn();
+        boolean result = getTestIBean().testBooleanReturn();
         assertTrue(result);
     }
 
     public void testStringReturn() throws Exception
     {
-        String result = test.testStringReturn();
+        String result = getTestIBean().testStringReturn();
         assertEquals("true", result);
     }
 
     public void testNumberReturn() throws Exception
     {
-        Integer result = test.testNumberReturn();
+        Integer result = getTestIBean().testNumberReturn();
         assertEquals(new Integer(14), result);
     }
 
     public void testDomXmlReturn() throws Exception
     {
-        Document result = test.testDomReturn();
+        Document result = getTestIBean().testDomReturn();
         assertEquals("bar", result.getDocumentElement().getNodeName());
         assertEquals("true", result.getDocumentElement().getTextContent());
     }

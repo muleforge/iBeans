@@ -9,10 +9,12 @@
  */
 package org.mule.ibeans.module.xml.expressions;
 
+import org.mule.ibeans.api.client.Call;
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.ExceptionListenerAware;
 import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.api.client.Template;
+import org.mule.ibeans.api.client.params.ReturnType;
 
 import org.w3c.dom.Document;
 
@@ -33,4 +35,12 @@ public interface ReturnExpressionsIBean extends ExceptionListenerAware
     @Template("<foo><bar>true</bar></foo>")
     @Return("xpath2:[node]/foo/bar")
     public Document testDomReturn() throws CallException;
+
+    //For mock testing only
+    @ReturnType
+    public static final Class DEFAULT_RETURN_TYPE = Document.class;
+
+    @Call(uri = "http://erm.co.uk")
+    @Return("xpath2:[string]/foo/bar")
+    public String getSomeValue() throws CallException;
 }
