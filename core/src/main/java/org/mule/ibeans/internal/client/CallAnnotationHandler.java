@@ -15,12 +15,13 @@ import org.mule.NullSessionHandler;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
 import org.mule.api.MuleSession;
-import org.mule.api.endpoint.ImmutableEndpoint;
 import org.mule.api.context.MuleContextAware;
+import org.mule.api.endpoint.ImmutableEndpoint;
 import org.mule.api.routing.InterfaceBinding;
 import org.mule.api.service.Service;
 import org.mule.api.transport.PropertyScope;
 import org.mule.config.i18n.CoreMessages;
+import org.mule.ibeans.api.client.params.InvocationContext;
 import org.mule.message.DefaultExceptionPayload;
 import org.mule.transport.NullPayload;
 import org.mule.util.TemplateParser;
@@ -33,7 +34,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Used to Handle {@link org.mule.ibeans.api.client.Template} annotated method calls.
+ * Used to Handle {@link org.mule.ibeans.api.client.Call} annotated method calls.
  */
 public class CallAnnotationHandler implements ClientAnnotationHandler
 {
@@ -84,13 +85,13 @@ public class CallAnnotationHandler implements ClientAnnotationHandler
 
     }
 
-    public MuleMessage invoke(Object proxy, Method method, Object[] args, MuleMessage message) throws Exception
+    public MuleMessage invoke(InvocationContext ctx, MuleMessage message) throws Exception
     {
 
-        InterfaceBinding router = routers.get(method.toString());
+        InterfaceBinding router = routers.get(ctx.getMethod().toString());
         if (router == null)
         {
-            throw new IllegalArgumentException(CoreMessages.cannotFindBindingForMethod(method.getName()).toString());
+            throw new IllegalArgumentException(CoreMessages.cannotFindBindingForMethod(ctx.getMethod().getName()).toString());
         }
         router.getEndpoint().getProperties().putAll(helper.getDefaultPropertyParams());
 
