@@ -54,6 +54,12 @@ public interface HTTP
     public static final String OPTIONS = METHOD_KEY + "=OPTIONS";
 
     /**
+     * By default an error code greater than or equal to 400 will cause an exception to be thrown with the
+     * status message.  Sometimes a method call may want to turn off this behaviour
+     */
+    public static final String DISABLE_STATUS_CODE_EXCEPTION_CHECK = HttpConnector.HTTP_DISABLE_STATUS_CODE_EXCEPTION_CHECK  + "=true";
+
+    /**
      * Whether redirects should be followed.  Redirects return an HTTP status code in the range of 300-304. The HTTP spec
      * defines response headers that can be used to redirect to the next page.
      */
