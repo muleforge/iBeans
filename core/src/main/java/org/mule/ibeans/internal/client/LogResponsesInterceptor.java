@@ -88,6 +88,10 @@ public class LogResponsesInterceptor extends AbstractCallInterceptor
 
     protected String getFileExtension(String mimeType)
     {
+        if(mimeType==null){
+            return ".data";
+        }
+        
         int i = mimeType.indexOf(";");
         if(i > -1)
         {
