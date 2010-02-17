@@ -29,9 +29,9 @@ import static org.junit.Assert.assertTrue;
 
 public class IbeansCentralIBeanTestCase extends ExternalPropsIBeansTestSupport
 {
-    public static final String IBEANS_VERISON = "1.0-beta-8";
+    public static final String IBEANS_VERSION = "1.0-beta-8";
 
-    public static final String NON_EXISTENT_VERISON = "1.0-beta-0";
+    public static final String NON_EXISTENT_VERSION = "1.0-beta-0";
 
     @IntegrationBean
     private IbeansCentralIBean ibeanscentral;
@@ -40,7 +40,7 @@ public class IbeansCentralIBeanTestCase extends ExternalPropsIBeansTestSupport
     public void init() throws IBeansException
     {
         registerBeans(new IBeanCentralTransformers());
-        ibeanscentral.setCredentials("ibeansconsole", "!ibeans!");
+        ibeanscentral.setCredentials("${ibeans.console.username}", "${ibeans.console.password}");
     }
 
     @Test
@@ -57,24 +57,24 @@ public class IbeansCentralIBeanTestCase extends ExternalPropsIBeansTestSupport
     @Test
     public void searchWithVersion() throws Exception
     {
-        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", IBEANS_VERISON);
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", IBEANS_VERSION);
         assertNotNull(result);
         assertEquals("Flickr iBean", result.getName());
         assertEquals("flickr", result.getShortName());
 
-        assertNull(ibeanscentral.getIBeanByShortName("flickr", NON_EXISTENT_VERISON));
+        assertNull(ibeanscentral.getIBeanByShortName("flickr", NON_EXISTENT_VERSION));
     }
 
     //Twitter s actually a group of iBeans, make sure we it gets indexed properly
     @Test
     public void indexingWithGroups() throws Exception
     {
-        IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", IBEANS_VERISON);
+        IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", IBEANS_VERSION);
         assertNotNull(result);
         assertEquals("Twitter iBean", result.getName());
         assertEquals("twitter", result.getShortName());
 
-        assertNull(ibeanscentral.getIBeanByShortName("twitter", NON_EXISTENT_VERISON));
+        assertNull(ibeanscentral.getIBeanByShortName("twitter", NON_EXISTENT_VERSION));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class IbeansCentralIBeanTestCase extends ExternalPropsIBeansTestSupport
     @Test
     public void getAllWithVersion() throws Exception
     {
-        List<IBeanInfo> results = ibeanscentral.getIBeans(IBEANS_VERISON);
+        List<IBeanInfo> results = ibeanscentral.getIBeans(IBEANS_VERSION);
         assertNotNull(results);
         assertTrue(results.size() > 0);
     }

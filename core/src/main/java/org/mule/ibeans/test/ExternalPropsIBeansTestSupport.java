@@ -44,7 +44,7 @@ import static org.junit.Assert.fail;
 public class ExternalPropsIBeansTestSupport extends IBeansTestSupport
 {
     public static final String IBEANS_TEST_PROPERTIES = "ibeans.test.properties";
-    public static final String DEFAULT_PROPERTIES_FILENAME = "build.properties";
+    public static final String DEFAULT_PROPERTIES_FILENAME = ".ibeans-credentials.properties";
 
     @Override
     protected void addStartUpProperties(Properties properties)
@@ -57,7 +57,7 @@ public class ExternalPropsIBeansTestSupport extends IBeansTestSupport
         }
         if (path == null)
         {
-            path = DEFAULT_PROPERTIES_FILENAME;
+            path = System.getProperty("user.home") + File.separator + DEFAULT_PROPERTIES_FILENAME;
         }
 
         File f = new File(path);
