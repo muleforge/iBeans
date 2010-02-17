@@ -14,8 +14,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import static org.junit.Assert.fail;
+
 /**
- * A Unit test that extends the {@link org.mule.ibeans.test.AbstractIBeansTestCase} to load properties from a
+ * A Unit test that extends the {@link org.mule.ibeans.test.IBeansTestSupport} to load properties from a
  * location specified by a system property. These properties reside on the local machine (usually contain sensitive
  * information.
  * <p/>
@@ -39,7 +41,7 @@ import java.util.Properties;
  * &lt;/plugin&gt;
  * </code>
  */
-public class AbstractExternalPropsIBeansTestCase extends AbstractIBeansTestCase
+public class ExternalPropsIBeansTestSupport extends IBeansTestSupport
 {
     public static final String IBEANS_TEST_PROPERTIES = "ibeans.test.properties";
     public static final String DEFAULT_PROPERTIES_FILENAME = "build.properties";

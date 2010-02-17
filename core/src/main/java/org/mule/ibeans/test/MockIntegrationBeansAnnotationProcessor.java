@@ -24,7 +24,7 @@ import org.mockito.Mockito;
 
 /**
  * Will process any fields on an object with the {@link org.mule.ibeans.api.client.MockIntegrationBean} annotation, inserting
- * a Mockito Mock object.  This is only used for testing, the {@link org.mule.ibeans.test.AbstractIBeansTestCase} will automatically
+ * a Mockito Mock object.  This is only used for testing, the {@link IBeansTestSupport} will automatically
  * enable this processor.
  */
 public class MockIntegrationBeansAnnotationProcessor implements InjectProcessor

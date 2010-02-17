@@ -23,12 +23,10 @@ import org.mule.ibeans.internal.client.IBeanParamsHelper;
 import org.mule.ibeans.internal.client.IntegrationBeanInvocationHandler;
 import org.mule.ibeans.internal.client.TemplateAnnotationHandler;
 import org.mule.model.seda.SedaService;
-import org.mule.module.xml.transformer.XmlPrettyPrinter;
 import org.mule.transformer.types.DataTypeFactory;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
 
-import java.beans.ExceptionListener;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +35,6 @@ import java.util.Set;
 
 import javax.activation.DataSource;
 
-import org.w3c.dom.Document;
-
 /**
  * The proxy handler used to handle calls made to an iBean proxy generated using the {@link org.mule.ibeans.api.client.MockIntegrationBean}annotation.
  */
@@ -46,6 +42,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
 {
     private InvocationContext invocationContext;
     protected Object mock;
+    protected MockMessageCallback callback;
 
 
     public MockIBeanHandler(Class iface, MuleContext muleContext, Object mock) throws IBeansException
@@ -68,13 +65,12 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
         //This work around ensures that the mime type for the last invocation does not get used
-        //for a template invocion. Need to figure out why this is needed
-        if(method.isAnnotationPresent(Template.class))
+        //for a template invocation. Need to figure out why this is needed
+        if (method.isAnnotationPresent(Template.class))
         {
             helper.setInvocationReturnType(new DataTypeFactory().createFromReturnType(method));
         }
-        System.out.println("Handler Invoke: " + method.getName() + ", mimeType is: " + getMimeForMessage(null));
-        //Special handling of methods with an ibean prefix, these are called by the the AbstractIBeansTestCase
+        //Special handling of methods with an ibean prefix, these are called by the the IBeansTestSupport
         //To pass in additional information from the testcase
         if (method.getName().startsWith("ibean"))
         {
@@ -109,42 +105,9 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
 
     public void ibeanSetMimeType(String mime)
     {
-        if(helper.getReturnType()!=null)
+        if (helper.getReturnType() != null)
         {
             helper.setInvocationReturnType(new DataTypeFactory().create(helper.getReturnType().getType(), mime));
-        }
-    }
-
-    public void ibeanErrorCheck(Object data, String mimeType) throws Exception
-    {
-        if (mimeType == null)
-        {
-            throw new IllegalArgumentException("Content mime type needs to be set when checking for errors on a Mock IBean");
-        }
-        MuleMessage result = new DefaultMuleMessage(data, muleContext);
-        result.setProperty("Content-Type", mimeType);
-
-        if (isErrorReply(null, data, result))
-        {
-            //TODO URGENT remove add dependency to Xml
-            String msg;
-            if (result.getPayload() instanceof Document)
-            {
-                msg = (String) new XmlPrettyPrinter().transform(result.getPayload());
-            }
-            else
-            {
-                msg = result.getPayloadAsString();
-            }
-            Exception e = createCallException(result, new IBeansException(msg), "mock");
-            if (exceptionListener != null)
-            {
-                exceptionListener.exceptionThrown(e);
-            }
-            else
-            {
-                throw e;
-            }
         }
     }
 
@@ -232,17 +195,10 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         }
     }
 
-    public ExceptionListener getExceptionListener()
-    {
-        return exceptionListener;
-    }
 
-    protected void checkCtx()
+    public void ibeanSetMessageCallback(MockMessageCallback callback)
     {
-        if (invocationContext == null)
-        {
-            throw new IllegalStateException("No method called yet");
-        }
+        this.callback = callback;
     }
 
     public TemplateAnnotationHandler getTemplateHandler()
@@ -259,7 +215,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         //is called which does not allow us to evaluate the @Return expression to obtain the real method result.
         //When not running as a mock this is handled because the type checking is not done until all annotations
         //have been precessed for the request/response
-        if(method.isAnnotationPresent(Return.class))
+        if (method.isAnnotationPresent(Return.class))
         {
             return false;
         }
@@ -291,7 +247,21 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         {
             Object object = ctx.getMethod().invoke(mock, ctx.getArgs());
 
-            return new DefaultMuleMessage(object, message, muleContext);
+            MuleMessage result = new DefaultMuleMessage(object, message, muleContext);
+            if(callback!=null)
+            {
+                try
+                {
+                    callback.onMessage(result);
+                }
+                finally
+                {
+                    //Only run it once
+                    callback = null;
+                }
+
+            }
+            return result;
         }
 
         public String getScheme(Method method)

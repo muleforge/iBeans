@@ -38,7 +38,9 @@ public interface MockIBean
 
     public Set<DataSource> ibeanAttachments();
 
-    public void ibeanErrorCheck(Object data, String mimeType) throws Exception;
+    //public void ibeanErrorCheck(Object data, String mimeType) throws Exception;
 
     public void ibeanSetMimeType(String mime);
+
+    public void ibeanSetMessageCallback(MockMessageCallback callback);
 }
