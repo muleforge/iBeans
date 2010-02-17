@@ -20,6 +20,7 @@ import org.mule.api.transformer.Transformer;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.module.json.transformers.JsonToObject;
 import org.mule.module.json.transformers.ObjectToJson;
+import org.mule.transformer.simple.ObjectToString;
 
 import java.util.List;
 import java.util.Map;
@@ -94,7 +95,10 @@ public class JsonTransformerResolver implements TransformerResolver, MuleContext
             //At this point we know we are dealing with Json, now lets check the registry to see if there is an exact
             //transformer that matches our criteria
             List<Transformer> ts = muleContext.getRegistry().lookupTransformers(source, result);
-            if (ts.size() == 1)
+            //ObjectToString continues to cause pain to auto transforms, here
+            //we check explicitly since we want to generate a Json transformer if
+            //one does not already exist in the context
+            if (ts.size() == 1 && !(ts.get(0) instanceof ObjectToString))
             {
                 t = ts.get(0);
             }
