@@ -20,6 +20,7 @@ import org.mule.api.transformer.Transformer;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.ibeans.module.xml.transformers.JAXBMarshallerTransformer;
 import org.mule.ibeans.module.xml.transformers.JAXBUnmarshallerTransformer;
+import org.mule.transformer.simple.ObjectToString;
 import org.mule.utils.AnnotationUtils;
 
 import java.io.IOException;
@@ -109,7 +110,7 @@ public class JAXBTransformerResolver implements TransformerResolver, MuleContext
             //At this point we know we are dealing with JAXB, now lets check the registry to see if there is an exact
             //transformer that matches our criteria
             List<Transformer> ts = muleContext.getRegistry().lookupTransformers(source, result);
-            if (ts.size() == 1)
+            if (ts.size() == 1 && !(ts.get(0) instanceof ObjectToString))
             {
                 t = ts.get(0);
             }
