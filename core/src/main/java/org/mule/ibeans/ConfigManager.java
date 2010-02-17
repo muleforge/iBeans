@@ -11,6 +11,9 @@ package org.mule.ibeans;
 
 import org.mule.api.MuleContext;
 import org.mule.api.config.MuleConfiguration;
+import org.mule.api.registry.RegistrationException;
+
+import java.util.Collection;
 
 /**
  * A simple config Manager facade used to query the iBeans Registry
@@ -29,8 +32,18 @@ public class ConfigManager
         return muleContext.getRegistry().lookupObject(name);
     }
 
+    public <T> Collection<T> getObjectsByType(Class<T> type)
+    {
+        return muleContext.getRegistry().lookupObjects(type);
+    }
+
+    public <T> T getObjectByType(Class<T> type) throws RegistrationException
+    {
+        return muleContext.getRegistry().lookupObject(type);
+    }
+
     /**
-     * PRovides access to the {@link org.mule.api.config.MuleConfiguration} objects which holds info such as default
+     * Provides access to the {@link org.mule.api.config.MuleConfiguration} objects which holds info such as default
      * encoding and the server id.
      *
      * @return the configuration instance for this context
