@@ -12,6 +12,8 @@ package org.mule.ibeans.internal.parsers;
 import org.mule.ibeans.internal.AnnotatedTransformerObjectProcessor;
 import org.mule.ibeans.internal.IntegrationBeanAnnotatedObjectProcessor;
 import org.mule.ibeans.internal.MuleiBeansAnnotatedObjectProcessor;
+import org.mule.impl.annotations.processors.InjectAnnotationProcessor;
+import org.mule.impl.annotations.processors.NamedAnnotationProcessor;
 import org.mule.impl.endpoint.DefaultAnnotationsParserFactory;
 
 /**
@@ -37,6 +39,9 @@ public class IBeansAnnotationsParserFactory extends DefaultAnnotationsParserFact
         processors.add(new MuleiBeansAnnotatedObjectProcessor());
         processors.add(new IntegrationBeanAnnotatedObjectProcessor());
         processors.add(new AnnotatedTransformerObjectProcessor());
+        //JSR-330 support
+        processors.add(new InjectAnnotationProcessor());
+        processors.add(new NamedAnnotationProcessor());
 
     }
 }
