@@ -11,7 +11,7 @@ package org.mule.ibeans.mock;
 
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.MockIntegrationBean;
-import org.mule.ibeans.test.ExternalPropsIBeansTestSupport;
+import org.mule.ibeans.test.IBeansTestSupport;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.mule.ibeans.IBeansSupport.selectValue;
 
-public class MockIBeanTestCase extends ExternalPropsIBeansTestSupport
+public class MockIBeanTestCase extends IBeansTestSupport
 {
     public static final String GOOD_IP = "12.215.42.19";
     public static final String BAD_IP = "12.215.42.";
