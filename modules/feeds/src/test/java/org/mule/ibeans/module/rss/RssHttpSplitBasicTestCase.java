@@ -9,16 +9,23 @@
  */
 package org.mule.ibeans.module.rss;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.test.IBeansTestSupport;
 
 import java.util.Properties;
 
-public class RssHttpSplitBasicTestCase extends AbstractIBeansTestCase
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class RssHttpSplitBasicTestCase extends IBeansTestSupport
 {
     private SplitFeed splitFeed;
 
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         splitFeed = new SplitFeed();
         registerBeans(splitFeed);
@@ -30,7 +37,8 @@ public class RssHttpSplitBasicTestCase extends AbstractIBeansTestCase
         properties.setProperty("feed.uri", "rss:http://blogs.mulesoft.org/feed/");
     }
 
-    public void testConsumeFeed() throws Exception
+    @Test
+    public void consumeFeed() throws Exception
     {
         Thread.sleep(2000);
         int count = splitFeed.getCount();

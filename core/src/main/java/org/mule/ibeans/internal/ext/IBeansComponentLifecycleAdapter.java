@@ -9,17 +9,15 @@
  */
 package org.mule.ibeans.internal.ext;
 
-import org.mule.api.component.LifecycleAdapter;
-import org.mule.api.component.JavaComponent;
-import org.mule.api.MuleEvent;
-import org.mule.api.MuleException;
 import org.mule.api.MuleContext;
-import org.mule.api.model.EntryPointResolverSet;
-import org.mule.api.lifecycle.InitialisationException;
-import org.mule.api.lifecycle.Startable;
+import org.mule.api.MuleException;
+import org.mule.api.component.JavaComponent;
 import org.mule.api.lifecycle.Disposable;
 import org.mule.api.lifecycle.Initialisable;
+import org.mule.api.lifecycle.InitialisationException;
+import org.mule.api.lifecycle.Startable;
 import org.mule.api.lifecycle.Stoppable;
+import org.mule.api.model.EntryPointResolverSet;
 import org.mule.component.DefaultLifecycleAdapter;
 
 /**

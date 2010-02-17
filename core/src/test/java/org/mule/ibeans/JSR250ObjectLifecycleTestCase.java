@@ -9,18 +9,22 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.util.concurrent.Latch;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests that methods annotated with JSR250 @PostConstruct and @PreDestroy are called
  */
-public class JSR250ObjectLifecycleTestCase extends AbstractIBeansTestCase
+public class JSR250ObjectLifecycleTestCase extends IBeansTestSupport
 {
     public static final long TIMEOUT = 1000;
     private Latch initLatch = new Latch();
@@ -28,7 +32,8 @@ public class JSR250ObjectLifecycleTestCase extends AbstractIBeansTestCase
 
     private DummyBean bean = new DummyBean();
 
-    public void testLifecycleAnnotations() throws Exception
+    @Test
+    public void lifecycleAnnotations() throws Exception
     {
         iBeansContext.registerApplicationIBean("dummy", bean);
         assertTrue(initLatch.await(TIMEOUT, TimeUnit.MILLISECONDS));
@@ -37,7 +42,7 @@ public class JSR250ObjectLifecycleTestCase extends AbstractIBeansTestCase
         assertTrue(destroyLatch.await(TIMEOUT, TimeUnit.MILLISECONDS));
     }
 
-    public class DummyBean
+    protected class DummyBean
     {
         public String echo(String echo)
         {

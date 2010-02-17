@@ -11,15 +11,22 @@ package org.mule.ibeans;
 
 import org.mule.ibeans.api.client.views.TextUsageView;
 import org.mule.ibeans.api.client.views.TextView;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Basically, just test we don't get an error. Since the result is unstructured text it is hard to make many assertions
  * on it
  */
-public class TextUsageViewTestCase extends AbstractIBeansTestCase
+public class TextUsageViewTestCase extends IBeansTestSupport
 {
-    public void testUsageView() throws Exception
+    @Test
+    public void usageView() throws Exception
     {
         TextUsageView view = new TextUsageView();
         String string = view.createView(TestUriIBean.class);

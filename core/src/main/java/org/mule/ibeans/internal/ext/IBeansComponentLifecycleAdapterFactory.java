@@ -9,12 +9,12 @@
  */
 package org.mule.ibeans.internal.ext;
 
-import org.mule.api.component.LifecycleAdapterFactory;
-import org.mule.api.component.LifecycleAdapter;
-import org.mule.api.component.JavaComponent;
-import org.mule.api.model.EntryPointResolverSet;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
+import org.mule.api.component.JavaComponent;
+import org.mule.api.component.LifecycleAdapter;
+import org.mule.api.component.LifecycleAdapterFactory;
+import org.mule.api.model.EntryPointResolverSet;
 
 /**
  * TODO

@@ -10,46 +10,53 @@
 package org.mule.ibeans;
 
 import org.mule.ibeans.internal.util.UriParamFilter;
-import org.mule.tck.AbstractMuleTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 
 import java.util.regex.Pattern;
 
-public class UriParamFilterTestCase extends AbstractMuleTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+public class UriParamFilterTestCase extends IBeansTestSupport
 {
     private UriParamFilter filter = new UriParamFilter();
 
-    public void testOptionalRemoveOneParam() throws Exception
+    @Test
+    public void optionalRemoveOneParam() throws Exception
     {
         String test = "http://foo.com?param=null.param";
         test = filter.filterParamsByValue(test, "null.param");
         assertEquals("http://foo.com", test);
         Pattern p;
-
     }
 
-    public void testOptionalRemoveTwoParam() throws Exception
+    @Test
+    public void optionalRemoveTwoParam() throws Exception
     {
         String test = "http://foo.com?param=null.param&param2=foo";
         test = filter.filterParamsByValue(test, "null.param");
         assertEquals("http://foo.com?param2=foo", test);
     }
 
-    public void testOptionalRemoveThrteeParamsMiddle() throws Exception
+    @Test
+    public void optionalRemoveThrteeParamsMiddle() throws Exception
     {
         String test = "http://foo.com?param0=foo&param1=null.param&param2=bar";
         test = filter.filterParamsByValue(test, "null.param");
         assertEquals("http://foo.com?param0=foo&param2=bar", test);
     }
 
-    public void testOptionalRemoveThreeParamsEnd() throws Exception
+    @Test
+    public void optionalRemoveThreeParamsEnd() throws Exception
     {
         String test = "http://foo.com?param0=foo&param1=bar&param2=null.param";
         test = filter.filterParamsByValue(test, "null.param");
         assertEquals("http://foo.com?param0=foo&param1=bar", test);
     }
 
-
-    public void testOptionalRemoveAllButOne() throws Exception
+    @Test
+    public void optionalRemoveAllButOne() throws Exception
     {
         String test = "http://foo.com?param0=foo&param1=null.param&param2=null.param&param3=null.param";
         test = filter.filterParamsByValue(test, "null.param");

@@ -9,22 +9,33 @@
  */
 package org.mule.ibeans;
 
+import org.mule.api.config.ConfigurationBuilder;
 import org.mule.ibeans.config.IBeanHolder;
 import org.mule.ibeans.config.IBeanHolderConfigurationBuilder;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class IBeansHolderConfigBuilderTestCase extends AbstractIBeansTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+public class IBeansHolderConfigBuilderTestCase extends IBeansTestSupport
 {
-    public void testConfigBuilder() throws Exception
+    @Override
+    protected void addBuilders(List<ConfigurationBuilder> builders)
     {
-        IBeanHolderConfigurationBuilder builder = new IBeanHolderConfigurationBuilder();
-        builder.configure(muleContext);
-        Collection<IBeanHolder> col = muleContext.getRegistry().lookupObjects(IBeanHolder.class);
+        builders.add(new IBeanHolderConfigurationBuilder());
+    }
+
+    @Test
+    public void configBuilder() throws Exception
+    {
+        Collection<IBeanHolder> col = iBeansContext.getConfig().getObjectsByType(IBeanHolder.class);
         //Ensure IBeanHolder is comparable
         Set<IBeanHolder> beans = new TreeSet<IBeanHolder>(col);
 

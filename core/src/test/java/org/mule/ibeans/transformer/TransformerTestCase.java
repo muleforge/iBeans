@@ -9,23 +9,31 @@
  */
 package org.mule.ibeans.transformer;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.tck.testmodels.fruit.Banana;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test that the {@link FruitTransformers} is loaded into the iBeans container and is used
  * by this test case
  */
-public class TransformerTestCase extends AbstractIBeansTestCase
+public class TransformerTestCase extends IBeansTestSupport
 {
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         registerBeans(new FruitBiter());
         //The test does not discover annotations on the class path, so you need to register all annotated objects
         registerBeans(new FruitTransformers());
     }
 
+    @Test
     public void testCustomTransform() throws Exception
     {
         Banana banana = iBeansContext.request("vm://test", Banana.class, "banana");

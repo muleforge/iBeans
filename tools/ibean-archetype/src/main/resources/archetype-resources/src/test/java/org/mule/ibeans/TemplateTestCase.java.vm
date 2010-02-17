@@ -13,22 +13,28 @@ package ${groupId}.${ModuleNameLower};
 import static org.mule.ibeans.IBeansSupport.*;
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * TODO describe the test
  */
-public class ${ModuleName}IBeanTestCase extends AbstractIBeansTestCase
+public class ${ModuleName}IBeanTestCase extends IBeansTestSupport
 {
     @IntegrationBean
     private ${ModuleName}IBean ${ModuleNameLower};
 
-    @Override
-    public void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         //NOTE: you can register annotated Application beans and transformer objects here using:
         //registerBeans(new FlickrToJmsBean(), new FlickrTransformers());
     }
 
+    @Test
     public void test${ModuleName}() throws Exception
     {
          //TODO call methods on your ibean and assert the results

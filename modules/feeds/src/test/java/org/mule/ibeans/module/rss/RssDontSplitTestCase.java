@@ -9,16 +9,22 @@
  */
 package org.mule.ibeans.module.rss;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.test.IBeansTestSupport;
 
 import java.util.Properties;
 
-public class RssDontSplitTestCase extends AbstractIBeansTestCase
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
+
+public class RssDontSplitTestCase extends IBeansTestSupport
 {
     private DontSplitFeed noSplitFeed;
 
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         noSplitFeed = new DontSplitFeed();
         registerBeans(noSplitFeed);
@@ -30,9 +36,10 @@ public class RssDontSplitTestCase extends AbstractIBeansTestCase
         properties.setProperty("feed.uri", "rss:http://blogs.mulesoft.org/feed/");
     }
 
-    public void testConsumeFeed() throws Exception
+    @Test
+    public void consumeFeed() throws Exception
     {
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         int count = noSplitFeed.getCount();
         assertTrue(count > 0);
     }

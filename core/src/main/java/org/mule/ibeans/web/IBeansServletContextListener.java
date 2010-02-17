@@ -20,7 +20,6 @@ import org.mule.config.DefaultMuleConfiguration;
 import org.mule.config.builders.DefaultsConfigurationBuilder;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.context.DefaultMuleContextBuilder;
-import org.mule.context.DefaultMuleContextFactory;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.config.IBeanHolderConfigurationBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;

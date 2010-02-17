@@ -9,11 +9,11 @@
  */
 package org.mule.ibeans.module.xml;
 
-import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleMessage;
+import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.module.xml.model.EmailAddress;
 import org.mule.ibeans.module.xml.model.Person;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.transformer.types.ListDataType;
 
 import java.io.ByteArrayInputStream;
@@ -21,17 +21,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JaxbTransformerTestCase extends AbstractIBeansTestCase
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+public class JaxbTransformerTestCase extends IBeansTestSupport
 {
     public static final String PERSON_XML = "<person><name>John Doe</name><dob>01/01/1970</dob><emailAddresses><emailAddress><type>home</type><address>john.doe@gmail.com</address></emailAddress><emailAddress><type>work</type><address>jdoe@bigco.com</address></emailAddress></emailAddresses></person>";
 
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         registerBeans(new JAXBTransformer());
     }
 
-    public void testCustomTransform() throws Exception
+    @Test
+    public void customTransform() throws Exception
     {
         Person person = iBeansContext.transform(PERSON_XML, Person.class);
         assertNotNull(person);
@@ -44,12 +51,13 @@ public class JaxbTransformerTestCase extends AbstractIBeansTestCase
         assertEquals("jdoe@bigco.com", person.getEmailAddresses().get(1).getAddress());
     }
 
-    public void testCustomTransformWithMuleMessage() throws Exception
+    @Test
+    public void customTransformWithMuleMessage() throws Exception
     {
         ByteArrayInputStream in = new ByteArrayInputStream(PERSON_XML.getBytes());
         Map props = new HashMap();
         props.put("foo", "fooValue");
-        MuleMessage msg = new DefaultMuleMessage(in, props, muleContext);
+        MuleMessage msg = createMuleMessage(in, props);
         List<EmailAddress> emailAddresses = iBeansContext.transform(msg, new ListDataType<List<EmailAddress>>(EmailAddress.class));
         assertNotNull(emailAddresses);
         assertEquals(2, emailAddresses.size());

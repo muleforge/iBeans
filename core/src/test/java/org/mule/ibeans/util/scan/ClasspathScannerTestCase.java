@@ -23,95 +23,103 @@ import org.mule.util.scan.ClasspathScanner;
 
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class ClasspathScannerTestCase extends TestCase
+public class ClasspathScannerTestCase
 {
-    public void testInterfaceScanCompiledClasspath() throws Exception
+    @Test
+    public void interfaceScanCompiledClasspath() throws Exception
     {
-        ClasspathScanner s = new ClasspathScanner(new String[]{""});
+        ClasspathScanner s = new ClasspathScanner("");
         Set<Class> set = s.scanFor(Fruit.class);
 
-        assertFalse(set.contains(Orange.class));
-        assertTrue(set.contains(Grape.class));
-        assertTrue(set.contains(SeedlessGrape.class));
+        Assert.assertFalse(set.contains(Orange.class));
+        Assert.assertTrue(set.contains(Grape.class));
+        Assert.assertTrue(set.contains(SeedlessGrape.class));
     }
 
     //This is slow
-    public void testInterfaceScanClasspathAndJars() throws Exception
+    @Test
+    public void interfaceScanClasspathAndJars() throws Exception
     {
-        ClasspathScanner s = new ClasspathScanner(new String[]{"org/mule"});
+        ClasspathScanner s = new ClasspathScanner("org/mule");
         Set<Class> set = s.scanFor(Fruit.class);
 
-        assertTrue(set.contains(Apple.class));
-        assertTrue(set.contains(RedApple.class));
-        assertTrue(set.contains(BloodOrange.class));
-        assertTrue(set.contains(OrangeInterface.class));
-        assertTrue(set.contains(Orange.class));
-        assertTrue(set.contains(Grape.class));
-        assertTrue(set.contains(SeedlessGrape.class));
+        Assert.assertTrue(set.contains(Apple.class));
+        Assert.assertTrue(set.contains(RedApple.class));
+        Assert.assertTrue(set.contains(BloodOrange.class));
+        Assert.assertTrue(set.contains(OrangeInterface.class));
+        Assert.assertTrue(set.contains(Orange.class));
+        Assert.assertTrue(set.contains(Grape.class));
+        Assert.assertTrue(set.contains(SeedlessGrape.class));
     }
 
     //This will be a lot more efficient
-    public void testInterfaceScanClasspathAndJarsMultipleBasePaths() throws Exception
+    @Test
+    public void interfaceScanClasspathAndJarsMultipleBasePaths() throws Exception
     {
-        ClasspathScanner s = new ClasspathScanner(new String[]{"org/mule/tck", "org/mule/ibeans/util"});
+        ClasspathScanner s = new ClasspathScanner("org/mule/tck", "org/mule/ibeans/util");
         Set<Class> set = s.scanFor(Fruit.class);
 
-        assertTrue(set.contains(Apple.class));
-        assertTrue(set.contains(RedApple.class));
-        assertTrue(set.contains(BloodOrange.class));
-        assertTrue(set.contains(OrangeInterface.class));
-        assertTrue(set.contains(Orange.class));
-        assertTrue(set.contains(Grape.class));
-        assertTrue(set.contains(SeedlessGrape.class));
-        assertTrue(set.contains(MadridOrange.class));
+        Assert.assertTrue(set.contains(Apple.class));
+        Assert.assertTrue(set.contains(RedApple.class));
+        Assert.assertTrue(set.contains(BloodOrange.class));
+        Assert.assertTrue(set.contains(OrangeInterface.class));
+        Assert.assertTrue(set.contains(Orange.class));
+        Assert.assertTrue(set.contains(Grape.class));
+        Assert.assertTrue(set.contains(SeedlessGrape.class));
+        Assert.assertTrue(set.contains(MadridOrange.class));
     }
 
-    public void testImplementationScanCompiledClasspath() throws Exception
+    @Test
+    public void implementationScanCompiledClasspath() throws Exception
     {
-        ClasspathScanner s = new ClasspathScanner(new String[]{""});
+        ClasspathScanner s = new ClasspathScanner("");
         Set<Class> set = s.scanFor(Grape.class);
 
-        assertEquals(1, set.size());
-        assertFalse(set.contains(Grape.class));
-        assertTrue(set.contains(SeedlessGrape.class));
+        Assert.assertEquals(1, set.size());
+        Assert.assertFalse(set.contains(Grape.class));
+        Assert.assertTrue(set.contains(SeedlessGrape.class));
     }
 
-    public void testImplementationScanClasspathAndJarsMultipleBasePaths() throws Exception
+    @Test
+    public void implementationScanClasspathAndJarsMultipleBasePaths() throws Exception
     {
-        ClasspathScanner s = new ClasspathScanner(new String[]{"org/mule/tck", "org/mule/ibeans/util"});
+        ClasspathScanner s = new ClasspathScanner("org/mule/tck", "org/mule/ibeans/util");
         Set<Class> set = s.scanFor(Orange.class);
 
-        assertFalse(set.contains(Apple.class));
-        assertTrue(set.contains(BloodOrange.class));
-        assertFalse(set.contains(OrangeInterface.class));
-        assertFalse(set.contains(Orange.class));
-        assertFalse(set.contains(Grape.class));
-        assertTrue(set.contains(MadridOrange.class));
+        Assert.assertFalse(set.contains(Apple.class));
+        Assert.assertTrue(set.contains(BloodOrange.class));
+        Assert.assertFalse(set.contains(OrangeInterface.class));
+        Assert.assertFalse(set.contains(Orange.class));
+        Assert.assertFalse(set.contains(Grape.class));
+        Assert.assertTrue(set.contains(MadridOrange.class));
     }
 
-    public void testAnnotationMetaScanClasspathAndJarsMultipleBasePaths() throws Exception
+    @Test
+    public void annotationMetaScanClasspathAndJarsMultipleBasePaths() throws Exception
     {
-        ClasspathScanner s = new ClasspathScanner(new String[]{"org/mule/ibeans/util"});
+        ClasspathScanner s = new ClasspathScanner("org/mule/ibeans/util");
         Set<Class> set = s.scanFor(Channel.class);
 
-        assertEquals(2, set.size());
-        assertTrue(set.contains(SampleBeanWithAnnotations.class));
-        assertTrue(set.contains(SubscribeBean.class));
+        Assert.assertEquals(2, set.size());
+        Assert.assertTrue(set.contains(SampleBeanWithAnnotations.class));
+        Assert.assertTrue(set.contains(SubscribeBean.class));
     }
 
-    public void testAnnotationScanClasspathAndJarsMultipleBasePaths() throws Exception
+    @Test
+    public void annotationScanClasspathAndJarsMultipleBasePaths() throws Exception
     {
-        ClasspathScanner s = new ClasspathScanner(new String[]{"org/mule/ibeans"});
+        ClasspathScanner s = new ClasspathScanner("org/mule/ibeans");
         Set<Class> set = s.scanFor(Receive.class);
 
-        assertTrue(set.contains(SampleBeanWithAnnotations.class));
-        assertTrue(set.contains(SubscribeBean.class));
+        Assert.assertTrue(set.contains(SampleBeanWithAnnotations.class));
+        Assert.assertTrue(set.contains(SubscribeBean.class));
 
         set = s.scanFor(Send.class);
         //assertEquals(1, set.size());
-        assertTrue(set.contains(SampleBeanWithAnnotations.class));
+        Assert.assertTrue(set.contains(SampleBeanWithAnnotations.class));
 
     }
 }

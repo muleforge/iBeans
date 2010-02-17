@@ -9,25 +9,35 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.module.json.JsonData;
 import org.mule.tck.testmodels.fruit.Apple;
 
-public class JsonCustomTransformerWithMixinsTestCase extends AbstractIBeansTestCase
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class JsonCustomTransformerWithMixinsTestCase extends IBeansTestSupport
 {
     public static final String APPLE_JSON = "{\"washed\":false,\"bitten\":true}";
 
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         registerBeans(new JsonCustomTransformerWithMixins());
     }
 
-    public void testCustomTransform() throws Exception
+    @Test
+    public void customTransform() throws Exception
     {
         //THough the data is simple we are testing two things -
         //1) Mixins are recognised by the Transformer resolver
-        //2) that we succesfully mashal and marshal an object that is not annotated directly
+        //2) that we successfully marshal and marshal an object that is not annotated directly
         Apple apple = iBeansContext.transform(APPLE_JSON, Apple.class);
         assertNotNull(apple);
         assertFalse(apple.isWashed());

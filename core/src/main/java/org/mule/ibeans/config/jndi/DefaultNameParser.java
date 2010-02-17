@@ -9,10 +9,10 @@
  */
 package org.mule.ibeans.config.jndi;
 
-import javax.naming.NameParser;
-import javax.naming.Name;
-import javax.naming.NamingException;
 import javax.naming.CompositeName;
+import javax.naming.Name;
+import javax.naming.NameParser;
+import javax.naming.NamingException;
 
 /**
  * TODO

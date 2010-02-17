@@ -10,17 +10,22 @@
 package org.mule.ibeans;
 
 import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
+
+import java.net.UnknownHostException;
 
 import org.junit.Test;
 
-public class OptionalParamsTestCase extends AbstractIBeansTestCase
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+public class OptionalParamsTestCase extends IBeansTestSupport
 {
     @IntegrationBean
     private TestUriIBean test;
 
     @Test
-    public void testOptionalParams() throws Exception
+    public void optionalParams() throws Exception
     {
         String result = test.doSomethingOptional("x", "y");
         assertEquals("http://doesnotexist.bom?param1=x&param2=y", result);
@@ -30,15 +35,12 @@ public class OptionalParamsTestCase extends AbstractIBeansTestCase
 
         result = test.doSomethingOptional(null, "y");
         assertEquals("http://doesnotexist.bom?param2=y", result);
+    }
 
-        try
-        {
-            result = test.doSomethingElse("x", null);
-            fail("Null argument is not optional");
-        }
-        catch (IllegalArgumentException e)
-        {
-            //exprected
-        }
+    @Test(expected = IllegalArgumentException.class)
+    public void paramNull() throws UnknownHostException
+    {
+        test.doSomethingElse("x", null);
+        fail("Null argument is not optional");
     }
 }

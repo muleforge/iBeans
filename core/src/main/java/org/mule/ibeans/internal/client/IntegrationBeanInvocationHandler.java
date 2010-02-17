@@ -118,7 +118,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         defaultInterceptorList.add(new ProcessErrorsInterceptor());
 
         String logDirectory = System.getProperty(IBeansProperties.LOG_RESPONSES_DIR);
-        if(logDirectory!=null)
+        if (logDirectory != null)
         {
             defaultInterceptorList.add(new LogResponsesInterceptor(logDirectory));
         }
@@ -301,7 +301,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
                 errorCode = muleContext.getExpressionManager().evaluate(f.getErrorCodeExpr(), f.getEvaluator(),
                         message, false);
                 //if errorCode is non-numeric, return the http status code instead
-                if (errorCode!=null && !StringUtils.isNumeric(errorCode.toString()))
+                if (errorCode != null && !StringUtils.isNumeric(errorCode.toString()))
                 {
                     errorCode = null;
                 }

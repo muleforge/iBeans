@@ -11,14 +11,19 @@ package org.mule.ibeans;
 
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 
-public class ImplicitPropertiesInFactoryTestCase extends AbstractIBeansTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+public class ImplicitPropertiesInFactoryTestCase extends IBeansTestSupport
 {
     @IntegrationBean
     private TestImplicitPropertiesinFactoryIBean testIBean;
 
-    public void testGetHttpMethod() throws Exception
+    @Test
+    public void getHttpMethod() throws Exception
     {
         try
         {
@@ -26,11 +31,12 @@ public class ImplicitPropertiesInFactoryTestCase extends AbstractIBeansTestCase
         }
         catch (IllegalArgumentException e)
         {
+            //THis would only occur if the HTTP.MEthod was not set explicitly by iBeans
             assertEquals("HTTP Method not set", e.getMessage());
         }
         catch (CallException e)
         {
-            //expected
+            //expected, we can't actually connect to the service
         }
     }
 

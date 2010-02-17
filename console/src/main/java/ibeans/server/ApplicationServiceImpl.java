@@ -13,8 +13,6 @@ import org.mule.ibeans.internal.config.IBeansInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import javax.servlet.http.HttpSession;
-
 import ibeans.client.ApplicationService;
 import ibeans.client.model.AppInfo;
 

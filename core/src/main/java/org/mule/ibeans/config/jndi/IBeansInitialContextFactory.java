@@ -9,18 +9,16 @@
  */
 package org.mule.ibeans.config.jndi;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.net.URLClassLoader;
+import java.util.Map;
 
-import javax.naming.spi.InitialContextFactory;
 import javax.naming.Context;
 import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentHashMap;
 
 /**
  * TODO

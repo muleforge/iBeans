@@ -12,10 +12,10 @@ package org.mule.ibeans.internal.parsers;
 import org.mule.api.expression.ExpressionParser;
 import org.mule.config.annotations.expressions.Evaluator;
 import org.mule.expression.ExpressionConfig;
+import org.mule.expression.ExpressionConstants;
 import org.mule.expression.MessageHeaderExpressionEvaluator;
 import org.mule.expression.MessageHeadersExpressionEvaluator;
 import org.mule.expression.MessageHeadersListExpressionEvaluator;
-import org.mule.expression.ExpressionConstants;
 import org.mule.expression.transformers.ExpressionArgument;
 import org.mule.ibeans.api.application.params.ReceivedHeaders;
 

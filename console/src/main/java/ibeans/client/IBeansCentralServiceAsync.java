@@ -3,8 +3,6 @@ package ibeans.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import ibeans.client.model.Plugin;
 

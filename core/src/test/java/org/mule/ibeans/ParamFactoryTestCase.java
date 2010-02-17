@@ -12,14 +12,20 @@ package org.mule.ibeans;
 import org.mule.api.MuleMessage;
 import org.mule.api.transport.PropertyScope;
 import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 
-public class ParamFactoryTestCase extends AbstractIBeansTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+public class ParamFactoryTestCase extends IBeansTestSupport
 {
     @IntegrationBean
     private TestParamsFactoryIBean testIBean;
 
-    public void testUriParamsOnMethod() throws Exception
+    @Test
+    public void uriParamsOnMethod() throws Exception
     {
         testIBean.init("shhh".getBytes());
 
@@ -28,7 +34,8 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         assertEquals("The key is shhh for secret. Param2 is: 'shhh secret'", result);
     }
 
-    public void testParamsFieldOrdering() throws Exception
+    @Test
+    public void paramsFieldOrdering() throws Exception
     {
         testIBean.init("shhh".getBytes());
 
@@ -37,7 +44,8 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         assertEquals("The key is shhh for secret. Param2 is: 'shhh secret'", result);
     }
 
-    public void testHeaderParams() throws Exception
+    @Test
+    public void headerParams() throws Exception
     {
         testIBean.init("shhh".getBytes());
 
@@ -48,7 +56,8 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         assertEquals("shhh secret", result.getProperty("header2", PropertyScope.OUTBOUND));
     }
 
-    public void testHeaderParamsOnMethod() throws Exception
+    @Test
+    public void headerParamsOnMethod() throws Exception
     {
         testIBean.init("shhh".getBytes());
 
@@ -60,7 +69,8 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         assertEquals("echoHeader", result.getProperty("echoHeader", PropertyScope.OUTBOUND));
     }
 
-    public void testPropertyParamsOnMethod() throws Exception
+    @Test
+    public void propertyParamsOnMethod() throws Exception
     {
         testIBean.init("shhh".getBytes());
 
@@ -72,7 +82,8 @@ public class ParamFactoryTestCase extends AbstractIBeansTestCase
         assertEquals("olleh", result.getProperty("propHeader", PropertyScope.OUTBOUND));
     }
 
-    public void testHeadersWithNoParams() throws Exception
+    @Test
+    public void headersWithNoParams() throws Exception
     {
         testIBean.init("shhh".getBytes());
         MuleMessage result = testIBean.doTestHeadersWithNoParams();

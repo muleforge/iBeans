@@ -9,19 +9,26 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.module.json.JsonData;
 import org.mule.tck.testmodels.fruit.Apple;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 //TODO: IBEANS-141. No support for Mixin resolution yet
-public class JsonAutoTransformerWithMixinsTestCase extends AbstractIBeansTestCase
+public class JsonAutoTransformerWithMixinsTestCase extends IBeansTestSupport
 {
     public static final String APPLE_JSON = "{\"washed\":false,\"bitten\":true}";
 
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws Exception
     {
         //We don't register a custom transformer, instead we register a 'global' mapper that will
         //be used for Json transforms
@@ -31,11 +38,12 @@ public class JsonAutoTransformerWithMixinsTestCase extends AbstractIBeansTestCas
         registerBeans(mapper);
     }
 
+    @Test
     public void testCustomTransform() throws Exception
     {
-        //THough the data is simple we are testing two things -
+        //Though the data is simple we are testing two things -
         //1) Mixins are recognised by the Transformer resolver
-        //2) that we succesfully mashal and marshal an object that is not annotated directly
+        //2) that we successfully marshal and marshal an object that is not annotated directly
         Apple apple = iBeansContext.transform(APPLE_JSON, Apple.class);
         assertNotNull(apple);
         assertFalse(apple.isWashed());

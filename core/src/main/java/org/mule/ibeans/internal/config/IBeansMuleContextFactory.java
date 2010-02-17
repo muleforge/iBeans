@@ -9,11 +9,10 @@
  */
 package org.mule.ibeans.internal.config;
 
-import org.mule.context.DefaultMuleContextFactory;
 import org.mule.api.MuleContext;
-import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.context.MuleContextBuilder;
-import org.mule.ibeans.IBeansContext;
+import org.mule.api.lifecycle.InitialisationException;
+import org.mule.context.DefaultMuleContextFactory;
 import org.mule.ibeans.IBeansFactory;
 
 /**

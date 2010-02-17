@@ -11,15 +11,21 @@ package org.mule.ibeans.module.xml;
 
 import org.mule.ibeans.IBeansSupport;
 import org.mule.ibeans.module.xml.model.Item;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 
+import org.junit.Test;
 import org.w3c.dom.Document;
 
-public class JaxbAutoTransformerTestCase extends AbstractIBeansTestCase
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class JaxbAutoTransformerTestCase extends IBeansTestSupport
 {
     public static final String ITEM_XML = "<item><code>1234</code><description>Vacuum Cleaner</description><in-stock>true</in-stock></item>";
 
-    public void testCustomTransform() throws Exception
+    @Test
+    public void customTransform() throws Exception
     {
         Item item = iBeansContext.transform(ITEM_XML, Item.class);
         assertNotNull(item);

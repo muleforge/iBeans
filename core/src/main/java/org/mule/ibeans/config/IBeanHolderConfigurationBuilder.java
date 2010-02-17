@@ -11,7 +11,6 @@ package org.mule.ibeans.config;
 
 import org.mule.api.MuleContext;
 import org.mule.api.config.ConfigurationException;
-import org.mule.config.builders.AbstractConfigurationBuilder;
 import org.mule.ibeans.api.application.Transformer;
 import org.mule.ibeans.api.client.Call;
 import org.mule.ibeans.api.client.IBeanGroup;
@@ -22,12 +21,6 @@ import org.mule.util.scan.ClasspathScanner;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import java.net.URL;
 
 /**
  * A configuration builder that registers iBean objects on the classpath with the Mule registry.

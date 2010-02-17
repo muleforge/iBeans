@@ -9,7 +9,6 @@
  */
 package org.mule.ibeans.module.xml;
 
-import static org.mule.ibeans.IBeansSupport.select;
 import org.mule.ibeans.api.application.Transformer;
 import org.mule.ibeans.api.application.params.MessagePayload;
 import org.mule.ibeans.api.application.params.ReceivedHeaders;
@@ -26,6 +25,8 @@ import javax.xml.bind.JAXBException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import static org.mule.ibeans.IBeansSupport.select;
 
 /**
  * Explict JAXB transformers used to test that JAXB transforms can be intercepted

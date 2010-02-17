@@ -9,9 +9,9 @@
  */
 package ibeans.client.util;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.DOM;
 
 /**
  * TODO

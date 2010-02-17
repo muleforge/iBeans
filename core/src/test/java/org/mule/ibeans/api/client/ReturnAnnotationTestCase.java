@@ -9,19 +9,22 @@
  */
 package org.mule.ibeans.api.client;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 
 import java.net.URL;
 
-/**
- * TODO
- */
-public class ReturnAnnotationTestCase extends AbstractIBeansTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+public class ReturnAnnotationTestCase extends IBeansTestSupport
 {
     @IntegrationBean
     private SearchIBean search;
 
-    public void testReturnCallURL() throws Exception
+    @Test
+    public void returnCallURL() throws Exception
     {
         String result = search.searchAskAndReturnURLString("foo");
         assertNotNull(result);

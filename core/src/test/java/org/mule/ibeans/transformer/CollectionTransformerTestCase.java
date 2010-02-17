@@ -12,7 +12,7 @@ package org.mule.ibeans.transformer;
 import org.mule.api.transformer.DataType;
 import org.mule.ibeans.api.application.Transformer;
 import org.mule.ibeans.internal.AnnotatedTransformerProxy;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.transformer.types.CollectionDataType;
 import org.mule.transformer.types.DataTypeFactory;
 import org.mule.transport.http.ReleasingInputStream;
@@ -20,9 +20,16 @@ import org.mule.transport.http.ReleasingInputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public class CollectionTransformerTestCase extends AbstractIBeansTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+
+public class CollectionTransformerTestCase extends IBeansTestSupport
 {
-    public void testTransformerRegistration() throws Exception
+    @Test
+    public void transformerRegistration() throws Exception
     {
         Method m = getClass().getDeclaredMethod("dummy", ReleasingInputStream.class);
         Class c[] = new Class[1];
@@ -36,7 +43,8 @@ public class CollectionTransformerTestCase extends AbstractIBeansTestCase
         assertTrue("should be a CollectionDataType", trans.getReturnDataType() instanceof CollectionDataType);
     }
 
-    public void testTransformerRegistration2() throws Exception
+    @Test
+    public void transformerRegistration2() throws Exception
     {
         Method m = getClass().getDeclaredMethod("dummy2", ReleasingInputStream.class);
         Class c[] = new Class[1];
@@ -53,13 +61,13 @@ public class CollectionTransformerTestCase extends AbstractIBeansTestCase
 
 
     @Transformer
-    public ArrayList dummy(ReleasingInputStream in)
+    protected ArrayList dummy(ReleasingInputStream in)
     {
         return new ArrayList();
     }
 
     @Transformer
-    public ArrayList<String> dummy2(ReleasingInputStream in)
+    protected ArrayList<String> dummy2(ReleasingInputStream in)
     {
         return new ArrayList<String>();
     }

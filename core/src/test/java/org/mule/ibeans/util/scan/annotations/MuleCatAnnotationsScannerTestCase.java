@@ -14,28 +14,31 @@ import org.mule.util.scan.annotations.AnnotationTypeFilter;
 import org.mule.util.scan.annotations.AnnotationsScanner;
 import org.mule.util.scan.annotations.MetaAnnotationTypeFilter;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 import org.objectweb.asm.ClassReader;
 
-public class MuleCatAnnotationsScannerTestCase extends TestCase
+public class MuleCatAnnotationsScannerTestCase
 {
-    public void testScanAnnotationsWithFilter() throws Exception
+    @Test
+    public void scanAnnotationsWithFilter() throws Exception
     {
         ClassReader r = new ClassReader(SampleClassWithAnnotations.class.getName());
         AnnotationsScanner scanner = new AnnotationsScanner(new AnnotationTypeFilter(MultiMarker.class));
 
         r.accept(scanner, 0);
 
-        assertEquals(1, scanner.getAllAnnotations().size());
+        Assert.assertEquals(1, scanner.getAllAnnotations().size());
     }
 
-    public void testScanMetaAnnotations() throws Exception
+    @Test
+    public void scanMetaAnnotations() throws Exception
     {
         ClassReader r = new ClassReader(SampleBeanWithAnnotations.class.getName());
         AnnotationsScanner scanner = new AnnotationsScanner(new MetaAnnotationTypeFilter(Channel.class));
 
         r.accept(scanner, 0);
 
-        assertEquals(2, scanner.getMethodAnnotations().size());
+        Assert.assertEquals(2, scanner.getMethodAnnotations().size());
     }
 }

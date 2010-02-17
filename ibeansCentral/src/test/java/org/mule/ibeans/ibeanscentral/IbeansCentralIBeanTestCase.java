@@ -10,31 +10,41 @@
 
 package org.mule.ibeans.ibeanscentral;
 
+import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.ExternalPropsIBeansTestSupport;
 import org.mule.util.IOUtils;
 
 import java.io.InputStream;
 import java.util.List;
 
-public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+public class IbeansCentralIBeanTestCase extends ExternalPropsIBeansTestSupport
 {
     public static final String IBEANS_VERISON = "1.0-beta-8";
 
-    public static final String NOT_EXIST_VERISON = "1.0-beta-0";
+    public static final String NON_EXISTENT_VERISON = "1.0-beta-0";
 
     @IntegrationBean
     private IbeansCentralIBean ibeanscentral;
 
-    @Override
-    public void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         registerBeans(new IBeanCentralTransformers());
-        ibeanscentral.setCredentials("ibeansConsole", "!ibeans!");
+        ibeanscentral.setCredentials("ibeansconsole", "!ibeans!");
     }
 
-
-    public void testSearch() throws Exception
+    @Test
+    public void search() throws Exception
     {
         IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr");
         assertNotNull(result);
@@ -44,35 +54,39 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
         assertNull(ibeanscentral.getIBeanByShortName("xyz"));
     }
 
-    public void testSearchWithVersion() throws Exception
+    @Test
+    public void searchWithVersion() throws Exception
     {
         IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr", IBEANS_VERISON);
         assertNotNull(result);
         assertEquals("Flickr iBean", result.getName());
         assertEquals("flickr", result.getShortName());
 
-        assertNull(ibeanscentral.getIBeanByShortName("flickr", NOT_EXIST_VERISON));
+        assertNull(ibeanscentral.getIBeanByShortName("flickr", NON_EXISTENT_VERISON));
     }
 
     //Twitter s actually a group of iBeans, make sure we it gets indexed properly
-    public void testIndexingWithGroups() throws Exception
+    @Test
+    public void indexingWithGroups() throws Exception
     {
         IBeanInfo result = ibeanscentral.getIBeanByShortName("twitter", IBEANS_VERISON);
         assertNotNull(result);
         assertEquals("Twitter iBean", result.getName());
         assertEquals("twitter", result.getShortName());
 
-        assertNull(ibeanscentral.getIBeanByShortName("twitter", NOT_EXIST_VERISON));
+        assertNull(ibeanscentral.getIBeanByShortName("twitter", NON_EXISTENT_VERISON));
     }
 
-    public void testGetAll() throws Exception
+    @Test
+    public void getAll() throws Exception
     {
         List<IBeanInfo> results = ibeanscentral.getIBeans();
         assertNotNull(results);
         assertTrue(results.size() > 0);
     }
 
-    public void testGetAllWithVersion() throws Exception
+    @Test
+    public void getAllWithVersion() throws Exception
     {
         List<IBeanInfo> results = ibeanscentral.getIBeans(IBEANS_VERISON);
         assertNotNull(results);
@@ -81,7 +95,8 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
 
 
     //IBEANS-90
-    // public void testGetDownloadUrl() throws Exception
+    //@Test
+    // public void getDownloadUrl() throws Exception
     // {
     //     IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr");
     //     assertNotNull(result);
@@ -94,7 +109,8 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
     //      assertEquals("http://" + IbeansCentralIBean.HOST + ":" + IbeansCentralIBean.PORT + "/iBeansCentral/api/registry/Mule%20iBeans/flickr-ibean.jar?version=1.0-beta-6", url.toString());
     // }
 
-    public void testGetDownload() throws Exception
+    @Test
+    public void getDownload() throws Exception
     {
         IBeanInfo result = ibeanscentral.getIBeanByShortName("flickr");
         assertNotNull(result);
@@ -107,7 +123,8 @@ public class IbeansCentralIBeanTestCase extends AbstractIBeansTestCase
         assertTrue(bytes.length > 1000);
     }
 
-    public void testVerify() throws Exception
+    @Test
+    public void verify() throws Exception
     {
         assertFalse(ibeanscentral.verifyCredentials("foo123", "dffddfeer"));
         assertTrue(ibeanscentral.verifyCredentials("ibeansConsole", "!ibeans!"));

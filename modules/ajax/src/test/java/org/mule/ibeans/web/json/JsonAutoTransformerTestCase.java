@@ -9,13 +9,21 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.ibeans.web.json.model.Item;
 import org.mule.module.json.JsonData;
 
-public class JsonAutoTransformerTestCase extends AbstractIBeansTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class JsonAutoTransformerTestCase extends IBeansTestSupport
 {
     public static final String ITEM_JSON = "{\"code\":\"1234\",\"description\":\"Vacuum Cleaner\",\"in-stock\":true}";
+
+    @Test
     public void testCustomTransform() throws Exception
     {
         Item item = iBeansContext.transform(ITEM_JSON, Item.class);

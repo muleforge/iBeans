@@ -12,9 +12,9 @@ package org.mule.ibeans.web.jabsorb;
 import org.mule.util.ClassUtils;
 
 import org.jabsorb.serializer.AbstractSerializer;
-import org.jabsorb.serializer.SerializerState;
 import org.jabsorb.serializer.MarshallException;
 import org.jabsorb.serializer.ObjectMatch;
+import org.jabsorb.serializer.SerializerState;
 import org.jabsorb.serializer.UnmarshallException;
 
 /**

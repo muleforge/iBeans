@@ -9,15 +9,15 @@
  */
 package ibeans.client;
 
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.event.TabPanelEvent;
 import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
-import com.extjs.gxt.ui.client.event.Events;
-import com.extjs.gxt.ui.client.event.TabPanelEvent;
-import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.google.gwt.user.client.History;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO

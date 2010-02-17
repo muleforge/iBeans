@@ -4,17 +4,7 @@ import org.codehaus.groovy.tools.shell.util.ANSI.Renderer as AnsiRenderer
 
 import jline.History
 import jline.Terminal
-import jline.WindowsTerminal
 import org.codehaus.groovy.runtime.StackTraceUtils
-import org.codehaus.groovy.tools.shell.BufferManager
-import org.codehaus.groovy.tools.shell.ExitNotification
-import org.codehaus.groovy.tools.shell.IO
-import org.codehaus.groovy.tools.shell.InteractiveShellRunner
-import org.codehaus.groovy.tools.shell.Interpreter
-import org.codehaus.groovy.tools.shell.ParseCode
-import org.codehaus.groovy.tools.shell.Parser
-import org.codehaus.groovy.tools.shell.Shell
-import org.codehaus.groovy.tools.shell.util.ANSI
 import org.codehaus.groovy.tools.shell.util.MessageSource
 import org.codehaus.groovy.tools.shell.util.Preferences
 import org.codehaus.groovy.tools.shell.util.XmlCommandRegistrar

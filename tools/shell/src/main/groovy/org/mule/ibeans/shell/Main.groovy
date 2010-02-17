@@ -4,7 +4,6 @@ import org.codehaus.groovy.tools.shell.Command
 import org.codehaus.groovy.tools.shell.IBeansGroovysh
 import org.codehaus.groovy.tools.shell.IO
 import org.codehaus.groovy.tools.shell.IO.Verbosity
-import org.codehaus.groovy.tools.shell.Main
 import org.codehaus.groovy.tools.shell.util.HelpFormatter
 import org.codehaus.groovy.tools.shell.util.Logger
 import org.codehaus.groovy.tools.shell.util.MessageSource

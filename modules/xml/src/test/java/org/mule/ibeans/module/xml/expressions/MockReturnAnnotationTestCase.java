@@ -11,6 +11,7 @@ package org.mule.ibeans.module.xml.expressions;
 
 import org.mule.ibeans.api.client.MockIntegrationBean;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -29,12 +30,6 @@ public class MockReturnAnnotationTestCase extends ReturnAnnotationTestCase
         return test;
     }
 
-    @Override
-    protected void doSetUp() throws Exception
-    {
-        super.doSetUp();
-
-    }
 
     @Test
     public void testCallWithReturnAnnotation() throws Exception
@@ -42,7 +37,7 @@ public class MockReturnAnnotationTestCase extends ReturnAnnotationTestCase
         Mockito.when(test.getSomeValue()).thenAnswer(withXmlData("test-return-data.xml", test));
 
         String result = test.getSomeValue();
-        assertEquals("baz", result);
+        Assert.assertEquals("baz", result);
     }
 
 }

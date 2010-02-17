@@ -31,6 +31,7 @@ import org.mule.config.ExceptionHelper;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.context.notification.CustomNotification;
 import org.mule.context.notification.NotificationException;
+import org.mule.ibeans.channels.MimeTypes;
 import org.mule.ibeans.config.ChannelConfigBuilder;
 import org.mule.ibeans.i18n.IBeansMessages;
 import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
@@ -47,7 +48,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Defines the client API that can be used from Java, JSPs or TestCases (see {@link org.mule.ibeans.test.AbstractIBeansTestCase}).
+ * Defines the client API that can be used from Java, JSPs or TestCases (see {@link org.mule.ibeans.test.IBeansTestSupport}).
  * For application development the Mule iBeans annotations are usually sufficient. This API does offer some additional
  * functionality such as on demand transforms using the {@link #transform(Object, Class)} method and the ability to publish
  * and subscribe notifications using {@link #publishNotification(org.mule.api.context.notification.ServerNotification)} and
@@ -675,7 +676,15 @@ public final class IBeansContext
      */
     public <T>T transform(Object source, DataType<T> result) throws TransformerException
     {
-        DataType sourceType = new DataTypeFactory().createFromObject(source);
+        DataType sourceType;
+        if(source instanceof MuleMessage)
+        {
+            sourceType = new DataTypeFactory().createFromObject(source);
+        }
+        else
+        {
+            sourceType = new DataTypeFactory().create(source.getClass(), MimeTypes.ANY);
+        }
 
         Class sourceClass = source.getClass();
         if (source instanceof MuleMessage)

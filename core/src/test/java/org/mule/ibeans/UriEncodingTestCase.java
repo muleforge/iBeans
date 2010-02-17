@@ -10,14 +10,19 @@
 package org.mule.ibeans;
 
 import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 
-public class UriEncodingTestCase extends AbstractIBeansTestCase
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+public class UriEncodingTestCase extends IBeansTestSupport
 {
     @IntegrationBean
     private TestUriIBean test;
 
-    public void testEncoding1() throws Exception
+    @Test
+    public void encoding1() throws Exception
     {
         String param = "This is a value with spaces";
         String result = test.doSomething(param);
@@ -25,7 +30,8 @@ public class UriEncodingTestCase extends AbstractIBeansTestCase
         assertEquals("http://" + TestUriIBean.DO_SOMETHING_URI + "This+is+a+value+with+spaces", result);
     }
 
-    public void testEncoding2() throws Exception
+    @Test
+    public void encoding2() throws Exception
     {
         String param = "This%20is%20a%20value%20with%20spaces";
         String result = test.doSomething(param);

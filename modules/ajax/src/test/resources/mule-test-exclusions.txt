@@ -1,2 +1,0 @@
-#IBEANS-141. No support for Mixin resolution yet
-org.mule.ibeans.web.json.JsonAutoTransformerWithMixinsTestCase

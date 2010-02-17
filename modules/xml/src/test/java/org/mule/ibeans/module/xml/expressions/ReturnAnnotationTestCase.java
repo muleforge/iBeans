@@ -9,19 +9,25 @@
  */
 package org.mule.ibeans.module.xml.expressions;
 
+import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.ibeans.transformers.PrimitveTransformers;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.w3c.dom.Document;
 
-public class ReturnAnnotationTestCase extends AbstractIBeansTestCase
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class ReturnAnnotationTestCase extends IBeansTestSupport
 {
     @IntegrationBean
     private ReturnExpressionsIBean test;
 
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         registerBeans(new PrimitveTransformers());
     }
@@ -31,25 +37,29 @@ public class ReturnAnnotationTestCase extends AbstractIBeansTestCase
         return test;
     }
 
-    public void testBooleanReturn() throws Exception
+    @Test
+    public void booleanReturn() throws Exception
     {
         boolean result = getTestIBean().testBooleanReturn();
         assertTrue(result);
     }
 
-    public void testStringReturn() throws Exception
+    @Test
+    public void stringReturn() throws Exception
     {
         String result = getTestIBean().testStringReturn();
         assertEquals("true", result);
     }
 
-    public void testNumberReturn() throws Exception
+    @Test
+    public void numberReturn() throws Exception
     {
         Integer result = getTestIBean().testNumberReturn();
         assertEquals(new Integer(14), result);
     }
 
-    public void testDomXmlReturn() throws Exception
+    @Test
+    public void domXmlReturn() throws Exception
     {
         Document result = getTestIBean().testDomReturn();
         assertEquals("bar", result.getDocumentElement().getNodeName());

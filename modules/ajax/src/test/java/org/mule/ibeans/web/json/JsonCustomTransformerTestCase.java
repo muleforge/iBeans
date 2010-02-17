@@ -9,9 +9,9 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleMessage;
-import org.mule.ibeans.test.AbstractIBeansTestCase;
+import org.mule.ibeans.IBeansException;
+import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.ibeans.web.json.model.EmailAddress;
 import org.mule.ibeans.web.json.model.Item;
 import org.mule.ibeans.web.json.model.Person;
@@ -24,19 +24,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+public class JsonCustomTransformerTestCase extends IBeansTestSupport
 {
     public static final String PERSON_JSON = "{\"emailAddresses\":[{\"type\":\"home\",\"address\":\"john.doe@gmail.com\"},{\"type\":\"work\",\"address\":\"jdoe@bigco.com\"}],\"name\":\"John Doe\",\"dob\":\"01/01/1970\"}";
     public static final String EMAIL_JSON = "{\"type\":\"home\",\"address\":\"john.doe@gmail.com\"}";
     public static final String ITEMS_JSON = "[{\"code\":\"1234\",\"description\":\"Vacuum Cleaner\",\"in-stock\":true},{\"code\":\"1234-1\",\"description\":\"Cleaner Bag\",\"in-stock\":false}]";
 
-    @Override
-    protected void doSetUp() throws Exception
+    @Before
+    public void init() throws IBeansException
     {
         registerBeans(new JsonCustomTransformer());
     }
 
-    public void testCustomTransform() throws Exception
+    @Test
+    public void customTransform() throws Exception
     {
         Person person = iBeansContext.transform(PERSON_JSON, Person.class);
         assertNotNull(person);
@@ -49,19 +56,21 @@ public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
         assertEquals("jdoe@bigco.com", person.getEmailAddresses().get(1).getAddress());
     }
 
-    public void testCustomTransformWithMuleMessage() throws Exception
+    @Test
+    public void customTransformWithMuleMessage() throws Exception
     {
         ByteArrayInputStream in = new ByteArrayInputStream(EMAIL_JSON.getBytes());
         Map props = new HashMap();
         props.put("foo", "fooValue");
-        MuleMessage msg = new DefaultMuleMessage(in, props, muleContext);
+        MuleMessage msg = createMuleMessage(in, props);
         EmailAddress emailAddress = iBeansContext.transform(msg, new SimpleDataType<EmailAddress>(EmailAddress.class));
         assertNotNull(emailAddress);
         assertEquals("home", emailAddress.getType());
         assertEquals("john.doe@gmail.com", emailAddress.getAddress());
     }
 
-    public void testCustomListTransform() throws Exception
+    @Test
+    public void customListTransform() throws Exception
     {
         List<Item> items = iBeansContext.transform(ITEMS_JSON, new CollectionDataType<List<Item>>(List.class, Item.class));
         assertNotNull(items);
@@ -78,7 +87,8 @@ public class JsonCustomTransformerTestCase extends AbstractIBeansTestCase
         assertEquals(2, people.size());
     }
 
-    public void testDifferentListTransformer() throws Exception
+    @Test
+    public void differentListTransformer() throws Exception
     {
         //Test that we can resolve other collections
 
