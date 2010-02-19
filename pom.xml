@@ -365,12 +365,17 @@
                             <rules>
                                 <requireMavenVersion>
                                     <!-- minimum version is 2.0.8, higher versions allowed -->
-                                    <version>[2.0.8,)</version>
+                                    <version>[2.0.9,)</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <!-- Java version must be 1.5 or higher, JDK6 not allowed -->
-                                    <version>[1.5.0,1.6.0)</version>
+                                    <version>[1.5.0,)</version>
                                 </requireJavaVersion>
+                                <requireProperty>
+                                  <property>ibeans.test.properties</property>
+                                  <message>You must call maven with: "mvn [phase] -Dibeans.test.properties=[YOURFILE]" where ibeans.test.properties is a valid path to the location of your passwords file for the secure web services integration tests.  A example SAMPLE.ibeans-credentials.properties file is provided at the root of this project.</message>
+                                  <regex>^.*\.properties</regex>
+                                  <regexMessage>ibeans.test.properties is not a properties file. ibeans.test.properties must be a valid path to a properties file containing usernames and passwords.</regexMessage>
+                                </requireProperty>
                                 <requirePluginVersions>
                                     <message>Best Practice is to always define plugin versions!</message>
                                     <banLatest>true</banLatest>
