@@ -21,13 +21,20 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * A registry facade for a Jndi Context.  JNDI registries in Mule will always be treated as read-only. Since Mule is a
  * runtime container it would be bad practice to create object in JNDI stores.
  */
 public class JndiRegistry extends AbstractRegistry
 {
-
+    /**
+     * logger used by this class
+     */
+    protected transient final Log logger = LogFactory.getLog(JndiRegistry.class);
+    
     private String contextLookup;
 
     protected Context context;
@@ -78,6 +85,11 @@ public class JndiRegistry extends AbstractRegistry
             logger.debug("Object '" + key + "' not found in Registry: " + getRegistryId());
             return null;
         }
+    }
+
+    public <T> Map<String, T> lookupByType(Class<T> tClass)
+    {
+        throw new UnsupportedOperationException("lookupByType");
     }
 
     public Collection lookupObjects(Class type)
