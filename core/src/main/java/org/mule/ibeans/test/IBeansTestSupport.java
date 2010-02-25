@@ -70,7 +70,7 @@ public abstract class IBeansTestSupport
     public static final String[] IGNORED_DOT_MULE_DIRS = new String[]{"transaction-log"};
 
     /** the underlying MuleContext for this iBeans test, typically developers will not need to use this */
-    private MuleContext muleContext;
+    protected MuleContext muleContext;
 
     /**
      * The iBeans context available for this test *
