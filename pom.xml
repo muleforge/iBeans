@@ -124,22 +124,22 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        <repository>
-            <id>apache-snapshots</id>
-            <name>Apache Snapshots</name>
-            <url>http://people.apache.org/maven-snapshot-repository</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>apache-incubating</id>
-            <name>Apache Incubating Repository</name>
-            <url>http://people.apache.org/repo/m2-incubating-repository</url>
-        </repository>
+        <!--<repository>-->
+            <!--<id>apache-snapshots</id>-->
+            <!--<name>Apache Snapshots</name>-->
+            <!--<url>http://people.apache.org/maven-snapshot-repository</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>false</enabled>-->
+            <!--</releases>-->
+        <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>apache-incubating</id>-->
+            <!--<name>Apache Incubating Repository</name>-->
+            <!--<url>http://people.apache.org/repo/m2-incubating-repository</url>-->
+        <!--</repository>-->
 
         <repository>
             <id>mule-deps</id>
@@ -370,12 +370,12 @@
                                 <requireJavaVersion>
                                     <version>[1.5.0,)</version>
                                 </requireJavaVersion>
-                                <requireProperty>
-                                  <property>ibeans.test.properties</property>
-                                  <message>You must call maven with: "mvn [phase] -Dibeans.test.properties=[YOURFILE]" where ibeans.test.properties is a valid path to the location of your passwords file for the secure web services integration tests.  A example SAMPLE.ibeans-credentials.properties file is provided at the root of this project.</message>
-                                  <regex>^.*\.properties</regex>
-                                  <regexMessage>ibeans.test.properties is not a properties file. ibeans.test.properties must be a valid path to a properties file containing usernames and passwords.</regexMessage>
-                                </requireProperty>
+                                <requireFilesExist>
+                                    <files>
+                                        <file>${user.home}/.ibeans-credentials.properties</file>
+                                    </files>
+                                    <message>You must have the '.ibeans-credentials.properties' file in your home directory. This is the location of your passwords file for the secure web services integration tests.  A example SAMPLE.ibeans-credentials.properties file is provided at the root of this project.</message>
+                                </requireFilesExist>
                                 <requirePluginVersions>
                                     <message>Best Practice is to always define plugin versions!</message>
                                     <banLatest>true</banLatest>
