@@ -127,6 +127,7 @@ public class IbeansCentralIBeanTestCase extends ExternalPropsIBeansTestSupport
     public void verify() throws Exception
     {
         assertFalse(ibeanscentral.verifyCredentials("foo123", "dffddfeer"));
-        assertTrue(ibeanscentral.verifyCredentials("ibeansConsole", "!ibeans!"));
+
+        assertTrue(ibeanscentral.verifyCredentials("${ibeans.console.username}", "${ibeans.console.password}"));
     }
 }

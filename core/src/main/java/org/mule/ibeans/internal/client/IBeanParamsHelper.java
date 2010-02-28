@@ -665,7 +665,7 @@ public class IBeanParamsHelper
 
     protected void addPayloadParam(PayloadParam annotation, Object arg, Method method, Map<String, Object> params, boolean optional)
     {
-        addParams(annotation, arg, annotation.value(), method, params, optional);
+        addParams(annotation, parsePropertyPlaceholderValues(arg), annotation.value(), method, params, optional);
     }
 
     protected void addHeaderParam(HeaderParam annotation, Object arg, Method method, Map<String, Object> params, boolean optional)
