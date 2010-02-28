@@ -425,12 +425,6 @@
                     <excludes>
                         <exclude implementation="java.lang.String">**/Abstract*.*</exclude>
                     </excludes>
-                    <systemProperties>
-                        <property>
-                            <name>ibeans.test.properties</name>
-                            <value>${ibeans.test.properties}</value>
-                        </property>
-                    </systemProperties>
                 </configuration>
             </plugin>
 

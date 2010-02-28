@@ -49,16 +49,12 @@ public class ExternalPropsIBeansTestSupport extends IBeansTestSupport
     @Override
     protected void addStartUpProperties(Properties properties)
     {
-        String path = System.getProperty(IBEANS_TEST_PROPERTIES);
-        if (path == null)
-        {
-            String variableName = IBEANS_TEST_PROPERTIES.toUpperCase().replace(".", "_");
-            path = System.getenv(variableName);
-        }
+        String path = System.getProperty(IBEANS_TEST_PROPERTIES, null);
         if (path == null)
         {
             path = System.getProperty("user.home") + File.separator + DEFAULT_PROPERTIES_FILENAME;
         }
+
 
         File f = new File(path);
         if (!f.exists())
