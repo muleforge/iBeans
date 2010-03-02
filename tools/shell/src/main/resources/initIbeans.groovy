@@ -10,5 +10,5 @@ Shell shell = (Shell) binding.getVariable("shell")
 assert shell != null
 
 //No support for Guice right now
-muleContext = new IBeansMuleContextFactory().createContext([new DefaultsConfigurationBuilder(), new IBeanHolderConfigurationBuilder(shell.interp.classLoader)], new IBeansMuleContextBuilder())
+muleContext = new IBeansMuleContextFactory().createMuleContext([new DefaultsConfigurationBuilder(), new IBeanHolderConfigurationBuilder(shell.interp.classLoader)], new IBeansMuleContextBuilder())
 ibeans = muleContext.getRegistry().lookupObject(IBeansContext.class)
