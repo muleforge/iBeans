@@ -180,16 +180,18 @@
 
     <pluginRepositories>
         <pluginRepository>
+            <id>muleforge</id>
+            <url>http://repository.muleforge.org</url>
+            <name>MuleForge Repository</name>
+        </pluginRepository>
+        
+        <!-- this is needed to download dependencies of plugins from our custom repo -->
+        <pluginRepository>
             <id>mule-deps</id>
             <name>Mule Dependencies</name>
             <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
         </pluginRepository>
-        <!-- this is needed to download dependencies of plugins from our custom repo -->
-        <pluginRepository>
-            <id>mule-plugins-deps</id>
-            <name>Mule Plugin Dependencies</name>
-            <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
-        </pluginRepository>
+
     </pluginRepositories>
 
     <build>
@@ -614,10 +616,10 @@
                             <pattern>org.jaxen</pattern>
                             <shadedPattern>org.mule.ibeans.org.jaxen</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>com.thoughtworks</pattern>
-                            <shadedPattern>org.mule.ibeans.com.thoughtworks</shadedPattern>
-                        </relocation>
+                        <!--<relocation>-->
+                            <!--<pattern>com.thoughtworks</pattern>-->
+                            <!--<shadedPattern>org.mule.ibeans.com.thoughtworks</shadedPattern>-->
+                        <!--</relocation>-->
                         <relocation>
                             <pattern>com.ctc</pattern>
                             <shadedPattern>org.mule.ibeans.com.ctc</shadedPattern>
