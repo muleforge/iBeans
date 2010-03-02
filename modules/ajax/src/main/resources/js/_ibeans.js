@@ -132,7 +132,7 @@ function IBeansClient()
         console.debug("RPC: setting replyTo: " + replyTo);
 
         var message = new Object();
-        message.payload = data;
+        message.data = data;
         message.replyTo = replyTo;
         found = false;
 
