@@ -37,6 +37,12 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>${user}</name>
+        </developer>
+    </developers>
+
     <build>
         <extensions>
             <extension>

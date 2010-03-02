@@ -30,32 +30,30 @@ existingProjectDir.mkdirs()
 /*
  * run Maven archetype
  */
-def cmdline = "-o "
+def cmdline = " archetype:generate -B -DarchetypeGroupId=org.mule.ibeans"
 
 if (project.properties.archetype == null)
 {
   fail("Specify the archetype to be invoked via a property named 'archetype' in the config section of the groovy-maven-plugin that invokes this script")
 }
-def archetype = project.properties.archetype
-if (archetype.endsWith(":") == false)
-{
-  archetype += ":"
-}
-cmdline += archetype + project.version + ":create "
 
 if (project.properties.archetypeParams != null)
 {
   cmdline += project.properties.archetypeParams
 }
-cmdline += " -DibeansVersion=" + project.version
+cmdline += " -DarchetypeArtifactId=" + project.properties.archetype
+cmdline += " -DarchetypeVersion=" + project.properties.archetypeVersion
+cmdline += " -DgroupId=org.mule.ibeans"
+cmdline += " -Dversion=" + project.version
+cmdline += " -Dpackage=org.mule.ibeans"
+cmdline += " -DartifactId=" + project.properties.outputDir
 cmdline += " -Dinteractive=false"
 cmdline += " -o" //run offline to speed things up a bit
 cmdline += " -X" //debug
 runMaven(cmdline, buildDir)
 
 // now that the source is generated, compile it using Maven
-// Also generate project files since we'll include this generated code in the distro as template projects
-cmdline = "test eclipse:eclipse clean"
+cmdline = "test clean"
 runMaven(cmdline, existingProjectDir)
 
 def runMaven(String commandline, File directory)

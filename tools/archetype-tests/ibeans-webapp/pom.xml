@@ -15,11 +15,12 @@
     <!-- the following properties are needed by the groovy script that we inherit from our parent pom -->
     <properties>
         <!-- this is the name of the directory that's crated by the archetype -->
-        <outputDir>template</outputDir>
+        <outputDir>Template</outputDir>
         <!-- this is the groupId:artifactId of the archetype that we want to invoke -->
-        <archetype>org.mule.ibeans:ibeans-webapp-archetype</archetype>
+        <archetype>ibeans-webapp-archetype</archetype>
+        <archetypeVersion>${version}</archetypeVersion>        
         <!-- this string will be appended to the archetype's commandline -->
-        <archetypeParams>-DartifactId=template</archetypeParams>
+        <archetypeParams></archetypeParams>
     </properties>
 
     <dependencies>
