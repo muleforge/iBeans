@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    #set( $symbol_pound = '#' )
+    #set( $symbol_dollar = '$' )
+    #set( $symbol_escape = '\' )
+    #if(! $ibeansVersion)
+    #set($ibeansVersion = "1.0-beta-10-SNAPSHOT")
+    #end
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>mule-ibeans</artifactId>
+        <version>${ibeansVersion}</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <packaging>war</packaging>
+    <name>${artifactId} Webapp</name>
+    <version>${version}</version>
+    <description>This pom file allows iBeans to be embedded in Tomcat and run from MAven</description>
+
+    <properties>
+        <webappName>${artifactId}</webappName>
+        <ibeansVersion>${ibeansVersion}</ibeansVersion>
+    </properties>
+
+    <build>
+        <defaultGoal>tomcat:run</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>${symbol_dollar}{webappName}</warName>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
+                <configuration>
+                    <path>/</path>
+                    <port>8888</port>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-all</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-servlet_2.5_spec</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+</project>
