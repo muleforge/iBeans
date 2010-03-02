@@ -179,6 +179,7 @@
                 <include>org.mule.ibeans.examples:notifications</include>
                 <include>org.mule.ibeans.examples:web-examples</include>
                 <include>org.mule.ibeans.examples:geomail</include>
+                <include>org.mule.ibeans.examples:code-examples</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
         </dependencySet>
