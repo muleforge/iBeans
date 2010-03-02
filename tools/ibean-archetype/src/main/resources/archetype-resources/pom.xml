@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+#set($artifactIdLower = "${artifactId.toLowerCase()}")
+#if(! $ibeansVersion)
+#set($ibeansVersion = "1.0-beta-10-SNAPSHOT")
+#end
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>ibeans-contrib</artifactId>
+        <version>${ibeansVersion}</version>
+    </parent>
+
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>${groupId}</groupId>
+   <artifactId>${artifactIdLower}-ibean</artifactId>
+   <packaging>jar</packaging>
+   <name>${artifactId} IBean</name>
+   <version>${version}</version>
+   <description>TODO</description>
+
+   <properties>
+        <ibeansVersion>${ibeansVersion}</ibeansVersion>
+        <!-- Tools properties -->
+        <eclipsePluginVersion>2.5</eclipsePluginVersion>
+        <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
+        <jdk6Name>jdk6</jdk6Name>
+        <jdk.version>1.6</jdk.version>
+    </properties>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>ISO-8859-1</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+   <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-http</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-feeds</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-jms-client</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-email</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-xml</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-guice</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-ajax</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-scheduler</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-rest</artifactId>
+            <version>${symbol_dollar}{ibeansVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>ibeans-contrib-releases</id>
+            <name>ibeans Contrib Release Repository</name>
+            <url>http://repository.ibeans-contrib.muleforge.org</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ibeans-contrib-snapshots</id>
+            <name>ibeans Contrib Snapshots Repository</name>
+            <url>http://snapshots.repository.ibeans-contrib.muleforge.org</url>
+            <snapshots>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
