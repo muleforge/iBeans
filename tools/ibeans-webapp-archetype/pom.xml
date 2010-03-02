@@ -8,11 +8,11 @@
         <version>1.0-beta-10-SNAPSHOT</version>
     </parent>
     <groupId>org.mule.ibeans</groupId>
-    <packaging>maven-plugin</packaging>
+    <packaging>jar</packaging>
     <name>Mule Example Archetype</name>
     <!-- Do not specify group here, otherwise deployment will break -->
     <artifactId>ibeans-webapp-archetype</artifactId>
-    <description>Creates an iBeans-enabled webapp project with an AJAX Echo example to get you going.</description>
+    <description>Creates an iBeans-enabled web application project with an AJAX Echo example to get you going.</description>
 
     <dependencies>
         <dependency>

@@ -8,12 +8,12 @@
         <version>1.0-beta-10-SNAPSHOT</version>
     </parent>
     <groupId>org.mule.ibeans</groupId>
-    <packaging>maven-plugin</packaging>
+    <packaging>jar</packaging>
     <name>IBean Archetype</name>
     <!-- Do not specify group here, otherwise deployment will break -->
     <artifactId>ibean-archetype</artifactId>
     <description>Creates an empty iBean maven project that is used for creating a new iBean that talks to an external service i.e. Twitter, Amazon S3, Flickr). The project will define the dependencies and documented sample
-        code for the ibean iteslf and a a working testcase.</description>
+        code for the ibean itself and a a working testcase.</description>
 
     <dependencies>
         <dependency>
