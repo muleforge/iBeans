@@ -32,12 +32,12 @@
     <!--</activation>-->
 
     <!--TODO re-enable once the mvn is on the path of the build user on MuleForge -->
-    <build>
+    <!--<build>
         <pluginManagement>
             <plugins>
-                <!--
+                <!-
                 This is the configuration for running the archetype tests. Child modules
-                only need to declare the groovy-maven-plugin to activate this plugin-->
+                only need to declare the groovy-maven-plugin to activate this plugin->
 
                 <plugin>
                     <groupId>org.codehaus.mojo.groovy</groupId>
@@ -63,6 +63,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>
+    </build>-->
 </project>
 
