@@ -8,11 +8,6 @@
     #if(! $ibeansVersion)
     #set($ibeansVersion = "1.0-beta-10-SNAPSHOT")
     #end
-    <parent>
-        <groupId>org.mule.ibeans</groupId>
-        <artifactId>mule-ibeans</artifactId>
-        <version>${ibeansVersion}</version>
-    </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.ibeans</groupId>
@@ -20,7 +15,7 @@
     <packaging>war</packaging>
     <name>${artifactId} Webapp</name>
     <version>${version}</version>
-    <description>This pom file allows iBeans to be embedded in Tomcat and run from MAven</description>
+    <description>This pom file allows iBeans to be embedded in Tomcat and run from Maven</description>
 
     <properties>
         <webappName>${artifactId}</webappName>
@@ -48,6 +43,15 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>ISO-8859-1</encoding>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

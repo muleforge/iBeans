@@ -7,12 +7,7 @@
 #if(! $ibeansVersion)
 #set($ibeansVersion = "1.0-beta-10-SNAPSHOT")
 #end
-    <parent>
-        <groupId>org.mule.ibeans</groupId>
-        <artifactId>ibeans-contrib</artifactId>
-        <version>${ibeansVersion}</version>
-    </parent>
-
+    
    <modelVersion>4.0.0</modelVersion>
    <groupId>${groupId}</groupId>
    <artifactId>${artifactIdLower}-ibean</artifactId>
@@ -38,13 +33,6 @@
     </licenses>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-2</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -53,6 +41,35 @@
                     <source>1.6</source>
                     <target>1.6</target>
                     <encoding>ISO-8859-1</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <index>false</index>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+                        </manifest>
+                        <!-- Custom Entries -->
+                        <manifestEntries>
+                            <Specification-Title>${project.artifactId}</Specification-Title>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Vendor-Url>${project.organization.url}</Implementation-Vendor-Url>
+                            <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                            <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                            <Product-Description>${project.description}</Product-Description>
+                            <!-- The properties can be set as well -->
+                            <!--<Implementation-Url>${project.url}</Implementation-Url>-->
+                            <!--<Bug-Tracker>${project.issueManagement.url}</Bug-Tracker>-->
+                            <!--<License-Url>${licenseUrl}</License-Url>-->
+                            <!--<License-Title>${licenseId}</License-Title>-->
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
