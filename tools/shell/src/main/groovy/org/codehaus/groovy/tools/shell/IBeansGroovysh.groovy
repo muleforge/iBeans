@@ -69,7 +69,7 @@ class IBeansGroovysh extends Shell
   {
     return {shell ->
       def r = new XmlCommandRegistrar(shell, classLoader)
-      r.register(getClass().getResource('commands.xml'))
+      r.register(getClass().getResource('ibeans-commands.xml'))
     }
   }
 
@@ -311,7 +311,7 @@ class IBeansGroovysh extends Shell
     if (showLastResult)
     {
       // Need to use String.valueOf() here to avoid icky exceptions causes by GString coercion
-      io.out.println("@|bold ===>| ${String.valueOf(result)}")
+      io.out.println("@|bold ===>|@ ${String.valueOf(result)}")
     }
   }
 

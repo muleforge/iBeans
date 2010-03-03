@@ -17,7 +17,8 @@ public class RegisterObjectCommand extends CommandSupport
 
   Object execute(final List args)
   {
-    assert args.size() > 0
+    if(args.size() == 0)
+      fail("At least one argument is required")
     Object object = args[0]
     String id = (String) (args[1] != null ? args[1] : "_bean#" + object.hashCode())
     MuleContext mc = (MuleContext) getBinding().getVariable("muleContext")

@@ -22,7 +22,7 @@ public class CreateIBeanCommand extends CommandSupport
     String alias = (String) (2 == args.size() ? args[1] : null)
     if (getBinding().getVariables().containsKey(id) && alias == null)
     {
-      io.err.println('@|red ERROR:| There is already a bean registered with name: ' + id + '. Specify an alias to create a new instance.')
+      io.err.println('@|red ERROR:|@ There is already a bean registered with name: ' + id + '. Specify an alias to create a new instance.')
       return ""
     }
     MuleContext mc = (MuleContext) getBinding().getVariable("muleContext")
@@ -48,8 +48,7 @@ public class CreateIBeanCommand extends CommandSupport
       }
       if (ibeanHolder == null)
       {
-        io.err.println('@|red ERROR:| There is no iBean with id: ' + id + ' available in the container. Use the \'list\' command to see what you have running.')
-        return ""
+        fail('There is no iBean with id: ' + id + ' available in the container. Use the \'list\' command to see what you have running.');
       }
     }
     name = (alias != null ? alias : name)

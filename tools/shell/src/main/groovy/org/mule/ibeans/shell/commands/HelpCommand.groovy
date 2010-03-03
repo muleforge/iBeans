@@ -89,7 +89,7 @@ extends CommandSupport
     }
 
     io.out.println()
-    io.out.println("usage: @|bold ${name}| $usage") // TODO: i18n
+    io.out.println("usage: @|bold ${name}|@ $usage") // TODO: i18n
     io.out.println()
     if (command)
     {
@@ -144,12 +144,12 @@ extends CommandSupport
 
       def d = command.description
 
-      io.out.println("  @|bold ${n}|  (@|bold ${s}|) $d")
+      io.out.println("  @|bold ${n}|@  (@|bold ${s}|@) $d")
     }
 
     io.out.println()
     io.out.println('For help on a specific command type:') // TODO: i18n
-    io.out.println('    help @|bold command| ')
+    io.out.println('    help @|bold command|@ ')
     io.out.println()
   }
 }

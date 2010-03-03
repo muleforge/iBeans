@@ -24,7 +24,7 @@ public class ListIBeanCommand extends CommandSupport
     Set<IBeanHolder> beans = new TreeSet<IBeanHolder>(col);
     println()
     io.out.println("Available iBeans: " + beans.size())
-    beans.each {io.out.println("@|yellow " + it.id + "| : " + it.ibeanClass.name)}
+    beans.each {io.out.println("@|yellow " + it.id + "|@ : " + it.ibeanClass.name)}
     return ""
   }
 

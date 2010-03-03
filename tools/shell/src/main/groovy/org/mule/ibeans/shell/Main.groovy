@@ -1,6 +1,5 @@
 package org.mule.ibeans.shell
 
-import org.codehaus.groovy.tools.shell.Command
 import org.codehaus.groovy.tools.shell.IBeansGroovysh
 import org.codehaus.groovy.tools.shell.IO
 import org.codehaus.groovy.tools.shell.IO.Verbosity
@@ -9,10 +8,6 @@ import org.codehaus.groovy.tools.shell.util.Logger
 import org.codehaus.groovy.tools.shell.util.MessageSource
 import org.codehaus.groovy.tools.shell.util.NoExitSecurityManager
 import org.mule.ibeans.internal.config.IBeansInfo
-import org.mule.ibeans.shell.commands.CreateIBeanCommand
-import org.mule.ibeans.shell.commands.HelpCommand
-import org.mule.ibeans.shell.commands.ListIBeanCommand
-import org.mule.ibeans.shell.commands.RegisterObjectCommand
 
 /**
  * Main CLI entry-point for <tt>ibeanssh</tt>.
@@ -121,30 +116,12 @@ class Main extends org.codehaus.groovy.tools.shell.Main
     Verbosity verbosity = io.getVerbosity()
     //Silence this output
     io.setVerbosity(Verbosity.QUIET)
+    //Initialise iBeans in the shell environment
     shell.execute("load " + System.getProperty("ibeans.shell.home") + "/initIbeans.groovy")
     io.setVerbosity(verbosity)
 
     //Remove shell
     binding.getVariables().remove("shell")
-
-    //Add our custom commands
-
-    //Remove the existing Help command and replace so that we can offer help for ibeans in the same way
-    Command command = null
-    for (c in shell.getRegistry().getCommands())
-    {
-      if (c.name.equals("help"))
-      {
-        command = c
-        break
-      }
-    }
-    shell.getRegistry().remove(command)
-    //Our custom help command
-    shell.getRegistry().getCommands().add(new CreateIBeanCommand(shell))
-    shell.getRegistry().getCommands().add(new ListIBeanCommand(shell))
-    shell.getRegistry().getCommands().add(new RegisterObjectCommand(shell))
-    shell.getRegistry().getCommands().add(new HelpCommand(shell))
 
     try
     {
