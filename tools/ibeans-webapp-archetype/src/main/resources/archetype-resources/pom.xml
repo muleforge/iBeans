@@ -29,12 +29,6 @@
         <jdk.version>1.6</jdk.version>
     </properties>
 
-    <developers>
-        <developer>
-            <name>${user}</name>
-        </developer>
-    </developers>
-
     <licenses>
         <license>
             <name>CPAL v1.0</name>
