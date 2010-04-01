@@ -542,11 +542,6 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
                         throw t;
                     }
                 }
-                else if (result.getPayload() instanceof NullPayload
-                        || method.getReturnType().equals(Void.TYPE))
-                {
-                    return;
-                }
             }
         }
 
@@ -558,7 +553,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         public void afterCall(InvocationContext invocationContext) throws Throwable
         {
             MuleMessage result = ((InternalInvocationContext) invocationContext).responseMuleMessage;
-            if (result == null || NullPayload.getInstance().equals(result.getPayload()))
+            if (result == null || NullPayload.getInstance().equals(result.getPayload()) || invocationContext.getReturnType().getType().equals(Void.TYPE))
             {
                 return;
             }

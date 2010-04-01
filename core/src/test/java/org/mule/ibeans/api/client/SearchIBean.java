@@ -33,4 +33,8 @@ public interface SearchIBean
     @Call(uri = "http://www.ask.com/web?q={term}&search=search")
     @Return("header:ibeans.call.uri")
     public URL searchAskAndReturnURL(@UriParam("term") String searchTerm) throws CallException;
+
+    //IBEANS-184 : make sure we can handle void methods
+    @Call(uri = "http://www.ask.com/web?q={term}&search=search")
+    public void searchAskAndReturnVoid(@UriParam("term") String searchTerm) throws CallException;
 }
