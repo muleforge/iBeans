@@ -13,7 +13,7 @@ class NewCommandTest extends CommandTestSupport
     }
 
   void testCreateNewWithAlias() {
-        shell << 'new dummy alias dum'
+        shell << 'new dummy alias dum; dum.doNothing()'
     }
 
   void testCreateNonExistent() {

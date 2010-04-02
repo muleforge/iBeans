@@ -17,6 +17,8 @@ class Main extends org.codehaus.groovy.tools.shell.Main
 {
   private static final MessageSource messages = new MessageSource(Main.class)
 
+  static IBeansGroovysh shell;
+
   static void main(final String[] args)
   {
     IO io = new IO()
@@ -97,7 +99,7 @@ class Main extends org.codehaus.groovy.tools.shell.Main
         // will set an exit code through the proper channels
 
         io.err.println()
-        io.err.println('@|red WARNING:| Abnormal JVM shutdown detected')
+        io.err.println('@|red WARNING:|@ Abnormal JVM shutdown detected')
       }
 
       io.flush()
@@ -105,7 +107,7 @@ class Main extends org.codehaus.groovy.tools.shell.Main
 
     // Boot up the shell... :-)
     Binding binding = new Binding();
-    IBeansGroovysh shell = new IBeansGroovysh(binding, io)
+    shell = new IBeansGroovysh(binding, io)
     //Temporary var
     binding.setVariable("shell", shell)
 
