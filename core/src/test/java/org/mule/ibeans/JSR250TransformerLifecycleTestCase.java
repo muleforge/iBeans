@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class JSR250TransformerLifecycleTestCase extends IBeansTestSupport
 {
-    public static final long TIMEOUT = 2000;
+    public static final long TIMEOUT = 3000;
     private Latch initLatch = new Latch();
     private Latch destroyLatch = new Latch();
 

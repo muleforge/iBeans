@@ -40,10 +40,11 @@ public class RssHttpSplitBasicTestCase extends IBeansTestSupport
     @Test
     public void consumeFeed() throws Exception
     {
-        Thread.sleep(2000);
+        final int sleepTime = 3000;
+        Thread.sleep(sleepTime);
         int count = splitFeed.getCount();
         assertTrue(count > 0);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         //We should only receive entries once
         assertEquals(count, splitFeed.getCount());
 
