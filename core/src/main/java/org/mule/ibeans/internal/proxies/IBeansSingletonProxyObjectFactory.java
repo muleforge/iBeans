@@ -9,6 +9,7 @@
  */
 package org.mule.ibeans.internal.proxies;
 
+import org.mule.api.MuleContext;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.service.Service;
 import org.mule.ibeans.internal.IBeansObjectFactory;
@@ -68,7 +69,7 @@ public class IBeansSingletonProxyObjectFactory extends AbstractObjectFactory imp
     }
 
     @Override
-    public Object getInstance() throws Exception
+    public Object getInstance(MuleContext muleContext) throws Exception
     {
         return instance.get();
     }

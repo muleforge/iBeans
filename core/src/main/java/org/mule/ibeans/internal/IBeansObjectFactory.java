@@ -9,7 +9,6 @@
  */
 package org.mule.ibeans.internal;
 
-import org.mule.api.context.MuleContextAware;
 import org.mule.api.object.ObjectFactory;
 import org.mule.api.service.ServiceAware;
 
@@ -17,6 +16,6 @@ import org.mule.api.service.ServiceAware;
  * TODO
  */
 
-public interface IBeansObjectFactory extends ObjectFactory, ServiceAware, MuleContextAware
+public interface IBeansObjectFactory extends ObjectFactory, ServiceAware
 {
 }

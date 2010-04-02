@@ -9,6 +9,7 @@
  */
 package org.mule.ibeans.internal;
 
+import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.registry.ObjectProcessor;
@@ -59,8 +60,10 @@ public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implemen
         this.template = new SoftReference<Object>(template);
     }
 
-    public Object getInstance() throws Exception
+    @Override
+    public Object getInstance(MuleContext muleContext) throws Exception
     {
+        initProcessors(muleContext);
         Object o = ClassUtils.instanciateClass(this.getObjectClass(), ClassUtils.NO_ARGS);
 
         for (ObjectProcessor processor : processors)
@@ -72,24 +75,27 @@ public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implemen
     }
 
 
-    public void initialise() throws InitialisationException
+    public void initProcessors(MuleContext muleContext) throws InitialisationException
     {
-        processors = new HashSet<ObjectProcessor>();
+        if(processors==null)
+        {
+            processors = new HashSet<ObjectProcessor>();
 
-        try
-        {
-            processors.add(new AnnotatedPrototypeIntegrationBeanObjectProcessor());
-            processors.add(initProcessor(new InjectAnnotationProcessor()));
-            processors.add(initProcessor(new NamedAnnotationProcessor()));
-            processors.add(initProcessor(new DirectBindAnnotationProcessor()));
-        }
-        catch (MuleException e)
-        {
-            throw new InitialisationException(e, this);
+            try
+            {
+                processors.add(new AnnotatedPrototypeIntegrationBeanObjectProcessor());
+                processors.add(initProcessor(new InjectAnnotationProcessor(), muleContext));
+                processors.add(initProcessor(new NamedAnnotationProcessor(), muleContext));
+                processors.add(initProcessor(new DirectBindAnnotationProcessor(), muleContext));
+            }
+            catch (MuleException e)
+            {
+                throw new InitialisationException(e, this);
+            }
         }
     }
 
-    protected ObjectProcessor initProcessor(ObjectProcessor processor) throws MuleException
+    protected ObjectProcessor initProcessor(ObjectProcessor processor, MuleContext muleContext) throws MuleException
     {
         muleContext.getRegistry().applyProcessors(processor);
         return processor;
@@ -106,7 +112,7 @@ public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implemen
         public Object process(Object object)
         {
             String key = null;
-            Object value = null;
+            Object value ;
             try
             {
                 Map props = BeanUtils.describe(template.get());
