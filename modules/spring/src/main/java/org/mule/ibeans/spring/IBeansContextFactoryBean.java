@@ -18,6 +18,7 @@ import org.mule.context.DefaultMuleContextBuilder;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.IBeansFactory;
 import org.mule.ibeans.config.IBeanHolderConfigurationBuilder;
+import org.mule.ibeans.config.PropertiesConfigurationBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 import org.mule.ibeans.internal.config.ShutdownSplash;
@@ -59,7 +60,10 @@ public class IBeansContextFactoryBean extends AbstractFactoryBean implements Ini
         //Discover client iBeans
         List<ConfigurationBuilder> builders = new ArrayList<ConfigurationBuilder>();
         builders.add(new DefaultsConfigurationBuilder());
+        //Discover client iBeans
         builders.add(new IBeanHolderConfigurationBuilder());
+        //Load ibeans-app.properties
+        builders.add(new PropertiesConfigurationBuilder());
         MuleContextFactory muleContextFactory = new IBeansMuleContextFactory();
 
         DefaultMuleConfiguration muleConfiguration = new DefaultMuleConfiguration();
