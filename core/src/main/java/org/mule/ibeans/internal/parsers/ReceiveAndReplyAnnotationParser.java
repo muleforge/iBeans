@@ -47,7 +47,7 @@ public class ReceiveAndReplyAnnotationParser extends AbstractEndpointAnnotationP
     protected AnnotatedEndpointData createEndpointData(Annotation annotation) throws MuleException
     {
         ReceiveAndReply receiveAndReply = (ReceiveAndReply) annotation;
-        AnnotatedEndpointData epd = new AnnotatedEndpointData(MEP.InOut);
+        AnnotatedEndpointData epd = new AnnotatedEndpointData(MEP.InOut, annotation);
         epd.setConnectorName(receiveAndReply.config());
         epd.setAddress(receiveAndReply.uri());
         epd.setName(receiveAndReply.id());

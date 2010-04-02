@@ -9,6 +9,7 @@
  */
 package org.mule.ibeans.internal;
 
+import org.mule.api.MuleContext;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.registry.RegistrationException;
 import org.mule.registry.AbstractRegistry;
@@ -39,9 +40,9 @@ public class JndiRegistry extends AbstractRegistry
 
     protected Context context;
 
-    public JndiRegistry(String id, String contextLookup)
+    public JndiRegistry(String id, String contextLookup, MuleContext muleContext)
     {
-        super(id);
+        super(id, muleContext);
         this.contextLookup = contextLookup;
     }
 

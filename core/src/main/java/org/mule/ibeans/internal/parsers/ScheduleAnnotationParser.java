@@ -58,7 +58,7 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
         Schedule schedule = (Schedule) annotation;
 
         String uri = "quartz://schedule" + UUID.getUUID();
-        AnnotatedEndpointData epData = new AnnotatedEndpointData(MEP.InOnly);
+        AnnotatedEndpointData epData = new AnnotatedEndpointData(MEP.InOnly, annotation);
 
         epData.setProperties(convertProperties(getProperties(schedule)));
         //By default the scheduler should only use a single thread

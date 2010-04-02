@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * A configuration builder that registers iBean objects on the classpath with the Mule registry.
  * <p/>
- * The registry can then be used to query avaialble iBeans.
+ * The registry can then be used to query available iBeans.
  */
 public class IBeanHolderConfigurationBuilder extends AbstractAnnotationConfigurationBuilder
 {
@@ -58,7 +58,6 @@ public class IBeanHolderConfigurationBuilder extends AbstractAnnotationConfigura
 
     protected void doConfigure(MuleContext muleContext) throws Exception
     {
-
         Set<Class> ibeanClasses = new HashSet<Class>();
         Set<Object> transformers = new HashSet<Object>();
 
@@ -67,10 +66,10 @@ public class IBeanHolderConfigurationBuilder extends AbstractAnnotationConfigura
         try
         {
             //There will be some overlap here but only
-            ibeanClasses.addAll(scanner.scanFor(Call.class));
-            ibeanClasses.addAll(scanner.scanFor(Template.class));
+            ibeanClasses.addAll(scanner.scanFor(Call.class, ClasspathScanner.INCLUDE_INTERFACE));
+            ibeanClasses.addAll(scanner.scanFor(Template.class, ClasspathScanner.INCLUDE_INTERFACE));
             //Some ibeans will extend other iBeans but have not methods of there own
-            ibeanClasses.addAll(scanner.scanFor(IBeanGroup.class));
+            ibeanClasses.addAll(scanner.scanFor(IBeanGroup.class, ClasspathScanner.INCLUDE_INTERFACE));
             transformers.addAll(findTransformers(scanner));
         }
         catch (IOException e)

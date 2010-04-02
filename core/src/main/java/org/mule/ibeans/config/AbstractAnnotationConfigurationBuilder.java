@@ -9,7 +9,9 @@
  */
 package org.mule.ibeans.config;
 
-import org.mule.config.builders.AbstractConfigurationBuilder;
+import org.mule.config.AnnotationsConfigurationBuilder;
+import org.mule.config.AnnotationsParserFactory;
+import org.mule.ibeans.internal.parsers.IBeansAnnotationsParserFactory;
 import org.mule.util.ClassUtils;
 import org.mule.util.StringMessageUtils;
 import org.mule.util.scan.ClasspathScanner;
@@ -35,11 +37,12 @@ import java.util.StringTokenizer;
  * either the 'ibeans.scan.packages' or 'annotations.scan.packages' will be scanned.  This allows users to configure
  * specific packages to scan in their application.
  */
-public abstract class AbstractAnnotationConfigurationBuilder extends AbstractConfigurationBuilder
+public abstract class AbstractAnnotationConfigurationBuilder extends AnnotationsConfigurationBuilder
 {
     public static final String IBEANS_PROPERTIES = "META-INF/ibeans-app.properties";
 
     public static final String[] DEFAULT_BASE_PACKAGE = new String[]{""};
+
 
     protected ClassLoader classLoader;
     protected String[] basepackages;
@@ -58,6 +61,12 @@ public abstract class AbstractAnnotationConfigurationBuilder extends AbstractCon
     public AbstractAnnotationConfigurationBuilder(ClassLoader classLoader)
     {
         this(classLoader, DEFAULT_BASE_PACKAGE);
+    }
+
+    @Override
+    protected AnnotationsParserFactory createAnnotationsParserFactory()
+    {
+        return new IBeansAnnotationsParserFactory();
     }
 
     public AbstractAnnotationConfigurationBuilder(ClassLoader classLoader, String... basepackages)

@@ -23,6 +23,7 @@ import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.object.ObjectFactory;
 import org.mule.api.routing.OutboundRouter;
 import org.mule.api.service.Service;
+import org.mule.api.service.ServiceAware;
 import org.mule.component.DefaultJavaComponent;
 import org.mule.component.PooledJavaComponent;
 import org.mule.config.AnnotationsParserFactory;
@@ -97,8 +98,6 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             factory = new IBeansPrototypeObjectFactory(object);
         }
 
-        factory.setMuleContext(context);
-
         return factory;
     }
 
@@ -111,7 +110,10 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         componentFactory.initialise();
         ServiceConfig config;
 
-        ((IBeansObjectFactory)componentFactory).setService(serviceDescriptor);
+        if(componentFactory instanceof ServiceAware)
+        {
+            ((ServiceAware)componentFactory).setService(serviceDescriptor);
+        }
 
         if (componentFactory.getObjectClass().isAnnotationPresent(BeanConfig.class))
         {

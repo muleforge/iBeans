@@ -63,12 +63,8 @@ public class IBeansServlet extends MuleReceiverServlet
         MuleContext muleContext = (MuleContext) getServletContext().getAttribute(MuleProperties.MULE_CONTEXT_PROPERTY);
         if (muleContext == null)
         {
-            String configBuilder = getServletConfig().getInitParameter(CONFIG_BUILDER_PARAM);
-            if (configBuilder == null)
-            {
-                configBuilder = IBeansServletContextListener.DEFAULT_CONFIG_BUILDER;
-            }
-            listener = new IBeansServletContextListener(configBuilder);
+            String configBuilder = getConfigBuilderName();
+            listener = createIBeansContextListener(configBuilder);
             listener.initialize(getServletContext());
         }
         muleContext = (MuleContext) getServletContext().getAttribute(MuleProperties.MULE_CONTEXT_PROPERTY);
@@ -77,6 +73,21 @@ public class IBeansServlet extends MuleReceiverServlet
             throw new ServletException("The MuleContext was not created successfully.  Check previous log errors for the cause");
         }
         return muleContext;
+    }
+
+    protected IBeansServletContextListener createIBeansContextListener(String configBuilder)
+    {
+        return new IBeansServletContextListener(configBuilder);
+    }
+
+    protected String getConfigBuilderName()
+    {
+        String configBuilder = getServletConfig().getInitParameter(CONFIG_BUILDER_PARAM);
+        if (configBuilder == null)
+        {
+            configBuilder = IBeansServletContextListener.DEFAULT_CONFIG_BUILDER;
+        }
+        return configBuilder;
     }
 
     @Override

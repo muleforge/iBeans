@@ -27,6 +27,7 @@ import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.Return;
 import org.mule.ibeans.config.ChannelConfigBuilder;
+import org.mule.ibeans.config.PropertiesConfigurationBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 import org.mule.ibeans.transformers.CommonTransformers;
@@ -259,6 +260,11 @@ public abstract class IBeansTestSupport
         addStartUpProperties(p);
         builders.add(new SimpleConfigurationBuilder(p));
         builders.add(new DefaultsConfigurationBuilder());
+        //Enable annotations processing but do not use the scanning builder
+        builders.add(new TestSupportConfigurationBuilder());
+        PropertiesConfigurationBuilder pcb = new PropertiesConfigurationBuilder();
+        pcb.setLoadFromUserHome(true);
+        builders.add(pcb);
         addBuilders(builders);
         DefaultMuleContextBuilder contextBuilder = new IBeansMuleContextBuilder();
         configureMuleContext(contextBuilder);

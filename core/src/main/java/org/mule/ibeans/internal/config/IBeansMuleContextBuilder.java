@@ -9,9 +9,9 @@
  */
 package org.mule.ibeans.internal.config;
 
-import org.mule.api.lifecycle.LifecycleManager;
 import org.mule.context.DefaultMuleContextBuilder;
-import org.mule.lifecycle.GenericLifecycleManager;
+import org.mule.lifecycle.DefaultLifecyclePair;
+import org.mule.lifecycle.MuleContextLifecycleManager;
 import org.mule.lifecycle.phases.MuleContextStartPhase;
 import org.mule.lifecycle.phases.MuleContextStopPhase;
 
@@ -28,7 +28,7 @@ public class IBeansMuleContextBuilder extends DefaultMuleContextBuilder
         setShutdownScreen(new ShutdownSplash());
     }
 
-    protected LifecycleManager getLifecycleManager()
+    protected MuleContextLifecycleManager getLifecycleManager()
     {
         if (lifecycleManager != null)
         {
@@ -37,12 +37,10 @@ public class IBeansMuleContextBuilder extends DefaultMuleContextBuilder
         else
         {
             //Customise lifecycle to add support for JSR250 annotations @PostConstruct and @PreDestroy
-            LifecycleManager lifecycleManager = new GenericLifecycleManager();
+            MuleContextLifecycleManager lifecycleManager = new MuleContextLifecycleManager();
             //lifecycleManager.registerLifecycle(new MuleContextInjectPhase());
-            lifecycleManager.registerLifecycle(new JSR250MulecontextInitPhase());
-            lifecycleManager.registerLifecycle(new MuleContextStartPhase());
-            lifecycleManager.registerLifecycle(new MuleContextStopPhase());
-            lifecycleManager.registerLifecycle(new JSR250MulecontextDisposePhase());
+            lifecycleManager.registerLifecycle(new DefaultLifecyclePair(new JSR250MulecontextInitPhase(), new JSR250MulecontextDisposePhase()));
+            lifecycleManager.registerLifecycle(new DefaultLifecyclePair(new MuleContextStartPhase(), new MuleContextStopPhase()));
             return lifecycleManager;
         }
     }

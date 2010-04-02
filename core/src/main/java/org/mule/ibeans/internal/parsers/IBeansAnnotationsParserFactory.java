@@ -9,11 +9,17 @@
  */
 package org.mule.ibeans.internal.parsers;
 
+import org.mule.api.MuleContext;
+import org.mule.api.MuleException;
+import org.mule.ibeans.IBeansRuntimeException;
 import org.mule.ibeans.internal.AnnotatedTransformerObjectProcessor;
+import org.mule.ibeans.internal.IBeansAnnotatedEndpointHelper;
 import org.mule.ibeans.internal.IntegrationBeanAnnotatedObjectProcessor;
 import org.mule.ibeans.internal.MuleiBeansAnnotatedObjectProcessor;
+import org.mule.impl.annotations.processors.DirectBindAnnotationProcessor;
 import org.mule.impl.annotations.processors.InjectAnnotationProcessor;
 import org.mule.impl.annotations.processors.NamedAnnotationProcessor;
+import org.mule.impl.endpoint.AnnotatedEndpointHelper;
 import org.mule.impl.endpoint.DefaultAnnotationsParserFactory;
 
 /**
@@ -21,6 +27,27 @@ import org.mule.impl.endpoint.DefaultAnnotationsParserFactory;
  */
 public class IBeansAnnotationsParserFactory extends DefaultAnnotationsParserFactory
 {
+    protected AnnotatedEndpointHelper createAnnotatedEndpointHelper(MuleContext muleContext) throws MuleException
+    {
+        return new IBeansAnnotatedEndpointHelper(muleContext);
+    }
+
+    @Override
+    public void setMuleContext(MuleContext context)
+    {
+        try
+        {
+            AnnotatedEndpointHelper annotatedEndpointHelper = createAnnotatedEndpointHelper(context);
+            context.getRegistry().registerObject("_" + annotatedEndpointHelper.getClass().getSimpleName(), annotatedEndpointHelper);
+        }
+        catch (MuleException e)
+        {
+            throw new IBeansRuntimeException("failed to create AnnotatedEndpointHelper", e);
+        }
+
+        super.setMuleContext(context);
+    }
+
     protected void addDefaultParsers()
     {
         super.addDefaultParsers();
@@ -35,13 +62,19 @@ public class IBeansAnnotationsParserFactory extends DefaultAnnotationsParserFact
         registerExpressionParser(new ReceivedAttachmentsAnnotationParser());
         registerExpressionParser(new SendHeadersAnnotationParser());
         registerExpressionParser(new SendAttachmentsAnnotationParser());
+    }
 
-        processors.add(new MuleiBeansAnnotatedObjectProcessor());
-        processors.add(new IntegrationBeanAnnotatedObjectProcessor());
-        processors.add(new AnnotatedTransformerObjectProcessor());
-        //JSR-330 support
-        processors.add(new InjectAnnotationProcessor());
-        processors.add(new NamedAnnotationProcessor());
+    protected void addDefaultProcessors()
+    {
+        //Processors
+        registerObjectProcessor(new MuleiBeansAnnotatedObjectProcessor());
+        registerObjectProcessor(new DirectBindAnnotationProcessor());
+        registerObjectProcessor(new IntegrationBeanAnnotatedObjectProcessor());
+        registerObjectProcessor(new AnnotatedTransformerObjectProcessor());
+        registerObjectProcessor(new InjectAnnotationProcessor());
+        registerObjectProcessor(new NamedAnnotationProcessor());
 
+        registerObjectProcessor(new InjectAnnotationProcessor());//Add support for JSR-330
+        registerObjectProcessor(new NamedAnnotationProcessor());//Add support for JSR-330
     }
 }

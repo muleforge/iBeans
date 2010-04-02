@@ -16,7 +16,6 @@ import org.mule.config.annotations.endpoints.Channel;
 import org.mule.ibeans.api.client.Call;
 import org.mule.ibeans.api.client.CallException;
 import org.mule.ibeans.api.client.ExceptionListenerAware;
-import org.mule.ibeans.internal.client.CallOutboundEndpoint;
 import org.mule.ibeans.internal.client.CallRequestEndpoint;
 import org.mule.impl.endpoint.AbstractEndpointAnnotationParser;
 import org.mule.impl.endpoint.AnnotatedEndpointData;
@@ -36,7 +35,7 @@ public class CallAnnotationParser extends AbstractEndpointAnnotationParser
     protected AnnotatedEndpointData createEndpointData(Annotation annotation) throws MuleException
     {
         Call call = (Call) annotation;
-        AnnotatedEndpointData epd = new AnnotatedEndpointData(MEP.OutIn);
+        AnnotatedEndpointData epd = new AnnotatedEndpointData(MEP.OutIn, call);
         epd.setAddress(call.uri());
         epd.setProperties(AnnotatedEndpointData.convert(call.properties()));
         return epd;
@@ -89,8 +88,7 @@ public class CallAnnotationParser extends AbstractEndpointAnnotationParser
         {
             data.setConnectorName((String) metaInfo.get("connectorName"));
         }
-        CallOutboundEndpoint endpoint = new CallOutboundEndpoint(muleContext, data);
-        return endpoint;
+        return (OutboundEndpoint)getEndpointHelper().processEndpoint(data);
     }
 
     public InboundEndpoint parseInboundEndpoint(Annotation annotation, Map metaInfo) throws MuleException

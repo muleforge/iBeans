@@ -16,6 +16,7 @@ import org.mule.config.annotations.Service;
 import org.mule.config.annotations.endpoints.Channel;
 import org.mule.ibeans.internal.TomcatJndiRegistry;
 import org.mule.util.ClassUtils;
+import org.mule.util.StringUtils;
 import org.mule.util.scan.ClasspathScanner;
 
 import java.io.IOException;
@@ -54,15 +55,27 @@ public class AnnotationsScannerConfigurationBuilder extends AbstractAnnotationCo
 
     protected void doConfigure(MuleContext muleContext) throws Exception
     {
+        super.doConfigure(muleContext);
+        
         try
         {
-            TomcatJndiRegistry registry = new TomcatJndiRegistry();
+            TomcatJndiRegistry registry = new TomcatJndiRegistry(muleContext);
             registry.initialise();
             muleContext.addRegistry(registry);
         }
         catch (Exception e)
         {
             logger.error("Not running in Tcat/Tomcat, context configuration features will not work");
+        }
+
+        //Look up in the registry if basepackages not set
+        if(DEFAULT_BASE_PACKAGE.equals(basepackages))
+        {
+            String value = muleContext.getRegistry().lookupObject(getScanPackagesProperty());
+            if(value!=null)
+            {
+                basepackages = StringUtils.split(value);
+            }
         }
 
         ClasspathScanner scanner = createClasspathScanner();

@@ -50,7 +50,7 @@ public class SendAnnotationParser extends AbstractEndpointAnnotationParser
     protected AnnotatedEndpointData createEndpointData(Annotation annotation) throws MuleException
     {
         Send send = (Send) annotation;
-        AnnotatedEndpointData epd = new AnnotatedEndpointData(MEP.OutOnly);
+        AnnotatedEndpointData epd = new AnnotatedEndpointData(MEP.OutOnly, annotation);
         epd.setConnectorName(send.config());
         epd.setAddress(send.uri());
         epd.setName(send.id());

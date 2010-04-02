@@ -15,6 +15,7 @@ import org.mule.api.component.JavaComponent;
 import org.mule.api.component.LifecycleAdapter;
 import org.mule.api.component.LifecycleAdapterFactory;
 import org.mule.api.model.EntryPointResolverSet;
+import org.mule.component.DefaultLifecycleAdapter;
 
 /**
  * TODO
@@ -23,6 +24,6 @@ public class IBeansComponentLifecycleAdapterFactory implements LifecycleAdapterF
 {
     public LifecycleAdapter create(Object pojoService, JavaComponent component, EntryPointResolverSet resolver, MuleContext muleContext) throws MuleException
     {
-        return new IBeansComponentLifecycleAdapter(pojoService, component, resolver, muleContext);
+        return new DefaultLifecycleAdapter(pojoService, component, resolver, muleContext);
     }
 }

@@ -44,7 +44,7 @@ public class ClasspathScannerTestCase
     public void interfaceScanClasspathAndJars() throws Exception
     {
         ClasspathScanner s = new ClasspathScanner("org/mule");
-        Set<Class> set = s.scanFor(Fruit.class);
+        Set<Class> set = s.scanFor(Fruit.class, ClasspathScanner.INCLUDE_INTERFACE);
 
         Assert.assertTrue(set.contains(Apple.class));
         Assert.assertTrue(set.contains(RedApple.class));
@@ -60,7 +60,7 @@ public class ClasspathScannerTestCase
     public void interfaceScanClasspathAndJarsMultipleBasePaths() throws Exception
     {
         ClasspathScanner s = new ClasspathScanner("org/mule/tck", "org/mule/ibeans/util");
-        Set<Class> set = s.scanFor(Fruit.class);
+        Set<Class> set = s.scanFor(Fruit.class, ClasspathScanner.INCLUDE_INTERFACE);
 
         Assert.assertTrue(set.contains(Apple.class));
         Assert.assertTrue(set.contains(RedApple.class));

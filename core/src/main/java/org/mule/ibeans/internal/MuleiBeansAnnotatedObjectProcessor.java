@@ -13,7 +13,7 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.model.Model;
 import org.mule.config.annotations.endpoints.Channel;
-import org.mule.ibeans.internal.ext.IBeansComponentLifecycleAdapterFactory;
+import org.mule.impl.annotations.AnnotatedServiceBuilder;
 import org.mule.impl.annotations.processors.AnnotatedServiceObjectProcessor;
 import org.mule.utils.AnnotationMetaData;
 import org.mule.utils.AnnotationUtils;
@@ -57,7 +57,7 @@ public class MuleiBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectPr
                     org.mule.api.service.Service service;
                     try
                     {
-                        MuleiBeansAnnotatedServiceBuilder builder = new MuleiBeansAnnotatedServiceBuilder(context);
+                        AnnotatedServiceBuilder builder = createServiceBuilder(context);
                         builder.setModel(getOrCreateModel());
                         service = builder.createService(object);
                         context.getRegistry().registerService(service);
@@ -73,11 +73,16 @@ public class MuleiBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectPr
         return object;
     }
 
+    protected AnnotatedServiceBuilder createServiceBuilder(MuleContext muleContext) throws MuleException
+    {
+        return new MuleiBeansAnnotatedServiceBuilder(muleContext);
+    }
+
     @Override
     protected Model createModel()
     {
         Model m = super.createModel();
-        m.setLifecycleAdapterFactory(new IBeansComponentLifecycleAdapterFactory());
+        //m.setLifecycleAdapterFactory(new IBeansComponentLifecycleAdapterFactory());
         m.setEntryPointResolverSet(new IBeansEntrypointResolverSet());
         return m;
 

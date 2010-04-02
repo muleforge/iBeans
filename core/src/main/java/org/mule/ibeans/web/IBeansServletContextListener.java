@@ -22,6 +22,7 @@ import org.mule.config.i18n.CoreMessages;
 import org.mule.context.DefaultMuleContextBuilder;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.config.IBeanHolderConfigurationBuilder;
+import org.mule.ibeans.config.PropertiesConfigurationBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 import org.mule.util.ClassUtils;
@@ -116,7 +117,7 @@ public class IBeansServletContextListener implements ServletContextListener
             }
             else
             {
-                throw new ConfigurationException(CoreMessages.createStaticMessage("Uknown builder name: " + configBuilder));
+                throw new ConfigurationException(CoreMessages.createStaticMessage("Unknown builder name: " + configBuilder));
             }
         }
         catch (IOException e)
@@ -126,6 +127,26 @@ public class IBeansServletContextListener implements ServletContextListener
         final String serverId = StringUtils.defaultIfEmpty(context.getInitParameter("mule.serverId"), null);
 
         List<ConfigurationBuilder> builders = new ArrayList<ConfigurationBuilder>();
+        addConfigurationBuilders(builders);
+
+        MuleContextFactory muleContextFactory = new IBeansMuleContextFactory();
+
+        DefaultMuleConfiguration muleConfiguration = new DefaultMuleConfiguration();
+        if (serverId != null)
+        {
+            muleConfiguration.setId(serverId);
+        }
+        DefaultMuleContextBuilder muleContextBuilder = new IBeansMuleContextBuilder();
+        muleContextBuilder.setMuleConfiguration(muleConfiguration);
+
+        return muleContextFactory.createMuleContext(builders, muleContextBuilder);
+    }
+
+    protected void addConfigurationBuilders(List<ConfigurationBuilder> builders) throws ConfigurationException
+    {
+        //Load ibeans-app.properties
+        builders.add(new PropertiesConfigurationBuilder());
+
         builders.add(new DefaultsConfigurationBuilder());
         try
         {
@@ -138,17 +159,6 @@ public class IBeansServletContextListener implements ServletContextListener
         }
         //Discover client iBeans
         builders.add(new IBeanHolderConfigurationBuilder());
-        MuleContextFactory muleContextFactory = new IBeansMuleContextFactory();
-
-        DefaultMuleConfiguration muleConfiguration = new DefaultMuleConfiguration();
-        if (serverId != null)
-        {
-            muleConfiguration.setId(serverId);
-        }
-        DefaultMuleContextBuilder muleContextBuilder = new IBeansMuleContextBuilder();
-        muleContextBuilder.setMuleConfiguration(muleConfiguration);
-
-        return muleContextFactory.createMuleContext(builders, muleContextBuilder);
     }
 
 

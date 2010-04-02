@@ -9,6 +9,8 @@
  */
 package org.mule.ibeans.internal;
 
+import org.mule.api.MuleContext;
+
 /**
  * A Registry facade that provides read-only access tot he Tomcat JNDI context where users can configure environemnt properties
  * and JNDI objects such as DataSources or JavaMail sessions. Tomcat JNDI objects can be configured globally (for a Tomcat
@@ -18,9 +20,9 @@ package org.mule.ibeans.internal;
  */
 public class TomcatJndiRegistry extends JndiRegistry
 {
-    public TomcatJndiRegistry()
+    public TomcatJndiRegistry(MuleContext muleContext)
     {
-        super("tomcat-jndi-registry", "java:comp/env");
+        super("tomcat-jndi-registry", "java:comp/env", muleContext);
     }
 
     @Override
