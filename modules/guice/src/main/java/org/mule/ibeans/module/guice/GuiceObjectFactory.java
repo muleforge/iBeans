@@ -26,9 +26,9 @@ public class GuiceObjectFactory extends AbstractObjectFactory
 {
     private Injector injector;
 
-    private Key key;
+    private Key<?> key;
 
-    public GuiceObjectFactory(Injector injector, Key key)
+    public GuiceObjectFactory(Injector injector, Key<?> key)
     {
         this.injector = injector;
         this.key = key;

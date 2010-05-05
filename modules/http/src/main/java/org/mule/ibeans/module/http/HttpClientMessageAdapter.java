@@ -44,7 +44,7 @@ public class HttpClientMessageAdapter extends AbstractMessageAdapter
         }
 
         // Standard headers
-        Map headerProps = new HashMap();
+        Map<String, String> headerProps = new HashMap<String, String>();
         Header[] headers = method.getResponseHeaders();
         String name;
         for (int i = 0; i < headers.length; i++)

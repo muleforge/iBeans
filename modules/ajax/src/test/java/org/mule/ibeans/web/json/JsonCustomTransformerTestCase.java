@@ -60,7 +60,7 @@ public class JsonCustomTransformerTestCase extends IBeansTestSupport
     public void customTransformWithMuleMessage() throws Exception
     {
         ByteArrayInputStream in = new ByteArrayInputStream(EMAIL_JSON.getBytes());
-        Map props = new HashMap();
+        Map<String, String> props = new HashMap<String, String>();
         props.put("foo", "fooValue");
         MuleMessage msg = createMuleMessage(in, props);
         EmailAddress emailAddress = iBeansContext.transform(msg, new SimpleDataType<EmailAddress>(EmailAddress.class));

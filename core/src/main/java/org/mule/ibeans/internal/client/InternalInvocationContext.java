@@ -164,7 +164,7 @@ public class InternalInvocationContext implements InvocationContext
             return filteredParams;
 
         }
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     public Map<String, String> getTemplateSpecificUriParams()
@@ -176,7 +176,7 @@ public class InternalInvocationContext implements InvocationContext
             String uri = fullUri.substring(fullUri.indexOf('?') + 1);
             if (uri.length() == 0)
             {
-                return Collections.EMPTY_MAP;
+                return Collections.emptyMap();
             }
 
             // reparse the query string, we'll need to omit this 'signature' param
@@ -192,11 +192,12 @@ public class InternalInvocationContext implements InvocationContext
             return filteredParams;
 
         }
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     /* (non-Javadoc)
     * @see org.mule.ibeans.api.client.params.InvocationContextInterface#getHeaderParams()
+    * @deprecated
     */
     public Map<String, Object> getHeaderParams()
     {
@@ -272,9 +273,8 @@ public class InternalInvocationContext implements InvocationContext
         {
             return null;
         }
-        String parsedUri = TemplateParser.createCurlyBracesStyleParser().parse(uriParams, call.uri());
 
-        return parsedUri;
+        return TemplateParser.createCurlyBracesStyleParser().parse(uriParams, call.uri());
     }
 
     /* (non-Javadoc)
@@ -370,7 +370,7 @@ public class InternalInvocationContext implements InvocationContext
         private List<CallInterceptor> interceptors;
         private int cursor;
 
-        public CallInterceptorChain(List interceptorList)
+        public CallInterceptorChain(List<CallInterceptor> interceptorList)
         {
             interceptors = interceptorList;
         }

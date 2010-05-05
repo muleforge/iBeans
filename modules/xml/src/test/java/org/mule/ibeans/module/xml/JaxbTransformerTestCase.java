@@ -55,7 +55,7 @@ public class JaxbTransformerTestCase extends IBeansTestSupport
     public void customTransformWithMuleMessage() throws Exception
     {
         ByteArrayInputStream in = new ByteArrayInputStream(PERSON_XML.getBytes());
-        Map props = new HashMap();
+        Map<String, String> props = new HashMap<String, String>();
         props.put("foo", "fooValue");
         MuleMessage msg = createMuleMessage(in, props);
         List<EmailAddress> emailAddresses = iBeansContext.transform(msg, new ListDataType<List<EmailAddress>>(EmailAddress.class));

@@ -11,7 +11,6 @@ package org.mule.ibeans.internal.client;
 
 import org.mule.DefaultMuleMessage;
 import org.mule.DefaultMuleSession;
-import org.mule.NullSessionHandler;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
 import org.mule.api.MuleSession;
@@ -99,7 +98,7 @@ public class CallAnnotationHandler implements ClientAnnotationHandler
 
 
         MuleMessage reply;
-        MuleSession session = new DefaultMuleSession(message, new NullSessionHandler(), service, muleContext);
+        MuleSession session = new DefaultMuleSession(service, muleContext);
 
         try
         {

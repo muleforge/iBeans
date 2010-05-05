@@ -49,14 +49,13 @@ public class AnnotatedTransformerProxy extends AbstractMessageAwareTransformer i
     {
         this.weighting = weighting;
         this.proxy = proxy;
-        DataTypeFactory factory = new DataTypeFactory();
         
         if (transformMethod.getReturnType().equals(Void.TYPE))
         {
             throw new IllegalArgumentException("Method not a valid transform method, void return type: " + transformMethod.getName());
         }
         this.transformMethod = transformMethod;
-        setReturnDataType(factory.createFromReturnType(transformMethod));
+        setReturnDataType(DataTypeFactory.createFromReturnType(transformMethod));
 
         if (transformMethod.getParameterTypes().length == 0)
         {
