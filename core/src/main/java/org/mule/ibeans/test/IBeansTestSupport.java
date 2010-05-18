@@ -439,4 +439,10 @@ public abstract class IBeansTestSupport
     {
         return new DefaultMuleMessage(payload, properties, muleContext);
     }
+
+    public int generateId()
+    {
+        Double d = Math.random() * 10000000L;
+        return d.intValue();
+    }
 }
