@@ -44,7 +44,7 @@ import static org.junit.Assert.fail;
 public class ExternalPropsIBeansTestSupport extends IBeansTestSupport
 {
     public static final String IBEANS_TEST_PROPERTIES = "ibeans.test.properties";
-    public static final String DEFAULT_PROPERTIES_FILENAME = ".ibeans-credentials.properties";
+    public static final String DEFAULT_PROPERTIES_FILENAME = ".ibeans.properties";
 
     @Override
     protected void addStartUpProperties(Properties properties)
