@@ -374,9 +374,9 @@
                                 </requireJavaVersion>
                                 <requireFilesExist>
                                     <files>
-                                        <file>${user.home}/.ibeans-credentials.properties</file>
+                                        <file>${user.home}/.ibeans.properties</file>
                                     </files>
-                                    <message>You must have the '.ibeans-credentials.properties' file in your home directory. This is the location of your passwords file for the secure web services integration tests.  A example SAMPLE.ibeans-credentials.properties file is provided at the root of this project.</message>
+                                    <message>You must have the '.ibeans.properties' file in your home directory. This is the location of your passwords file for the secure web services integration tests.  A example SAMPLE.ibeans.properties file is provided at the root of this project.</message>
                                 </requireFilesExist>
                                 <requirePluginVersions>
                                     <message>Best Practice is to always define plugin versions!</message>
