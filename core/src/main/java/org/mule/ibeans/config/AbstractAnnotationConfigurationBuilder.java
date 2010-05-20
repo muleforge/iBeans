@@ -84,7 +84,7 @@ public abstract class AbstractAnnotationConfigurationBuilder extends Annotations
 
         String[] paths = convertPackagesToPaths(basepackages);
         if(logger.isInfoEnabled()) logger.info("Scanning for annotations using the following paths: " + StringMessageUtils.toString(paths));
-        return new ClasspathScanner(classLoader, convertPackagesToPaths(basepackages));
+        return new ClasspathScanner(classLoader, paths);
     }
 
     protected abstract String getScanPackagesProperty();
@@ -120,7 +120,7 @@ public abstract class AbstractAnnotationConfigurationBuilder extends Annotations
                         scanAll=true;
                         break;
                     }
-                    paths.add(s);
+                    paths.add(s.trim());
                 }
             }
         }

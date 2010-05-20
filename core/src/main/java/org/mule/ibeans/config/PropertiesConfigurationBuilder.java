@@ -22,11 +22,19 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * TODO
  */
 public class PropertiesConfigurationBuilder extends AbstractConfigurationBuilder
 {
+    /**
+     * logger used by this class
+     */
+    protected transient final Log logger = LogFactory.getLog(PropertiesConfigurationBuilder.class);
+
     public static final String IBEANS_PROPERTIES = "META-INF/ibeans-app.properties";
 
     private boolean loadFromUserHome = false;
@@ -60,11 +68,17 @@ public class PropertiesConfigurationBuilder extends AbstractConfigurationBuilder
                 IOUtils.closeQuietly(in);
             }
         }
+        else
+        {
+            logger.info("No application properties found at: " + IBEANS_PROPERTIES);
+        }
         if (isLoadFromUserHome())
         {
-            File f = new File(System.getProperty("user.home") + File.separator + ".beans-credentials.properties");
+            File f = new File(System.getProperty("user.home") + File.separator + ".ibeans.properties");
+            logger.info("Attempting to load iBeans properties from user home: " + f.getAbsolutePath());
             if (f.exists())
             {
+                logger.info("iBeans properties found in user home");
                 InputStream in = null;
                 try
                 {
@@ -88,6 +102,10 @@ public class PropertiesConfigurationBuilder extends AbstractConfigurationBuilder
                 muleContext.getRegistry().registerObject(entry.getKey().toString(), entry.getValue());                
             }
             //muleContext.addRegistry(reg);
+        }
+        else
+        {
+            logger.info("No properties found to load by the PropertiesConfigurationBuilder");
         }
     }
 }
