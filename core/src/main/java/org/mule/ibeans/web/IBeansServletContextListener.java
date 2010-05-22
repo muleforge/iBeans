@@ -78,7 +78,6 @@ public class IBeansServletContextListener implements ServletContextListener
         try
         {
             muleContext = createMuleContext(context);
-            muleContext.initialise();
             context.setAttribute(MuleProperties.MULE_CONTEXT_PROPERTY, muleContext);
             IBeansContext iBeansContext = muleContext.getRegistry().lookupObject(IBeansContext.class);
             context.setAttribute(IBeansContext.CONTEXT_PROPERTY, iBeansContext);
