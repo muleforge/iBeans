@@ -79,10 +79,6 @@ public class IBeansCentralServiceImpl extends RemoteServiceServlet implements IB
             throw new ServletException("Could not find Mule iBeans directory: " + ibeansPath + ". Make sure you have the catalina.home set or pass in the home path when running this util");
         }
 
-        //TODO, listener does not fire in hsted mode for some reason
-//        IBeansServletContextListener l = new IBeansServletContextListener();
-//        l.initialize(getServletContext());
-
         iBeansContext = (IBeansContext) getServletContext().getAttribute(IBeansContext.CONTEXT_PROPERTY);
         ibeansCentral = iBeansContext.createIBean(IbeansCentralIBean.class);
 
