@@ -15,7 +15,7 @@
     <name>Mule iBeans Console</name>
 
     <properties>
-        <gwtVersion>1.7.0</gwtVersion>
+        <gwtVersion>1.7.1</gwtVersion>
     </properties>
 
     <build>
