@@ -22,7 +22,6 @@ import org.mule.api.endpoint.OutboundEndpoint;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.object.ObjectFactory;
 import org.mule.api.routing.OutboundRouter;
-import org.mule.api.service.Service;
 import org.mule.api.service.ServiceAware;
 import org.mule.component.DefaultJavaComponent;
 import org.mule.component.PooledJavaComponent;
@@ -35,7 +34,7 @@ import org.mule.config.annotations.routing.Router;
 import org.mule.config.annotations.routing.RouterType;
 import org.mule.endpoint.EndpointURIEndpointBuilder;
 import org.mule.expression.ExpressionConfig;
-import org.mule.ibeans.api.application.BeanConfig;
+import org.mule.ibeans.api.application.Service;
 import org.mule.ibeans.config.IBeansProperties;
 import org.mule.impl.annotations.AnnotatedServiceBuilder;
 import org.mule.impl.annotations.ObjectScope;
@@ -77,10 +76,10 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     {
         IBeansObjectFactory factory;
 
-        if (object.getClass().isAnnotationPresent(BeanConfig.class))
+        if (object.getClass().isAnnotationPresent(Service.class))
         {
-            BeanConfig beanConfig = object.getClass().getAnnotation(BeanConfig.class);
-            if (beanConfig.scope().equals(ObjectScope.SINGLETON) || beanConfig.scope().equals(ObjectScope.SINGLETON_THREADSAFE))
+            Service service = object.getClass().getAnnotation(Service.class);
+            if (service.scope().equals(ObjectScope.SINGLETON) || service.scope().equals(ObjectScope.SINGLETON_THREADSAFE))
             {
                 return new IBeansSingletonObjectFactory(object);
             }
@@ -102,12 +101,11 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     }
 
     @Override
-    protected synchronized Service create(ObjectFactory componentFactory) throws InitialisationException
+    protected synchronized org.mule.api.service.Service create(ObjectFactory componentFactory) throws InitialisationException
     {
         JavaComponent component;
         SedaService serviceDescriptor = new SedaService();
         serviceDescriptor.setMuleContext(context);
-        componentFactory.initialise();
         ServiceConfig config;
 
         if(componentFactory instanceof ServiceAware)
@@ -115,9 +113,11 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             ((ServiceAware)componentFactory).setService(serviceDescriptor);
         }
 
-        if (componentFactory.getObjectClass().isAnnotationPresent(BeanConfig.class))
+        componentFactory.initialise();
+        
+        if (componentFactory.getObjectClass().isAnnotationPresent(Service.class))
         {
-            config = new ServiceConfig(componentFactory.getObjectClass().getAnnotation(BeanConfig.class));
+            config = new ServiceConfig(componentFactory.getObjectClass().getAnnotation(Service.class));
         }
         else
         {
@@ -156,7 +156,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         tp.setMaxThreadsIdle(config.getMaxThreads());
         tp.setPoolExhaustedAction(ThreadingProfile.WHEN_EXHAUSTED_WAIT);
         serviceDescriptor.setThreadingProfile(tp);
-        serviceDescriptor.getComponent().initialise();
+       // serviceDescriptor.getComponent().initialise();
         serviceDescriptor.setModel(getModel());
         return serviceDescriptor;
     }
@@ -402,7 +402,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         private int maxThreads;
         private String name;
 
-        private ServiceConfig(BeanConfig config)
+        private ServiceConfig(Service config)
         {
             scope = config.scope();
             maxThreads = config.maxAsyncThreads();

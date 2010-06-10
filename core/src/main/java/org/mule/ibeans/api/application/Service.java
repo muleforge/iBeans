@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface BeanConfig
+public @interface Service
 {
     /**
      * The name of this service
