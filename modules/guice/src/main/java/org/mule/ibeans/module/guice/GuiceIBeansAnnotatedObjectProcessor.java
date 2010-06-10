@@ -19,8 +19,8 @@ import org.mule.api.model.EntryPointResolverSet;
 import org.mule.api.model.Model;
 import org.mule.api.object.ObjectFactory;
 import org.mule.api.registry.RegistrationException;
-import org.mule.component.DefaultLifecycleAdapter;
-import org.mule.component.DefaultLifecycleAdapterFactory;
+import org.mule.component.DefaultComponentLifecycleAdapter;
+import org.mule.component.DefaultComponentLifecycleAdapterFactory;
 import org.mule.ibeans.internal.MuleiBeansAnnotatedObjectProcessor;
 import org.mule.ibeans.internal.MuleiBeansAnnotatedServiceBuilder;
 import org.mule.impl.annotations.AnnotatedServiceBuilder;
@@ -66,15 +66,13 @@ public class GuiceIBeansAnnotatedObjectProcessor extends MuleiBeansAnnotatedObje
         public void setModel(Model model)
         {
             super.setModel(model);
-            model.setLifecycleAdapterFactory(new DefaultLifecycleAdapterFactory()
+            model.setLifecycleAdapterFactory(new DefaultComponentLifecycleAdapterFactory()
             {
                 @Override
                 public LifecycleAdapter create(Object pojoService, JavaComponent component, EntryPointResolverSet resolver, MuleContext muleContext) throws MuleException
                 {
-                    return new DefaultLifecycleAdapter(pojoService, component, resolver, muleContext)
+                    return new DefaultComponentLifecycleAdapter(pojoService, component, resolver, muleContext)
                     {
-
-
                         @Override
                         protected void setLifecycleFlags()
                         {
