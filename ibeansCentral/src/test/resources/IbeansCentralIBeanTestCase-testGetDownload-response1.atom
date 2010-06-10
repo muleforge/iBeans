@@ -1,1 +1,111 @@
-<?xml version='1.0' encoding='UTF-8'?><feed xmlns="http://www.w3.org/2005/Atom"><id>tag:galaxy.mulesource.com,2008:registry:772d95fa-04fa-459c-9f38-0fcdc566a0e4:feed</id><title type="text">Mule Galaxy Registry/Repository</title><link href="" /><link href="" rel="self" /><author><name>Mule Galaxy</name></author><updated>2009-11-29T23:51:35.224Z</updated><entry><link href="/central/api/registry/IBeans/flickr-ibean.jar/1.0-beta-9;atom" rel="edit" /><id>urn:galaxy:artifact:local$0cece88b-9f20-4169-96e1-225aba629074</id><title type="text">1.0-beta-9</title><updated>2009-11-26T15:01:42.930Z</updated><author><name>Ross Mason</name></author><summary type="xhtml"></summary><item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:41.636Z" name="1.0-beta-9" type="Artifact Version" /><metadata xmlns="http://galaxy.mule.org/2.0"><property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true" value="org.mule.ibeans" /><property name="jar.manifest.Specification-Title" locked="true" visible="true" value="flickr-ibean" /><property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org" /><property name="jar.manifest.Support" locked="true" visible="true" value="For commercial support go to: http://mulesoft.com}" /><lifecycle property="primary.lifecycle" name="Default" phase="Created"><next-phases>Developed</next-phases><previous-phases></previous-phases></lifecycle><property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true" value="http://mulesoft.com" /><property name="jar.manifest.Product-Description" locked="true" visible="true" value="A Flickr iBean that allows users to search and download photos. This iBeans introduces two        transformers into the container for convering a string to a URL and converting and inputStream to a        BufferedImage." /><property name="jar.manifest.License-Url" locked="true" visible="true" value="http://mulesoft.org/display/MULE/License" /><artifact property="artifact" mediaType="application/java-archive" /><property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Flickr iBean" /><property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven" /><property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc" /><property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0" /><property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0" /><property name="jar.manifest.Bug-Tracker" locked="true" visible="true" value="http://www.mulesoft.org/jira/browse/IBEANS" /><property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason" /><property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9" /><property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver" /><property name="jar.manifest.Implementation-Url" locked="true" visible="true" value="http://mulesoft.org/ibeans" /><property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13" /></metadata><collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9"><atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title></collection><content type="application/java-archive" src="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-9" /><link href="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-9" rel="edit-media" /></entry><entry><link href="/central/api/registry/IBeans/flickr-ibean.jar/1.0-beta-8;atom" rel="edit" /><id>urn:galaxy:artifact:local$07750e89-4cad-4e01-be8d-37a899c406d9</id><title type="text">1.0-beta-8</title><updated>2009-10-28T06:37:55.289Z</updated><author><name>Ross Mason</name></author><summary type="xhtml"></summary><item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:37:54.549Z" name="1.0-beta-8" type="Artifact Version" /><metadata xmlns="http://galaxy.mule.org/2.0"><property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true" value="org.mule.ibeans" /><property name="jar.manifest.Specification-Title" locked="true" visible="true" value="flickr-ibean" /><property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org" /><property name="jar.manifest.Support" locked="true" visible="true" value="For commercial support go to: http://mulesoft.com}" /><lifecycle property="primary.lifecycle" name="Default" phase="Created"><next-phases>Developed</next-phases><previous-phases></previous-phases></lifecycle><property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true" value="http://mulesoft.com" /><property name="jar.manifest.Product-Description" locked="true" visible="true" value="A Flickr iBean that allows users to search and download photos. This iBeans introduces two        transformers into the container for convering a string to a URL and converting and inputStream to a        BufferedImage." /><property name="jar.manifest.License-Url" locked="true" visible="true" value="http://mulesoft.org/display/MULE/License" /><artifact property="artifact" mediaType="application/java-archive" /><property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Flickr iBean" /><property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven" /><property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc" /><property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0" /><property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0" /><property name="jar.manifest.Bug-Tracker" locked="true" visible="true" value="http://www.mulesoft.org/jira/browse/IBEANS" /><property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason" /><property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8" /><property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver" /><property name="jar.manifest.Implementation-Url" locked="true" visible="true" value="http://mulesoft.org/ibeans" /><property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13" /></metadata><collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8"><atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title></collection><content type="application/java-archive" src="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-8" /><link href="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-8" rel="edit-media" /></entry></feed>
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>tag:galaxy.mulesource.com,2008:registry:772d95fa-04fa-459c-9f38-0fcdc566a0e4:feed</id>
+    <title type="text">Mule Galaxy Registry/Repository</title>
+    <link href=""/>
+    <link href="" rel="self"/>
+    <author>
+        <name>Mule Galaxy</name>
+    </author>
+    <updated>2009-11-29T23:51:35.224Z</updated>
+    <entry>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$0cece88b-9f20-4169-96e1-225aba629074</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:42.930Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:41.636Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="flickr-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Flickr iBean that allows users to search and download photos. This iBeans introduces two        transformers into the container for convering a string to a URL and converting and inputStream to a        BufferedImage."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Flickr iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$07750e89-4cad-4e01-be8d-37a899c406d9</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:37:55.289Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:37:54.549Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="flickr-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Flickr iBean that allows users to search and download photos. This iBeans introduces two        transformers into the container for convering a string to a URL and converting and inputStream to a        BufferedImage."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Flickr iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+</feed>
