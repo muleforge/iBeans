@@ -10,8 +10,11 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.api.MuleEventContext;
-import org.mule.ibeans.api.application.BeanConfig;
 import org.mule.ibeans.api.application.ReceiveAndReply;
+import org.mule.ibeans.api.application.Service;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import javax.inject.Singleton;
 
@@ -19,13 +22,25 @@ import javax.inject.Singleton;
  * TODO
  */
 @Singleton
-@BeanConfig(name = "MuleSingletonService")
+@Service(name = "MuleSingletonService")
 public class SingletonService extends LifecycleTrackerComponent
 {
+    public SingletonService()
+    {
+        System.out.println("");
+    }
+
     @Override
     @ReceiveAndReply(uri = "vm://MuleSingletonService.In")
     public Object onCall(MuleEventContext eventContext) throws Exception
     {
         return super.onCall(eventContext);
+    }
+
+    @Override
+    @Inject
+    public void setProperty(@Named("mms-value") String value)
+    {
+        super.setProperty(value);
     }
 }

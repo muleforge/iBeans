@@ -21,6 +21,13 @@ import org.mule.module.guice.AbstractMuleGuiceModule;
  */
 public abstract class AbstractGuiceIBeansModule extends AbstractMuleGuiceModule
 {
+
+    @Override
+    protected void configure()
+    {
+
+    }
+
     /**
      * A helper method that binds a {@link org.mule.ibeans.config.ChannelConfigBuilder} to the Mule context.
      * Note that this does not bind the builder to the Guice injector, but there is no need to. This is a configuration
@@ -52,13 +59,29 @@ public abstract class AbstractGuiceIBeansModule extends AbstractMuleGuiceModule
         }
     }
 
-    protected ChannelConfigBuilder channelBuilder(String channelId, String uri) throws IBeansException
+    protected ChannelConfigBuilder channelBuilder(String channelId, String uri)
     {
-        return new ChannelConfigBuilder(channelId, uri, muleContext);
+        try
+        {
+            return new ChannelConfigBuilder(channelId, uri, muleContext);
+        }
+        catch (IBeansException e)
+        {
+            //TODO better handling.  What is the right thing to do? We cannot addError() and return null
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 
-    protected ScheduleConfigBuilder scheduleBuilder(String schedueId) throws IBeansException
+    protected ScheduleConfigBuilder scheduleBuilder(String schedueId)
     {
-        return new ScheduleConfigBuilder(schedueId, muleContext);
+        try
+        {
+            return new ScheduleConfigBuilder(schedueId, muleContext);
+        }
+        catch (IBeansException e)
+        {
+            //TODO better handling.  What is the right thing to do? We cannot addError() and return null            
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }

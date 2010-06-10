@@ -10,41 +10,32 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.api.MuleContext;
-import org.mule.api.context.MuleContextAware;
 import org.mule.api.lifecycle.InitialisationException;
+import org.mule.api.registry.RegistrationException;
+import org.mule.api.service.ServiceAware;
 import org.mule.object.AbstractObjectFactory;
 
 import com.google.inject.Injector;
 import com.google.inject.Key;
-
-import javax.inject.Singleton;
 
 /**
  * TODO
  */
 public class GuiceObjectFactory extends AbstractObjectFactory
 {
+    private Key<?> key;
     private Injector injector;
 
-    private Key<?> key;
-
-    public GuiceObjectFactory(Injector injector, Key<?> key)
+    public GuiceObjectFactory(Key<?> key)
     {
-        this.injector = injector;
         this.key = key;
     }
 
     @Override
     public void initialise() throws InitialisationException
     {
-
     }
 
-    @Override
-    public void dispose()
-    {
-
-    }
 
     @Override
     public Class<?> getObjectClass()
@@ -55,21 +46,34 @@ public class GuiceObjectFactory extends AbstractObjectFactory
     @Override
     public Object getInstance(MuleContext muleContext) throws Exception
     {
-        Object instance = injector.getProvider(key).get();
 
-        //Backward compatability injection support
-        if(instance instanceof MuleContextAware && !isSingleton())
+        Object instance = getInjector(muleContext).getInstance(key);
+
+        //TODO need a better way to handle this
+        //There is no way around needing to inject the service like this since we need to associate
+        //the component with the service when it is created.  This happens outside of any DI container
+        if(instance instanceof ServiceAware)
         {
-            ((MuleContextAware)instance).setMuleContext(muleContext);
+            ((ServiceAware)instance).setService(service);
         }
-        fireInitialisationCallbacks(instance);
         return instance;
+
+    }
+
+    protected Injector getInjector(MuleContext muleContext) throws RegistrationException
+    {
+        if(injector==null)
+        {
+            injector = muleContext.getRegistry().lookupObject(Injector.class);
+        }
+        return injector;
     }
 
     @Override
     public boolean isSingleton()
     {
-        return key.getTypeLiteral().getRawType().isAnnotationPresent(Singleton.class);
+        //TODO how to find out the scope with the key
+        return true;
     }
 
     @Override
@@ -84,4 +88,6 @@ public class GuiceObjectFactory extends AbstractObjectFactory
         //Guice does the wiring
         return false;
     }
+
+
 }

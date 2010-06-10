@@ -10,10 +10,8 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.module.guice.AbstractMuleGuiceModule;
-import org.mule.module.guice.AnnotatedService;
 
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 
 /**
  * TODO
@@ -21,7 +19,7 @@ import com.google.inject.Singleton;
 public class GuiceLifecycleModule extends AbstractMuleGuiceModule
 {
     @Override
-    protected void doConfigure() throws Exception
+    protected void configure()
     {
         /*
         <service name="MulePrototypeService">
@@ -81,38 +79,14 @@ public class GuiceLifecycleModule extends AbstractMuleGuiceModule
             </component>
         </service>
          */
-//        SingletonService sservice = new SingletonService();
-//        sservice.setProperty("mms");
-//        bind(SingletonService.class).toInstance(sservice);
 
-        //bind(SingletonService.class).asEagerSingleton();
-//        bind(PrototypeService.class).asEagerSingleton();
-//        bind(PooledService.class).();
+        bindConstant().annotatedWith(Names.named("mps-value")).to("mps");
+        bindConstant().annotatedWith(Names.named("mms-value")).to("mms");
+        bindConstant().annotatedWith(Names.named("mmps-value")).to("mmps");
+
+        bind(SingletonService.class).asEagerSingleton();
+        //TODO
+        //bind(PooledService.class).in(MuleScopes.pooledScope());
     }
-
-    @Provides @AnnotatedService
-    public PrototypeService createPrototypeService()
-    {
-        PrototypeService service = new PrototypeService();
-        service.setProperty("mps");
-        return service;
-    }
-
-    @Provides @AnnotatedService @Singleton
-    public SingletonService createSingletonService()
-    {
-        SingletonService service = new SingletonService();
-        service.setProperty("mms");
-        return service;
-    }
-
-    @Provides @AnnotatedService
-    public PooledService createPooledService()
-    {
-        PooledService service = new PooledService();
-        service.setProperty("mmps");
-        return service;
-    }
-
 
 }

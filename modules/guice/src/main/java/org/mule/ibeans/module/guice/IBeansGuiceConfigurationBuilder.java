@@ -10,20 +10,12 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.api.MuleContext;
-import org.mule.api.MuleException;
-import org.mule.api.registry.InjectProcessor;
-import org.mule.api.registry.PreInitProcessor;
-import org.mule.ibeans.internal.MuleiBeansAnnotatedObjectProcessor;
-import org.mule.impl.annotations.processors.InjectAnnotationProcessor;
-import org.mule.impl.annotations.processors.NamedAnnotationProcessor;
 import org.mule.module.guice.GuiceConfigurationBuilder;
 
-import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Stage;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * A custom version of the Mule Guice config builder that customises the default registry object processors
@@ -61,33 +53,10 @@ public class IBeansGuiceConfigurationBuilder extends GuiceConfigurationBuilder
     }
 
     @Override
-    protected void applyProcessors(Object o, Key key, Injector injector, MuleContext muleContext) throws MuleException
+    protected List<Module> getSystemModules(MuleContext muleContext)
     {
-        GuiceIBeansAnnotatedObjectProcessor annotatedObjectProcessor = new GuiceIBeansAnnotatedObjectProcessor(muleContext, injector, key);
-        //Process injectors first
-        Collection<InjectProcessor> injectProcessors = muleContext.getRegistry().lookupObjects(InjectProcessor.class);
-        for (InjectProcessor processor : injectProcessors)
-        {
-            if (processor.getClass().equals(InjectAnnotationProcessor.class) || processor.getClass().equals(NamedAnnotationProcessor.class))
-            {
-                continue;
-            }
-            o = processor.process(o);
-        }
-
-
-        //Then any other processors
-        Collection<PreInitProcessor> processors = muleContext.getRegistry().lookupObjects(PreInitProcessor.class);
-        for (PreInitProcessor processor : processors)
-        {
-            if(processor.getClass().equals(MuleiBeansAnnotatedObjectProcessor.class))
-            {
-                annotatedObjectProcessor.process(o);
-            }
-            else
-            {
-                o = processor.process(o);
-            }
-        }
+        List<Module> modules = super.getSystemModules(muleContext);
+        modules.add(new IBeansSupportModule(muleContext));
+        return modules;
     }
 }

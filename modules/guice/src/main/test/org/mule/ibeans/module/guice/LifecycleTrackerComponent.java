@@ -9,7 +9,6 @@
  */
 package org.mule.ibeans.module.guice;
 
-import org.mule.api.MuleContext;
 import org.mule.api.MuleEventContext;
 import org.mule.api.lifecycle.Callable;
 import org.mule.api.service.Service;
@@ -23,20 +22,14 @@ public class LifecycleTrackerComponent extends AbstractLifecycleTracker
         implements ServiceAware, Callable
 {
 
-     public void setService(final Service service)
+    public void setService(final Service service)
     {
         getTracker().add("setService");
     }
 
-    public Object onCall(final MuleEventContext eventContext) throws Exception {
-        // dirty trick to get the component instance that was used for the
-        // request
-        return this;
-    }
-
-    @Override
-    public void setMuleContext(MuleContext context)
+    public Object onCall(final MuleEventContext eventContext) throws Exception
     {
-        super.setMuleContext(context);    //To change body of overridden methods use File | Settings | File Templates.
+        // dirty trick to get the component instance that was used for the request
+        return this;
     }
 }

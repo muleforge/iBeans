@@ -10,14 +10,17 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.api.MuleEventContext;
-import org.mule.ibeans.api.application.BeanConfig;
 import org.mule.ibeans.api.application.ReceiveAndReply;
+import org.mule.ibeans.api.application.Service;
 import org.mule.impl.annotations.ObjectScope;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 /**
  * TODO
  */
-@BeanConfig(maxAsyncThreads = 3,scope = ObjectScope.POOLED, name = "MulePooledSingletonService") 
+@Service(maxAsyncThreads = 3,scope = ObjectScope.POOLED, name = "MulePooledSingletonService")
 public class PooledService extends LifecycleTrackerComponent
 {
 
@@ -26,5 +29,12 @@ public class PooledService extends LifecycleTrackerComponent
     public Object onCall(MuleEventContext eventContext) throws Exception
     {
         return super.onCall(eventContext);
+    }
+
+    @Override
+    @Inject
+    public void setProperty(@Named("mmps-value") String value)
+    {
+        super.setProperty(value);
     }
 }
