@@ -43,6 +43,7 @@
         <module>ajax</module>
         <module>email</module>
         <module>feeds</module>
+        <!--<module>gae</module>-->
         <module>guice</module>
         <module>jms-client</module>
         <!--         <module>jpa</module> -->
