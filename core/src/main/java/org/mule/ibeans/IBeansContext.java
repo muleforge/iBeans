@@ -522,8 +522,7 @@ public final class IBeansContext
 
     public <T> T createIBean(Class<T> clazz)
     {
-        AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding();
-        router.setMuleContext(muleContext);
+        AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding(muleContext);
         router.setInterface(clazz);
         return (T) router.createProxy(new Object());
     }

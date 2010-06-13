@@ -16,6 +16,7 @@ import org.mule.api.transport.ReceiveException;
 import org.mule.transport.NullPayload;
 import org.mule.transport.http.HttpClientMessageRequester;
 import org.mule.transport.http.HttpConstants;
+import org.mule.transport.http.HttpMuleMessageFactory;
 import org.mule.transport.http.i18n.HttpMessages;
 import org.mule.util.MapUtils;
 import org.mule.util.StringUtils;
@@ -75,7 +76,7 @@ public class HttpClientMessageRequester2 extends HttpClientMessageRequester
 
             if (httpMethod.getStatusCode() < 400)
             {
-                MuleMessage message = new DefaultMuleMessage(new HttpClientMessageAdapter(httpMethod), getConnector().getMuleContext());
+                MuleMessage message = new HttpMuleMessageFactory(connector.getMuleContext()).create(httpMethod, null /* encoding */);
                 etag = message.getStringProperty(HttpConstants.HEADER_ETAG, null);
 
                 if (httpMethod.getStatusCode() == HttpStatus.SC_OK || (httpMethod.getStatusCode() != HttpStatus.SC_NOT_MODIFIED || !checkEtag))

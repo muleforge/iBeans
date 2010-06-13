@@ -9,7 +9,6 @@
  */
 package org.mule.ibeans.module.http;
 
-import org.mule.transport.AbstractMessageAdapter;
 import org.mule.transport.NullPayload;
 import org.mule.transport.http.HttpConstants;
 import org.mule.transport.http.ReleasingInputStream;
@@ -25,8 +24,21 @@ import org.apache.commons.httpclient.HttpMethod;
 /**
  * TODO
  */
-public class HttpClientMessageAdapter extends AbstractMessageAdapter
+public class HttpClientMessageAdapter // extends AbstractMuleMessageFactory
 {
+
+    //@Override
+    protected Class<?>[] getSupportedTransportMessageTypes()
+    {
+        return new Class[]{HttpMethod.class};
+    }
+
+    //@Override
+    protected Object extractPayload(Object transportMessage, String encoding) throws Exception
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private Object message;
 
     public HttpClientMessageAdapter(HttpMethod method) throws IOException
@@ -57,7 +69,7 @@ public class HttpClientMessageAdapter extends AbstractMessageAdapter
             headerProps.put(name, headers[i].getValue());
         }
         // Set Mule Properties
-        addInboundProperties(headerProps);
+       // addInboundProperties(headerProps);
     }
 
     public Object getPayload()

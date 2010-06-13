@@ -41,8 +41,7 @@ public class IBeanHolder implements Comparable
 
     public Object create(MuleContext context)
     {
-        AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding();
-        router.setMuleContext(context);
+        AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding(context);
         router.setInterface(ibean);
         return router.createProxy(new Object());
     }

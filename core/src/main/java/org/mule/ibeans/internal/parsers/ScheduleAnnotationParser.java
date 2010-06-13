@@ -109,7 +109,7 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
 
     protected QuartzConnector getConnector(Schedule schedule) throws MuleException
     {
-        QuartzConnector connector = new QuartzConnector();
+        QuartzConnector connector = new QuartzConnector(muleContext);
         connector.setName("scheduler." + connector.hashCode());
         muleContext.getRegistry().registerConnector(connector);
         return connector;
@@ -131,11 +131,6 @@ public class ScheduleAnnotationParser extends AbstractEndpointAnnotationParser
     @Override
     public boolean supports(Annotation annotation, Class clazz, Member member)
     {
-        if (clazz.isInterface())
-        {
-            //You cannot use the @Schedule annotation on a interface
-            return false;
-        }
-        return super.supports(annotation, clazz, member);
+        return !clazz.isInterface() && super.supports(annotation, clazz, member);
     }
 }

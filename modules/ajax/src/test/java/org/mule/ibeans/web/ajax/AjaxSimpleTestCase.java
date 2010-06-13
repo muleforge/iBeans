@@ -61,7 +61,7 @@ public class AjaxSimpleTestCase extends AjaxTestSupport
         });
         client.subscribe("/test1");
 
-        MuleClient muleClient = new MuleClient();
+        MuleClient muleClient = new MuleClient(muleContext);
         muleClient.dispatch("vm://in", "Ross", null);
         latch.await(10, TimeUnit.SECONDS);
 
@@ -73,7 +73,7 @@ public class AjaxSimpleTestCase extends AjaxTestSupport
     public void clientPublishWithString() throws Exception
     {
         client.publish("/test2", "Ross", null);
-        MuleClient muleClient = new MuleClient();
+        MuleClient muleClient = new MuleClient(muleContext);
         MuleMessage msg = muleClient.request("vm://out", 5000L);
 
         assertNotNull(msg);

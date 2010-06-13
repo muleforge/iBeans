@@ -43,8 +43,7 @@ public class ScheduleConfigBuilder implements NamedObject
         {
             throw new IBeansException(e);
         }
-        connector = new QuartzConnector();
-        connector.setMuleContext(muleContext);
+        connector = new QuartzConnector(muleContext);
         connector.setName(scheduleId);
         endpointBuilder.setConnector(connector);
         endpointBuilder.setSynchronous(false);

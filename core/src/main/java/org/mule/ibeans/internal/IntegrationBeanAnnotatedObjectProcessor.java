@@ -62,7 +62,6 @@ public class IntegrationBeanAnnotatedObjectProcessor implements InjectProcessor,
                 continue;
             }
             AnnotatedInterfaceBinding router = createBinding();
-            router.setMuleContext(muleContext);
             router.setInterface(field.getType());
             Object proxy = router.createProxy(new Object());
             try
@@ -79,6 +78,6 @@ public class IntegrationBeanAnnotatedObjectProcessor implements InjectProcessor,
 
     protected AnnotatedInterfaceBinding createBinding()
     {
-        return new AnnotatedInterfaceBinding();
+        return new AnnotatedInterfaceBinding(muleContext);
     }
 }

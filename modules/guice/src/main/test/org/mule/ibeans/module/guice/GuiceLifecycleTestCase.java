@@ -93,7 +93,7 @@ public class GuiceLifecycleTestCase extends IBeansTestSupport
 
     private AbstractLifecycleTracker exerciseComponent(final String serviceName) throws Exception
     {
-        MuleClient muleClient = new MuleClient();
+        MuleClient muleClient = new MuleClient(muleContext);
         final AbstractLifecycleTracker ltc = (AbstractLifecycleTracker) muleClient.send(
             "vm://" + serviceName + ".In", null, null).getPayload();
 

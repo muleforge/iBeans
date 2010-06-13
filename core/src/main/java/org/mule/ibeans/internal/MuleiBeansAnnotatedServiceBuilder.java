@@ -104,8 +104,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     protected synchronized org.mule.api.service.Service create(ObjectFactory componentFactory) throws InitialisationException
     {
         JavaComponent component;
-        SedaService serviceDescriptor = new SedaService();
-        serviceDescriptor.setMuleContext(context);
+        SedaService serviceDescriptor = new SedaService(context);
         ServiceConfig config;
 
         if(componentFactory instanceof ServiceAware)

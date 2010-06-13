@@ -21,13 +21,6 @@ import org.mule.module.guice.AbstractMuleGuiceModule;
  */
 public abstract class AbstractGuiceIBeansModule extends AbstractMuleGuiceModule
 {
-
-    @Override
-    protected void configure()
-    {
-
-    }
-
     /**
      * A helper method that binds a {@link org.mule.ibeans.config.ChannelConfigBuilder} to the Mule context.
      * Note that this does not bind the builder to the Guice injector, but there is no need to. This is a configuration

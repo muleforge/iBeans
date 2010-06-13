@@ -84,13 +84,8 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
 
     protected transient Map<Method, List<CallInterceptor>> interceptorListCache = new HashMap<Method, List<CallInterceptor>>();
 
-    public IntegrationBeanInvocationHandler(Class iface, Service service, MuleContext muleContext) throws IBeansException
+    public IntegrationBeanInvocationHandler(Class iface, Service service) throws IBeansException
     {
-        if (muleContext == null)
-        {
-            throw new IBeansException(CoreMessages.objectIsNull("MuleContext").toString());
-        }
-
         if (service == null)
         {
             throw new IBeansException(CoreMessages.objectIsNull("Service").toString());
@@ -101,7 +96,7 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
             throw new IBeansException(CoreMessages.objectIsNull("IBean Interface").toString());
         }
 
-        this.muleContext = muleContext;
+        this.muleContext = service.getMuleContext();
         helper = new IBeanParamsHelper(muleContext, iface);
         templateHandler = new TemplateAnnotationHandler(muleContext);
         callHandler = createCallHandler(muleContext, service, helper);

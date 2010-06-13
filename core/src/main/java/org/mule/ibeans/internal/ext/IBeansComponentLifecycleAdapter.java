@@ -18,12 +18,12 @@ import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.lifecycle.Startable;
 import org.mule.api.lifecycle.Stoppable;
 import org.mule.api.model.EntryPointResolverSet;
-import org.mule.component.DefaultLifecycleAdapter;
+import org.mule.component.DefaultComponentLifecycleAdapter;
 
 /**
  * TODO
  */
-public class IBeansComponentLifecycleAdapter extends DefaultLifecycleAdapter
+public class IBeansComponentLifecycleAdapter extends DefaultComponentLifecycleAdapter
 {
     public IBeansComponentLifecycleAdapter(Object componentObject, JavaComponent component, MuleContext muleContext)
             throws MuleException

@@ -47,7 +47,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
 
     public MockIBeanHandler(Class iface, MuleContext muleContext, Object mock) throws IBeansException
     {
-        super(iface, new SedaService(), muleContext);
+        super(iface, new SedaService(muleContext));
         this.mock = mock;
 
         //We need to initialise the TempalteHandler ourselves since the real implementation does this when
@@ -68,7 +68,7 @@ public class MockIBeanHandler extends IntegrationBeanInvocationHandler implement
         //for a template invocation. Need to figure out why this is needed
         if (method.isAnnotationPresent(Template.class))
         {
-            helper.setInvocationReturnType(new DataTypeFactory().createFromReturnType(method));
+            helper.setInvocationReturnType(DataTypeFactory.createFromReturnType(method));
         }
         //Special handling of methods with an ibean prefix, these are called by the the IBeansTestSupport
         //To pass in additional information from the testcase

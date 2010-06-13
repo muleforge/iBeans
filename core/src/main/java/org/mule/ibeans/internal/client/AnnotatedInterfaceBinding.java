@@ -11,6 +11,7 @@ package org.mule.ibeans.internal.client;
 
 import org.mule.api.EndpointAnnotationParser;
 import org.mule.api.MessagingException;
+import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
 import org.mule.api.MuleRuntimeException;
 import org.mule.api.MuleSession;
@@ -65,15 +66,17 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
 
     protected Service service;
 
-    public AnnotatedInterfaceBinding()
+    public AnnotatedInterfaceBinding(MuleContext muleContext)
     {
-        this(new SedaService());
+        this(new SedaService(muleContext));
+        this.muleContext = muleContext;
     }
 
     public AnnotatedInterfaceBinding(Service service)
     {
         setRouterStatistics(new RouterStatistics(RouterStatistics.TYPE_BINDING));
         this.service = service;
+        this.muleContext = service.getMuleContext();
     }
 
     public String getMethod()
@@ -264,7 +267,7 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
     {
         if (outboundRouter != null)
         {
-            return (OutboundEndpoint) outboundRouter.getEndpoints().get(0);
+            return outboundRouter.getEndpoints().get(0);
         }
         else
         {
@@ -274,6 +277,6 @@ public class AnnotatedInterfaceBinding extends AbstractRouter implements Interfa
 
     protected IntegrationBeanInvocationHandler createHandler() throws IBeansException
     {
-        return new IntegrationBeanInvocationHandler(interfaceClass, service, muleContext);
+        return new IntegrationBeanInvocationHandler(interfaceClass, service);
     }
 }
