@@ -70,27 +70,29 @@ public class JsonTransformerResolver implements TransformerResolver, MuleContext
             {
                 return null;
             }
-            boolean marshal = false;
-            Class annotatedType = null;
+            boolean marshal;
+            Class annotatedType;
 
             //Check the class caches before we start scanning classes
-            if (!getMapperResolver().getMatchingClasses().contains(result.getType()))
-            {
-                if (getMapperResolver().getMatchingClasses().contains(source.getType()))
-                {
-                    annotatedType = source.getType();
-                    //Set the correct mime type on the raw type
-                    result.setMimeType(JSON_MIME_TYPE);
-                    marshal = true;
-                }
-            }
-            else
+            if (getMapperResolver().getMatchingClasses().contains(result.getType()))
             {
                 annotatedType = result.getType();
                 //Set the correct mime type on the raw type
                 source.setMimeType(JSON_MIME_TYPE);
                 marshal = false;
             }
+            else if (getMapperResolver().getMatchingClasses().contains(source.getType()))
+            {
+                annotatedType = source.getType();
+                //Set the correct mime type on the raw type
+                result.setMimeType(JSON_MIME_TYPE);
+                marshal = true;
+            }
+            else
+            {
+                return null;
+            }
+
 
             //At this point we know we are dealing with Json, now lets check the registry to see if there is an exact
             //transformer that matches our criteria
