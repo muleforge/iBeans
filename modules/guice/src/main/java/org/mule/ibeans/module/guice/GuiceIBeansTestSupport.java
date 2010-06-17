@@ -11,7 +11,6 @@ package org.mule.ibeans.module.guice;
 
 import org.mule.api.config.ConfigurationBuilder;
 import org.mule.ibeans.test.IBeansTestSupport;
-import org.mule.module.guice.GuiceConfigurationBuilder;
 import org.mule.util.CollectionUtils;
 
 import com.google.inject.Module;
@@ -29,7 +28,7 @@ public abstract class GuiceIBeansTestSupport extends IBeansTestSupport
     {
         List<Module> modules = new ArrayList<Module>();
         addModules(modules);
-        builders.add(new GuiceConfigurationBuilder(CollectionUtils.toArrayOfComponentType(modules, Module.class)));
+        builders.add(new IBeansGuiceConfigurationBuilder(CollectionUtils.toArrayOfComponentType(modules, Module.class)));
     }
 
      /**
