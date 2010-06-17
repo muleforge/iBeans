@@ -32,6 +32,16 @@ public class ConfigManager
         return muleContext.getRegistry().lookupObject(name);
     }
 
+    public void put(String name, Object object) throws RegistrationException
+    {
+         put(name, object, null);
+    }
+
+    public void put(String name, Object object, Object metadata) throws RegistrationException
+    {
+         muleContext.getRegistry().registerObject(name, object, metadata);
+    }
+
     public <T> Collection<T> getObjectsByType(Class<T> type)
     {
         return muleContext.getRegistry().lookupObjects(type);
