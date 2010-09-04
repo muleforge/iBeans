@@ -10,7 +10,7 @@
 package org.mule.ibeans;
 
 import org.mule.ibeans.internal.util.UriParamFilter;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
 import java.util.regex.Pattern;
 
@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class UriParamFilterTestCase extends IBeansTestSupport
+public class UriParamFilterTestCase extends IBeansRITestSupport
 {
     private UriParamFilter filter = new UriParamFilter();
 

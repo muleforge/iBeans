@@ -9,10 +9,10 @@
  */
 package org.mule.ibeans.util.scan;
 
-import org.mule.ibeans.api.application.Receive;
+import org.mule.module.annotationx.api.Receive;
 
 /**
- * Repesents a subscribe bean in a different package from where the test is run
+ * Represents a subscribe bean in a different package from where the test is run
  */
 public class SubscribeBean
 {

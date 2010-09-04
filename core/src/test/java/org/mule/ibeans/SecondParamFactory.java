@@ -9,8 +9,8 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.params.InvocationContext;
-import org.mule.ibeans.api.client.params.ParamFactory;
+import org.ibeans.api.InvocationContext;
+import org.ibeans.api.ParamFactory;
 
 /**
  * Relies on ordering with the {@link FirstParamFactory} being created first
@@ -20,6 +20,6 @@ public class SecondParamFactory implements ParamFactory
     public String create(String paramName, boolean optional, InvocationContext invocationContext)
     {
         //Just return what the {@link FirstParamFactory } created
-        return invocationContext.getUriParams().get("param1") + " " + invocationContext.getUriParams().get("foo");
+        return invocationContext.getIBeanConfig().getUriParams().get("param1") + " " + invocationContext.getIBeanConfig().getUriParams().get("foo");
     }
 }

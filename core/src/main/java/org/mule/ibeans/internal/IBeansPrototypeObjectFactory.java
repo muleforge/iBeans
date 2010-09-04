@@ -14,9 +14,9 @@ import org.mule.api.MuleException;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.registry.ObjectProcessor;
 import org.mule.api.service.Service;
-import org.mule.impl.annotations.processors.DirectBindAnnotationProcessor;
-import org.mule.impl.annotations.processors.InjectAnnotationProcessor;
-import org.mule.impl.annotations.processors.NamedAnnotationProcessor;
+import org.mule.module.annotationx.jsr330.InjectAnnotationProcessor;
+import org.mule.module.annotationx.jsr330.NamedAnnotationProcessor;
+import org.mule.module.ibeans.config.IntegrationBeanAnnotatedObjectProcessor;
 import org.mule.object.AbstractObjectFactory;
 import org.mule.util.BeanUtils;
 import org.mule.util.ClassUtils;
@@ -32,10 +32,10 @@ import java.util.Set;
 /**
  * Since annotated objects define their configuration, we cannot just create a new instance each time since new configuration
  * will also be created.  Instead this Factory manages the creation of new prototypes providing a subset of injection support.
- * All application annotations will be processed only once, these include {@link org.mule.ibeans.api.application.Send}, {@link org.mule.ibeans.api.application.Receive}
- * {@link org.mule.ibeans.api.application.ReceiveAndReply} and {@link org.mule.ibeans.api.application.Schedule} annotations.
+ * All application annotations will be processed only once, these include {@link org.mule.ibeans.api.application.Send}, {@link org.mule.module.annotationx.api.Receive}
+ * {@link org.mule.module.annotationx.api.ReceiveAndReply} and {@link org.mule.transport.quatz.Schedule} annotations.
  * <p/>
- * Fieid level injectors such as {@link org.mule.ibeans.api.client.IntegrationBean} and JSR 330 annotations such as {@link javax.inject.Inject} will be processed.
+ * Field level injectors such as {@link org.ibeans.annotation.IntegrationBean} and JSR 330 annotations such as {@link javax.inject.Inject} will be processed.
  */
 public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implements IBeansObjectFactory
 {
@@ -86,7 +86,6 @@ public class IBeansPrototypeObjectFactory extends AbstractObjectFactory implemen
                 processors.add(new AnnotatedPrototypeIntegrationBeanObjectProcessor());
                 processors.add(initProcessor(new InjectAnnotationProcessor(), muleContext));
                 processors.add(initProcessor(new NamedAnnotationProcessor(), muleContext));
-                processors.add(initProcessor(new DirectBindAnnotationProcessor(), muleContext));
             }
             catch (MuleException e)
             {

@@ -11,7 +11,6 @@ package org.mule.ibeans;
 
 import org.mule.DefaultMuleEvent;
 import org.mule.DefaultMuleMessage;
-import org.mule.DefaultMuleSession;
 import org.mule.api.DefaultMuleException;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleEvent;
@@ -22,33 +21,38 @@ import org.mule.api.context.notification.ServerNotificationListener;
 import org.mule.api.endpoint.ImmutableEndpoint;
 import org.mule.api.endpoint.InboundEndpoint;
 import org.mule.api.endpoint.OutboundEndpoint;
-import org.mule.api.transformer.DataType;
 import org.mule.api.transformer.Transformer;
 import org.mule.api.transformer.TransformerException;
-import org.mule.api.transport.DispatchException;
 import org.mule.api.transport.ReceiveException;
 import org.mule.config.ExceptionHelper;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.context.notification.CustomNotification;
 import org.mule.context.notification.NotificationException;
 import org.mule.ibeans.channels.MimeTypes;
-import org.mule.ibeans.config.ChannelConfigBuilder;
 import org.mule.ibeans.i18n.IBeansMessages;
-import org.mule.ibeans.internal.client.AnnotatedInterfaceBinding;
-import org.mule.transformer.types.DataTypeFactory;
+import org.mule.module.annotationx.config.ChannelConfigBuilder;
+import org.mule.module.ibeans.config.IBeanBinding;
+import org.mule.module.ibeans.config.IBeanFlowConstruct;
+import org.mule.module.ibeans.spi.MuleIBeansPlugin;
+import org.mule.module.ibeans.spi.support.DataTypeConverter;
+import org.mule.session.DefaultMuleSession;
 import org.mule.transport.AbstractConnector;
 import org.mule.transport.NullPayload;
 
 import java.util.Collections;
 import java.util.Map;
 
+import javax.activation.MimeTypeParseException;
+
 import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentHashMap;
 import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ibeans.api.DataType;
+import org.ibeans.impl.support.datatype.DataTypeFactory;
 
 /**
- * Defines the client API that can be used from Java, JSPs or TestCases (see {@link org.mule.ibeans.test.IBeansTestSupport}).
+ * Defines the client API that can be used from Java, JSPs or TestCases (see {@link org.mule.ibeans.test.IBeansRITestSupport}).
  * For application development the Mule iBeans annotations are usually sufficient. This API does offer some additional
  * functionality such as on demand transforms using the {@link #transform(Object, Class)} method and the ability to publish
  * and subscribe notifications using {@link #publishNotification(org.mule.api.context.notification.ServerNotification)} and
@@ -70,6 +74,8 @@ public final class IBeansContext
     private MuleContext muleContext;
 
     private ConfigManager configManager;
+
+    private MuleIBeansPlugin plugin;
 
     /**
      * Endpoints are cached so that the same endpoint URI can be used multiple times without creating
@@ -109,6 +115,8 @@ public final class IBeansContext
         }
 
         configManager = new ConfigManager(muleContext);
+
+        plugin = new MuleIBeansPlugin(context);
     }
 
     /**
@@ -170,7 +178,7 @@ public final class IBeansContext
         MuleEvent event = getEvent(message, uriOrRef, false);
         try
         {
-            event.getSession().dispatchEvent(event);
+            ((OutboundEndpoint)event.getEndpoint()).process(event);
         }
         catch (MuleException e)
         {
@@ -178,8 +186,8 @@ public final class IBeansContext
         }
         catch (Exception e)
         {
-            throw new DispatchException(IBeansMessages.failedToSendMessageUsingUri(uriOrRef), event.getMessage(),
-                    event.getEndpoint(), e);
+            //throw new DispatchException(IBeansMessages.failedToSendMessageUsingUri(uriOrRef), event, event.getFlowConstruct(), e);
+            throw new DefaultMuleException(IBeansMessages.failedToSendMessageUsingUri(uriOrRef), e);
         }
     }
 
@@ -309,17 +317,18 @@ public final class IBeansContext
      */
     private MuleMessage request(String uriOrRef, MuleMessage message) throws MuleException
     {
-        MuleEvent event = getEvent(message, uriOrRef, true);
-        event.setTimeout(getConfiguration().getDefaultResponseTimeout());
+        MuleEvent requestEvent = getEvent(message, uriOrRef, true);
+        requestEvent.setTimeout(getConfiguration().getDefaultResponseTimeout());
 
         try
         {
-            MuleMessage msg = event.getSession().sendEvent(event);
-            if (msg == null || message.getPayload() instanceof NullPayload)
+            MuleEvent event = ((OutboundEndpoint)requestEvent.getEndpoint()).process(requestEvent);
+            exceptionCheck(event.getMessage());
+            if (event == null || event.getMessage().getPayload() instanceof NullPayload)
             {
-                msg = null;
+                return null;
             }
-            return msg;
+            return event.getMessage();
         }
         catch (MuleException e)
         {
@@ -327,8 +336,8 @@ public final class IBeansContext
         }
         catch (Exception e)
         {
-            throw new DispatchException(IBeansMessages.failedToSendMessageUsingUri(uriOrRef), event.getMessage(),
-                    event.getEndpoint(), e);
+            //throw new DispatchException(IBeansMessages.failedToSendMessageUsingUri(uriOrRef), requestEvent, requestEvent.getEndpoint(), e);
+            throw new DefaultMuleException(IBeansMessages.failedToSendMessageUsingUri(uriOrRef), e);
         }
     }
 
@@ -424,8 +433,6 @@ public final class IBeansContext
         {
             endpoint.getConnector().start();
         }
-        try
-        {
             DefaultMuleSession session = new DefaultMuleSession(message,
                     ((AbstractConnector) endpoint.getConnector()).getSessionHandler(), muleContext);
 
@@ -434,13 +441,7 @@ public final class IBeansContext
 //                message.setProperty(MuleProperties.MULE_USER_PROPERTY, MuleCredentials.createHeader(
 //                    user.getUsername(), user.getPassword()));
 //            }
-            DefaultMuleEvent event = new DefaultMuleEvent(message, endpoint, session, synchronous);
-            return event;
-        }
-        catch (Exception e)
-        {
-            throw new DispatchException(CoreMessages.failedToCreate("Client event"), message, endpoint, e);
-        }
+        return new DefaultMuleEvent(message, endpoint, session);
     }
 
     /**
@@ -522,7 +523,7 @@ public final class IBeansContext
 
     public <T> T createIBean(Class<T> clazz)
     {
-        AnnotatedInterfaceBinding router = new AnnotatedInterfaceBinding(muleContext);
+        IBeanBinding router = new IBeanBinding(new IBeanFlowConstruct(clazz.getName(), muleContext), plugin);
         router.setInterface(clazz);
         return (T) router.createProxy(new Object());
     }
@@ -634,7 +635,7 @@ public final class IBeansContext
      * @throws TransformerException if there is no transformer found to convert from the source to the returnType, or if
      *                              the transform fails.
      */
-    public <T> T transform(Object source, Class<T> resultType) throws TransformerException
+    public <T> T transform(Object source, Class<T> resultType) throws TransformerException, MimeTypeParseException
     {
 //        Class srcType = source.getClass();
 //        if (source instanceof MuleMessage)
@@ -657,7 +658,7 @@ public final class IBeansContext
 //                return (T) ((MuleMessage) source).getPayload();
 //            }
 //        }
-        return (T)transform(source, new DataTypeFactory().create(resultType));
+        return (T)transform(source, DataTypeFactory.create(resultType));
     }
     /**
      * Performs an auto-transformation on the 'source' object. Mule iBeans provides an auto-transformation feature
@@ -673,17 +674,17 @@ public final class IBeansContext
      * @throws TransformerException if there is no transformer found to convert from the source to the returnType, or if
      *                              the transform fails.
      */
-    public <T>T transform(Object source, DataType<T> result) throws TransformerException
+    public <T>T transform(Object source, DataType<T> result) throws TransformerException, MimeTypeParseException
     {
         DataType sourceType;
-        if(source instanceof MuleMessage)
-        {
-            sourceType = new DataTypeFactory().createFromObject(source);
-        }
-        else
-        {
-            sourceType = new DataTypeFactory().create(source.getClass(), MimeTypes.ANY);
-        }
+            if(source instanceof MuleMessage)
+            {
+                sourceType = DataTypeFactory.createFromObject(source);
+            }
+            else
+            {
+                sourceType = DataTypeFactory.create(source.getClass(), MimeTypes.ANY);
+            }
 
         Class sourceClass = source.getClass();
         if (source instanceof MuleMessage)
@@ -707,7 +708,7 @@ public final class IBeansContext
             }
         }
 
-        Transformer transformer = getMuleContext().getRegistry().lookupTransformer(sourceType, result);
+        Transformer transformer = getMuleContext().getRegistry().lookupTransformer(DataTypeConverter.convertIBeansToMule(sourceType), DataTypeConverter.convertIBeansToMule(result));
         return (T)transformer.transform(source);
     }
 
@@ -723,7 +724,7 @@ public final class IBeansContext
         return configManager;
     }
 
-    public <T> T eval(String expression, Object data, Class<T> returnType) throws TransformerException
+    public <T> T eval(String expression, Object data, Class<T> returnType) throws TransformerException, MimeTypeParseException
     {
         Object o = muleContext.getExpressionManager().parse(expression, new DefaultMuleMessage(data, muleContext));
         return transform(o, returnType);

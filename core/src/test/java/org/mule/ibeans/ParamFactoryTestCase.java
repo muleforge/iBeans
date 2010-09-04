@@ -10,16 +10,15 @@
 package org.mule.ibeans;
 
 import org.mule.api.MuleMessage;
-import org.mule.api.transport.PropertyScope;
-import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
+import org.ibeans.annotation.IntegrationBean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class ParamFactoryTestCase extends IBeansTestSupport
+public class ParamFactoryTestCase extends IBeansRITestSupport
 {
     @IntegrationBean
     private TestParamsFactoryIBean testIBean;
@@ -52,8 +51,8 @@ public class ParamFactoryTestCase extends IBeansTestSupport
         MuleMessage result = testIBean.doHeaderParam("secret");
         assertNotNull(result);
         assertEquals("Value is: secret", result.getPayloadAsString());
-        assertEquals("shhh", result.getProperty("header1", PropertyScope.OUTBOUND));
-        assertEquals("shhh secret", result.getProperty("header2", PropertyScope.OUTBOUND));
+        assertEquals("shhh", result.getInboundProperty("header1"));
+        assertEquals("shhh secret", result.getInboundProperty("header2"));
     }
 
     @Test
@@ -64,9 +63,9 @@ public class ParamFactoryTestCase extends IBeansTestSupport
         MuleMessage result = testIBean.doMethodHeaderParam("secret", new EchoParamFactory());
         assertNotNull(result);
         assertEquals("Value is: secret", result.getPayloadAsString());
-        assertEquals("shhh", result.getProperty("header1", PropertyScope.OUTBOUND));
-        assertEquals("shhh secret", result.getProperty("header2", PropertyScope.OUTBOUND));
-        assertEquals("echoHeader", result.getProperty("echoHeader", PropertyScope.OUTBOUND));
+        assertEquals("shhh", result.getInboundProperty("header1"));
+        assertEquals("shhh secret", result.getInboundProperty("header2"));
+        assertEquals("echoHeader", result.getInboundProperty("echoHeader"));
     }
 
     @Test
@@ -77,9 +76,9 @@ public class ParamFactoryTestCase extends IBeansTestSupport
         MuleMessage result = testIBean.doMethodPropertyParam("secret", "hello", new ReversePropertyParamFactory("customProperty"));
         assertNotNull(result);
         assertEquals("Value is: secret", result.getPayloadAsString());
-        assertEquals("shhh", result.getProperty("header1"));
-        assertEquals("shhh secret", result.getProperty("header2", PropertyScope.OUTBOUND));
-        assertEquals("olleh", result.getProperty("propHeader", PropertyScope.OUTBOUND));
+        assertEquals("shhh", result.getInboundProperty("header1"));
+        assertEquals("shhh secret", result.getInboundProperty("header2"));
+        assertEquals("olleh", result.getInboundProperty("propHeader"));
     }
 
     @Test
@@ -88,7 +87,7 @@ public class ParamFactoryTestCase extends IBeansTestSupport
         testIBean.init("shhh".getBytes());
         MuleMessage result = testIBean.doTestHeadersWithNoParams();
         assertNotNull(result);
-        assertEquals("shhh", result.getProperty("header1", PropertyScope.OUTBOUND));
+        assertEquals("shhh", result.getInboundProperty("header1"));
     }
 
 }

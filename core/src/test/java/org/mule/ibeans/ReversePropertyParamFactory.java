@@ -9,9 +9,10 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.params.InvocationContext;
-import org.mule.ibeans.api.client.params.ParamFactory;
 import org.mule.util.StringUtils;
+
+import org.ibeans.api.InvocationContext;
+import org.ibeans.api.ParamFactory;
 
 /**
  * TODO
@@ -27,7 +28,7 @@ public class ReversePropertyParamFactory implements ParamFactory
 
     public String create(String paramName, boolean optional, InvocationContext invocationContext)
     {
-        String prop = (String) invocationContext.getPropertyParams().get(propertyName);
+        String prop = (String) invocationContext.getIBeanConfig().getPropertyParams().get(propertyName);
         if (prop == null && !optional)
         {
             throw new IllegalArgumentException("PropertyParam value was null for: " + propertyName);

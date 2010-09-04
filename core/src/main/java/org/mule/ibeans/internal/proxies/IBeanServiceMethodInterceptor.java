@@ -9,6 +9,7 @@
  */
 package org.mule.ibeans.internal.proxies;
 
+import org.mule.DefaultMuleEvent;
 import org.mule.DefaultMuleMessage;
 import org.mule.RequestContext;
 import org.mule.api.MuleEvent;
@@ -16,7 +17,7 @@ import org.mule.api.MuleMessage;
 import org.mule.api.config.MuleProperties;
 import org.mule.api.service.Service;
 import org.mule.api.transport.PropertyScope;
-import org.mule.ibeans.api.application.Send;
+import org.mule.module.annotationx.api.Send;
 import org.mule.transport.NullPayload;
 
 import java.lang.reflect.Method;
@@ -56,23 +57,16 @@ public class IBeanServiceMethodInterceptor implements MethodInterceptor
         message.setProperty(MuleProperties.MULE_METHOD_PROPERTY, method.getName(), PropertyScope.INVOCATION);
 
         MuleEvent currentEvent = RequestContext.getEvent();
-        MuleMessage reply = service.getOutboundRouter().route(message, currentEvent.getSession());
+        MuleEvent reply = service.getOutboundMessageProcessor().process(new DefaultMuleEvent(message, currentEvent));
 
-        if (reply != null)
-        {
-            if (reply.getExceptionPayload() != null)
+            if (reply.getMessage().getExceptionPayload() != null)
             {
-                throw findDeclaredMethodException(method, reply.getExceptionPayload().getException());
+                throw findDeclaredMethodException(method, reply.getMessage().getExceptionPayload().getException());
             }
             else
             {
-                return determineReply(reply, method);
+                return determineReply(reply.getMessage(), method);
             }
-        }
-        else
-        {
-            return null;
-        }
 
     }
 

@@ -9,10 +9,10 @@
  */
 package org.mule.ibeans.util.scan;
 
-import org.mule.config.annotations.endpoints.Channel;
-import org.mule.ibeans.api.application.Receive;
-import org.mule.ibeans.api.application.Send;
+import org.mule.api.annotations.meta.Channel;
 import org.mule.ibeans.util.scan.annotations.SampleBeanWithAnnotations;
+import org.mule.module.annotationx.api.Receive;
+import org.mule.module.annotationx.api.Send;
 import org.mule.tck.testmodels.fruit.Apple;
 import org.mule.tck.testmodels.fruit.BloodOrange;
 import org.mule.tck.testmodels.fruit.Fruit;

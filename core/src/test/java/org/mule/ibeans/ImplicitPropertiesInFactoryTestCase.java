@@ -9,15 +9,15 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
+import org.ibeans.annotation.IntegrationBean;
+import org.ibeans.api.CallException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ImplicitPropertiesInFactoryTestCase extends IBeansTestSupport
+public class ImplicitPropertiesInFactoryTestCase extends IBeansRITestSupport
 {
     @IntegrationBean
     private TestImplicitPropertiesinFactoryIBean testIBean;

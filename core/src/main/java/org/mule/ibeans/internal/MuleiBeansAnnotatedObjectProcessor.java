@@ -11,12 +11,12 @@ package org.mule.ibeans.internal;
 
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
+import org.mule.api.annotations.meta.Channel;
 import org.mule.api.model.Model;
-import org.mule.config.annotations.endpoints.Channel;
-import org.mule.impl.annotations.AnnotatedServiceBuilder;
-import org.mule.impl.annotations.processors.AnnotatedServiceObjectProcessor;
-import org.mule.utils.AnnotationMetaData;
-import org.mule.utils.AnnotationUtils;
+import org.mule.module.annotationx.config.AnnotatedServiceBuilder;
+import org.mule.module.annotationx.parsers.AnnotatedServiceObjectProcessor;
+import org.mule.util.annotation.AnnotationMetaData;
+import org.mule.util.annotation.AnnotationUtils;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class MuleiBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectPr
     {
         Model m = super.createModel();
         //m.setLifecycleAdapterFactory(new IBeansComponentLifecycleAdapterFactory());
-        m.setEntryPointResolverSet(new IBeansEntrypointResolverSet());
+       // m.setEntryPointResolverSet(new IBeansEntrypointResolverSet());
         return m;
 
     }

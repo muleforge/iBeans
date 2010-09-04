@@ -9,13 +9,13 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
 import java.beans.ExceptionListener;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.ibeans.annotation.IntegrationBean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNull;
@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
  * Tests using an exception listnenr to intercept all exceptions on the ibean.  Also test sthat parsing the ibean will not barf if
  * the ibean extends {@link org.mule.ibeans.api.client.ExceptionListenerAware}
  */
-public class ExceptionListenerTestCase extends IBeansTestSupport
+public class ExceptionListenerTestCase extends IBeansRITestSupport
 {
     @IntegrationBean
     private TestExceptionIBean test;

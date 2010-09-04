@@ -11,7 +11,7 @@ package org.mule.ibeans.test;
 
 import org.mule.config.AnnotationsConfigurationBuilder;
 import org.mule.config.AnnotationsParserFactory;
-import org.mule.ibeans.internal.parsers.IBeansAnnotationsParserFactory;
+import org.mule.config.endpoint.RegistryBackedAnnotationsParserFactory;
 
 /**
  * We need to register the {@link org.mule.ibeans.internal.parsers.IBeansAnnotationsParserFactory} with the iBeans
@@ -22,6 +22,8 @@ public class TestSupportConfigurationBuilder extends AnnotationsConfigurationBui
     @Override
     protected AnnotationsParserFactory createAnnotationsParserFactory()
     {
-        return new IBeansAnnotationsParserFactory();
+        //TODO RM*
+        //return new IBeansAnnotationsParserFactory();
+        return new RegistryBackedAnnotationsParserFactory();
     }
 }

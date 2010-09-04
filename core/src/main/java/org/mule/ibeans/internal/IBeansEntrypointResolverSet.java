@@ -9,36 +9,32 @@
  */
 package org.mule.ibeans.internal;
 
-import org.mule.model.resolvers.DefaultEntryPointResolverSet;
-import org.mule.model.resolvers.MethodHeaderPropertyEntryPointResolver;
+import org.mule.api.model.EntryPointResolver;
+import org.mule.model.resolvers.LegacyEntryPointResolverSet;
 import org.mule.model.resolvers.ReflectionEntryPointResolver;
 
+import java.util.HashSet;
+
 /**
- * Determins which resolvers are used when invoking a component method
+ * Determines which resolvers are used when invoking a component method
  */
-public class IBeansEntrypointResolverSet extends DefaultEntryPointResolverSet
+public class IBeansEntrypointResolverSet extends LegacyEntryPointResolverSet
 {
     public IBeansEntrypointResolverSet()
     {
-        addResolvers(false);
+        this(false);
     }
 
     public IBeansEntrypointResolverSet(boolean synchronizedCalls)
     {
-        addResolvers(synchronizedCalls);
+        super();
+        setEntryPointResolvers(new HashSet<EntryPointResolver>());
+        IBeansMethodHeaderPropertyEntryPointResolver methodHeader = new IBeansMethodHeaderPropertyEntryPointResolver();
+        methodHeader.setSynchronizeCall(synchronizedCalls);
+        addEntryPointResolver(methodHeader);
+        addAnnotatedEntryPointResolver();
+        //Do we really need this one ofr iBeans
+        addEntryPointResolver(new ReflectionEntryPointResolver());
     }
 
-    protected void addResolvers(boolean sync)
-    {
-        MethodHeaderPropertyEntryPointResolver methodHeader = new MethodHeaderPropertyEntryPointResolver();
-        methodHeader.setSynchronizeCall(sync);
-        addEntryPointResolver(methodHeader);
-        ReflectionEntryPointResolver preTransformResolver = new ReflectionEntryPointResolver();
-        preTransformResolver.setSynchronizeCall(sync);
-        addEntryPointResolver(preTransformResolver);
-        ReflectionEntryPointResolver postTransformResolver = new ReflectionEntryPointResolver();
-        postTransformResolver.setSynchronizeCall(sync);
-        postTransformResolver.setTransformFirst(false);
-        addEntryPointResolver(postTransformResolver);
-    }
 }

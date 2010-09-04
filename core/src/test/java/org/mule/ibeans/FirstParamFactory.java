@@ -9,8 +9,8 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.params.InvocationContext;
-import org.mule.ibeans.api.client.params.ParamFactory;
+import org.ibeans.api.InvocationContext;
+import org.ibeans.api.ParamFactory;
 
 /**
  * TODO
@@ -19,7 +19,7 @@ public class FirstParamFactory implements ParamFactory
 {
     public String create(String paramName, boolean optional, InvocationContext invocationContext)
     {
-        byte[] key = (byte[]) invocationContext.getPropertyParams().get("key");
+        byte[] key = (byte[]) invocationContext.getIBeanConfig().getPropertyParams().get("key");
         return new String(key);
     }
 }

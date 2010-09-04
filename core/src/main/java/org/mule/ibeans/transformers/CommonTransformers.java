@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.transformers;
 
-import org.mule.ibeans.api.application.Transformer;
+import org.mule.api.annotations.Transformer;
 
 import java.net.MalformedURLException;
 import java.net.URL;

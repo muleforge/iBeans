@@ -9,8 +9,8 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.params.InvocationContext;
-import org.mule.ibeans.api.client.params.ParamFactory;
+import org.ibeans.api.InvocationContext;
+import org.ibeans.api.ParamFactory;
 
 /**
  * Will simply echo the param name

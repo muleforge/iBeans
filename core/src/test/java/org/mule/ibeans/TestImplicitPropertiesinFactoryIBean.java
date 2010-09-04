@@ -9,11 +9,11 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.Call;
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.ExceptionListenerAware;
-import org.mule.ibeans.api.client.params.HeaderParam;
-import org.mule.ibeans.api.client.params.ParamFactory;
+import org.ibeans.annotation.Call;
+import org.ibeans.annotation.param.HeaderParam;
+import org.ibeans.api.CallException;
+import org.ibeans.api.ExceptionListenerAware;
+import org.ibeans.api.ParamFactory;
 
 public interface TestImplicitPropertiesinFactoryIBean extends ExceptionListenerAware
 {

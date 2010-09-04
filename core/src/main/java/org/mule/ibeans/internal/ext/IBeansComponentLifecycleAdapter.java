@@ -12,6 +12,7 @@ package org.mule.ibeans.internal.ext;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.component.JavaComponent;
+import org.mule.api.construct.FlowConstruct;
 import org.mule.api.lifecycle.Disposable;
 import org.mule.api.lifecycle.Initialisable;
 import org.mule.api.lifecycle.InitialisationException;
@@ -25,17 +26,16 @@ import org.mule.component.DefaultComponentLifecycleAdapter;
  */
 public class IBeansComponentLifecycleAdapter extends DefaultComponentLifecycleAdapter
 {
-    public IBeansComponentLifecycleAdapter(Object componentObject, JavaComponent component, MuleContext muleContext)
+    public IBeansComponentLifecycleAdapter(Object componentObject, JavaComponent component, FlowConstruct flowConstruct, MuleContext muleContext)
             throws MuleException
     {
-        super(componentObject, component, muleContext);
-        
+        super(componentObject, component, flowConstruct, muleContext);
     }
 
-    public IBeansComponentLifecycleAdapter(Object componentObject, JavaComponent component, EntryPointResolverSet entryPointResolver, MuleContext muleContext)
+    public IBeansComponentLifecycleAdapter(Object componentObject, JavaComponent component, FlowConstruct flowConstruct, EntryPointResolverSet entryPointResolver, MuleContext muleContext)
             throws MuleException
     {
-        super(componentObject, component, entryPointResolver, muleContext);
+        super(componentObject, component, flowConstruct, entryPointResolver, muleContext);
     }
 
     public boolean isStarted()
@@ -54,7 +54,7 @@ public class IBeansComponentLifecycleAdapter extends DefaultComponentLifecycleAd
     {
         try
         {
-            muleContext.getLifecycleManager().applyPhase(this.componentObject.get(), Initialisable.PHASE_NAME);
+            muleContext.getRegistry().applyLifecycle(this.componentObject, Initialisable.PHASE_NAME);
         }
         catch (MuleException e)
         {
@@ -64,19 +64,19 @@ public class IBeansComponentLifecycleAdapter extends DefaultComponentLifecycleAd
 
     public void start() throws MuleException
     {
-         muleContext.getLifecycleManager().applyPhase(this.componentObject.get(), Startable.PHASE_NAME);
+         muleContext.getRegistry().applyLifecycle(this.componentObject, Startable.PHASE_NAME);
     }
 
     public void stop() throws MuleException
     {
-        muleContext.getLifecycleManager().applyPhase(this.componentObject.get(), Stoppable.PHASE_NAME);
+        muleContext.getRegistry().applyLifecycle(this.componentObject, Stoppable.PHASE_NAME);
     }
 
     public void dispose()
     {
         try
         {
-            muleContext.getLifecycleManager().applyPhase(this.componentObject.get(), Disposable.PHASE_NAME);
+            muleContext.getRegistry().applyLifecycle(this.componentObject, Disposable.PHASE_NAME);
         }
         catch (MuleException e)
         {

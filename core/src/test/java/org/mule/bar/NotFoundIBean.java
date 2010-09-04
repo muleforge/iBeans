@@ -9,9 +9,9 @@
  */
 package org.mule.bar;
 
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.Template;
-import org.mule.ibeans.api.client.params.UriParam;
+import org.ibeans.annotation.Template;
+import org.ibeans.annotation.param.UriParam;
+import org.ibeans.api.CallException;
 
 /**
  * A test bean that should not be found when scanning the classpath

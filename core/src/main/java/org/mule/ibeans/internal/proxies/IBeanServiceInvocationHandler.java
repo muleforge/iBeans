@@ -9,6 +9,7 @@
  */
 package org.mule.ibeans.internal.proxies;
 
+import org.mule.DefaultMuleEvent;
 import org.mule.DefaultMuleMessage;
 import org.mule.RequestContext;
 import org.mule.api.MuleEvent;
@@ -50,23 +51,16 @@ public class IBeanServiceInvocationHandler implements InvocationHandler
         message.setProperty(MuleProperties.MULE_METHOD_PROPERTY, method.getName(), PropertyScope.INVOCATION);
 
         MuleEvent currentEvent = RequestContext.getEvent();
-        MuleMessage reply = service.getOutboundRouter().route(message, currentEvent.getSession());
+        MuleEvent reply = service.getOutboundMessageProcessor().process(new DefaultMuleEvent(message, currentEvent));
 
-        if (reply != null)
-        {
-            if (reply.getExceptionPayload() != null)
+            if (reply.getMessage().getExceptionPayload() != null)
             {
-                throw findDeclaredMethodException(method, reply.getExceptionPayload().getException());
+                throw findDeclaredMethodException(method, reply.getMessage().getExceptionPayload().getException());
             }
             else
             {
-                return determineReply(reply, method);
+                return determineReply(reply.getMessage(), method);
             }
-        }
-        else
-        {
-            return null;
-        }
 
     }
 

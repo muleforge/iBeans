@@ -24,6 +24,7 @@ public class StringDataSource implements DataSource
     private String name;
     private String data;
     private String charset;
+    private String contentType = "text/plain";
 
     public StringDataSource(String name, String data)
     {
@@ -31,11 +32,19 @@ public class StringDataSource implements DataSource
         this.name = name;
     }
 
-    public StringDataSource(String name, String data, String charset)
+    public StringDataSource(String name, String data, String contentType)
+    {
+        this.name = name;
+        this.data = data;
+        this.contentType = contentType;
+    }
+
+    public StringDataSource(String name, String data, String contentType, String charset)
     {
         this.name = name;
         this.data = data;
         this.charset = charset;
+        this.contentType = contentType;
     }
 
     public InputStream getInputStream() throws IOException
@@ -50,7 +59,7 @@ public class StringDataSource implements DataSource
 
     public String getContentType()
     {
-        return "text/plain";
+        return contentType;
     }
 
     public String getName()

@@ -9,14 +9,14 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
+import org.ibeans.annotation.IntegrationBean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class UriEncodingTestCase extends IBeansTestSupport
+public class UriEncodingTestCase extends IBeansRITestSupport
 {
     @IntegrationBean
     private TestUriIBean test;

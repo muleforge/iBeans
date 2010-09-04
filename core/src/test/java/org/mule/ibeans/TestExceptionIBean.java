@@ -9,11 +9,11 @@
  */
 package org.mule.ibeans;
 
-import org.mule.ibeans.api.client.Call;
-import org.mule.ibeans.api.client.ExceptionListenerAware;
-import org.mule.ibeans.api.client.params.UriParam;
-
 import java.net.UnknownHostException;
+
+import org.ibeans.annotation.Call;
+import org.ibeans.annotation.param.UriParam;
+import org.ibeans.api.ExceptionListenerAware;
 
 /**
  * A test bean that uses an exception listener rather than declaring exceptions on all the method calls

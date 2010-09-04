@@ -14,6 +14,7 @@ import org.mule.api.MuleException;
 import org.mule.api.component.JavaComponent;
 import org.mule.api.component.LifecycleAdapter;
 import org.mule.api.component.LifecycleAdapterFactory;
+import org.mule.api.construct.FlowConstruct;
 import org.mule.api.model.EntryPointResolverSet;
 import org.mule.component.DefaultComponentLifecycleAdapter;
 
@@ -22,8 +23,8 @@ import org.mule.component.DefaultComponentLifecycleAdapter;
  */
 public class IBeansComponentLifecycleAdapterFactory implements LifecycleAdapterFactory
 {
-    public LifecycleAdapter create(Object pojoService, JavaComponent component, EntryPointResolverSet resolver, MuleContext muleContext) throws MuleException
+    public LifecycleAdapter create(Object pojoService, JavaComponent component, FlowConstruct flowConstruct, EntryPointResolverSet entryPointResolverSet, MuleContext muleContext) throws MuleException
     {
-        return new DefaultComponentLifecycleAdapter(pojoService, component, resolver, muleContext);
+        return new DefaultComponentLifecycleAdapter(pojoService, component, flowConstruct, entryPointResolverSet, muleContext);
     }
 }

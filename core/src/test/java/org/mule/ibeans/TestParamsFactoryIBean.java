@@ -10,15 +10,16 @@
 package org.mule.ibeans;
 
 import org.mule.api.MuleMessage;
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.ExceptionListenerAware;
-import org.mule.ibeans.api.client.State;
-import org.mule.ibeans.api.client.Template;
-import org.mule.ibeans.api.client.params.HeaderParam;
-import org.mule.ibeans.api.client.params.Order;
-import org.mule.ibeans.api.client.params.ParamFactory;
-import org.mule.ibeans.api.client.params.PropertyParam;
-import org.mule.ibeans.api.client.params.UriParam;
+
+import org.ibeans.annotation.State;
+import org.ibeans.annotation.Template;
+import org.ibeans.annotation.param.HeaderParam;
+import org.ibeans.annotation.param.Order;
+import org.ibeans.annotation.param.PropertyParam;
+import org.ibeans.annotation.param.UriParam;
+import org.ibeans.api.CallException;
+import org.ibeans.api.ExceptionListenerAware;
+import org.ibeans.api.ParamFactory;
 
 public interface TestParamsFactoryIBean extends ExceptionListenerAware
 {

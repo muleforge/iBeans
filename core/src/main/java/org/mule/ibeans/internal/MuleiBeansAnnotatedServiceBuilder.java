@@ -9,43 +9,45 @@
  */
 package org.mule.ibeans.internal;
 
+import org.mule.api.MessageProcessorAnnotationParser;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
-import org.mule.api.RouterAnnotationParser;
+import org.mule.api.annotations.meta.ChannelType;
+import org.mule.api.annotations.meta.Router;
+import org.mule.api.annotations.meta.RouterType;
 import org.mule.api.component.JavaComponent;
 import org.mule.api.config.MuleProperties;
 import org.mule.api.config.ThreadingProfile;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.endpoint.InboundEndpoint;
-import org.mule.api.endpoint.InboundEndpointDecorator;
 import org.mule.api.endpoint.OutboundEndpoint;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.object.ObjectFactory;
+import org.mule.api.processor.MessageProcessor;
 import org.mule.api.routing.OutboundRouter;
+import org.mule.api.routing.OutboundRouterCollection;
 import org.mule.api.service.ServiceAware;
+import org.mule.api.source.CompositeMessageSource;
 import org.mule.component.DefaultJavaComponent;
 import org.mule.component.PooledJavaComponent;
 import org.mule.config.AnnotationsParserFactory;
 import org.mule.config.ChainedThreadingProfile;
 import org.mule.config.PoolingProfile;
-import org.mule.config.annotations.endpoints.ChannelType;
-import org.mule.config.annotations.endpoints.Reply;
-import org.mule.config.annotations.routing.Router;
-import org.mule.config.annotations.routing.RouterType;
 import org.mule.endpoint.EndpointURIEndpointBuilder;
 import org.mule.expression.ExpressionConfig;
-import org.mule.ibeans.api.application.Service;
-import org.mule.ibeans.config.IBeansProperties;
-import org.mule.impl.annotations.AnnotatedServiceBuilder;
-import org.mule.impl.annotations.ObjectScope;
 import org.mule.model.seda.SedaService;
+import org.mule.module.annotationx.api.Reply;
+import org.mule.module.annotationx.api.Service;
+import org.mule.module.annotationx.config.AnnotatedServiceBuilder;
+import org.mule.module.annotationx.config.ObjectScope;
 import org.mule.routing.outbound.ExpressionMessageSplitter;
 import org.mule.routing.outbound.FilteringOutboundRouter;
 import org.mule.routing.outbound.ListMessageSplitter;
+import org.mule.service.ServiceCompositeMessageSource;
 import org.mule.transport.AbstractConnector;
 import org.mule.transport.quartz.QuartzConnector;
 import org.mule.transport.quartz.jobs.EndpointPollingJobConfig;
-import org.mule.utils.AnnotationMetaData;
+import org.mule.util.annotation.AnnotationMetaData;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -57,6 +59,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Singleton;
+
+import org.ibeans.api.IBeansProperties;
 
 /**
  * Responsible for turning annotated objects in to services registered with Mule
@@ -105,6 +109,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     {
         JavaComponent component;
         SedaService serviceDescriptor = new SedaService(context);
+        serviceDescriptor.setModel(this.getModel());
         ServiceConfig config;
 
         if(componentFactory instanceof ServiceAware)
@@ -113,7 +118,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         }
 
         componentFactory.initialise();
-        
+
         if (componentFactory.getObjectClass().isAnnotationPresent(Service.class))
         {
             config = new ServiceConfig(componentFactory.getObjectClass().getAnnotation(Service.class));
@@ -138,6 +143,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             pp.setMaxIdle(config.getMaxThreads());
             PooledJavaComponent comp = new PooledJavaComponent(componentFactory, pp);
             serviceDescriptor.setComponent(comp);
+            comp.setEntryPointResolverSet(new IBeansEntrypointResolverSet());
         }
         else
         {
@@ -147,6 +153,10 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             {
                 //Create a resolver set which will synchronise all method calls
                 component.setEntryPointResolverSet(new IBeansEntrypointResolverSet(true));
+            }
+            else
+            {
+                component.setEntryPointResolverSet(new IBeansEntrypointResolverSet());
             }
         }
 
@@ -169,7 +179,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
         processInboundRouters(componentClass, serviceDescriptor);
 
         //check for  bindings (Field level annotations)
-        processEndpointBindings(componentClass, serviceDescriptor);
+        //processEndpointBindings(componentClass, serviceDescriptor);
 
         for (int i = 0; i < componentClass.getMethods().length; i++)
         {
@@ -229,19 +239,24 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             //Set the job on the scheule endpoint
             schedule.getProperties().put(QuartzConnector.PROPERTY_JOB_CONFIG, jobConfig);
             //And finally register just the schedule endpoint with the service
-            service.getInboundRouter().addEndpoint(schedule);
+            ((CompositeMessageSource)service.getMessageSource()).addSource(schedule);
+
+            for (MessageProcessor processor : poll.getMessageProcessors())
+            {
+                ((ServiceCompositeMessageSource)service.getMessageSource()).addMessageProcessor(processor);
+            }
 
             //TODO it doesn't feel right that I have to make this check here
-            if (poll instanceof InboundEndpointDecorator)
-            {
-                ((InboundEndpointDecorator) poll).onListenerAdded(service);
-            }
+//            if (poll instanceof InboundEndpointDecorator)
+//            {
+//                ((InboundEndpointDecorator) poll).onListenerAdded(service);
+//            }
         }
         else
         {
             for (InboundEndpoint endpoint : endpoints.values())
             {
-                service.getInboundRouter().addEndpoint(endpoint);
+                ((CompositeMessageSource)service.getMessageSource()).addSource(endpoint);
             }
         }
     }
@@ -256,7 +271,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
                     new AnnotationMetaData(clazz, method, ElementType.METHOD, annotation), ChannelType.Reply);
             if (inboundEndpoint != null)
             {
-                service.getResponseRouter().addEndpoint(inboundEndpoint);
+                service.getAsyncReplyMessageSource().addSource(inboundEndpoint);
                 //Lets process the reply routers
                 processReplyRouters(service, clazz, method);
             }
@@ -265,7 +280,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
 
     protected void processReplyRouters(org.mule.api.service.Service service, Class clazz, Method method) throws MuleException
     {
-        Collection routerParsers = context.getRegistry().lookupObjects(RouterAnnotationParser.class);
+        Collection routerParsers = context.getRegistry().lookupObjects(MessageProcessorAnnotationParser.class);
         for (int i = 0; i < method.getAnnotations().length; i++)
         {
             Annotation annotation = method.getAnnotations()[i];
@@ -274,17 +289,16 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             {
                 for (Iterator iterator = routerParsers.iterator(); iterator.hasNext();)
                 {
-                    RouterAnnotationParser parser = (RouterAnnotationParser) iterator.next();
+                    MessageProcessorAnnotationParser parser = (MessageProcessorAnnotationParser) iterator.next();
                     if (parser.supports(annotation, clazz, method))
                     {
-                        org.mule.api.routing.Router router = parser.parseRouter(annotation);
+                        MessageProcessor router = parser.parseMessageProcessor(annotation);
                         //Todo, wrap lifecycle
                         if (router instanceof MuleContextAware)
                         {
                             ((MuleContextAware) router).setMuleContext(context);
                         }
-                        router.initialise();
-                        service.getResponseRouter().addRouter(router);
+                        service.getAsyncReplyMessageSource().addMessageProcessor(router);
                         break;
                     }
                 }
@@ -339,25 +353,22 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
                     }
                 }
                 outboundEndpoint.getProperties().put(IBeansProperties.ENDPOINT_METHOD, method.toString());
-                router.addEndpoint(outboundEndpoint);
+                router.addRoute(outboundEndpoint);
                 outboundFound = true;
             }
         }
 
         if (outboundFound)
         {
-            if (router instanceof MuleContextAware)
-            {
-                ((MuleContextAware) router).setMuleContext(context);
-            }
+            router.setMuleContext(context);
             router.initialise();
-            service.getOutboundRouter().addRouter(router);
+            ((OutboundRouterCollection)service.getOutboundMessageProcessor()).addRoute(router);
         }
     }
 
     protected OutboundRouter processOutboundRouter(Class clazz, Method method) throws MuleException
     {
-        Collection routerParsers = context.getRegistry().lookupObjects(RouterAnnotationParser.class);
+        Collection routerParsers = context.getRegistry().lookupObjects(MessageProcessorAnnotationParser.class);
         OutboundRouter router = null;
 
         for (int i = 0; i < method.getAnnotations().length; i++)
@@ -373,10 +384,10 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
                 }
                 for (Iterator iterator = routerParsers.iterator(); iterator.hasNext();)
                 {
-                    RouterAnnotationParser parser = (RouterAnnotationParser) iterator.next();
+                    MessageProcessorAnnotationParser parser = (MessageProcessorAnnotationParser) iterator.next();
                     if (parser.supports(annotation, clazz, method))
                     {
-                        router = (OutboundRouter) parser.parseRouter(annotation);
+                        router = (OutboundRouter) parser.parseMessageProcessor(annotation);
                         break;
                     }
                 }
@@ -387,10 +398,7 @@ public class MuleiBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
             router = new FilteringOutboundRouter();
         }
         //Todo, wrap lifecycle
-        if (router instanceof MuleContextAware)
-        {
-            ((MuleContextAware) router).setMuleContext(context);
-        }
+        router.setMuleContext(context);
         router.initialise();
         return router;
     }
