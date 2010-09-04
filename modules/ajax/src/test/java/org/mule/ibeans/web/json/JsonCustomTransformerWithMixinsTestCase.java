@@ -9,11 +9,11 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.module.json.JsonData;
 import org.mule.tck.testmodels.fruit.Apple;
 
+import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class JsonCustomTransformerWithMixinsTestCase extends IBeansTestSupport
+public class JsonCustomTransformerWithMixinsTestCase extends IBeansRITestSupport
 {
     public static final String APPLE_JSON = "{\"washed\":false,\"bitten\":true}";
 

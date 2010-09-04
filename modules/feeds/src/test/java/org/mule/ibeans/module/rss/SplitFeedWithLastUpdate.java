@@ -9,9 +9,10 @@
  */
 package org.mule.ibeans.module.rss;
 
-import org.mule.ibeans.api.application.Receive;
-import org.mule.ibeans.api.application.Schedule;
+import org.mule.api.annotations.Schedule;
+import org.mule.api.annotations.param.Payload;
 import org.mule.ibeans.channels.FEED;
+import org.mule.module.annotationx.api.Receive;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 
@@ -26,7 +27,7 @@ public class SplitFeedWithLastUpdate
 
     @Schedule(interval = 1000)
     @Receive(uri = "${feed.uri}", properties = FEED.LAST_UPDATE_DATE + "=2009-03-01")
-    public void readFeed(SyndEntry entry) throws Exception
+    public void readFeed(@Payload SyndEntry entry) throws Exception
     {
         count.getAndIncrement();
     }

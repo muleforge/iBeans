@@ -10,9 +10,10 @@
 package org.mule.ibeans.spring;
 
 import org.mule.ibeans.IBeansContext;
-import org.mule.ibeans.api.client.IntegrationBean;
 
 import javax.inject.Inject;
+
+import org.ibeans.annotation.IntegrationBean;
 
 /**
  * TODO

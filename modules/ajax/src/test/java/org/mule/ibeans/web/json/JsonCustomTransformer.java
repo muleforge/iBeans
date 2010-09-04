@@ -9,9 +9,9 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.api.application.Transformer;
-import org.mule.ibeans.api.application.params.MessagePayload;
-import org.mule.ibeans.api.application.params.ReceivedHeaders;
+import org.mule.api.annotations.Transformer;
+import org.mule.api.annotations.param.InboundHeaders;
+import org.mule.api.annotations.param.Payload;
 import org.mule.ibeans.web.json.model.EmailAddress;
 import org.mule.ibeans.web.json.model.Item;
 import org.mule.ibeans.web.json.model.Person;
@@ -37,9 +37,9 @@ public class JsonCustomTransformer
     }
 
 
-    //NOTE the @MessagePayload annotation is ignorred for transformer but we're just testing that that it doesn't break things
+    //NOTE the @Body annotation is ignored for transformer but we're just testing that that it doesn't break things
     @Transformer
-    public EmailAddress toEmail(@MessagePayload InputStream in, @ReceivedHeaders("*") Map headers, ObjectMapper mapper) throws IOException
+    public EmailAddress toEmail(@Payload InputStream in, @InboundHeaders("*") Map headers, ObjectMapper mapper) throws IOException
     {
         if(!headers.get("foo").equals("fooValue"))
         {
@@ -50,7 +50,7 @@ public class JsonCustomTransformer
 
 
     @Transformer(sourceTypes = {InputStream.class})
-    public List<Item> toItemList(@MessagePayload String in, ObjectMapper mapper) throws IOException
+    public List<Item> toItemList(@Payload String in, ObjectMapper mapper) throws IOException
     {
         List<Item> items = new ArrayList<Item>();
         ArrayNode nodes = (ArrayNode) mapper.readTree(in);
@@ -64,7 +64,7 @@ public class JsonCustomTransformer
     }
 
     @Transformer(sourceTypes = {InputStream.class})
-    public List<Person> toPeople(@MessagePayload String in, ObjectMapper mapper) throws IOException
+    public List<Person> toPeople(@Payload String in, ObjectMapper mapper) throws IOException
     {
         List<Person> people = new ArrayList<Person>();
         ArrayNode nodes = (ArrayNode) mapper.readTree(in);

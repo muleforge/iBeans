@@ -10,27 +10,25 @@
 package org.mule.ibeans.web.json;
 
 import org.mule.api.MuleMessage;
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.ibeans.web.json.model.EmailAddress;
 import org.mule.ibeans.web.json.model.Item;
 import org.mule.ibeans.web.json.model.Person;
-import org.mule.transformer.types.CollectionDataType;
-import org.mule.transformer.types.ListDataType;
-import org.mule.transformer.types.SimpleDataType;
 
 import java.io.ByteArrayInputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.ibeans.api.IBeansException;
+import org.ibeans.impl.support.datatype.CollectionDataType;
+import org.ibeans.impl.support.datatype.ListDataType;
+import org.ibeans.impl.support.datatype.SimpleDataType;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class JsonCustomTransformerTestCase extends IBeansTestSupport
+public class JsonCustomTransformerTestCase extends IBeansRITestSupport
 {
     public static final String PERSON_JSON = "{\"emailAddresses\":[{\"type\":\"home\",\"address\":\"john.doe@gmail.com\"},{\"type\":\"work\",\"address\":\"jdoe@bigco.com\"}],\"name\":\"John Doe\",\"dob\":\"01/01/1970\"}";
     public static final String EMAIL_JSON = "{\"type\":\"home\",\"address\":\"john.doe@gmail.com\"}";
@@ -60,9 +58,8 @@ public class JsonCustomTransformerTestCase extends IBeansTestSupport
     public void customTransformWithMuleMessage() throws Exception
     {
         ByteArrayInputStream in = new ByteArrayInputStream(EMAIL_JSON.getBytes());
-        Map<String, String> props = new HashMap<String, String>();
-        props.put("foo", "fooValue");
-        MuleMessage msg = createMuleMessage(in, props);
+        MuleMessage msg = createMuleMessage(in);
+        msg.setInboundProperty("foo", "fooValue");
         EmailAddress emailAddress = iBeansContext.transform(msg, new SimpleDataType<EmailAddress>(EmailAddress.class));
         assertNotNull(emailAddress);
         assertEquals("home", emailAddress.getType());

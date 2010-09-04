@@ -54,7 +54,7 @@ public class GuiceObjectFactory extends AbstractObjectFactory
         //the component with the service when it is created.  This happens outside of any DI container
         if(instance instanceof ServiceAware)
         {
-            ((ServiceAware)instance).setService(service);
+            //TODO ((ServiceAware)instance).setService(service);
         }
         return instance;
 

@@ -10,7 +10,7 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.api.config.ConfigurationBuilder;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.util.CollectionUtils;
 
 import com.google.inject.Module;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * A base test support class for an IBeans test that wants to use Guice modules as part of the set up.
  */
-public abstract class GuiceIBeansTestSupport extends IBeansTestSupport
+public abstract class GuiceIBeansTestSupport extends IBeansRITestSupport
 {
     @Override
     protected void addBuilders(List<ConfigurationBuilder> builders)

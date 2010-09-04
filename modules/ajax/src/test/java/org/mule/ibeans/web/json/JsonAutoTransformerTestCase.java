@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.ibeans.web.json.model.Item;
 import org.mule.module.json.JsonData;
 
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class JsonAutoTransformerTestCase extends IBeansTestSupport
+public class JsonAutoTransformerTestCase extends IBeansRITestSupport
 {
     public static final String ITEM_JSON = "{\"code\":\"1234\",\"description\":\"Vacuum Cleaner\",\"in-stock\":true}";
 

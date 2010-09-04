@@ -9,9 +9,9 @@
  */
 package org.mule.ibeans.module.guice;
 
+import org.mule.api.client.LocalMuleClient;
 import org.mule.api.config.ConfigurationBuilder;
-import org.mule.ibeans.test.IBeansTestSupport;
-import org.mule.module.client.MuleClient;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.registry.AbstractLifecycleTracker;
 
 import java.util.List;
@@ -26,7 +26,7 @@ import org.junit.Test;
 //would be to bind the service
 
 //ONLY SINGLETON IS SUPPORTED CURRENTLY
-public class GuiceLifecycleTestCase extends IBeansTestSupport
+public class GuiceLifecycleTestCase extends IBeansRITestSupport
 {
 
     @Override
@@ -93,7 +93,7 @@ public class GuiceLifecycleTestCase extends IBeansTestSupport
 
     private AbstractLifecycleTracker exerciseComponent(final String serviceName) throws Exception
     {
-        MuleClient muleClient = new MuleClient(muleContext);
+        LocalMuleClient muleClient = muleContext.getClient();
         final AbstractLifecycleTracker ltc = (AbstractLifecycleTracker) muleClient.send(
             "vm://" + serviceName + ".In", null, null).getPayload();
 

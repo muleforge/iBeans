@@ -10,7 +10,7 @@
 package org.mule.ibeans.web.ajax;
 
 import org.mule.api.MuleMessage;
-import org.mule.module.client.MuleClient;
+import org.mule.api.client.LocalMuleClient;
 import org.mule.util.concurrent.Latch;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -61,7 +61,7 @@ public class AjaxSimpleTestCase extends AjaxTestSupport
         });
         client.subscribe("/test1");
 
-        MuleClient muleClient = new MuleClient(muleContext);
+        LocalMuleClient muleClient = muleContext.getClient();
         muleClient.dispatch("vm://in", "Ross", null);
         latch.await(10, TimeUnit.SECONDS);
 
@@ -73,7 +73,7 @@ public class AjaxSimpleTestCase extends AjaxTestSupport
     public void clientPublishWithString() throws Exception
     {
         client.publish("/test2", "Ross", null);
-        MuleClient muleClient = new MuleClient(muleContext);
+        LocalMuleClient muleClient = muleContext.getClient();        
         MuleMessage msg = muleClient.request("vm://out", 5000L);
 
         assertNotNull(msg);

@@ -9,17 +9,17 @@
  */
 package org.mule.ibeans.module.atom;
 
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
 import java.util.Properties;
 
+import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class AtomDontSplitTestCase extends IBeansTestSupport
+public class AtomDontSplitTestCase extends IBeansRITestSupport
 {
     private DontSplitFeed noSplitFeed;
 

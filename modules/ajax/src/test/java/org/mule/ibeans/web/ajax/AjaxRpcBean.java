@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.web.ajax;
 
-import org.mule.ibeans.api.application.Receive;
+import org.mule.module.annotationx.api.Receive;
 
 /**
  * TODO

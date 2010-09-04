@@ -9,8 +9,8 @@
  */
 package org.mule.ibeans.spring;
 
-import org.mule.ibeans.api.client.Template;
-import org.mule.ibeans.api.client.params.UriParam;
+import org.ibeans.annotation.Template;
+import org.ibeans.annotation.param.UriParam;
 
 /**
  * Dummy

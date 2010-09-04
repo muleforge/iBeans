@@ -19,7 +19,7 @@ import com.google.inject.name.Names;
 public class GuiceLifecycleModule extends AbstractMuleGuiceModule
 {
     @Override
-    protected void doConfigure() throws Exception
+    protected void configure() 
     {
         /*
         <service name="MulePrototypeService">

@@ -1,8 +1,6 @@
 package ibeans.server;
 
 import org.mule.ibeans.IBeansContext;
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.config.IBeansProperties;
 import org.mule.ibeans.ibeanscentral.IBeanInfo;
 import org.mule.ibeans.ibeanscentral.IbeansCentralIBean;
 import org.mule.ibeans.internal.config.IBeansInfo;
@@ -23,6 +21,8 @@ import javax.servlet.ServletException;
 import ibeans.client.ClientIBeansException;
 import ibeans.client.IBeansCentralService;
 import ibeans.client.model.Plugin;
+import org.ibeans.api.CallException;
+import org.ibeans.api.IBeansProperties;
 
 /**
  * TODO

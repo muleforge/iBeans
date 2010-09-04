@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.module.rss;
 
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
 import java.util.Properties;
 
@@ -19,7 +19,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class RssSplitWithUpdateTestCase extends IBeansTestSupport
+public class RssSplitWithUpdateTestCase extends IBeansRITestSupport
 {
     private SplitFeed splitFeed;
     private SplitFeedWithLastUpdate splitFeedWithLastUpdate;

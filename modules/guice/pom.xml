@@ -46,7 +46,7 @@
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
+            <artifactId>ibeans-ri</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -95,7 +95,8 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mule.modules:mule-module-guice</include>
-                                    <include>guice:guice</include>
+                                    <include>org.guiceyfruit:guice-all</include>
+                                    <include>org.guiceyfruit:guiceyfruit-core</include>
                                     <include>aopalliance:aopalliance</include>
                                 </includes>
                             </artifactSet>

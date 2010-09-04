@@ -9,9 +9,9 @@
  */
 package org.mule.ibeans.module.rss;
 
-import org.mule.ibeans.api.application.Receive;
-import org.mule.ibeans.api.application.Schedule;
+import org.mule.api.annotations.Schedule;
 import org.mule.ibeans.channels.FEED;
+import org.mule.module.annotationx.api.Receive;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 
@@ -26,7 +26,7 @@ public class DontSplitFeed
 
     @Schedule(interval = 6000)
     @Receive(uri = "${feed.uri}", properties = FEED.DONT_SPLIT_FEED)
-    public void readFeed(SyndFeed feed) throws Exception
+    public void readFeed( SyndFeed feed) throws Exception
     {
         count.getAndAdd(feed.getEntries().size());
     }

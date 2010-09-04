@@ -77,7 +77,7 @@ public class HttpClientMessageRequester2 extends HttpClientMessageRequester
             if (httpMethod.getStatusCode() < 400)
             {
                 MuleMessage message = new HttpMuleMessageFactory(connector.getMuleContext()).create(httpMethod, null /* encoding */);
-                etag = message.getStringProperty(HttpConstants.HEADER_ETAG, null);
+                etag = message.getInboundProperty(HttpConstants.HEADER_ETAG, null);
 
                 if (httpMethod.getStatusCode() == HttpStatus.SC_OK || (httpMethod.getStatusCode() != HttpStatus.SC_NOT_MODIFIED || !checkEtag))
                 {

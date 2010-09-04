@@ -2,14 +2,18 @@ package org.mule.ibeans.shell.commands
 
 import org.codehaus.groovy.tools.shell.CommandSupport
 import org.codehaus.groovy.tools.shell.Shell
+import org.ibeans.spi.IBeansPlugin
 import org.mule.api.MuleContext
-import org.mule.ibeans.config.IBeanHolder
+import org.mule.module.ibeans.config.IBeanHolder
+import org.mule.module.ibeans.spi.MuleIBeansPlugin
 
 /**
  * A command that can be used for getting an instance of an installed ibean or searching the store and installing and ibean.
  */
 public class CreateIBeanCommand extends CommandSupport
 {
+  private IBeansPlugin plugin;
+
   CreateIBeanCommand(final Shell shell)
   {
     super(shell, 'new', '\\+')
@@ -26,6 +30,7 @@ public class CreateIBeanCommand extends CommandSupport
       return ""
     }
     MuleContext mc = (MuleContext) getBinding().getVariable("muleContext")
+    plugin = new MuleIBeansPlugin(mc);
     IBeanHolder ibeanHolder = null
     String name
     if (id.indexOf('.') > -1)
@@ -52,7 +57,7 @@ public class CreateIBeanCommand extends CommandSupport
       }
     }
     name = (alias != null ? alias : name)
-    def bean = ibeanHolder.create(mc)
+    def bean = ibeanHolder.create(mc, plugin)
     getBinding().setVariable(name, bean)
     if (!io.quiet) io.out.println("Loaded iBean: " + id + " as " + name)
     return ""

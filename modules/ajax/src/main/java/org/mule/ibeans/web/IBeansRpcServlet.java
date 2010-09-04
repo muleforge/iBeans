@@ -12,9 +12,10 @@ package org.mule.ibeans.web;
 import org.mule.api.MuleContext;
 import org.mule.api.config.MuleProperties;
 import org.mule.ibeans.ConfigManager;
-import org.mule.ibeans.config.IBeanHolder;
 import org.mule.ibeans.web.jabsorb.ClassSerializer;
 import org.mule.ibeans.web.jabsorb.EnumSerializer;
+import org.mule.module.ibeans.config.IBeanHolder;
+import org.mule.module.ibeans.spi.MuleIBeansPlugin;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -72,6 +73,7 @@ public class IBeansRpcServlet extends JSONRPCServlet
 
     private String accessibleIbeans = ENABLE_ALL_IBEANS;
     private MuleContext muleContext;
+    private MuleIBeansPlugin plugin;
 
     public void init() throws ServletException
     {
@@ -83,6 +85,7 @@ public class IBeansRpcServlet extends JSONRPCServlet
             accessibleIbeans = temp;
         }
         accessibleIbeans = accessibleIbeans.replaceAll(" ", "");
+        plugin = new MuleIBeansPlugin(muleContext);
     }
 
     @Override
@@ -105,28 +108,29 @@ public class IBeansRpcServlet extends JSONRPCServlet
         {
             bridge.registerSerializer(new EnumSerializer());
             bridge.registerSerializer(new ClassSerializer());
+
+
+            boolean all = ENABLE_ALL_IBEANS.equals(accessibleIbeans);
+            Collection<IBeanHolder> col = muleContext.getRegistry().lookupObjects(IBeanHolder.class);
+            for (IBeanHolder holder : col)
+            {
+                if (all)
+                {
+                    bridge.registerObject(holder.getId(), holder.create(muleContext, plugin));
+                }
+                else if (accessibleIbeans.contains(holder.getId()))
+                {
+                    bridge.registerObject(holder.getId(), holder.create(muleContext, plugin));
+                }
+            }
+            if (all || accessibleIbeans.contains(CONFIG_BEAN_NAME))
+            {
+                bridge.registerObject(CONFIG_BEAN_NAME, new ConfigManager(muleContext));
+            }
         }
         catch (Exception e)
         {
             throw new ServletException(e);
-        }
-
-        boolean all = ENABLE_ALL_IBEANS.equals(accessibleIbeans);
-        Collection<IBeanHolder> col = muleContext.getRegistry().lookupObjects(IBeanHolder.class);
-        for (IBeanHolder holder : col)
-        {
-            if (all)
-            {
-                bridge.registerObject(holder.getId(), holder.create(muleContext));
-            }
-            else if (accessibleIbeans.contains(holder.getId()))
-            {
-                bridge.registerObject(holder.getId(), holder.create(muleContext));
-            }
-        }
-        if (all || accessibleIbeans.contains(CONFIG_BEAN_NAME))
-        {
-            bridge.registerObject(CONFIG_BEAN_NAME, new ConfigManager(muleContext));
         }
     }
 }

@@ -13,41 +13,41 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.component.JavaComponent;
 import org.mule.api.component.LifecycleAdapter;
+import org.mule.api.construct.FlowConstruct;
 import org.mule.api.lifecycle.Startable;
 import org.mule.api.lifecycle.Stoppable;
 import org.mule.api.model.EntryPointResolverSet;
 import org.mule.api.model.Model;
 import org.mule.api.object.ObjectFactory;
-import org.mule.api.registry.RegistrationException;
 import org.mule.component.DefaultComponentLifecycleAdapter;
 import org.mule.component.DefaultComponentLifecycleAdapterFactory;
-import org.mule.ibeans.internal.MuleiBeansAnnotatedObjectProcessor;
-import org.mule.ibeans.internal.MuleiBeansAnnotatedServiceBuilder;
-import org.mule.impl.annotations.AnnotatedServiceBuilder;
+import org.mule.module.annotationx.config.AnnotatedServiceBuilder;
+import org.mule.module.annotationx.parsers.AnnotatedServiceObjectProcessor;
 
 import com.google.inject.Key;
 
 /**
  * TODO
  */
-public class GuiceIBeansAnnotatedObjectProcessor extends MuleiBeansAnnotatedObjectProcessor
+public class GuiceIBeansAnnotatedObjectProcessor extends AnnotatedServiceObjectProcessor
 {
     private Key key;
 
     public GuiceIBeansAnnotatedObjectProcessor(MuleContext muleContext, Key key)
     {
-        super(muleContext);
+        super();
+        setMuleContext(muleContext);
         this.key = key;
 
     }
 
-    @Override
+    //@Override
     protected AnnotatedServiceBuilder createServiceBuilder(MuleContext muleContext) throws MuleException
     {
         return new GuiceIBeansAnnotatedServiceBuilder(muleContext);
     }
 
-    protected class GuiceIBeansAnnotatedServiceBuilder extends MuleiBeansAnnotatedServiceBuilder
+    protected class GuiceIBeansAnnotatedServiceBuilder extends AnnotatedServiceBuilder
     {
 
 
@@ -69,23 +69,17 @@ public class GuiceIBeansAnnotatedObjectProcessor extends MuleiBeansAnnotatedObje
             model.setLifecycleAdapterFactory(new DefaultComponentLifecycleAdapterFactory()
             {
                 @Override
-                public LifecycleAdapter create(Object pojoService, JavaComponent component, EntryPointResolverSet resolver, MuleContext muleContext) throws MuleException
+                public LifecycleAdapter create(Object pojoService, JavaComponent component, FlowConstruct flowConstruct, EntryPointResolverSet resolver, MuleContext muleContext) throws MuleException
                 {
-                    return new DefaultComponentLifecycleAdapter(pojoService, component, resolver, muleContext)
+                    return new DefaultComponentLifecycleAdapter(pojoService, component, flowConstruct, resolver, muleContext)
                     {
                         @Override
                         protected void setLifecycleFlags()
                         {
-                            isStartable = Startable.class.isInstance(componentObject.get());
-                            isStoppable = Stoppable.class.isInstance(componentObject.get());
+                            isStartable = Startable.class.isInstance(componentObject);
+                            isStoppable = Stoppable.class.isInstance(componentObject);
                             isInitialisable = false; //Handled by the container
                             isDisposable = false; //Handled by the container
-                        }
-
-                        @Override
-                        protected void registerComponentIfNecessary() throws RegistrationException
-                        {
-                            // do nothing
                         }
                     };
                 }

@@ -71,23 +71,14 @@
     <dependencies>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
+            <artifactId>ibeans-ri</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
             <!--<classifier>full</classifier>-->
         </dependency>
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-http</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-            <!--<classifier>full</classifier>-->
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-xml</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
             <!--<classifier>full</classifier>-->

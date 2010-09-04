@@ -1,7 +1,7 @@
 package org.mule.ibeans.dummy
 
-import org.mule.ibeans.api.client.CallException
-import org.mule.ibeans.api.client.Template
+import org.ibeans.annotation.Template
+import org.ibeans.api.CallException
 
 /**
  * A test iBean used by the create and help commands

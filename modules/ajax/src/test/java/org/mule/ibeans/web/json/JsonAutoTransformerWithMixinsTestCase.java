@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.module.json.JsonData;
 import org.mule.tck.testmodels.fruit.Apple;
 
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 //TODO: IBEANS-141. No support for Mixin resolution yet
-public class JsonAutoTransformerWithMixinsTestCase extends IBeansTestSupport
+public class JsonAutoTransformerWithMixinsTestCase extends IBeansRITestSupport
 {
     public static final String APPLE_JSON = "{\"washed\":false,\"bitten\":true}";
 

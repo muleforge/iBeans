@@ -9,9 +9,9 @@
  */
 package org.mule.ibeans.module.atom;
 
-import org.mule.ibeans.api.application.Receive;
-import org.mule.ibeans.api.application.Schedule;
+import org.mule.api.annotations.Schedule;
 import org.mule.ibeans.channels.FEED;
+import org.mule.module.annotationx.api.Receive;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

@@ -13,9 +13,9 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.service.Service;
 import org.mule.ibeans.IBeansContext;
-import org.mule.ibeans.internal.IntegrationBeanAnnotatedObjectProcessor;
-import org.mule.ibeans.internal.MuleiBeansAnnotatedObjectProcessor;
-import org.mule.impl.annotations.processors.InjectAnnotationProcessor;
+import org.mule.module.annotationx.jsr330.InjectAnnotationProcessor;
+import org.mule.module.annotationx.parsers.AnnotatedServiceObjectProcessor;
+import org.mule.module.ibeans.config.IntegrationBeanAnnotatedObjectProcessor;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ import org.springframework.context.ApplicationContext;
 public class IBeanInjectorsBeanPostProcessor implements BeanPostProcessor
 {
     private InjectAnnotationProcessor injectDelegate;
-    private MuleiBeansAnnotatedObjectProcessor applicationAnnotationsProcessor;
+    private AnnotatedServiceObjectProcessor applicationAnnotationsProcessor;
     private IntegrationBeanAnnotatedObjectProcessor ibeanAnnotationProcessor;
     private MuleContext muleContext;
 
@@ -39,7 +39,7 @@ public class IBeanInjectorsBeanPostProcessor implements BeanPostProcessor
     {
         muleContext = context;
         injectDelegate = new InjectAnnotationProcessor(muleContext);
-        applicationAnnotationsProcessor = new MuleiBeansAnnotatedObjectProcessor(muleContext);
+        applicationAnnotationsProcessor = new AnnotatedServiceObjectProcessor(muleContext);
         ibeanAnnotationProcessor = new IntegrationBeanAnnotatedObjectProcessor(muleContext);
     }
 
@@ -74,6 +74,6 @@ public class IBeanInjectorsBeanPostProcessor implements BeanPostProcessor
         IBeansContext ctx = (IBeansContext) beans.values().iterator().next();
         muleContext = (MuleContext) ctx.getConfig().get(MuleContext.class.getName());
         injectDelegate = new InjectAnnotationProcessor(muleContext);
-        applicationAnnotationsProcessor = new MuleiBeansAnnotatedObjectProcessor(muleContext);
+        applicationAnnotationsProcessor = new AnnotatedServiceObjectProcessor(muleContext);
     }
 }

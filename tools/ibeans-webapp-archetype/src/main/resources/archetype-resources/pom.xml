@@ -55,7 +55,7 @@
    <dependencies>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
+            <artifactId>ibeans-ri</artifactId>
             <version>${symbol_dollar}{ibeansVersion}</version>
             <scope>provided</scope>
         </dependency>
@@ -84,13 +84,6 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-email</artifactId>
-            <version>${symbol_dollar}{ibeansVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-xml</artifactId>
             <version>${symbol_dollar}{ibeansVersion}</version>
             <scope>provided</scope>
         </dependency>

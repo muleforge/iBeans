@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.web.json;
 
-import org.mule.ibeans.api.application.Transformer;
+import org.mule.api.annotations.Transformer;
 import org.mule.tck.testmodels.fruit.Apple;
 
 import java.io.IOException;

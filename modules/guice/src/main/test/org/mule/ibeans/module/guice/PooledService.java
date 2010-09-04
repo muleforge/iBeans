@@ -10,9 +10,9 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.api.MuleEventContext;
-import org.mule.ibeans.api.application.ReceiveAndReply;
-import org.mule.ibeans.api.application.Service;
-import org.mule.impl.annotations.ObjectScope;
+import org.mule.module.annotationx.api.ReceiveAndReply;
+import org.mule.module.annotationx.api.Service;
+import org.mule.module.annotationx.config.ObjectScope;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

@@ -10,22 +10,23 @@
 
 package org.mule.ibeans.ibeanscentral;
 
-import org.mule.ibeans.api.client.Call;
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.Return;
-import org.mule.ibeans.api.client.State;
-import org.mule.ibeans.api.client.Template;
-import org.mule.ibeans.api.client.Usage;
-import org.mule.ibeans.api.client.authentication.HttpBasicAuthentication;
-import org.mule.ibeans.api.client.params.Payload;
-import org.mule.ibeans.api.client.params.PayloadParam;
-import org.mule.ibeans.api.client.params.PropertyParam;
-import org.mule.ibeans.api.client.params.UriParam;
 import org.mule.ibeans.channels.HTTP;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+
+import org.ibeans.annotation.Call;
+import org.ibeans.annotation.Return;
+import org.ibeans.annotation.State;
+import org.ibeans.annotation.Template;
+import org.ibeans.annotation.Usage;
+import org.ibeans.annotation.param.Body;
+import org.ibeans.annotation.param.BodyParam;
+import org.ibeans.annotation.param.PropertyParam;
+import org.ibeans.annotation.param.UriParam;
+import org.ibeans.api.CallException;
+import org.ibeans.impl.auth.HttpBasicAuthentication;
 
 
 @Usage("How to use this bean")
@@ -49,27 +50,27 @@ public interface IbeansCentralIBean extends HttpBasicAuthentication
     @State
     void init(@PropertyParam("username") String username, @PropertyParam("password") String password);
 
-    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title like '-ibean'", properties = HTTP.FOLLOW_REDIRECTS)
+    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title like '-ibean'", properties = {HTTP.FOLLOW_REDIRECTS, HTTP.GET})
     List<IBeanInfo> getIBeans() throws CallException;
 
-    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title like '-ibean'  and name = '{version}'", properties = HTTP.FOLLOW_REDIRECTS)
+    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title like '-ibean'  and name = '{version}'", properties = {HTTP.FOLLOW_REDIRECTS, HTTP.GET})
     List<IBeanInfo> getIBeans(@UriParam("version") String version) throws CallException;
 
-    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title = '{shortName}-ibean'", properties = HTTP.FOLLOW_REDIRECTS)
+    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title = '{shortName}-ibean'", properties = {HTTP.FOLLOW_REDIRECTS, HTTP.GET})
     IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName) throws CallException;
 
-    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title = '{shortName}-ibean' and name = '{version}'", properties = HTTP.FOLLOW_REDIRECTS)
+    @Call(uri = "http://{host}:{port}{api_base}?q=select where parent:name like '.jar' and jar.manifest.Specification-Title = '{shortName}-ibean' and name = '{version}'", properties = {HTTP.FOLLOW_REDIRECTS, HTTP.GET})
     IBeanInfo getIBeanByShortName(@UriParam("shortName") String shortName, @UriParam("version") String version) throws CallException;
 
     @Call(uri = "http://{host}:{port}{download_uri}", properties = HTTP.FOLLOW_REDIRECTS)
     InputStream downloadIBean(@UriParam("download_uri") String uri) throws CallException;
 
     @Template("http://{host}:{port}#[bean:downloadUri]")
-    URL getIBeanDownloadUrl(@Payload IBeanInfo info) throws CallException;
+    URL getIBeanDownloadUrl(@Body IBeanInfo info) throws CallException;
 
     @Call(uri = "http://{host}:{port}/central/j_acegi_security_check")
-    @Return("#[header:Location != *login_error*]")
-    Boolean verifyCredentials(@PayloadParam("j_username") String username, @PayloadParam("j_password") String password) throws CallException;
+    @Return("#[header:INBOUND:Location != *login_error*]")
+    Boolean verifyCredentials(@BodyParam("j_username") String username, @BodyParam("j_password") String password) throws CallException;
 
-    //public IBeanInfo uploadIBean(@UriParam("name") String name, @UriParam("version") String version, @Payload File ibeanJar) throws CallException;
+    //public IBeanInfo uploadIBean(@UriParam("name") String name, @UriParam("version") String version, @Body File ibeanJar) throws CallException;
 }

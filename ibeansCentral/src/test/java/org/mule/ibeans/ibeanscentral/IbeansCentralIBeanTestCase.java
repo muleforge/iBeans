@@ -10,14 +10,14 @@
 
 package org.mule.ibeans.ibeanscentral;
 
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.test.ExternalPropsIBeansTestSupport;
 import org.mule.util.IOUtils;
 
 import java.io.InputStream;
 import java.util.List;
 
+import org.ibeans.annotation.IntegrationBean;
+import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
 

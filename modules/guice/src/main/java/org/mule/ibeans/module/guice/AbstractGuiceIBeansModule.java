@@ -9,11 +9,11 @@
  */
 package org.mule.ibeans.module.guice;
 
+import org.mule.api.MuleException;
 import org.mule.api.registry.RegistrationException;
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.config.ChannelConfigBuilder;
-import org.mule.ibeans.config.ScheduleConfigBuilder;
+import org.mule.module.annotationx.config.ChannelConfigBuilder;
 import org.mule.module.guice.AbstractMuleGuiceModule;
+import org.mule.transport.quartz.config.ScheduleConfigBuilder;
 
 /**
  * A Base Guice module for ibeans that provides helper methods for binding {@link org.mule.ibeans.config.ChannelConfigBuilder} objects to
@@ -58,7 +58,7 @@ public abstract class AbstractGuiceIBeansModule extends AbstractMuleGuiceModule
         {
             return new ChannelConfigBuilder(channelId, uri, muleContext);
         }
-        catch (IBeansException e)
+        catch (MuleException e)
         {
             //TODO better handling.  What is the right thing to do? We cannot addError() and return null
             throw new RuntimeException(e.getMessage(), e);
@@ -71,7 +71,7 @@ public abstract class AbstractGuiceIBeansModule extends AbstractMuleGuiceModule
         {
             return new ScheduleConfigBuilder(schedueId, muleContext);
         }
-        catch (IBeansException e)
+        catch (MuleException e)
         {
             //TODO better handling.  What is the right thing to do? We cannot addError() and return null            
             throw new RuntimeException(e.getMessage(), e);

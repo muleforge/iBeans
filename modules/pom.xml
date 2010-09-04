@@ -46,18 +46,16 @@
         <!--<module>gae</module>-->
         <module>guice</module>
         <module>jms-client</module>
-        <!--         <module>jpa</module> -->
         <module>http</module>
         <module>rest</module>
         <module>scheduler</module>
         <module>spring</module>
-        <module>xml</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
+            <artifactId>ibeans-ri</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

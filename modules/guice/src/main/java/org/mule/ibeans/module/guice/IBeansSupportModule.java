@@ -10,10 +10,10 @@
 package org.mule.ibeans.module.guice;
 
 import org.mule.api.MuleContext;
-import org.mule.config.annotations.endpoints.Channel;
-import org.mule.ibeans.internal.IntegrationBeanAnnotatedObjectProcessor;
-import org.mule.utils.AnnotationMetaData;
-import org.mule.utils.AnnotationUtils;
+import org.mule.api.annotations.meta.Channel;
+import org.mule.module.ibeans.config.IntegrationBeanAnnotatedObjectProcessor;
+import org.mule.util.annotation.AnnotationMetaData;
+import org.mule.util.annotation.AnnotationUtils;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;

@@ -6,8 +6,8 @@ import org.codehaus.groovy.tools.shell.CommandSupport
 import org.codehaus.groovy.tools.shell.Shell
 import org.codehaus.groovy.tools.shell.util.SimpleCompletor
 import org.mule.DefaultMuleContext
-import org.mule.ibeans.config.IBeanHolder
 import org.mule.ibeans.internal.config.IBeansInfo
+import org.mule.module.ibeans.config.IBeanHolder
 
 /**
  * TODO

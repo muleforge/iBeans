@@ -3,7 +3,7 @@ package org.mule.ibeans.shell.commands
 import org.codehaus.groovy.tools.shell.CommandSupport
 import org.codehaus.groovy.tools.shell.Shell
 import org.mule.api.MuleContext
-import org.mule.ibeans.config.IBeanHolder
+import org.mule.module.ibeans.config.IBeanHolder
 
 /**
  * TODO

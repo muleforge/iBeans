@@ -9,18 +9,18 @@
  */
 package org.mule.ibeans.module.rss;
 
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
 import java.util.Properties;
 
+import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class RssHttpSplitBasicTestCase extends IBeansTestSupport
+public class RssHttpSplitBasicTestCase extends IBeansRITestSupport
 {
     private SplitFeed splitFeed;
 

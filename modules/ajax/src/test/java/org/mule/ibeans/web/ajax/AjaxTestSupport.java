@@ -10,7 +10,7 @@
 package org.mule.ibeans.web.ajax;
 
 import org.mule.api.config.MuleProperties;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.transport.ajax.container.MuleAjaxServlet;
 
 import javax.servlet.ServletContextEvent;
@@ -23,7 +23,7 @@ import org.mortbay.jetty.client.HttpClient;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 
-public class AjaxTestSupport extends IBeansTestSupport
+public class AjaxTestSupport extends IBeansRITestSupport
 {
     public static final int SERVER_PORT = 58080;
 

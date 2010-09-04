@@ -4,10 +4,10 @@ import org.codehaus.groovy.tools.shell.CommandException
 
 class HelpCommandTest extends CommandTestSupport
 {
-  void testList()
-  {
-    shell << 'help'
-  }
+//  void testList()
+//  {
+//    shell << 'help'
+//  }
 
   void testCommandHelp()
   {

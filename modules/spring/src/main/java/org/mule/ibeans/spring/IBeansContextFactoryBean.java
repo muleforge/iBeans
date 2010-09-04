@@ -17,12 +17,12 @@ import org.mule.config.builders.DefaultsConfigurationBuilder;
 import org.mule.context.DefaultMuleContextBuilder;
 import org.mule.ibeans.IBeansContext;
 import org.mule.ibeans.IBeansFactory;
-import org.mule.ibeans.config.IBeanHolderConfigurationBuilder;
 import org.mule.ibeans.config.PropertiesConfigurationBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextBuilder;
 import org.mule.ibeans.internal.config.IBeansMuleContextFactory;
 import org.mule.ibeans.internal.config.ShutdownSplash;
 import org.mule.ibeans.internal.config.StartupSplash;
+import org.mule.module.ibeans.config.IBeanHolderConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

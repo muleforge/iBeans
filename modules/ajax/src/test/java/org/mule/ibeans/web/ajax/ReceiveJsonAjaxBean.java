@@ -9,8 +9,9 @@
  */
 package org.mule.ibeans.web.ajax;
 
-import org.mule.ibeans.api.application.Receive;
-import org.mule.ibeans.api.application.Send;
+import org.mule.api.annotations.param.Payload;
+import org.mule.module.annotationx.api.Receive;
+import org.mule.module.annotationx.api.Send;
 
 /**
  * TODO
@@ -19,7 +20,7 @@ public class ReceiveJsonAjaxBean
 {
     @Receive(uri = "ajax:///test2")
     @Send(uri = "vm://out")
-    public String process(JsonBean bean)
+    public String process(@Payload JsonBean bean)
     {
         return bean.toString();
     }

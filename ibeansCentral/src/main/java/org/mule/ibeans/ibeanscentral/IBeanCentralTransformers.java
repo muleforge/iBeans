@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.ibeanscentral;
 
-import org.mule.ibeans.api.application.Transformer;
+import org.mule.api.annotations.Transformer;
 
 import java.io.InputStream;
 import java.util.ArrayList;

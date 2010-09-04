@@ -225,7 +225,7 @@ function _disposeIBeans()
 {
     if (_instance) _instance.dispose();
 }
-;
+
 
 /*
  * NOTE from Mule iBeans: The Json-RPC support has the following copyright and license statement.  IBeans renames the

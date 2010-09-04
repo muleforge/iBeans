@@ -37,9 +37,23 @@
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
+            <artifactId>ibeans-ri</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>1.0-dev-20100813</version>
+            <scope>provided</scope>            
+        </dependency>
+
+        <dependency>
+            <groupId>org.ibeans</groupId>
+            <artifactId>ibeans-annotation-api</artifactId>
+            <version>0.9.1</version>
+            <scope>provided</scope>            
         </dependency>
 
         <dependency>
