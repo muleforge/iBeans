@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.util.scan.annotations;
 
-import org.mule.config.annotations.endpoints.Channel;
+import org.mule.api.annotations.meta.Channel;
 import org.mule.util.scan.annotations.AnnotationTypeFilter;
 import org.mule.util.scan.annotations.AnnotationsScanner;
 import org.mule.util.scan.annotations.MetaAnnotationTypeFilter;

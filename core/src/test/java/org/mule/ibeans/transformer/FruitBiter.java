@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.transformer;
 
-import org.mule.ibeans.api.application.ReceiveAndReply;
+import org.mule.module.annotationx.api.ReceiveAndReply;
 import org.mule.tck.testmodels.fruit.Fruit;
 
 /**

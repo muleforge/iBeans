@@ -9,8 +9,8 @@
  */
 package org.mule.ibeans.util.scan.annotations;
 
-import org.mule.ibeans.api.application.Receive;
-import org.mule.ibeans.api.application.Send;
+import org.mule.module.annotationx.api.Receive;
+import org.mule.module.annotationx.api.Send;
 
 import java.io.Serializable;
 

@@ -10,7 +10,6 @@
 package org.mule.ibeans.module.xml;
 
 import org.mule.api.MuleMessage;
-import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.module.xml.model.EmailAddress;
 import org.mule.ibeans.module.xml.model.Person;
 import org.mule.ibeans.test.IBeansTestSupport;

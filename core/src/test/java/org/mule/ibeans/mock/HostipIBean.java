@@ -9,15 +9,16 @@
  */
 package org.mule.ibeans.mock;
 
-import org.mule.ibeans.api.client.Call;
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.State;
-import org.mule.ibeans.api.client.Template;
-import org.mule.ibeans.api.client.Usage;
-import org.mule.ibeans.api.client.filters.ExpressionErrorFilter;
-import org.mule.ibeans.api.client.params.ReturnType;
-import org.mule.ibeans.api.client.params.UriParam;
 import org.mule.ibeans.channels.MimeTypes;
+
+import org.ibeans.annotation.Call;
+import org.ibeans.annotation.State;
+import org.ibeans.annotation.Template;
+import org.ibeans.annotation.Usage;
+import org.ibeans.annotation.filter.ExpressionErrorFilter;
+import org.ibeans.annotation.param.ReturnType;
+import org.ibeans.annotation.param.UriParam;
+import org.ibeans.api.CallException;
 
 @Usage("Simply pass in the ip address that you want to resolve and an XML document " +
         "is returned with the geo locations. The format can be found here: " +

@@ -9,7 +9,6 @@
  */
 package org.mule.ibeans.module.xml.expressions;
 
-import org.mule.ibeans.IBeansException;
 import org.mule.ibeans.api.client.IntegrationBean;
 import org.mule.ibeans.test.IBeansTestSupport;
 import org.mule.ibeans.transformers.PrimitveTransformers;

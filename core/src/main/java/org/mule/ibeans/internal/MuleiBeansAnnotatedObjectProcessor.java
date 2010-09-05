@@ -20,6 +20,7 @@ import org.mule.util.annotation.AnnotationUtils;
 
 import java.util.List;
 
+
 /**
  * Will check all method level annotations to see if they are {@link org.mule.config.annotations.endpoints.Channel} annotations.
  */

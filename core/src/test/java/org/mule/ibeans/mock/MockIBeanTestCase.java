@@ -9,10 +9,11 @@
  */
 package org.mule.ibeans.mock;
 
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.MockIntegrationBean;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
+import org.mule.module.xml.util.XMLUtils;
 
+import org.ibeans.annotation.MockIntegrationBean;
+import org.ibeans.api.CallException;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -21,7 +22,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.mule.ibeans.IBeansSupport.selectValue;
 
-public class MockIBeanTestCase extends IBeansTestSupport
+public class MockIBeanTestCase extends IBeansRITestSupport
 {
     public static final String GOOD_IP = "12.215.42.19";
     public static final String BAD_IP = "12.215.42.";
@@ -58,4 +59,26 @@ public class MockIBeanTestCase extends IBeansTestSupport
         String result = hostip.dummyTemplateMethod("three");
         assertEquals("one two three", result);
     }
+
+    @Test
+    public void testSuccessfulHostipLookup() throws Exception
+    {
+        hostip.init(Document.class);
+        when(hostip.getHostInfo(GOOD_IP)).thenAnswer(withXmlData("mock/hostip-found-response.xml", hostip));
+
+        Document result = hostip.getHostInfo(GOOD_IP);
+        String loc = XMLUtils.selectValue("//*[local-name()='coordinates']", result);
+        assertEquals("-88.4588,41.7696", loc);
+    }
+
+//    @Test
+//    public void testSuccessfulHostipLookupWithReturn() throws Exception
+//    {
+//        hostip.init(Document.class);
+//        when(hostip.hasIp(GOOD_IP)).thenAnswer(withXmlData("mock/hostip-found-response.xml", hostip));
+//        when(hostip.hasIp(GOOD_IP)).thenAnswer(withXmlData("mock/hostip-found-response.xml", hostip));
+//
+//        assertTrue(hostip.hasIp(GOOD_IP));
+//    }
+
 }

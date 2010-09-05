@@ -323,11 +323,12 @@ public final class IBeansContext
         try
         {
             MuleEvent event = ((OutboundEndpoint)requestEvent.getEndpoint()).process(requestEvent);
-            exceptionCheck(event.getMessage());
             if (event == null || event.getMessage().getPayload() instanceof NullPayload)
             {
                 return null;
             }
+            exceptionCheck(event.getMessage());
+            
             return event.getMessage();
         }
         catch (MuleException e)

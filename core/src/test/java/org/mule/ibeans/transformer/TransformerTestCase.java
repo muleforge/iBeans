@@ -9,10 +9,11 @@
  */
 package org.mule.ibeans.transformer;
 
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.api.MuleMessage;
+import org.mule.ibeans.test.IBeansRITestSupport;
 import org.mule.tck.testmodels.fruit.Banana;
 
+import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ import static org.junit.Assert.assertTrue;
  * Test that the {@link FruitTransformers} is loaded into the iBeans container and is used
  * by this test case
  */
-public class TransformerTestCase extends IBeansTestSupport
+public class TransformerTestCase extends IBeansRITestSupport
 {
     @Before
     public void init() throws IBeansException

@@ -9,9 +9,12 @@
  */
 package org.mule.ibeans.api.client;
 
-import org.mule.ibeans.api.client.params.UriParam;
-
 import java.net.URL;
+
+import org.ibeans.annotation.Call;
+import org.ibeans.annotation.Return;
+import org.ibeans.annotation.param.UriParam;
+import org.ibeans.api.CallException;
 
 public interface SearchIBean
 {

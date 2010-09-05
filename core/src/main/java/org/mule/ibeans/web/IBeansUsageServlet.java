@@ -11,7 +11,7 @@ package org.mule.ibeans.web;
 
 import org.mule.api.MuleContext;
 import org.mule.api.config.MuleProperties;
-import org.mule.ibeans.config.IBeanHolder;
+import org.mule.module.ibeans.config.IBeanHolder;
 
 import java.io.IOException;
 import java.util.Collection;

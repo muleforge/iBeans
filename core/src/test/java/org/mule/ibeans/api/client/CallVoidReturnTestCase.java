@@ -9,11 +9,12 @@
  */
 package org.mule.ibeans.api.client;
 
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
+import org.ibeans.annotation.IntegrationBean;
 import org.junit.Test;
 
-public class CallVoidReturnTestCase extends IBeansTestSupport
+public class CallVoidReturnTestCase extends IBeansRITestSupport
 {
     @IntegrationBean
     private SearchIBean search;

@@ -9,16 +9,17 @@
  */
 package org.mule.ibeans.api.client;
 
-import org.mule.ibeans.test.IBeansTestSupport;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
 import java.net.URL;
 
+import org.ibeans.annotation.IntegrationBean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class ReturnAnnotationTestCase extends IBeansTestSupport
+public class ReturnAnnotationTestCase extends IBeansRITestSupport
 {
     @IntegrationBean
     private SearchIBean search;

@@ -9,7 +9,7 @@
  */
 package org.mule.ibeans.transformer;
 
-import org.mule.ibeans.api.application.Transformer;
+import org.mule.api.annotations.Transformer;
 import org.mule.tck.testmodels.fruit.Apple;
 import org.mule.tck.testmodels.fruit.Banana;
 import org.mule.tck.testmodels.fruit.Fruit;
