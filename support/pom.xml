@@ -13,6 +13,11 @@
     <description>Integration Beans Framework support</description>
     <url>http://www.mulesoft.org/display/IBEANS</url>
 
+    <properties>
+        <shortId>IBEANS</shortId>
+        <domainName>ibeans</domainName>
+    </properties>
+    
     <build>
         <plugins>
             <plugin>
@@ -82,4 +87,22 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <distributionManagement>
+        <downloadUrl>http://mulesoft.org/display/${shortId}/Download</downloadUrl>
+
+        <repository>
+            <id>muleforge.webdav.releases</id>
+            <url>dav:https://dav.muleforge.org/repository/${domainName}</url>
+        </repository>
+        <snapshotRepository>
+            <id>muleforge.webdav.snapshots</id>
+            <url>dav:https://dav.muleforge.org/snapshots.repository/${domainName}</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+        <site>
+            <id>muleforge.webdav.sites</id>
+            <url>dav:https://dav.muleforge.org/${domainName}/maven/${project.version}</url>
+        </site>
+    </distributionManagement>
 </project>
