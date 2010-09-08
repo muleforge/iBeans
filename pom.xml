@@ -37,6 +37,7 @@
     </properties>
 
     <modules>
+        <module>support</module>
         <module>core</module>
         <module>modules</module>
         <module>console</module>

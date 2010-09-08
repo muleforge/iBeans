@@ -88,8 +88,8 @@
 
         <dependency>
             <groupId>org.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
-            <version>1.0-dev-20100813</version>
+            <artifactId>ibeans-support</artifactId>
+            <version>0.9</version>
         </dependency>
         
         <dependency>
