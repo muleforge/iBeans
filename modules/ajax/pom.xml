@@ -42,13 +42,7 @@
     </licenses>
 
     <dependencies>
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-ri</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
+      
         <dependency>
             <groupId>org.mule.transports</groupId>
             <artifactId>mule-transport-ajax</artifactId>

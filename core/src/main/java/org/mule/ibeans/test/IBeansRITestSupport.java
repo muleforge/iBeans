@@ -472,7 +472,7 @@ public abstract class IBeansRITestSupport
                 {
                     callback.onMessage(response);
                 }
-                return response;
+                return data;
             }
         };
     }
@@ -543,7 +543,7 @@ public abstract class IBeansRITestSupport
 
     protected MuleMessage createMuleMessage(Object payload, Map properties)
     {
-        return new DefaultMuleMessage(payload, properties, muleContext);
+        return new DefaultMuleMessage(payload, properties, null, null, muleContext);
     }
 
     protected MuleMessage createMuleMessage(Object payload)

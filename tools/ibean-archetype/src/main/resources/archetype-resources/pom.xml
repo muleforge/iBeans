@@ -78,7 +78,7 @@
    <dependencies>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-ri</artifactId>
+            <artifactId>ibeans-core</artifactId>
             <version>${symbol_dollar}{ibeansVersion}</version>
             <scope>provided</scope>
         </dependency>

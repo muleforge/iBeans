@@ -33,7 +33,7 @@ public class RssDontSplitTestCase extends IBeansRITestSupport
     @Override
     protected void addStartUpProperties(Properties properties)
     {
-        properties.setProperty("feed.uri", "rss:http://blogs.mulesoft.org/feed/");
+        properties.setProperty("feed.uri", "http://feeds.feedburner.com/muleblog?format=xml");
     }
 
     @Test

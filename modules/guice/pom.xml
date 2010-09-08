@@ -45,12 +45,6 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-ri</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-guice</artifactId>
             <version>${muleVersion}</version>

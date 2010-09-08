@@ -16,7 +16,9 @@ import org.mule.ibeans.web.json.model.Item;
 import org.mule.ibeans.web.json.model.Person;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ibeans.api.IBeansException;
 import org.ibeans.impl.support.datatype.CollectionDataType;
@@ -58,8 +60,9 @@ public class JsonCustomTransformerTestCase extends IBeansRITestSupport
     public void customTransformWithMuleMessage() throws Exception
     {
         ByteArrayInputStream in = new ByteArrayInputStream(EMAIL_JSON.getBytes());
-        MuleMessage msg = createMuleMessage(in);
-        msg.setInboundProperty("foo", "fooValue");
+        Map<String, Object> props = new HashMap<String, Object>();
+        props.put("foo", "fooValue");
+        MuleMessage msg = createMuleMessage(in, props);
         EmailAddress emailAddress = iBeansContext.transform(msg, new SimpleDataType<EmailAddress>(EmailAddress.class));
         assertNotNull(emailAddress);
         assertEquals("home", emailAddress.getType());
