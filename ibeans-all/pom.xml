@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>mule-ibeans</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-all</artifactId>
+    <packaging>pom</packaging>
+    <name>iBeans All modules</name>
+    <description>A convenience POM that maven projects can use to add all of the Mule iBeans modules in the standard
+        distro to a project. Note this is also used by the iBeans distro.
+    </description>
+
+    <properties>
+        <bundled>false</bundled>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-http</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-feeds</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-shell</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-jms-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-email</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-guice</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-ajax</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-scheduler</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-spring</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-jpa</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>-->
+    </dependencies>
+</project>

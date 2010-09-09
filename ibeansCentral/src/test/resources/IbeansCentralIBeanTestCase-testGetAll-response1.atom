@@ -1,0 +1,1281 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>tag:galaxy.mulesource.com,2008:registry:772d95fa-04fa-459c-9f38-0fcdc566a0e4:feed</id>
+    <title type="text">Mule Galaxy Registry/Repository</title>
+    <link href=""/>
+    <link href="" rel="self"/>
+    <author>
+        <name>Mule Galaxy</name>
+    </author>
+    <updated>2009-11-29T23:51:31.123Z</updated>
+    <entry>
+        <link href="/central/api/registry/IBeans/s3-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$b5703a75-3f6a-46af-b342-49b6e014a157</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:02:01.016Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:59.543Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="s3-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for working using Amazon S3 storage service."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Amazon S3 IBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans/s3-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/s3-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/s3-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/hostip-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$7ef9de5a-0130-4347-9797-887a3d67a32c</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:39:15.893Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:39:15.089Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="Looks up an IP address and returns the geolocation coordinates. Note that not all IP addresses can be        resolved to a Lat/Long address."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="hostip-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.Usage(value=Simply pass in the ip address that you want to resolve and
+                    an XML document is returned with the geo locations. The format can be found here:
+                    http://api.hostip.info/?ip=12.215.42.19)
+                </value>
+            </property>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Hostip iBean"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.hostip.info?ip={ip})</value>
+            </property>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=ip)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/IBEANS/Store/hostip-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/hostip-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/hostip-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$0cece88b-9f20-4169-96e1-225aba629074</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:42.930Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:41.636Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="flickr-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Flickr iBean that allows users to search and download photos. This iBeans introduces two        transformers into the container for convering a string to a URL and converting and inputStream to a        BufferedImage."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Flickr iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/mstranslator-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$dd3e6975-e125-4991-b24e-705b637e9214</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:02:03.884Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:02:03.096Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for accessing the Microsoft Language Translator Web Service for detecting the language of a        text string and translating it to other languages."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="mstranslator-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.Usage(value=Provides access to the Microsoft Bing Translator web
+                    service to translate between languages)
+                </value>
+            </property>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true"
+                      value="MS Translator IBean"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/Translate?appId={appId}&amp;from={from}&amp;to={to})
+                </value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/Detect?appId={appId})
+                </value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/GetLanguageNames?appId={appId})
+                </value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/GetLanguages?appId={appId})
+                </value>
+            </property>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.HeaderParam(value=Content-Type)</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.Payload(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=appId)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=to)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=locale)</value>
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=from)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans/mstranslator-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/mstranslator-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/mstranslator-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/hostip-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$f37288f7-b96a-43af-98c8-8b0254d09f4b</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:56.845Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:56.202Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="Looks up an IP address and returns the geolocation coordinates. Note that not all IP addresses can be        resolved to a Lat/Long address."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="hostip-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.Usage(value=Simply pass in the ip address that you want to resolve and
+                    an XML document is returned with the geo locations. The format can be found here:
+                    http://api.hostip.info/?ip=12.215.42.19)
+                </value>
+            </property>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Hostip iBean"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.hostip.info?ip={ip})</value>
+            </property>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=ip)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans/hostip-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/hostip-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/hostip-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/gmail-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$969fb9eb-5947-4448-90f1-186b9422487f</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:38:15.651Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:38:14.897Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="gmail-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A GMail iBean that allows users to receive and send emails using their GMail account. Currently        supports IMAP and SMTP."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="GMail iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/gmail-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/gmail-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/googlebase-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$b3f654b0-d72d-4fa1-8847-bbe964483697</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:54.501Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:53.877Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Google iBean that allows users to search via the Google Base API. Google Base is a free        service for submitting all kinds of content for Google to host and to make searchable online. It allows content        providers to upload structured data to Google, surface it across Google search properties, and syndicate it via        apis, gadgets and gadget ads."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="googlebase-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+            </property>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Google Base iBean"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://base.google.com/base/feeds/snippets?q={query}&amp;key={developer_key})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://base.google.com/base/feeds/snippets?q={query}&amp;max-results={results}&amp;key={developer_key})</value>
+            </property>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.UriParam(value=developer_key)</value>
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=query)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=results)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/googlebase-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/googlebase-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/bitly-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$89fa3f83-a919-4712-9a37-268fb1a6a391</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:37:06.477Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:37:05.797Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for accessing the Bit.ly API service for providing short URLs as well as looking up shortened        URLS and statistics for a given URL."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="bitly-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.filters.JsonErrorFilter(expr=errorCode!=0,errorCode=errorCode)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Bitly iBean"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/info?version={version}&amp;shortUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/shorten?version={version}&amp;longUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/expand?version={version}&amp;shortUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/stats?version={version}&amp;shortUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/errors?version={version}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+            </property>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=bitly_url)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=format)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=version)</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.UriParam(value=login)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=url)</value>
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=format)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=api_key)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/bitly-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/bitly-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/googlebase-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$a614b826-92d6-478f-9a8c-9ecc546c1d12</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:38:55.020Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:38:54.290Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Google iBean that allows users to search via the Google Base API. Google Base is a free        service for submitting all kinds of content for Google to host and to make searchable online. It allows content        providers to upload structured data to Google, surface it across Google search properties, and syndicate it via        apis, gadgets and gadget ads."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="googlebase-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+            </property>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Google Base iBean"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://base.google.com/base/feeds/snippets?q={query}&amp;key={developer_key})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://base.google.com/base/feeds/snippets?q={query}&amp;max-results={results}&amp;key={developer_key})</value>
+            </property>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.UriParam(value=developer_key)</value>
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=query)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=results)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/googlebase-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/googlebase-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/ec2-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$4b147c35-e6d5-4019-ac54-09567f1dafb8</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:38.808Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:37.633Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="ec2-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for working with Amazon EC2 instances. Provides support for listing deploying and undeploying        instances."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Amazon EC2 IBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/IBEANS"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/ec2-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/ec2-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/mstranslator-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$492f7dac-999e-461f-9326-ce0ad9920a15</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:39:36.056Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:39:35.157Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for accessing the Microsoft Language Translator Web Service for detecting the language of a        text string and translating it to other languages."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="mstranslator-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.Usage(value=Provides access to the Microsoft Bing Translator web
+                    service to translate between languages)
+                </value>
+            </property>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true"
+                      value="MS Translator IBean"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/Translate?appId={appId}&amp;from={from}&amp;to={to})
+                </value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/Detect?appId={appId})
+                </value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/GetLanguageNames?appId={appId})
+                </value>
+                <value>
+                    org.mule.ibeans.api.client.Call(uri=http://api.microsofttranslator.com/V1/Http.svc/GetLanguages?appId={appId})
+                </value>
+            </property>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.HeaderParam(value=Content-Type)</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.Payload(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=appId)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=to)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=locale)</value>
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=from)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/IBEANS/Store/mstranslator-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/mstranslator-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/mstranslator-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/bitly-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$eb6b91a5-f2ac-4585-aaf1-c8cd7c21ef31</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:52.023Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:51.252Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for accessing the Bit.ly API service for providing short URLs as well as looking up shortened        URLS and statistics for a given URL."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="bitly-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.filters.JsonErrorFilter(expr=errorCode!=0,errorCode=errorCode)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Bitly iBean"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/info?version={version}&amp;shortUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/shorten?version={version}&amp;longUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/expand?version={version}&amp;shortUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/stats?version={version}&amp;shortUrl={url}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=http://api.bit.ly/errors?version={version}&amp;login={login}&amp;apiKey={api_key}&amp;format={format})</value>
+            </property>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=bitly_url)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=format)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=version)</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.UriParam(value=login)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=url)</value>
+                <value>org.mule.ibeans.api.client.params.ReturnType(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=format)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=api_key)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/bitly-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/bitly-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/gmail-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$b88e089f-4e0f-4926-bb2f-748bb1e34e89</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:48.958Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:48.120Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="gmail-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A GMail iBean that allows users to receive and send emails using their GMail account. Currently        supports IMAP and SMTP."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="GMail iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/gmail-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/gmail-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/twitter-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$419adf3e-e4c9-4b9f-b2f3-a35370c0330f</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:40:18.923Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:40:18.131Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="twitter-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Twitter iBean (http://twitter.com) that allows users to search, view and update their status on        Twitter."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Twitter iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/twitter-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/twitter-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/bestbuy-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$7b47d07f-c819-4472-8f9d-6b4a92c84c2f</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:36:39.152Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:36:38.254Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="bestbuy-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="Provides asscess to the BestBuy Remix API, which offers access to BestBuy's product, store and taxonimy        information"/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Bestbuy IBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/IBEANS/Store/bestbuy-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/bestbuy-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/bestbuy-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/bestbuy-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$219c8958-2e19-42c1-99ae-90804e178de6</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:34.725Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:33.689Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="bestbuy-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="Provides asscess to the BestBuy Remix API, which offers access to BestBuy's product, store and taxonimy        information"/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Bestbuy IBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans/bestbuy-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/bestbuy-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/bestbuy-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$07750e89-4cad-4e01-be8d-37a899c406d9</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:37:55.289Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:37:54.549Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="flickr-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Flickr iBean that allows users to search and download photos. This iBeans introduces two        transformers into the container for convering a string to a URL and converting and inputStream to a        BufferedImage."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Flickr iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/whois-ibean.jar/1.0-SNAPSHOT;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$cade839b-1812-4968-8237-ad580fd77084</id>
+        <title type="text">1.0-SNAPSHOT</title>
+        <updated>2009-11-26T15:02:24.470Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:02:23.136Z" name="1.0-SNAPSHOT"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="whois-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="Provides consistent, well-structured whois data in XML and JSON"/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Whois IBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-SNAPSHOT"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans/whois-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-SNAPSHOT">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/whois-ibean.jar?version=1.0-SNAPSHOT"/>
+        <link href="/central/api/registry/IBeans/whois-ibean.jar?version=1.0-SNAPSHOT" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/twitter-ibean.jar/1.0-beta-9;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$01cdcc92-9626-4900-82fa-4365b8cc8b45</id>
+        <title type="text">1.0-beta-9</title>
+        <updated>2009-11-26T15:01:46.255Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-11-26T15:01:45.171Z" name="1.0-beta-9"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="twitter-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="A Twitter iBean (http://twitter.com) that allows users to search, view and update their status on        Twitter."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Twitter iBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-9"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/ibeans"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-9">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive"
+                 src="/central/api/registry/IBeans/twitter-ibean.jar?version=1.0-beta-9"/>
+        <link href="/central/api/registry/IBeans/twitter-ibean.jar?version=1.0-beta-9" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/s3-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$701d08e0-ad79-4d36-95e6-4b56d82673b1</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:39:58.430Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:39:57.358Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="s3-ibean"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for working using Amazon S3 storage service."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Amazon S3 IBean"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/IBEANS/Store/s3-ibean"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/s3-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/s3-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+    <entry>
+        <link href="/central/api/registry/IBeans/ec2-ibean.jar/1.0-beta-8;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$aa14cb8c-f686-49c0-9727-52dfba5088c8</id>
+        <title type="text">1.0-beta-8</title>
+        <updated>2009-10-28T06:37:29.925Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <summary type="xhtml"></summary>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:37:28.897Z" name="1.0-beta-8"
+                   type="Artifact Version"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0">
+            <property name="jar.manifest.Implementation-Vendor-Id" locked="true" visible="true"
+                      value="org.mule.ibeans"/>
+            <property name="jar.manifest.Dev-List-Email" locked="true" visible="true" value="dev@mule.codehaus.org"/>
+            <property name="jar.manifest.Support" locked="true" visible="true"
+                      value="For commercial support go to: http://mulesoft.com}"/>
+            <lifecycle property="primary.lifecycle" name="Default" phase="Created">
+                <next-phases>Developed</next-phases>
+                <previous-phases></previous-phases>
+            </lifecycle>
+            <property name="jar.manifest.Implementation-Vendor-Url" locked="true" visible="true"
+                      value="http://mulesoft.com"/>
+            <property name="jar.manifest.Product-Description" locked="true" visible="true"
+                      value="An iBean for working with Amazon EC2 instances. Provides support for listing deploying and undeploying        instances."/>
+            <property name="jar.manifest.License-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/MULE/License"/>
+            <property name="jar.manifest.License-Title" locked="true" visible="true" value="CPAL 1.0"/>
+            <property name="jar.manifest.Implementation-Version" locked="true" visible="true" value="1.0-beta-8"/>
+            <property name="jar.manifest.Archiver-Version" locked="true" visible="true" value="Plexus Archiver"/>
+            <property name="jar.manifest.Specification-Title" locked="true" visible="true" value="ec2-ibean"/>
+            <property name="java.annotations.level.class" locked="true" visible="true">
+                <value>javax.inject.Inject(</value>
+                <value>org.mule.ibeans.api.client.Usage(value=Some AWS usage text)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Title" locked="true" visible="true" value="Amazon EC2 IBean"/>
+            <property name="java.annotations.level.method" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.Call(uri=https://ec2.amazonaws.com/?Action=DescribeImages&amp;AWSAccessKeyId={AWSAccessKeyId}&amp;Signature={Signature}&amp;SignatureMethod={SignatureMethod}&amp;SignatureVersion={SignatureVersion}&amp;Expires={Expires}&amp;Version={Version})</value>
+                <value>org.mule.ibeans.api.client.State(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=https://ec2.amazonaws.com/?Action=RunInstances&amp;ImageId={ImageId}&amp;MinCount={MinCount}&amp;MaxCount={MaxCount}&amp;KeyName={KeyName}&amp;AWSAccessKeyId={AWSAccessKeyId}&amp;Signature={Signature}&amp;SignatureMethod={SignatureMethod}&amp;SignatureVersion={SignatureVersion}&amp;Expires={Expires}&amp;Version={Version})</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+                <value>org.mule.ibeans.api.client.Call(uri=https://ec2.amazonaws.com/?Action=DescribeImages&amp;AWSAccessKeyId={AWSAccessKeyId}&amp;ImageId.1={ImageId.1}&amp;Signature={Signature}&amp;SignatureMethod={SignatureMethod}&amp;SignatureVersion={SignatureVersion}&amp;Expires={Expires}&amp;Version={Version})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=https://ec2.amazonaws.com/?Action=TerminateInstances&amp;InstanceId.1={InstanceId.1}&amp;AWSAccessKeyId={AWSAccessKeyId}&amp;Signature={Signature}&amp;SignatureMethod={SignatureMethod}&amp;SignatureVersion={SignatureVersion}&amp;Expires={Expires}&amp;Version={Version})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=https://ec2.amazonaws.com/?Action=RunInstances&amp;ImageId={ImageId}&amp;MinCount=1&amp;MaxCount=1&amp;KeyName={KeyName}&amp;AWSAccessKeyId={AWSAccessKeyId}&amp;Signature={Signature}&amp;SignatureMethod={SignatureMethod}&amp;SignatureVersion={SignatureVersion}&amp;Expires={Expires}&amp;Version={Version})</value>
+                <value>org.mule.ibeans.api.client.Call(uri=https://ec2.amazonaws.com/?Action=DescribeInstances&amp;AWSAccessKeyId={AWSAccessKeyId}&amp;Signature={Signature}&amp;SignatureMethod={SignatureMethod}&amp;SignatureVersion={SignatureVersion}&amp;Expires={Expires}&amp;Version={Version})</value>
+                <value>org.mule.ibeans.api.application.Transformer(</value>
+            </property>
+            <artifact property="artifact" mediaType="application/java-archive"/>
+            <property name="jar.manifest.Created-By" locked="true" visible="true" value="Apache Maven"/>
+            <property name="java.annotations.level.field" locked="true" visible="true">
+                <value>javax.inject.Inject(</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=Expires)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=Signature)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=SignatureVersion)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=SignatureMethod)</value>
+            </property>
+            <property name="jar.manifest.Manifest-Version" locked="true" visible="true" value="1.0"/>
+            <property name="jar.manifest.Implementation-Vendor" locked="true" visible="true" value="MuleSoft, Inc"/>
+            <property name="jar.manifest.Bug-Tracker" locked="true" visible="true"
+                      value="http://www.mulesoft.org/jira/browse/IBEANS"/>
+            <property name="jar.manifest.Built-By" locked="true" visible="true" value="rossmason"/>
+            <property name="java.annotations.level.param" locked="true" visible="true">
+                <value>org.mule.ibeans.api.client.params.UriParam(value=ImageId)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=Version)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=KeyName)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=AWSAccessKeyId)</value>
+                <value>org.mule.ibeans.api.client.params.PropertyParam(value=aws_secret_key)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=MinCount)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=ImageId.1)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=InstanceId.1)</value>
+                <value>org.mule.ibeans.api.client.params.UriParam(value=MaxCount)</value>
+            </property>
+            <property name="jar.manifest.Implementation-Url" locked="true" visible="true"
+                      value="http://mulesoft.org/display/IBEANS"/>
+            <property name="jar.manifest.Build-Jdk" locked="true" visible="true" value="1.6.0_13"/>
+        </metadata>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/1.0-beta-8">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="application/java-archive" src="/central/api/registry/IBeans/ec2-ibean.jar?version=1.0-beta-8"/>
+        <link href="/central/api/registry/IBeans/ec2-ibean.jar?version=1.0-beta-8" rel="edit-media"/>
+    </entry>
+</feed>

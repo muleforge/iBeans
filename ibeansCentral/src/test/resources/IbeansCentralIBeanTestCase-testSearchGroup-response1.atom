@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>tag:galaxy.mulesource.com,2008:registry:772d95fa-04fa-459c-9f38-0fcdc566a0e4:feed</id>
+    <title type="text">Mule Galaxy Registry/Repository</title>
+    <link href=""/>
+    <link href="" rel="self"/>
+    <author>
+        <name>Mule Galaxy</name>
+    </author>
+    <updated>2009-11-29T23:51:26.520Z</updated>
+    <entry>
+        <link href="/central/api/registry/IBeans/flickr-ibean.jar;atom" rel="edit"/>
+        <id>urn:galaxy:artifact:local$3e79ba06-0810-443f-8442-b6eb8adbb26c</id>
+        <title type="text">flickr-ibean.jar</title>
+        <updated>2009-10-28T06:56:24.317Z</updated>
+        <author>
+            <name>Ross Mason</name>
+        </author>
+        <item-info xmlns="http://galaxy.mule.org/2.0" created="2009-10-28T06:37:54.466Z" name="flickr-ibean.jar"
+                   type="Artifact"/>
+        <metadata xmlns="http://galaxy.mule.org/2.0"/>
+        <collection xmlns="http://www.w3.org/2007/app" id="versions" href="/central/api/flickr-ibean.jar;children">
+            <atom:title xmlns:atom="http://www.w3.org/2005/Atom" type="text">Child Items</atom:title>
+        </collection>
+        <content type="text"></content>
+    </entry>
+</feed>

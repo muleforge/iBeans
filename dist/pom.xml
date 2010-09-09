@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>mule-ibeans</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+    <artifactId>ibeans-dist</artifactId>
+    <packaging>pom</packaging>
+    <name>Mule iBeans Tomcat Distribution</name>
+
+    <properties>
+        <sourceDir>${project.build.directory}/sources</sourceDir>
+    </properties>
+
+    <build>
+        <defaultGoal>assembly:assembly</defaultGoal>
+        <plugins>
+            <!--
+                Unpack some (source) artifacts to target/sources. This will
+                be packed as src.zip in the next build step and incorporated
+                into the final assembly.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${sourceDir}</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.mule.ibeans</groupId>
+                                    <artifactId>mule-ibeans</artifactId>
+                                    <version>${project.version}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.mule.modules</groupId>
+                                    <artifactId>mule-module-annotations</artifactId>
+                                    <version>${muleVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <!--
+                        Pack up everything in target/sources as source zip. This
+                        goes into the final distribution.
+                    -->
+                    <execution>
+                        <id>source-zip</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>src</finalName>
+                            <descriptors>
+                                <descriptor>source-zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>distribution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-all</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>gmail-ibean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>flickr-ibean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>bitly-ibean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>hostip-ibean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>googlebase-ibean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>twitter-ibean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- examples we ship -->
+        <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>gpswalker</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>notifications</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>web-examples</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+         <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>geomail</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+         <dependency>
+            <groupId>org.mule.ibeans.examples</groupId>
+            <artifactId>code-examples</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+</project>
