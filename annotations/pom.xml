@@ -7,7 +7,7 @@
     <parent>
         <artifactId>ibeans</artifactId>
         <groupId>org.ibeans</groupId>
-        <version>1.0-beta-10-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     
     <!-- Project -->
