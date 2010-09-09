@@ -39,7 +39,7 @@ public class RssDontSplitTestCase extends IBeansRITestSupport
     @Test
     public void consumeFeed() throws Exception
     {
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         int count = noSplitFeed.getCount();
         assertTrue(count > 0);
     }

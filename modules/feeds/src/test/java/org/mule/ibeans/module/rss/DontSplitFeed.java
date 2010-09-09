@@ -24,7 +24,7 @@ public class DontSplitFeed
 {
     private AtomicInteger count = new AtomicInteger(0);
 
-    @Schedule(interval = 6000)
+    @Schedule(interval = 1000)
     @Receive(uri = "${feed.uri}", properties = FEED.DONT_SPLIT_FEED)
     public void readFeed( SyndFeed feed) throws Exception
     {
