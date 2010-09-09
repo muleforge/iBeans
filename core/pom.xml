@@ -35,6 +35,9 @@
                                     <include>org.mule:mule-core:tests</include>
                                     <include>org.mule.tests:mule-tests-functional</include>
                                     <include>org.mule.modules:mule-module-annotations</include>
+                                    <include>org.ibeans:ibeans-support</include>
+                                    <include>org.ibeans:ibeans-annotation-api</include>
+                                    <include>org.mule.modules:mule-module-xannotations</include>
                                     <include>javax.annotation:jsr250-api</include>
                                     <include>javax.inject:jsr330-api</include>
                                     <include>org.mule.modules:mule-module-builders</include>
