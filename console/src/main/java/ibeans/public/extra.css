@@ -1,0 +1,104 @@
+.header-title {
+    font-weight: bold;
+    font-size: 26px;
+    color: white;
+    padding: 8px;
+}
+
+.info-icon {
+/*background: url("gxt/images/default/window/icon-info.gif") no-repeat left;*/
+    color: black;
+}
+
+.warning-icon {
+/*background: url("gxt/images/default/window/icon-warning.gif") no-repeat left bottom;*/
+    color: orange;
+}
+
+.tip-icon {
+    background: url("gxt/images/default/dd/drop-yes.gif") no-repeat left bottom;
+
+}
+
+.error-icon {
+/*background: url("gxt/images/default/window/icon-error.gif") no-repeat left;*/
+    color: red;
+
+}
+
+.status-bar {
+    text-align: left;
+    width: 100%;
+    float: left;
+    border: 1px solid #ddd;
+    font-size: 10px;
+    margin-bottom: 6px;
+    padding: 2px;
+}
+
+/* Covers blue bottom of active tab */
+.x-tab-panel-header_sub1 .x-tab-strip-top .x-tab-strip-active .x-tab-right span.x-tab-strip-text {
+    padding-bottom: 5px;
+
+}
+
+.welcome-h1 {
+    color: black;
+    font-family: tahoma, helvetica, arial, sans-serif;
+` font-size : 20 pt;
+    margin-bottom: 6;
+    padding: 4;
+}
+
+.welcome-h2 {
+    color: black;
+    font-family: tahoma, helvetica, arial, sans-serif;
+` font-size : 14 pt;
+    font-weight: bold;
+    padding: 4;
+    margin-bottom: 4;
+
+}
+
+.welcome-h2 {
+    color: black;
+    font-family: tahoma, helvetica, arial, sans-serif;
+` font-size : 11 pt;
+    font-weight: bold;
+    padding: 2;
+    margin-bottom: 6;
+
+}
+
+.welcome-image {
+    width: 64px;
+    height: 64px;
+    border: 1px dashed;
+    margin-right: 4px;
+}
+
+.welcome-table {
+    padding: 6px;
+    margin: 6px;
+}
+
+.header-title {
+    color: black;
+    font-family: tahoma, helvetica, arial, sans-serif;
+` font-size : 30 pt;
+    margin-bottom: 6;
+    padding: 6;
+}
+
+.header-sub-title {
+    color: #666;
+    font-family: tahoma, helvetica, arial, sans-serif;
+` font-size : 14 pt;
+    margin-bottom: 3;
+    padding: 3;
+    margin-left: 40;
+}
+
+.faux-link {
+    cursor: pointer;
+}

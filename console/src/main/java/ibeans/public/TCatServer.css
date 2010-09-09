@@ -1,0 +1,28 @@
+.licenseForm {
+  background-color: white;
+  padding-left: 10px;
+}
+
+/* EE fix for GALAXY-405 */
+.top-panel .gwt-Hyperlink a {
+    color: black;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.top-panel .title {
+    background-color: #E5EDF5;
+}
+
+.footer .footer-logo {
+    float: left;
+    position:relative;
+    bottom:8px;
+}
+
+
+/* main panel search field */
+.field-search-main {
+}
+
+/*  GXT */

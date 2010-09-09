@@ -1,0 +1,1695 @@
+/**
+ **
+ ** Global Defaults
+ **
+ **/
+
+body {
+  color: black;
+  font-family: arial, tahoma, helvetica, sans-serif;
+  font-size: 10pt;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+.main-application-panel {
+    padding-bottom: 25px !important;
+}
+
+.header {
+    padding: 5px 0px 10px 10px;
+    background-color: white;
+}
+
+.header-right {
+    float: right;
+    font-size: 9pt;
+    color: #707070 ; /* dark gray */
+    text-align: right;
+    background-image: url("images/header_bg.jpg");
+    background-position: right;
+    background-repeat: no-repeat;
+    height: 65px;
+}
+
+#header-right li {
+  display: inline;
+}
+
+.header-right a, .header-right a:visited {
+    color: #016c96;
+    text-decoration: none;
+}
+
+.header-right a:hover {
+    text-decoration: underline;
+    cursor: hand;
+}
+
+.header-right-options {
+    color: #016c96;
+    padding: 0px 15px 0px 15px;
+    font-size: 8pt;
+    text-align: right;
+}
+.header-right-options a, .header-right-options a:visited {
+    color: #016c96;
+    text-decoration: none;
+}
+
+.header-right-options a:hover {
+    text-decoration: underline;
+}
+
+.headerTabPanel {
+  margin-top: 0px;
+  margin-left: 0px;
+  width: 100%;
+  color: black;
+}
+
+h2 {
+  font-weight: normal;
+}
+
+table {
+  font-size: 100%;
+}
+
+code {
+  font-size: small;
+}
+
+a {
+  color: #003366;
+}
+
+a:visited {
+  color: #003366;
+}
+
+.unselected-link {
+    background-color: white;
+    padding: 3px;
+}
+
+.selected-link {
+    font-weight: bold;
+    padding: 3px;
+}
+
+
+.hr {
+    border-top: 1px #aaa solid;
+    margin-top: 5px;
+}
+
+.icon-baseline {
+    vertical-align: bottom;
+    cursor: pointer;
+    cursor: hand;
+}
+
+/* Display's tooltips like in Eclipse */
+.tooltip .gwt-HTML {
+        border: 1px solid #fc0;
+        padding: 2px 3px 3px 3px;
+        font-size: smaller;
+        background-color: #ffc;
+}
+
+.pipe-with-space {
+    margin: 5px;
+    color: #808080;
+}
+
+.progress-indicator-message {
+  font-family: Arial;
+}
+
+/**
+ **
+ ** The Left Menu
+ **
+ **/
+
+.clearit {
+    clear: both;
+    height: 0;
+    line-height: 0;
+    font-size: 0px; /*for IE*/
+}
+
+.left-menu {
+  margin: 9px 0 0 5px;
+  border: 1px solid #c4c4c4;
+  /*border-right: 1px #aaa solid;*/
+  width: 205px;
+  min-height: 85%;
+  height: 80%;
+}
+
+.left-menu-container {
+    padding: 0;
+}
+
+.x-panel-container-full {
+    min-height: 85%;
+    height: 80%;
+}
+
+.x-panel: before {
+  background: transparent url(gxt/images/default/panel/tr-gray.gif) scroll no-repeat top right;
+  margin-bottom: -20px;
+  height: 30px;
+  display: block;
+  border: none;
+  content: url(gxt/images/default/panel/tl-gray.gif);
+  padding: 0;
+  line-height: 0.1;
+  font-size: 1px;
+}
+
+.x-panel: after {
+  display: block;
+  line-height: 0.1;
+  font-size: 1px;
+  content:  url(gxt/images/default/panel/bl-gray.gif);
+  margin: 0 0 -1px 0;
+  height: 30px;
+  background: white;
+  background: transparent url(gxt/images/default/panel/br-gray.gif) scroll no-repeat bottom right ;
+  padding: 0;
+}
+
+.left-menu-button a {
+    background-color: #D5E1EE;
+    font-weight: bold;
+    display: block;
+    color: black;
+    padding: 4px 8px;
+    margin: 5px auto;
+    width: 125px;
+    text-align: center;
+}
+
+.workspaces {
+    padding: 2px 0px 2px 0px;
+    background-color: white;
+}
+
+.workspaces .gwt-TreeItem {
+    padding: 2px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.workspaces .gwt-TreeItem-selected {
+    background-color: #D5E1EE;
+    font-weight: bold;
+}
+
+
+/**
+ **
+ ** Top Styles
+ **
+ **/
+
+.top-panel {
+    background-color: #E5EDF5;
+    padding: 5px;
+    color: white;
+}
+
+.top-panel .gwt-Hyperlink a {
+    color: black;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.top-panel .toolbar .gwt-Hyperlink {
+    float: right;
+    padding-right: 10px;
+}
+
+.top-panel .column-view,
+.top-panel .search-panel {
+     margin: 0 auto 5px;
+}
+
+.top-panel .title {
+    background-color: #E5EDF5;
+}
+/**
+ **
+ ** Search Panel
+ **
+ **/
+
+.search-panel {
+    padding-top: 1.5em;
+    width: 603px;
+    color: white;
+}
+
+.search-panel .gwt-Hyperlink {
+    text-align: left;
+    margin-left: 1em;
+    padding-bottom: 0.2em;
+}
+
+.search-button-panel {
+    text-align: right;
+    padding: 0.3em 0;
+}
+
+.search-button-panel .gwt-Hyperlink {
+    float: left;
+}
+
+.search-button-panel .gwt-Hyperlink a {
+    color: black;
+    font-size: 0.9em;
+}
+
+.search-panel table {
+    color: black;
+}
+
+.search-panel-field {
+  padding-bottom: 6px;
+}
+
+/**
+ **
+ ** Generic right side styles
+ **
+ **/
+.title {
+    font-weight: bold;
+    padding: 4px;
+    margin-top: 8px;
+    font-size: 1.2em;
+    background-color: white;
+    color: #A35200
+}
+
+
+.artifactTitle {
+    font-weight: bold;
+    padding: 6px;
+    margin-top: 4px;
+    font-size: 1.5em;
+}
+
+.right-title-panel {
+    margin-top: 8px;
+}
+
+.right-title, .rightlinked-title {
+    padding: 4px;
+    font-weight: bold;
+    /* burnt orange */
+    color: #A35200;
+}
+
+/* A different right title which allows a link */
+.rightlinked-title-panel {
+    width: 100%;
+    padding: 4px 3px;
+    color: black;
+    background-color: #EEEEEE;
+    border: 1px #C0C0C0 solid;
+}
+
+.rightlinked-title-link {
+    float: right;
+    padding: 6px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+
+.base {
+    width: 100%;
+    margin: 0px;
+}
+
+.no-border {
+    border-width:0 !important;
+}
+
+/**
+ **
+ ** Toolboxes
+ **
+ **/
+
+.toolbox {
+    width: 100%;
+    color: white;
+    padding-top: 4px;
+    margin-left: 4px;
+    margin-bottom: 4px;
+}
+
+.toolbox-body {
+    color: black;
+    background-color: white;
+}
+
+.toolbox-items {
+    width: 100%;
+}
+
+.toolbox-item-entry {
+    padding: 2px 4px 2px 4px;
+}
+
+.toolbox-buttons {
+    display: inline;
+    white-space: nowrap;
+}
+.toolbox-title {
+    display: inline;
+    white-space: nowrap;
+    padding-right: 5px;
+}
+
+.toolbox-title-label {
+    display: inline;
+}
+.toolbox-header {
+    font-weight: bold;
+      color: black;
+      padding: 3px;
+}
+.toolbox-header-onwhite {
+  font-weight: bold;
+  background-color: #333;
+  border-bottom: 1px #333 solid;
+  padding: 4px;
+  padding-left: 6px;
+  background-image: url("images/nw_maj_rond.gif");
+  background-repeat: no-repeat;
+}
+
+/* left side artifact filter */
+
+.toolbox .selected-link,
+.toolbox .unselected-link {
+    font-size: 0.9em;
+    margin-left: 4px;
+    padding-left: 4px;
+}
+
+.toolbox .selected-link a,
+.toolbox .unselected-link a {
+    text-decoration: none;
+}
+
+.toolbox .unselected-link {
+    padding-left: 14px;
+}
+
+.toolbox .selected-link {
+    background-image: url("images/checkmark.gif");
+    background-repeat: no-repeat;
+    padding-left: 14px;
+}
+
+
+/**
+ **
+ ** The Main Panel
+ **
+ **/
+
+.main-panel {
+    background-color: white;
+    margin: 9px;
+}
+
+.padded-panel {
+    padding: 5px;
+}
+
+
+.error-panel {
+    background: white;
+    padding: 10px;
+}
+
+.error-panel .gwt-Label {
+    background: #ffc;
+    padding: 5px;
+    border: 1px solid #fc0;
+    text-align: center;
+}
+
+.footer {
+    border-top: 1px solid black;
+    color: #707070 ; /* dark gray */
+    background-color: #fff;
+    /*background-image: url("images/header_bg.jpg");*/
+    /*background-repeat:no-repeat;*/
+    /*background-position: right;*/
+    text-align: right;
+    font-family: arial, tahoma, helvetica, sans-serif;
+    font-size: .7em;
+    padding: 1em;
+}
+
+.footer-link {
+    cursor:pointer
+}
+
+
+/* override content panel */
+.help-panel-inline {
+    font-family: arial, tahoma, helvetica, sans-serif !important;
+    font-size: 12px!important;
+    font-variant:normal!important;
+    font-style:normal  !important;
+    font-weight: normal !important;
+    background-image: none !important;
+    border-color: white !important;
+    margin: 0 !important;
+    padding: 0 5 5 5 !important;
+    background-color: #fff !important;
+    color:black !important;
+}
+
+/**
+ **
+ ** Artifact Panel
+ **
+ **/
+
+.view-ListBox {
+    margin-left: 8px;
+}
+
+.recent-views {
+    padding: 0px 4px 4px 8px;
+}
+
+.feed-icon {
+    margin-left: 6px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.artifactToolbarItem {
+    margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid #C0C0C0;
+}
+
+.artifactToolbarItemFirst {
+    margin-left: 12px;
+    padding-bottom: 2px;
+}
+
+.artifact-title-base {
+    padding: 6px;
+    margin-top: 4px;
+}
+
+.artifact-title-base .artifact-path {
+    display: block;
+    font-size: 1.1em;
+    margin-left: 3px;
+}
+
+.artifact-title-base .artifact-title {
+    vertical-align: middle;
+}
+
+.artifact-title-base .artifact-name {
+    display: inline;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding-top: 4px;
+}
+
+.artifact-title-base .artifact-version {
+    display: inline;
+}
+
+.artifact-panel-base {
+    margin: 0.4em;
+}
+
+.artifactTopPanel {
+    width: 100%;
+}
+
+.spacer {
+    margin: 5px;
+}
+
+
+.dependencyPanelHeader {
+  font-weight: bold;
+  background-color: #C3D9FF;
+  border-bottom: 1px black solid;
+  padding: 2px;
+  width: 100%;
+}
+
+.dependencyPanel {
+    border: solid #c3d9ff 2px;
+    width: 100%;
+}
+
+.propertyLink {
+    padding-left: 5px;
+}
+
+.artifactInfoRightGroup {
+    margin-left: 10px;
+}
+
+.comments {
+    margin-right: 6px;
+}
+
+.comment {
+    margin-top: 5px;
+}
+
+.addComment {
+    background-color: #F0FFF0;
+    border: 1px solid #C0C0C0;
+    padding: 4px;
+}
+
+.commentTitle {
+    padding: 4px 8px;
+}
+
+.commentText {
+    padding: 4px;
+    margin-left: 25px;
+    border-bottom: 1px solid #C0C0C0;
+}
+
+.commentTitle .user {
+    font-weight: bold;
+}
+
+.commentTitle .gwt-Hyperlink {
+    text-align: right;
+    float:right;
+}
+
+.commentTitle a, .commentTitle a:visited {
+    color: black;
+}
+
+.nestedComment {
+    padding-left: 20px;
+}
+
+.addComment {
+    padding: 10px;
+}
+
+.artifactDescriptionLabel {
+    font-weight: bold;
+}
+
+.columnTable button { margin-top: 0px; }
+.columnTable input  { margin-top: 0px; }
+.columnTable select { margin-top: 0px; }
+
+.columnTable .artifactTableHeader {
+    vertical-align: top;
+    text-align: right;
+    padding: 4px;
+    padding-right: 10px;
+    width: 125px;
+}
+
+.columnTable .artifactTableEntry {
+    vertical-align: top;
+    padding: 4px;
+}
+
+.artifactTableFull td {
+    border-bottom: 1px #e8e8e8 solid;
+}
+
+.artifactTableEntry {
+    padding: 4px;
+}
+
+.artifactTableHeader td {
+    padding: 4px;
+    background-color: #eee;
+    border-top: 0px;
+    font-weight: bold;
+    border-top: 1px #C0C0C0 solid;
+    border-bottom: 1px #C0C0C0 solid;
+}
+
+.artifactTable {
+    background: white;
+}
+
+.artifactTable td {
+    padding: 3px;
+    vertical-align: top;
+}
+
+.artifactTableLock {
+    width: 15px;
+    padding-top: 1px;
+    vertical-align: top;
+}
+
+.artifactTableFull td {
+    padding: 3px;
+}
+
+.artifact-list-container {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* properties */
+.add-property-panel {
+    background-color: white;
+    width: auto;
+    vertical-align: top;
+}
+
+.add-property-inline {
+    vertical-align: top;
+    display: inline;
+}
+
+.add-property-block {
+    vertical-align: top;
+    display:-moz-inline-stack;
+    display:inline-block;
+    zoom:1;
+    *display:inline;
+}
+
+.add-property-inline .gwt-Label {
+    vertical-align: top;
+}
+
+.metadata-panel table {
+    width: 100%;
+}
+
+.failure-panel {
+    padding: 4px;
+}
+
+.listPropertyContainer {
+    margin-top: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid #ddd;
+    background-color: #ccc;
+}
+
+.listProperty {
+}
+
+.listPropertyLeft {
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.listPropertyRight {
+    padding-left: 3px;
+    padding-right: 3px;
+    border-left: 1px solid black;
+    vertical-align: top;
+}
+
+.listPropertyRightHover {
+    padding-left: 3px;
+    padding-right: 3px;
+    border-left: 1px solid black;
+    color: white;
+    background-color: black;
+    vertical-align: top;
+}
+
+.linksPropertyPanel {
+    color: #808080;
+    background-color: white;
+}
+
+/**
+ **
+ ** History Panel
+ **
+ **/
+
+.artifact-version-title {
+    font-weight: bold;
+    padding: 6px;
+    color: black;
+    background-color: #EEEEEE;
+    border: 1px #c0c0c0 solid;
+}
+
+.artifact-version-panel {
+    margin: 4px;
+}
+
+.artifact-version-bottom-panel {
+    padding: 4px;
+    border-bottom: 1px #c0c0c0 solid;
+}
+
+/**
+ **
+ ** Governance Panel
+ **
+ **/
+
+.next-phases-panel .gwt-ListBox{
+    margin-right: 2px;
+}
+
+/**
+ ** Activity Panel
+ **/
+.activity-base-panel {
+    background-color: white;
+    color: black;
+    padding: 10px;
+}
+
+.activity-search-panel .gwt-Label {
+    padding-right: 6px;
+    padding-left: 10px;
+    text-align: center;
+}
+
+.activity-search-panel-container {
+    padding: 6px;
+    background-color: #E5EDF5;
+    font-weight: bold;
+    background-image: url("images/nw_maj_rond.gif");
+    background-repeat: no-repeat;
+}
+
+.activityTableDate {
+    white-space: nowrap;
+}
+
+.activity-nav-panel {
+    background-color: #ccc;
+    padding: 6px;
+}
+
+.activity-nav-previous {
+}
+
+.activity-nav-next {
+    float: right;
+}
+
+
+.GWTCDatePicker, .GWTCDatePickerCheckout, .GWTCDatePickerCheckin {
+  border: 6px solid #4c0000;
+  background: white;
+  cursor: pointer;
+  cursor: hand;
+}
+
+
+/**
+ **
+ ** Bulk Edit Panel
+ **
+ **/
+.bulkedit-panel a {
+    background-color: #fff;
+    padding: 4px;
+}
+
+
+.bulkedit-toolbar-item-first {
+    float: right;
+    margin-left: 6px;
+    padding-left: 6px;
+}
+
+.bulkedit-toolbar-item {
+    border-left: 1px solid #ddd;
+    float: right;
+    margin-left: 6px;
+    padding-left: 6px;
+}
+
+.bulkedit-section-title {
+    margin-left: 6px;
+    padding: 2px;
+    font-weight: bold;
+    color: black;
+}
+
+.bulkedit-section-header {
+    width: 100%;
+    padding: 2px;
+    color: black;
+    background-color: #EEEEEE;
+    border-top: 1px solid #C0C0C0;
+    border-bottom: 1px solid #C0C0C0;
+}
+
+.bulkedit-section-table {
+    padding: 6px;
+    margin-left: 6px;
+}
+
+/**
+ **
+ ** Artifact policy failures
+ **
+ **/
+.policy-failure-panel {
+    padding: 4px;
+}
+
+.policy-result-artifact-panel {
+    margin: 4px;
+    padding: 4px;
+    background-color: #ddd;
+}
+
+.policy-result-section-header {
+    padding-top: 4px;
+    font-weight: bold;
+}
+
+.policy-result-warning-label {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.policy-result-failure-label {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+/**
+ **
+ ** Administration
+ **
+ **/
+.lifecycle-selection-header {
+    font-size: 1.0em;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.qnameListBox-add-row {
+    padding-top: 8px;
+}
+
+.adminShell-Tree {
+  background: white;
+}
+
+.adminShell-Tree .adminShell-TreeItem {
+    cursor: hand;
+    cursor: pointer;
+    background-image: url("images/page_code.gif");
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+
+.adminShell-Tree .adminShell-TreeItem-selected {
+  background-color: #F5F5D6;
+}
+
+
+/**
+ **
+ ** Lifecycle
+ **
+ **/
+
+.lifecycle-form-base {
+    margin: 4px;
+}
+.next-phases {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+
+/**
+ ** Sortable grid
+ **/
+
+
+.SortableGrid-header {
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.SortableGrid-selectedRow {
+    background-color: #ddd;
+    border: 1px solid #000;
+}
+
+
+/**
+ **
+ ** Other admin panel styles
+ **
+ **/
+.deleteIndexPanel {
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+
+
+/**
+ **
+ ** Raw GWT Styles
+ **
+ **/
+
+.gwt-BorderedPanel {
+}
+
+.gwt-Button {
+  background:#f5f5f5;
+  border:1px solid #aaa;
+  border-top:1px solid #ddd;
+  border-left:1px solid #ddd;
+  padding: 2px;
+  margin: 10px;
+  width: 6em;
+  vertical-align: middle;
+}
+
+.gwt-Button:active {
+  border:1px solid #aaa;
+  border-bottom:1px solid #ccc;
+  border-right:1px solid #ccc;
+}
+
+.gwt-Button[disabled] {
+  background: #ccc;
+  border:1px solid #999;
+  border-top:1px solid #ccc;
+  border-left:1px solid #ccc;
+  color: #888;
+}
+
+.gwt-Canvas {
+}
+
+.gwt-CheckBox {
+}
+
+.gwt-DialogBox {
+  border: 2px outset;
+  background-color: white;
+}
+
+.gwt-DialogBox .Caption {
+  background-color: #C3D9FF;
+  padding: 3px;
+  margin: 2px;
+  font-weight: bold;
+  cursor: default;
+}
+
+.bordered {
+    border: solid #A30000 2px;
+}
+
+.gwt-FileUpload {
+}
+
+.gwt-FlexTable {
+    background: white;
+}
+
+.gwt-FlexTable-header {
+    font-weight: bold;
+}
+
+.gwt-Frame {
+}
+
+.gwt-HTML {
+}
+
+.gwt-Hyperlink {
+    cursor: hand;
+    cursor: pointer;
+}
+.hyperlink-NewWindow {
+    padding-right: 14px;
+}
+
+.gwt-Image {
+}
+
+.gwt-Label {
+}
+
+.gwt-ListBox {
+}
+
+.gwt-MenuBar {
+  background-color: #C3D9FF;
+  border: 1px solid #87B3FF;
+  cursor: default;
+}
+
+.gwt-MenuBar .gwt-MenuItem {
+  padding: 1px 4px 1px 4px;
+  cursor: default;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+  background-color: #E8EEF7;
+}
+
+.gwt-PasswordTextBox {
+    border: 1px solid lightsteelblue;
+}
+
+.gwt-RadioButton {
+}
+
+/*
+
+.gwt-TabPanel {
+  margin-top: 4px;
+  margin-left: 0px;
+  width: 100%;
+}
+
+.gwt-TabPanelBottom {
+  background-color: white;
+  width: 100%;
+}
+
+.gwt-TabBar {
+  padding-top: 2px;
+  border-bottom: 4px solid #87B3FF;
+  background-color: #fff;
+}
+
+.gwt-TabBar .gwt-TabBarFirst {
+}
+
+.gwt-TabBar .gwt-TabBarRest {
+}
+
+.gwt-TabBar .gwt-TabBarItem {
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  cursor: hand;
+
+  background-color: white;
+  border-bottom: 2px solid white;
+  margin-right: 2px;
+}
+
+.gwt-TabBar .gwt-TabBarItem-selected {
+  padding: 5px 10px;
+  cursor: default;
+
+  background-color: #87b3ff;
+  border-bottom: 2px solid #87b3ff;
+  margin-right: 2px;
+  background-image: url("images/nw_maj_rond.gif");
+  background-repeat: no-repeat;
+}
+*/
+
+.gwt-TextArea {
+    border: 1px solid lightsteelblue;
+}
+
+.gwt-TextBox {
+    border: 1px solid lightsteelblue;
+}
+
+.gwt-TextBox-readonly {
+  border: 1px solid lightsteelblue;
+  color: #888;
+}
+
+.gwt-Tree {
+  background: white;
+}
+
+.gwt-Tree .gwt-TreeItem {
+    cursor: hand;
+    cursor: pointer;
+    background-image: url("images/page_code.gif");
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+
+.gwt-Tree .gwt-TreeItem-selected {
+  background-color: #e8e8e8;
+}
+
+.gwt-StackPanel {
+}
+
+.gwt-StackPanel .gwt-StackPanelItem {
+  background-color: #C3D9FF;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-StackPanel .gwt-StackPanelItem-selected {
+}
+
+.gwt-PushButton-up {
+  background-color: #C3D9FF;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-color: #E8F1FF rgb(157, 174, 205) rgb(157, 174, 205) rgb(232, 241, 255);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-PushButton-up-hovering {
+  background-color: #C3D9FF;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-color: #E8F1FF rgb(157, 174, 205) rgb(157, 174, 205) rgb(232, 241, 255);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-PushButton-down {
+  background-color: #C3D9FF;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-PushButton-down-hovering {
+  background-color: #C3D9FF;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-ToggleButton-up {
+  background-color: #C3D9FF;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-color: #E8F1FF rgb(157, 174, 205) rgb(157, 174, 205) rgb(232, 241, 255);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-ToggleButton-up-hovering {
+  background-color: #C3D9FF;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-color: #E8F1FF rgb(157, 174, 205) rgb(157, 174, 205) rgb(232, 241, 255);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-ToggleButton-down {
+  background-color: #C3D9FF;
+  padding: 2px;
+  background-color: #E8F1FF;
+  border: 2px solid transparent;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-ToggleButton-down-hovering {
+  background-color: #C3D9FF;
+  padding: 2px;
+  background-color: #E8F1FF;
+  border: 2px solid transparent;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+  cursor: pointer;
+  cursor: hand;
+}
+
+.gwt-RichTextArea {
+  border: 1px solid black;
+  background-color: white;
+}
+
+.gwt-RichTextToolbar {
+  background-color: #C3D9FF;
+  padding: 2px;
+}
+
+.gwt-RichTextToolbar .gwt-PushButton-up {
+  margin-right: 2px;
+  border: 1px solid #C3D9FF;
+}
+
+.gwt-RichTextToolbar .gwt-PushButton-up-hovering {
+  margin-right: 2px;
+  border: 1px solid #C3D9FF;
+  border-color: #E8F1FF rgb(157, 174, 205) rgb(157, 174, 205) rgb(232, 241, 255);
+}
+
+.gwt-RichTextToolbar .gwt-PushButton-down {
+  margin-right: 2px;
+  border: 1px solid #C3D9FF;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+}
+
+.gwt-RichTextToolbar .gwt-PushButton-down-hovering {
+  margin-right: 2px;
+  border: 1px solid #C3D9FF;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+}
+
+.gwt-RichTextToolbar .gwt-ToggleButton-up {
+  margin-right: 2px;
+  border: 1px solid #C3D9FF;
+}
+
+.gwt-RichTextToolbar .gwt-ToggleButton-up-hovering {
+  margin-right: 2px;
+  border: 1px solid #C3D9FF;
+  border-color: #E8F1FF rgb(157, 174, 205) rgb(157, 174, 205) rgb(232, 241, 255);
+}
+
+.gwt-RichTextToolbar .gwt-ToggleButton-down {
+  margin-right: 2px;
+  background-color: #E8F1FF;
+  border: 1px solid #C3D9FF;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+}
+
+.gwt-RichTextToolbar .gwt-ToggleButton-down-hovering {
+  margin-right: 2px;
+  background-color: #E8F1FF;
+  border: 1px solid #C3D9FF;
+  border-color: #9DAECD rgb(232, 241, 255) rgb(232, 241, 255) rgb(157, 174, 205);
+}
+
+.gwt-HorizontalSplitPanel {
+  /*border: 8px solid #C3D9FF;*/
+}
+
+.gwt-HorizontalSplitPanel .hsplitter {
+  border-right: 2px solid #EDEDED;
+  cursor: e-resize;
+}
+
+.gwt-HorizontalSplitPanel .left {
+  background-color: #E8EEF7;
+}
+
+.gwt-VerticalSplitPanel {
+}
+
+.gwt-VerticalSplitPanel .splitter {
+  background-color: #C3D9FF;
+  height: 8px;
+  cursor: move;
+}
+
+.gwt-SuggestBoxPopup {
+  border: 2px solid #C3D9FF;
+  background-color: white;
+}
+
+.gwt-SuggestBoxPopup .item {
+  padding: 2px;
+}
+
+.gwt-SuggestBoxPopup .item-selected {
+  background-color: #C3D9FF;
+  padding: 2px;
+}
+
+/**
+ * Navigation stuff
+ */
+.headerTabPanelBottom {
+  background-color: black;
+  width: 100%;
+}
+.headerTabPanel .gwt-TabBar {
+  background-color: black;
+  padding-top: 3px;
+  /*border-bottom: 2px solid #004A80;*/
+}
+
+.headerTabPanel .gwt-TabBar .gwt-TabBarItem {
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  cursor: hand;
+
+  color: #E5EDF5;
+  font-weight: bold;
+  background-color: black;
+  border-bottom: 2px solid black;
+  margin-right: 2px;
+}
+
+.headerTabPanel .gwt-TabBar .gwt-TabBarItem-selected {
+  padding: 5px 10px 5px 10px;
+  cursor: default;
+  color: white;
+
+  background-color: #004A80;
+  border-bottom: 2px solid #004A80;
+  margin-right: 2px;
+  background-image: url("images/nw_maj_rond_black.gif");
+  background-repeat: no-repeat;
+}
+
+/* left side menu? */
+.headerTabDeckPanel {
+    background-color: white;
+}
+
+
+/**
+ * Artifact tabs
+ */
+.artifactTabPanelBottom {
+  background-color: white;
+  width: 98%;
+}
+
+.artifactTabPanel {
+    width: 98%;
+}
+
+.artifactTabPanel .gwt-TabBar {
+  background-color: white;
+  padding-top: 3px;
+  border-bottom: 2px solid black;
+}
+
+.artifactTabPanel .gwt-TabBar .gwt-TabBarItem {
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  cursor: hand;
+  /* dark gray font */
+  color: #808080;
+  background-color: white;
+  border-bottom: 0;
+  margin-right: 2px;
+}
+
+.artifactTabPanel .gwt-TabBar .gwt-TabBarItem-selected {
+  padding: 5px 10px 5px 10px;
+  font-weight: bold;
+  cursor: default;
+  color: black;
+
+  background-color: #E5EDF5;
+  border-bottom: 0;
+  margin-right: 2px;
+  background-image: url("images/nw_maj_rond.gif");
+  background-repeat: no-repeat;
+}
+
+.artifactTabDeckPanel {
+    background-color: white;
+}
+
+.padding {
+    margin: 8px;
+}
+
+.buttonRow {
+    margin: 8px;
+    text-align: center;
+}
+
+.sessionKilledDialogBox {
+    width: 30em;
+    border: 2px outset;
+    background-color: white;
+}
+
+
+.sessionKilledDialogBox .Caption {
+    background-color: #C3D9FF;
+    padding: 3px;
+    margin: 2px;
+    font-weight: bold;
+    cursor: default;
+}
+
+.smallButton {
+  background:#f5f5f5;
+  border:1px solid #aaa;
+  border-top:1px solid #ddd;
+  border-left:1px solid #ddd;
+  padding: 2px;
+  width: 2em;
+  vertical-align: middle;
+}
+
+.FailedValidation {
+    border: 1px solid #00CD00;
+}
+
+.ValidationMessage {
+    font-size: 8pt;
+    text-align: right;
+}
+
+.form-label {
+    float: left;
+    width: 9em;
+    text-align: right;
+    clear: left;
+    margin-right: 15px;
+}
+
+
+/**
+Date picker styles, most of these will eventually move into a default resource bundle.
+*/
+.gwt-DatePicker {
+  width: 150px;
+  border: 1px solid #f1f1f1;
+  border-bottom: 2px solid #f1f1f1;
+  color: #6b6b6b;
+  cursor: default;
+
+}
+
+.gwt-DatePicker td {
+  font-family: Arial;
+  font-size: 65%;
+  padding: 2px;
+  text-align: center;
+  padding: 2px;
+  outline: none;
+  -moz-outline: none;
+  cursor: default;
+}
+
+.gwt-DatePicker td,.month-selector td :focus {
+  outline: none
+}
+
+.gwt-DateBox input {
+  width: 8em;
+}
+
+/**
+Calendar styles
+*/
+.calendar-view {
+  background-color: white;
+  width: 100%;
+}
+
+.calendar-view .filler-cell {
+  color: #bfbfbf;
+  padding: 1px;
+  cursor: hand;
+}
+
+.calendar-view .date-cell {
+  padding: 1px;
+  cursor:hand;
+}
+
+.calendar-view .selected-cell {
+  background: #aaccee;
+}
+
+.calendar-view .day-title {
+  background: #dbe6de;
+}
+
+.gwt-DatePicker .calendar-view .highlighted-cell {
+  border: 1px solid #eeeeee;
+  padding: 0px;
+}
+
+.calendar-view .today-cell {
+  border: 1px solid black;
+  padding: 0px;
+}
+
+.gwt-DatePicker .calendar-view .weekend {
+  background: #f1f1f1;
+}
+
+.calendar-view .disabled-cell {
+  color: graytext;
+}
+
+/*
+Month selector styles
+*/
+.month-selector {
+  background: #dbe6de;
+  width: 100%;
+  text-align: center;
+}
+
+.month-selector td {
+  font-weight: bold;
+  font-size: 70%;
+}
+
+.month-selector .month-label {
+  text-align: center;
+  background: #dbe6de;
+}
+
+.month-selector .month-backward {
+  padding-right: 2em;
+}
+
+.month-selector .month-forward {
+  padding-left: 2em;
+}
+
+/****************************
+helper styles
+******************************/
+.log-panel {
+  position: relative;
+  float: right;
+  border: 1px solid black;
+  margin-left: 30px;
+}
+
+.gwt-TabPanel {
+  margin-top: 4px;
+}
+
+.gwt-TabPanelBottom {
+  background-color: #E8EEF7;
+}
+
+.gwt-TabBar {
+  padding-top: 2px;
+  border-bottom: 4px solid #87B3FF;
+  background-color: #fff;
+}
+
+.gwt-TabBar .gwt-TabBarItem {
+  padding: 4px;
+  cursor: pointer;
+  cursor: hand;
+  background-color: #e8eef7;
+  border-bottom: 2px solid white;
+  margin-right: 2px;
+}
+
+.gwt-TabBar .gwt-TabBarItem-selected {
+  padding: 4px;
+  font-weight: bold;
+  cursor: default;
+  background-color: #87b3ff;
+  border-bottom: 2px solid #87b3ff;
+  margin-right: 2px;
+}
+
+/*  Styles demo*/
+.gwt-DatePicker .red-date {
+  background-color: red;
+}
+
+.gwt-DatePicker .blue-backgroundleft {
+  background-color: blue;
+}
+
+.gwt-DatePicker .red-text {
+  color: red;
+}
+
+.gwt-DatePicker .green-border {
+  border: 5px solid green;
+}
+
+.gwt-DatePicker .big-text {
+  font-size: x-large;
+}
+
+.gwt-DatePicker .underlined-and-bold-text {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.gwt-DatePicker .yellow-background {
+  background-color: yellow;
+}
+
+/* date range styles */
+.filler {
+  width: 30px;
+  text-align: center;
+}
+
+
+/* GXT Overrides */
+
+.x-panel-body {
+    border-color:#d0d0d0;
+}
+
+/* Ghosting */
+.x-panel-ghost {
+    background:#e0e0e0;
+}
+
+.x-panel-ghost ul {
+    border-color:#b0b0b0;
+}
+
+.x-grid-panel .x-panel-mc .x-panel-body {
+    border:1px solid #d0d0d0;
+}
+
+
+
