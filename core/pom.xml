@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>mule-ibeans</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-core</artifactId>
+    <packaging>jar</packaging>
+    <name>Mule iBeans</name>
+    <description>Mule Integration Beans Core Implementation</description>
+    <url>http://www.mulesoft.org/ibeans</url>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.mule:mule-core</include>
+                                    <include>org.mule:mule-core:tests</include>
+                                    <include>org.mule.tests:mule-tests-functional</include>
+                                    <include>org.mule.modules:mule-module-annotations</include>
+                                    <include>org.ibeans:ibeans-support</include>
+                                    <include>org.ibeans:ibeans-annotation-api</include>
+                                    <include>org.mule.modules:mule-module-xannotations</include>
+                                    <include>javax.annotation:jsr250-api</include>
+                                    <include>javax.inject:jsr330-api</include>
+                                    <include>org.mule.modules:mule-module-builders</include>
+                                    <include>org.mule.modules:mule-module-management</include>
+                                    <include>org.mule.transports:mule-transport-vm</include>
+                                    <include>org.mule.transports:mule-transport-servlet</include>
+                                    <include>commons-beanutils:commons-beanutils</include>
+                                    <include>backport-util-concurrent:backport-util-concurrent</include>
+                                    <include>commons-cli:commons-cli</include>
+                                    <include>commons-collections:commons-collections</include>
+                                    <include>commons-io:commons-io</include>
+                                    <include>commons-lang:commons-lang</include>
+                                    <include>commons-pool:commons-pool</include>
+                                    <include>javax.activation:activation</include>
+                                    <include>org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec</include>
+                                    <include>org.apache.geronimo.specs:geronimo-j2ee-connector_1.5_spec</include>
+                                    <!--<include>org.slf4j:jcl104-over-slf4j</include>-->
+                                    <!--<include>org.slf4j:slf4j-api</include>-->
+                                    <!--<include>org.slf4j:slf4j-log4j12</include>-->
+                                    <!--<include>log4j:log4j</include>-->
+                                    <include>asm:asm</include>
+                                    <include>asm:asm-commons</include>
+                                    <include>asm:asm-tree</include>
+                                    <include>junit:junit</include>
+                                    <include>cglib:cglib-nodep</include>
+                                    <include>org.mockito:mockito-all</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-plugin</artifactId>
+               <configuration>
+                 <excludes>
+                   <exclude>**/ExceptionListenerTestCase.java</exclude>
+                 </excludes>
+               </configuration>
+             </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${muleVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ibeans</groupId>
+            <artifactId>ibeans-support</artifactId>
+            <version>0.9</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.ibeans</groupId>
+            <artifactId>ibeans-annotation-api</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-ibeans</artifactId>
+            <version>${muleVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-annotations</artifactId>
+            <version>${muleVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-quartz</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-xannotations</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-http</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-servlet</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-builders</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- JPA for Guice - Apps using this will still need to add a JPA implementation and database drivers -->
+
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-management</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-jmx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-tools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-remote</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.yourkit</groupId>
+                    <artifactId>yjp-controller-api-redist</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>tanukisoft</groupId>
+                    <artifactId>wrapper</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-vm</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>catalina</artifactId>
+            <version>6.0.18</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- For testing -->
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${muleVersion}</version>
+            <type>test-jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-functional</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.4.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.4.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
