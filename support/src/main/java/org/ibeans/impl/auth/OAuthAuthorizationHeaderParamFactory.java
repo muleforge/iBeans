@@ -12,8 +12,6 @@ package org.ibeans.impl.auth;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.httpclient.HttpConstants;
 import org.ibeans.api.InvocationContext;
 import org.ibeans.api.ParamFactory;
 import org.ibeans.api.channel.HTTP;
