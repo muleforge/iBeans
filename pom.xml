@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Project -->
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>mule-ibeans</artifactId>
+    <version>1.0-beta-10-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Mule Integration Beans Parent</name>
+    <description>Mule Integration Beans</description>
+    <url>http://www.mulesoft.org/display/IBEANS</url>
+
+    <properties>
+        <!--
+            The above project.url will not be picked up in the manifest,
+            instead a module artifact id is erroneously substituted.
+         -->
+        <producturl>http://www.mulesoft.org/display/IBEANS</producturl>
+        <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
+        <jdk5Name>jdk5</jdk5Name>
+        <jdk6Name>jdk6</jdk6Name>
+        <muleVersion>3.1.0-SNAPSHOT</muleVersion>
+        <shortId>IBEANS</shortId>
+        <domainName>ibeans</domainName>
+        <licenseId>CPAL 1.0</licenseId>
+        <licenseUrl>http://mulesoft.org/display/MULE/License</licenseUrl>
+
+        <maven-project-info-reports-plugin-version>2.1</maven-project-info-reports-plugin-version>
+        <maven-javadoc-plugin-version>2.6.1</maven-javadoc-plugin-version>
+        <maven-jxr-plugin-version>2.1</maven-jxr-plugin-version>
+        <maven-surefire-report-plugin-version>2.4.2</maven-surefire-report-plugin-version>
+        <maven-checkstyle-plugin-version>2.3</maven-checkstyle-plugin-version>
+        <cobertura-maven-plugin-version>2.2</cobertura-maven-plugin-version>
+    </properties>
+
+    <modules>
+        <module>core</module>
+        <module>modules</module>
+        <module>console</module>
+        <module>tools</module>
+        <module>ibeans-all</module>
+        <module>ibeansCentral</module>
+    </modules>
+
+    <!-- Organization -->
+    <organization>
+        <name>MuleSoft, Inc.</name>
+        <url>http://www.mulesoft.com</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL</url>
+        </license>
+    </licenses>
+
+    <mailingLists>
+        <!-- Refer to http://www.mulesoft.org/display/IBEANS/Mailing+Lists -->
+    </mailingLists>
+    <developers>
+        <!-- Refer to http://www.mulesoft.org/display/IBEANS/Team -->
+    </developers>
+    <contributors>
+        <!-- Refer to http://www.mulesoft.org/display/IBEANS/Team -->
+    </contributors>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://www.mulesoft.org/jira/browse/${shortId}</url>
+    </issueManagement>
+
+
+    <ciManagement>
+        <system>bamboo</system>
+        <url>http://bamboo.mulesoft.org/browse/IBEANS-IBEANS</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <configuration>
+                    <address>scm@mule.codehaus.org</address>
+                </configuration>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+
+    <distributionManagement>
+        <downloadUrl>http://mulesoft.org/display/${shortId}/Download</downloadUrl>
+
+        <repository>
+            <id>muleforge.webdav.releases</id>
+            <url>dav:https://dav.muleforge.org/repository/${domainName}</url>
+        </repository>
+        <snapshotRepository>
+            <id>muleforge.webdav.snapshots</id>
+            <url>dav:https://dav.muleforge.org/snapshots.repository/${domainName}</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+        <site>
+            <id>muleforge.webdav.sites</id>
+            <url>dav:https://dav.muleforge.org/${domainName}/maven/${project.version}</url>
+        </site>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>codehaus</id>
+            <name>Codehaus Maven 2.x Release Repository</name>
+            <url>http://repository.codehaus.org</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>codehaus-snapshots</id>
+            <name>Codehaus Maven 2.x Snapshots Repository</name>
+            <url>http://snapshots.repository.codehaus.org</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>mule-deps</id>
+            <name>Mule Dependencies</name>
+            <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>muleforge-releases</id>
+            <name>MuleForge Release Repository</name>
+            <url>http://repository.muleforge.org</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>muleforge-snapshots</id>
+            <name>MuleForge Snapshots Repository</name>
+            <url>http://snapshots.repository.muleforge.org</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+
+        <repository>
+            <id>java.net</id>
+            <name>java.net Repository</name>
+            <url>http://download.java.net/maven/2/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>muleforge</id>
+            <url>http://repository.muleforge.org</url>
+            <name>MuleForge Repository</name>
+        </pluginRepository>
+        
+        <!-- this is needed to download dependencies of plugins from our custom repo -->
+        <pluginRepository>
+            <id>mule-deps</id>
+            <name>Mule Dependencies</name>
+            <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
+        </pluginRepository>
+
+    </pluginRepositories>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.index</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+        <extensions>
+            <!-- WebDAV for remote deployment -->
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+
+        <!-- specify versions of the plugins used in child poms here -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2-beta-4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${maven-checkstyle-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.0.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>2.5.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>1.0-beta-1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-idea-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>${maven-jxr-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-project-info-reports-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>2.0-beta-7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.4.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>${maven-surefire-report-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1-beta-1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>${cobertura-maven-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo.groovy</groupId>
+                    <artifactId>groovy-maven-plugin</artifactId>
+                    <version>1.0-beta-3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>tomcat-maven-plugin</artifactId>
+                    <version>1.0-beta-1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.totsp.gwt</groupId>
+                    <artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+                    <version>2.0-RC1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>1.2.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-maven-version</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <!-- minimum version is 2.0.8, higher versions allowed -->
+                                    <version>[2.0.9,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[1.5.0,)</version>
+                                </requireJavaVersion>
+                                <requireFilesExist>
+                                    <files>
+                                        <file>${user.home}/.ibeans.properties</file>
+                                    </files>
+                                    <message>You must have the '.ibeans.properties' file in your home directory. This is the location of your passwords file for the secure web services integration tests.  A example SAMPLE.ibeans.properties file is provided at the root of this project.</message>
+                                </requireFilesExist>
+                                <requirePluginVersions>
+                                    <message>Best Practice is to always define plugin versions!</message>
+                                    <banLatest>true</banLatest>
+                                    <banRelease>true</banRelease>
+                                    <banSnapshots>true</banSnapshots>
+                                </requirePluginVersions>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>ISO-8859-1</encoding>
+                </configuration>
+            </plugin>
+
+            <!--
+                Default is to compile to JDK 5. Individual modules may override
+                this setting.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <encoding>ISO-8859-1</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Global main.java.ibeans exclusions -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <!--
+                    Fix surefire-report:report goal, which failed to
+                    complete if there were main.java.ibeans errors (no report was
+                    generated).
+                <version>RELEASE</version>
+                -->
+                <configuration>
+                    <argLine>-Xms64m -Xmx256m</argLine>
+                    <excludes>
+                        <exclude implementation="java.lang.String">**/Abstract*.*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!-- Delete code coverage database when 'mvn clean' is executed -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>clean</id>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                 Needed for checkstyle to find the license header file from the classpath.
+                 CAVEAT: you cannot build the site without mule-buildtools present in
+                 your local repository.
+
+                 For plugin config see below in reporting section
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin-version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <configuration>
+                    <!-- by default download all sources when generating project files -->
+                    <downloadSources>true</downloadSources>
+                    <!-- configure a JDK named 'jdk5' for this project -->
+                    <classpathContainers>
+                        <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER/${vmtype}/${jdk5Name}
+                        </classpathContainer>
+                    </classpathContainers>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-idea-plugin</artifactId>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <jdkName>1.5</jdkName>
+                </configuration>
+            </plugin>
+
+            <!-- The maven-jar-plugin generates the MANIFEST.MF for all modules
+                where <packaging>jar</packaging> is used (i.e., those which are
+                not OSGi bundles). -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <!--
+                            Disabled for http://mule.mulesoft.org/jira/browse/MULE-1153
+                            and http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4408526
+                         -->
+                        <index>false</index>
+                        <!-- List dependencies in the MANIFEST.MF -->
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+                        </manifest>
+                        <!-- Custom Entries -->
+                        <manifestEntries>
+                            <Specification-Title>${project.artifactId}</Specification-Title>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Vendor-Url>${project.organization.url}</Implementation-Vendor-Url>
+                            <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                            <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                            <Product-Description>${project.description}</Product-Description>
+                            <Implementation-Url>${project.url}</Implementation-Url>
+                            <Bug-Tracker>${project.issueManagement.url}</Bug-Tracker>
+                            <License-Url>${licenseUrl}</License-Url>
+                            <License-Title>${licenseId}</License-Title>
+                            <Support>For commercial support go to: ${project.organization.url}}</Support>
+
+                            <!-- This would work if this issue gets closed: http://jira.codehaus.org/browse/MNG-1832 -->
+                            <!--Build-Date>${mvn.timestamp.yyyy-MM-dd-HH:mm:ss}</Build-Date-->
+                            <!-- include repository revision from buildnumber plugin -->
+
+                            <!-- MULE-3783 Exclude for now as otherwise bundle manifest don't get these properties
+                                 Only a few jars that are not converted to bundles yet will have these entries missing
+                                 and more important bundles will now have this entry.
+                            <Build-Revision>${buildNumber}</Build-Revision>
+                            <Build-Date>${timestamp}</Build-Date>
+                            -->
+                            <Dev-List-Email>dev@mule.codehaus.org</Dev-List-Email>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>full</shadedClassifierName>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.apache.geronimo</pattern>
+                            <shadedPattern>org.mule.ibeans.org.apache.geronimo</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.commons</pattern>
+                            <shadedPattern>org.mule.ibeans.org.apache.commons</shadedPattern>
+                            <excludes>
+                                <exclude>org.apache.commons.beanutils.DynaBean</exclude>
+                                <exclude>org.apache.commons.logging.*</exclude>
+                                <!--<exclude>org.apache.commons.httpclient.*</exclude>-->
+                                <exclude>org.apache.log4j.RollingFileAppender</exclude>
+                            </excludes>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.sf</pattern>
+                            <shadedPattern>org.mule.ibeans.net.sf</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.log4j</pattern>
+                            <shadedPattern>org.mule.ibeans.org.apache.log4j</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.objectweb</pattern>
+                            <shadedPattern>org.mule.ibeans.org.objectweb</shadedPattern>
+                        </relocation>
+                        <!-- shipped as stand alone jars -->
+                        <!--<relocation>-->
+                        <!--<pattern>org.slf4j</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.org.slf4j</shadedPattern>-->
+                        <!--</relocation>-->
+
+                        <!-- These didn't like shading -->
+                        <!--<relocation>-->
+                        <!--<pattern>org.mockito</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.org.mockito</shadedPattern>-->
+                        <!--</relocation>-->
+                        <!--<relocation>-->
+                        <!--<pattern>edu.emory</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.edu.emory</shadedPattern>-->
+                        <!--</relocation>-->
+                        <relocation>
+                            <pattern>org.objenesis</pattern>
+                            <shadedPattern>org.mule.ibeans.org.objenesis</shadedPattern>
+                        </relocation>
+
+                        <!-- AJAX -->
+                        <relocation>
+                            <pattern>org.mortbay</pattern>
+                            <shadedPattern>org.mule.ibeans.org.mortbay</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jabsorb</pattern>
+                            <shadedPattern>org.mule.ibeans.org.jabsorb</shadedPattern>
+                        </relocation>
+                        <!-- ATOM -->
+                        <!--<relocation>-->
+                        <!--<pattern>org.apache.abdera</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.org.apache.abdera</shadedPattern>-->
+                        <!--<excludes>-->
+                        <!--<exclude>org.apache.abdera.model.*</exclude>-->
+                        <!--</excludes>-->
+                        <!--</relocation>-->
+                        <!-- XML -->
+                        <!--TODO REMOVE DEPENDENCY ON DOM4J AND JAXEN -->
+                        <!--<relocation>-->
+                        <!--<pattern>org.dom4j</pattern>-->
+                        <!--<shadedPattern>org.mule.ibeans.org.dom4j</shadedPattern>-->
+                        <!--</relocation>-->
+                        <relocation>
+                            <pattern>org.xmlpull</pattern>
+                            <shadedPattern>org.mule.ibeans.org.xmlpull</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.java.dev</pattern>
+                            <shadedPattern>org.mule.ibeans.net.java.dev</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jaxen</pattern>
+                            <shadedPattern>org.mule.ibeans.org.jaxen</shadedPattern>
+                        </relocation>
+                        <!--<relocation>-->
+                            <!--<pattern>com.thoughtworks</pattern>-->
+                            <!--<shadedPattern>org.mule.ibeans.com.thoughtworks</shadedPattern>-->
+                        <!--</relocation>-->
+                        <relocation>
+                            <pattern>com.ctc</pattern>
+                            <shadedPattern>org.mule.ibeans.com.ctc</shadedPattern>
+                            <excludes>
+                                <!-- XML factories are referenced using a string class name and do not get replaced
+                        by shade, need to make these classes available -->
+                                <exclude>com.ctc.wstx.stax.*</exclude>
+                            </excludes>
+                        </relocation>
+                        <relocation>
+                            <pattern>javanet</pattern>
+                            <shadedPattern>org.mule.ibeans.javanet</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.codehaus.stax2</pattern>
+                            <shadedPattern>org.mule.ibeans.org.codehaus.stax2</shadedPattern>
+                        </relocation>
+                    </relocations>
+
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Specification-Title>${project.artifactId}</Specification-Title>
+                                <Implementation-Title>${project.name}</Implementation-Title>
+                                <Implementation-Version>${project.version}</Implementation-Version>
+                                <Implementation-Vendor-Url>${project.organization.url}</Implementation-Vendor-Url>
+                                <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                                <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                                <Product-Description>${project.description}</Product-Description>
+                                <Implementation-Url>${project.url}</Implementation-Url>
+                                <Bug-Tracker>${project.issueManagement.url}</Bug-Tracker>
+                                <License-Url>${licenseUrl}</License-Url>
+                                <License-Title>${licenseId}</License-Title>
+                                <Support>For commercial support go to: ${project.organization.url}}</Support>
+
+                                <!-- This would work if this issue gets closed: http://jira.codehaus.org/browse/MNG-1832 -->
+                                <!--Build-Date>${mvn.timestamp.yyyy-MM-dd-HH:mm:ss}</Build-Date-->
+                                <!-- include repository revision from buildnumber plugin -->
+
+                                <!-- MULE-3783 Exclude for now as otherwise bundle manifest don't get these properties
+                                     Only a few jars that are not converted to bundles yet will have these entries missing
+                                     and more important bundles will now have this entry.
+                                <Build-Revision>${buildNumber}</Build-Revision>
+                                <Build-Date>${timestamp}</Build-Date>
+                                -->
+                                <Dev-List-Email>dev@mule.codehaus.org</Dev-List-Email>
+                            </manifestEntries>
+                        </transformer>
+
+                    </transformers>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Reports -->
+    <reporting>
+        <plugins>
+            <!-- Module dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven-project-info-reports-plugin-version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependencies</report>
+                            <report>index</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <!-- Javadoc settings -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin-version}</version>
+                <configuration>
+                    <minmemory>128m</minmemory>
+                    <maxmemory>512m</maxmemory>
+                    <charset>ISO-8859-1</charset>
+                    <encoding>ISO-8859-1</encoding>
+                    <source>1.5</source>
+                    <!-- Link to the external online JavaDoc -->
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+                        <link>http://java.sun.com/j2ee/sdk_1.3/techdocs/api/</link>
+                        <link>http://jakarta.apache.org/commons/beanutils/commons-beanutils-1.7.0/docs/api/</link>
+                        <link>http://jakarta.apache.org/commons/collections/api-3.2/</link>
+                        <link>http://jakarta.apache.org/httpcomponents/httpclient-3.x/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/io/api-1.2/</link>
+                        <link>http://jakarta.apache.org/commons/lang/api-2.1/</link>
+                        <link>http://jakarta.apache.org/commons/pool/apidocs/</link>
+                        <link>http://logging.apache.org/log4j/1.2/apidocs/</link>
+                        <link>http://www.slf4j.org/api/</link>
+                        <link>http://backport-jsr166.sourceforge.net/doc/api/</link>
+                        <link>http://www.junit.org/junit/javadoc/3.8.1/</link>
+                        <link>http://junit.sourceforge.net/javadoc/</link>
+                    </links>
+                    <!-- required for publishing the public javadocs -->
+                    <destDir>javadocs</destDir>
+                </configuration>
+            </plugin>
+
+            <!-- Source code cross-reference -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven-jxr-plugin-version}</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+
+            <!--
+                When there is JXR cross-refernce output available,
+                it will be linked to in case of main.java.ibeans failures
+             -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven-surefire-report-plugin-version}</version>
+                <configuration>
+                    <!-- Display failed tests only -->
+                    <showSuccess>false</showSuccess>
+                </configuration>
+            </plugin>
+
+            <!-- Checkstyle reports -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin-version}</version>
+                <configuration>
+                    <configLocation>codecheck/checkstyle.xml</configLocation>
+                    <headerLocation>codecheck/LicenseHeader.txt</headerLocation>
+                    <!-- do not link to JXR output as that is aggregated and the checkstyle
+                         plugin does not recognize that.
+                    -->
+                    <linkXRef>false</linkXRef>
+                </configuration>
+            </plugin>
+
+            <!-- Code Coverage by Cobertura -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>${cobertura-maven-plugin-version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <profiles>
+        <profile>
+            <id>jdk6</id>
+            <activation>
+                <jdk>1.6</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-maven-version</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireMavenVersion>
+                                            <!-- minimum version is 2.0.8, higher versions allowed -->
+                                            <version>[2.0.8,)</version>
+                                        </requireMavenVersion>
+                                        <requireJavaVersion>
+                                            <!-- Java version must be 1.6 or higher -->
+                                            <version>[1.6.0,)</version>
+                                        </requireJavaVersion>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-eclipse-plugin</artifactId>
+                        <configuration>
+                            <!-- by default download all sources when generating project files -->
+                            <downloadSources>true</downloadSources>
+                            <!-- configure a JDK named 'jdk6' for this project -->
+                            <classpathContainers>
+                                <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER/${vmtype}/${jdk6Name}
+                                </classpathContainer>
+                            </classpathContainers>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-idea-plugin</artifactId>
+                        <configuration>
+                            <downloadSources>true</downloadSources>
+                            <jdkName>1.6</jdkName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>distributions</id>
+            <modules>
+                <module>dist</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>mac</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <vmtype>org.eclipse.jdt.internal.launching.macosx.MacOSXType</vmtype>
+            </properties>
+        </profile>
+
+        <!--
+            This profile is somewhat similar to what's in Maven's toplevel POM. It will be
+            activated when -DperformRelease=true is given on the commandline which is
+            usually used in conjunction with the install or deploy goal.
+            (See http://www.propellors.net/maven/site/guides/introduction/introduction-to-the-pom.html).
+
+            The full distribution (distributions/server/full) wants to package javadocs. This
+            was previously a manual process, i.e. one had to call "mvn site" first and only
+            when running "mvn -DperformRelease=true" afterwards (and not running "mvn clean" in
+            between) we would end up with a valid full distro.
+
+            In order to make the release process less error prone, the javadoc plugin is bound
+            to the install lifecycle phase here but only if Maven was invoked with
+            -DperformRelease=true. The javadoc plugin then generates the toplevel, aggregated
+            javadocs that are included into the full distro, only a single Maven invocation
+            is needed now for building a proper set of distributions.
+        -->
+        <profile>
+            <id>release-profile</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>aggregated-javadocs</id>
+                                    <goals>
+                                        <goal>javadoc</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-source-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>aggregated-sources</id>
+                                    <goals>
+                                        <goal>aggregate</goal>
+                                    </goals>
+                                    <configuration>
+                                        <attach>true</attach>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
+</project>
