@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.mule.ibeans.tests</groupId>
+        <artifactId>ibeans-tests-archetypes</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+    <groupId>org.mule.ibeans.tests</groupId>
+    <artifactId>test-ibean-archetype</artifactId>
+    <packaging>jar</packaging>
+    <name>Test for the iBean Maven Archetype</name>
+
+    <!-- the following properties are needed by the groovy script that we inherit from our parent pom -->
+    <properties>
+        <!-- this is the name of the directory that's crated by the archetype -->
+        <outputDir>Template</outputDir>
+        <!-- this is the groupId:artifactId of the archetype that we want to invoke -->
+        <archetype>ibean-archetype</archetype>
+        <archetypeVersion>${version}</archetypeVersion>
+        <!-- this string will be appended to the archetype's commandline -->
+        <archetypeParams></archetypeParams>
+
+        
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibean-archetype</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo.groovy</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

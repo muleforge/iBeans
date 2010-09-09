@@ -1,0 +1,40 @@
+##############################################################################
+##                                                                          ##
+##  iBeans Shell script for UN*X                                            ##
+##                                                                          ##
+##############################################################################
+
+##
+## $Revision: $
+## $Id: $
+##
+
+if [ ! -d "$IBEANS_HOME" ] ; then
+
+    if [ ! -d "$CATALINA_HOME" ] ; then
+      echo "IBEANS_HOME or CATALINA_HOME is not set in your environment, assuming this script is being run from the CATALINA_HOME/mule-ibeans/bin."
+      CATALINA_HOME=../..
+    else
+        IBEANS_HOME=$CATALINA_HOME/mule-ibeans
+    fi
+fi
+
+if [ ! -d "$CATALINA_HOME" ] ; then
+  CATALINA_HOME=$IBEANS_HOME/..
+fi
+
+SHELL_HOME=$IBEANS_HOME/tools/shell
+SHELL_MODULE=$SHELL_HOME/ibeans-shell-full.jar
+
+if [ -f "$SHELL_MODULE" ] ; then
+  echo "iBeans Shell module installed, starting..."
+else
+  echo "Could not find the shell.  Make sure you have your IBEANS_HOME or CATALINA_HOME property set."
+  exit 1
+fi
+
+#need to add the servlet jar separately since iBeans does not ship with it when running in Tomcat
+CP=$SHELL_MODULE:$CATALINA_HOME/lib/servlet-api.jar
+
+SHELL_CONF=$SHELL_HOME/launcher.conf
+java -Dcatalina.home=$CATALINA_HOME -Dibeans.shell.home=$SHELL_HOME -cp "$CP" org.codehaus.groovy.tools.GroovyStarter --main org.mule.ibeans.shell.Main --conf $SHELL_CONF "$@"

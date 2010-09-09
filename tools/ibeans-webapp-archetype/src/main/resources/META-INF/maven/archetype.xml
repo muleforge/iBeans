@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><archetype>
+  <id>template</id>
+  <sources>
+    <source>src/main/java/EchoService.java</source>
+    <source>src/main/java/package.html</source>
+  </sources>
+  <resources>
+    <resource>src/main/resources/META-INF/ibeans-app.properties</resource>
+    <resource>src/main/webapp/index.html</resource>
+    <resource>src/main/webapp/WEB-INF/web.xml</resource>
+    <resource>IBEANS-README.txt</resource>
+    <resource>LICENSE.txt</resource>
+    <resource>run-ibeans.xml</resource>
+  </resources>
+</archetype>

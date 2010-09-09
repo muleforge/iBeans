@@ -1,0 +1,57 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>${artifactId} Webapp - powered by IBeans</title>
+
+    <!-- disable browser caching -->
+    <META Http-Equiv="Cache-Control" Content="no-cache">
+    <META Http-Equiv="Pragma" Content="no-cache">
+    <META Http-Equiv="Expires" Content="0">
+
+    <script type="text/javascript" src="ibeans/js/ibeans.js"></script>
+    <script type="text/javascript">
+
+        var ibeans;
+        function init()
+        {
+            ibeans = new IBeansClient();
+            //Init stuff, add receivers to the ibeans context
+        }
+
+        function dispose()
+        {
+            ibeans.dispose();
+            //dispose stuff, add receivers to the ibeans context
+        }
+
+        function callEcho()
+        {
+            var data = new Object();
+            data.phrase = document.getElementById('phrase').value;
+            ibeans.request("/ibeans/echo", data, callEchoResponse);
+        }
+
+        function callEchoResponse(message)
+        {
+            document.getElementById("response").innerHTML = "<b>Response:&nbsp;</b>" + message.data + "${symbol_escape}n";
+        }
+    </script>
+</head>
+
+<body onload="init()" onunload="dispose()">
+
+<h1>iBeans Echo</h1>
+
+<div>
+    Echo: <input id="phrase" type="text"/>
+    <input id="sendButton" class="button" type="submit" name="Go" value="Send" onclick="callEcho();"/>
+</div>
+
+<pre id="response"></pre>
+<p/>
+</body>
+</html>
