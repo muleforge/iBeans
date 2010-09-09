@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>ibeans-modules</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-module-scheduler</artifactId>
+    <packaging>jar</packaging>
+    <name>iBeans Scheduler module</name>
+    <description>Provides support for scheduling talks using cron expressions or fixed time delays.</description>
+
+    <url>http://mulesoft.org/ibeans</url>
+
+    <properties>
+        <bundled>true</bundled>
+    </properties>
+
+    <organization>
+        <url>http://mulesoft.com</url>
+        <name>MuleSoft, Inc</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Ross Mason</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-quartz</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.mule.transports:mule-transport-quartz</include>
+                                    <include>quartz:quartz-all</include>
+                                    <include>org.mule.modules:mule-module-client</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

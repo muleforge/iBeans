@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>ibeans-modules</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-module-jpa</artifactId>
+    <packaging>pom</packaging>
+    <name>iBeans JPA module</name>
+    <description>Provides support for working with databases through the JPA 2.0 interface using hibernate. This module
+        contains all dependencies except for any database drivers. If you have an existing project that uses Hibernate
+        or JPA there is no need to use this module.
+    </description>
+
+    <url>http://mulesoft.org/ibeans</url>
+
+    <properties>
+        <bundled>false</bundled>
+        <hibernateVersion>3.2.1.ga</hibernateVersion>
+    </properties>
+
+    <organization>
+        <url>http://mulesoft.com</url>
+        <name>MuleSoft, Inc</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Ross Mason</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>${hibernateVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernateVersion}</version>
+        </dependency>
+    </dependencies>
+</project>

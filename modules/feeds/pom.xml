@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>ibeans-modules</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-module-feeds</artifactId>
+    <packaging>jar</packaging>
+    <name>iBeans Feeds module</name>
+    <description>Provides support for working with ATOM and RSS feeds. The module can be used both for consuming ATOM and
+        RSS syndication feeds over HTTP.
+    </description>
+    <url>http://mulesoft.org/ibeans</url>
+
+    <properties>
+        <bundled>true</bundled>
+        <required>true</required>
+    </properties>
+
+    <organization>
+        <url>http://mulesoft.com</url>
+        <name>MuleSoft, Inc</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Ross Mason</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <version>1.1</version>
+            <scope>compile</scope><!-- MJM not sure about the original intent here of testIbeansCentralIBeanTestCase scope-->
+        </dependency>
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-atom</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-scripting</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.abdera</groupId>
+                    <artifactId>abdera-spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.abdera</groupId>
+                    <artifactId>abdera-jcr</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.abdera</groupId>
+                    <artifactId>abdera-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.mail</groupId>
+                    <artifactId>mail</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-rss</artifactId>
+            <version>${muleVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+	    </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-http</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mule.modules</groupId>
+                    <artifactId>mule-module-spring-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--<plugin>-->
+               <!--<groupId>org.apache.maven.plugins</groupId>-->
+               <!--<artifactId>maven-surefire-plugin</artifactId>-->
+               <!--<configuration>-->
+                 <!--<excludes>-->
+                     <!--&lt;!&ndash; #IBEANS-165 &ndash;&gt;-->
+                   <!--<exclude>**/RssDontSplitTestCase.java</exclude>-->
+                 <!--</excludes>-->
+               <!--</configuration>-->
+             <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.mule.transports:mule-transport-abdera</include>
+                                    <include>org.apache.abdera:abdera-core</include>
+                                    <include>org.apache.abdera:abdera-client</include>
+                                    <include>org.apache.abdera:abdera-parser</include>
+                                    <include>org.apache.abdera:abdera-i18n</include>
+                                    <include>org.apache.ws.commons.axiom:axiom-impl</include>
+                                    <include>org.apache.ws.commons.axiom:axiom-api</include>
+                                    <include>rome:rome</include>
+                                </includes>
+                            </artifactSet>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

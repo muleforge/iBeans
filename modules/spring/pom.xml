@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>ibeans-modules</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-module-spring</artifactId>
+    <packaging>jar</packaging>
+    <name>iBeans Spring module</name>
+    <description>Provides support for working with the Spring framework.
+    </description>
+
+    <url>http://mulesoft.org/ibeans</url>
+
+    <properties>
+        <bundled>true</bundled>
+    </properties>
+
+    <organization>
+        <url>http://mulesoft.com</url>
+        <name>MuleSoft, Inc</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Ross Mason</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-annotations</artifactId>
+            <version>${muleVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>2.5.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>commons-logging:commons-logging</exclude>
+                                    <exclude>org.springframework:spring-context</exclude>
+                                    <exclude>org.springframework:spring-core</exclude>
+                                    <exclude>org.springframework:spring-beans</exclude>
+                                    <exclude>aopalliance:aopalliance</exclude>
+                                </excludes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

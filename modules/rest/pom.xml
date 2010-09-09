@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>ibeans-modules</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-module-rest</artifactId>
+    <packaging>jar</packaging>
+    <name>iBeans REST module</name>
+    <description>Provides support for creating REST-style services using JAX-RS.</description>
+
+    <url>http://mulesoft.org/ibeans</url>
+
+    <properties>
+        <bundled>true</bundled>
+    </properties>
+
+    <organization>
+        <url>http://mulesoft.com</url>
+        <name>MuleSoft, Inc</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Ross Mason</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.sun.jersey:jersey-server</include>
+                                    <include>com.sun.jersey:jersey-core</include>
+                                    <include>javax.ws.rs:jsr311-api</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

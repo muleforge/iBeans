@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.mule.ibeans</groupId>
+        <artifactId>mule-ibeans</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.ibeans</groupId>
+    <artifactId>ibeans-modules</artifactId>
+    <packaging>pom</packaging>
+    <name>iBeans Modules</name>
+    <description>Parent for all iBeans modules</description>
+    <url>http://mulesoft.org/IBEANS/</url>
+
+    <properties>
+        <ibeans.contact>user@mule.codehaus.org</ibeans.contact>
+    </properties>
+
+    <organization>
+        <url>http://mulesoft.com</url>
+        <name>MuleSoft, Inc</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Ross Mason</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+    <modules>
+        <module>ajax</module>
+        <module>email</module>
+        <module>feeds</module>
+        <!--<module>gae</module>-->
+        <module>guice</module>
+        <module>jms-client</module>
+        <module>http</module>
+        <module>rest</module>
+        <module>scheduler</module>
+        <module>spring</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>
