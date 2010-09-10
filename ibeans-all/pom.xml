@@ -79,12 +79,6 @@
 
         <dependency>
             <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-rest</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
             <artifactId>ibeans-module-spring</artifactId>
             <version>${project.version}</version>
         </dependency>

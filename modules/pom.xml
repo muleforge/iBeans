@@ -45,9 +45,8 @@
         <module>feeds</module>
         <!--<module>gae</module>-->
         <module>guice</module>
-        <module>jms-client</module>
+        <!--<module>jms-client</module>-->
         <module>http</module>
-        <module>rest</module>
         <module>scheduler</module>
         <module>spring</module>
     </modules>
