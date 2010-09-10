@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>Facebook example Webapp - powered by IBeans</title>
+        <!--  console.log() calls will put messages in the firebug console -->
+        <!-- disable browser caching -->
+        <META Http-Equiv="Cache-Control" Content="no-cache">
+        <META Http-Equiv="Pragma" Content="no-cache">
+        <META Http-Equiv="Expires" Content="0">
+
+        <script type="text/javascript" src="ibeans/js/dojo/dojo.js"></script>
+        <script type="text/javascript" src="ibeans/js/ibeans.js"></script>
+        <script src="utils.js"></script>
+        <script type="text/javascript">
+        var sessionValid = false;
+        var apiKey;
+        var sessionKey;
+        var ibeans;
+        function init()
+        {
+            var urlPrefix =  getUrlPath();
+            
+            console.log("urlprefix: " + urlPrefix);
+            ibeans = new IBeansClient();
+            apiKey = ibeans.config.get("facebook.api.key");
+            console.log("api key: " + apiKey);
+            sessionKey = getCookie("fbSession");
+            console.log("sessionKey: " + sessionKey);
+            //figure out if the session key is valid by trying to use it
+            var loggedInUser = null;
+            //ibeans.facebook.setFormat("json");
+            if(sessionKey != "") 
+            {
+                loggedInUser = ibeans.facebook.getLoggedInUser(sessionKey);
+            } else
+            {
+            	loggedInUser=-1;
+            }
+            console.log("logged in user: " + loggedInUser);
+            var userInt = parseInt(loggedInUser);
+            if(userInt > 1000) //we have a valid user
+            {
+            	window.location = urlPrefix + "/map.html";
+            }
+            else //show the login button
+            {
+               var divTag = document.getElementById("divForm");
+               divTag.innerHTML = "<h3>You need to connect this application with Facebook before you can continue.  Click on the button below.</h3>"
+                       + "<form><input type=\"button\" value=\"Connect with Facebook\""
+                       + "onclick=\"window.open('http://www.facebook.com/login.php?api_key=" + apiKey
+                       + "&display=popup&extern=1&fbconnect=1&req_perms=publish_stream&return_session=1&v=1.0&next="
+                       + urlencode(urlPrefix) + "/success.html&fb_connect=1&cancel_url="
+                       + urlencode(urlPrefix) + "/cancel.html', '_self', 'top=442,width=480,height=460,resizable=yes', true)\" /></form>";
+            }                            
+        }
+
+        function dispose()
+        {
+            ibeans.dispose();
+        }
+        </script>
+    </head>
+        
+    <body onload="init()" onunload="dispose()">
+        <br/>
+        <div id="divForm"></div>            
+    </body>
+</html>

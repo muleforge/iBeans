@@ -43,6 +43,7 @@
         <module>tools</module>
         <module>ibeans-all</module>
         <module>ibeansCentral</module>
+        <module>examples</module>
     </modules>
 
     <!-- Organization -->

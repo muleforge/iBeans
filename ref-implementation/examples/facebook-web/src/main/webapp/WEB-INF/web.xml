@@ -1,0 +1,62 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+
+    <display-name>Facebook example Webapp - powered by IBeans</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!--
+    This is the servlet that initialises iBeans for use in your application and is always required to start the iBeans context
+    -->
+    <servlet>
+        <servlet-name>mule-ibeans</servlet-name>
+        <servlet-class>org.mule.ibeans.web.IBeansServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!--
+    Enables AJAX eventing between the browser and container. This is required when using JavaScript client to add event
+    receivers i.e. ibeans.addReceiver("ibeans/ajax/foo", cb);
+
+    This can be removed if not using Javascript
+    -->
+    <servlet>
+        <servlet-name>ajax</servlet-name>
+        <servlet-class>org.mule.ibeans.web.IBeansAjaxServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <!--
+    Will process calls on registered iBeans on the browser using the JSON RPC library from jabsorb. This servlet by default
+    will make all iBeans in the container available to the browser. Depending on what iBeans are installed, this could present
+    a security risk.  It is possible to limit which iBeans are made available but setting the 'enabled.ibeans' init parameter to
+    a comma-separated list of iBeans to enable.
+
+    This can be removed if not using Javascript
+    -->
+    <servlet>
+        <servlet-name>json-rpc</servlet-name>
+        <servlet-class>org.mule.ibeans.web.IBeansRpcServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <!-- It is best practice not to change the default url-patterns for these servlets -->
+    <servlet-mapping>
+        <servlet-name>mule-ibeans</servlet-name>
+        <url-pattern>/ibeans/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ajax</servlet-name>
+        <url-pattern>/ibeans/ajax/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>json-rpc</servlet-name>
+        <url-pattern>/ibeans/json-rpc/*</url-pattern>
+    </servlet-mapping>
+</web-app>

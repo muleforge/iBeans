@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+    <title>Twitter iBean Example</title>
+
+    <!-- disable browser caching -->
+    <META Http-Equiv="Cache-Control" Content="no-cache">
+    <META Http-Equiv="Pragma" Content="no-cache">
+    <META Http-Equiv="Expires" Content="0">
+
+    <link rel="stylesheet" href="ibeans-examples.css"/>
+
+    <script type="text/javascript" src="ibeans/js/ibeans.js"></script>
+
+    <script type="text/javascript">
+
+        var ibeans = new IBeansClient();
+
+        function init()
+        {
+            //We could load credentials from a test account and use that but the last time we did, some bozo decided
+            //to change the password!
+            //var user = ibeans.config.get("twitter.username");
+            //var pass = ibeans.config.get("twitter.password");
+            //ibeans.twitter.setCredentials(user, pass);
+        }
+
+        function errorCallback(error)
+        {
+            alert(error.msg);
+        }
+
+        function login()
+        {
+            var user = document.getElementById('user').value;
+            var pass = document.getElementById('pass').value;
+            if (!user || !pass)
+            {
+                alert("User and password must bet set");
+                return;
+            }
+            ibeans.twitter.verifyCredentials(loginCallback, user, pass);
+
+
+        }
+
+        function loginCallback(result, error)
+        {
+            if (error)
+            {
+                errorCallback(error);
+            }
+            else
+            {
+                var user = document.getElementById('user').value;
+                var pass = document.getElementById('pass').value;
+                ibeans.twitter.setCredentials(user, pass);
+                document.getElementById("lastStatusHolder").setAttribute("style", "display:");
+                document.getElementById("update-row").setAttribute("style", "display:");
+                document.getElementById("login-row").setAttribute("style", "display: none");
+            }
+        }
+
+        function emptyCallback(result, error)
+        {
+            if (error)
+            {
+                errorCallback(error);
+            }
+        }
+
+        function updateStatus()
+        {
+            ibeans.twitter.statusesUpdate(statusCallback, document.getElementById('status').value);
+        }
+
+
+        function statusCallback(result, exception)
+        {
+            if (exception)
+            {
+                errorCallback(exception);
+                return;
+            }
+            var data = ibeans.fromJson(result);
+            var lastStatus = document.getElementById('lastStatus');
+            lastStatus.appendChild(renderStatus(data));
+        }
+
+        function renderTimeline(result, exception)
+        {
+            if (exception)
+            {
+                errorCallback(exception);
+                return;
+            }
+            var tweets = ibeans.fromJson(result);
+            var publicStatus = document.getElementById('statuses');
+            publicStatus.innerHTML = '';
+            for (var x = 0; x < tweets.length; x++)
+            {
+                var tweet = tweets[x];
+                publicStatus.appendChild(renderStatus(tweet));
+            }
+        }
+
+        function renderStatus(tweet)
+        {
+            var tweetDiv = document.createElement('div');
+            tweetDiv.setAttribute("class", "tweet");
+            console.debug("loading tweet from user: " + tweet.user.name);
+            var image = document.createElement('img');
+            image.setAttribute("src", tweet.user.profile_image_url);
+            image.setAttribute("title", tweet.user.name);
+            image.setAttribute("class", "profileImg");
+            tweetDiv.appendChild(image);
+            var text = document.createElement('span');
+            text.setAttribute("class", "tweetText");
+            text.innerHTML = tweet.text + "<br/><span class='source'>Sent from: " + tweet.source;
+            tweetDiv.appendChild(text);
+            return tweetDiv;
+        }
+    </script>
+
+</head>
+<body>
+<h2>Twitter iBean Example</h2>
+
+<table>
+    <tr id="login-row">
+        <td>Log in to Twitter:</td>
+        <td>Username: <input id="user" class="input" type="text"/></td>
+        <td>Password: <input id="pass" class="input" type="password"/></td>
+        <td><input id="login" class="button" type="submit" value="Log in" onclick="login();"/></td>
+    </tr>
+    <tr id="update-row" style="display: none;">
+        <td>Update Twitter Status:</td>
+        <td><input id="status" class="input" type="text" value="Checking out iBeans!"/></td>
+        <td colspan="2"><input id="submit" class="button" type="submit" value="Update"
+                               onclick="ibeans.twitter.statusesUpdate(statusCallback, document.getElementById('status').value);"/>
+            <input id="friendSubmit" class="button" type="submit" name="Show Friends Timeline"
+                   value="Show friends Timeline" onclick="ibeans.twitter.getFriendsTimeline(renderTimeline);"/></td>
+    </tr>
+    <tr>
+        <td colspan="4"><input id="publicSubmit" class="button" type="submit" name="Show public Timeline"
+                               value="Show public Timeline"
+                               onclick="ibeans.twitter.getPublicTimeline(renderTimeline);"/></td>
+    </tr>
+</table>
+<div id="error"></div>
+<div id="lastStatusHolder" style="display: none">
+    Last Status:
+    <div id="lastStatus" class="twitterFeed"></div>
+</div>
+<div id="statuses" class="twitterFeed"></div>
+</body>
+</html>

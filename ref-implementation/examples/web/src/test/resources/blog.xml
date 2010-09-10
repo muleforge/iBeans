@@ -1,0 +1,15 @@
+<bitly>
+    <errorCode>0</errorCode>
+    <errorMessage></errorMessage>
+    <results>
+        <nodeKeyVal>
+            <userHash>3gYHu</userHash>
+            <shortKeywordUrl></shortKeywordUrl>
+            <hash>YafW6</hash>
+            <nodeKey>
+                <![CDATA[http://rossmason.blogspot.com/2009/01/iphone-is-from-mars-g1-is-from-venus.html]]></nodeKey>
+            <shortUrl>http://bit.ly/3gYHu</shortUrl>
+        </nodeKeyVal>
+    </results>
+    <statusCode>OK</statusCode>
+</bitly>
