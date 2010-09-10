@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Facebook example Webapp - powered by IBeans</title>
+<!--  console.log() calls will put messages in the firebug console -->
+<!-- disable browser caching -->
+<META Http-Equiv="Cache-Control" Content="no-cache">
+<META Http-Equiv="Pragma" Content="no-cache">
+<META Http-Equiv="Expires" Content="0">
+
+<!-- For public hosted deployment of dojo that contains the complete release, you can use this -->
+<!-- <script type="text/javascript" src="http://o.aolcdn.com/dojo/1.3.0/dojo/dojo.xd.js"></script> -->
+<script type="text/javascript" src="ibeans/js/dojo/dojo.js"></script>
+<script type="text/javascript" src="ibeans/js/ibeans.js"></script>
+<!--  replace value of key with your own google api key  -->
+<script
+	src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAAMXiPTfxgqabxarHGTeKxRRSA0Sflv7LEStjIg6cmVajRpyo8BTLNsAPL3f-DTLgXWUuNUDP0-YyEA"
+	type="text/javascript"></script>
+<script src="utils.js"></script>
+<script type="text/javascript">
+        var ibeans;
+        var sessionKey;
+        var uid;
+        
+        function init()
+        {            
+            setupMap();
+            geocode = new GClientGeocoder();
+            sessionKey = getCookie("fbSession");
+            console.log("sessionKey: " + sessionKey); 
+            uid = getCookie("fbUid");
+            ibeans = new IBeansClient();
+            console.log("init complete");
+        }
+
+        function setupMap()
+        {
+            if (GBrowserIsCompatible())
+            {
+                map = new GMap2(document.getElementById("mapview"));
+                map.addControl(new GSmallMapControl());
+                map.addControl(new GMapTypeControl());
+                map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 3);                
+            }
+            console.log("setup map complete");
+        }
+        
+        function dispose()
+        {
+            ibeans.dispose();
+        }
+
+        function mapCurrentUser()
+        {
+            var resultString = ibeans.facebook.getInfo(sessionKey,uid,"first_name,last_name,hometown_location,current_location,pic_small,pic_big");           
+            var resultJson = ibeans.fromJson(resultString);
+            var locationString = getLocationString(resultJson[0]);
+            console.log("my location: " + locationString);
+            mapMe(locationString,resultJson[0].first_name + " " + resultJson[0].last_name + "<br/>" + locationString 
+                    + "<img src=\"" + resultJson[0].pic_small + "\"/>", "images/home.png");
+        }
+
+        
+        function mapEveryone()
+        {           
+            friendsArray = ibeans.fromJson(ibeans.facebook.get(sessionKey));
+            console.log("found " + friendsArray.length + " friends");
+            var friendsIdString = friendsArray.join(",");
+            var friendString = ibeans.facebook.getInfo(sessionKey,friendsIdString,"first_name,last_name,hometown_location,current_location,pic_small,pic_big");
+            var friendInfo = ibeans.fromJson(friendString);
+            var mappedFriends = 0;
+            for (key in friendInfo)
+            {                
+                if(friendInfo[key].hometown_location != null)
+                {                        
+                    var locationString = getLocationString(friendInfo[key]);            
+                    mapMe(locationString,friendInfo[key].first_name + " " + friendInfo[key].last_name + "<br/>" + locationString 
+                    	    + "<img src=\"" + friendInfo[key].pic_small + "\"/>", "images/friends.png");
+                    ++mappedFriends;                        
+                }
+            }
+            console.log("mapped " + mappedFriends + " friends");
+            mapCurrentUser();
+        }
+
+        function getLocationString(userData)
+        {
+            var locationString = "";
+            if(userData.hometown_location.city != null)
+                locationString = userData.hometown_location.city;
+
+            if(userData.hometown_location.state != null)
+                locationString = locationString + " " + userData.hometown_location.state;
+
+            if(userData.hometown_location.country != null)
+                locationString = locationString + " " + userData.hometown_location.country;
+
+            return locationString;
+        }
+        
+        function mapMe(loc, htmlData, iconImg)
+        {           
+            //TODO DZ: i think this has timing issues, so we get a slightly different friend map every time; don't do the mapping on the callback
+            geocode.getLatLng(loc,
+                    function doMap(latLng)
+                    {              
+                        if(latLng != null)
+                        {
+                            //TODO DZ: try to add a little variation, since markers will overlap
+                            addNewMarker(latLng, iconImg, "<div class=\"infoWindow\" style=\"height:200px, autoScroll:true\">" + htmlData + "<\div>");
+                        }
+                    }
+                );
+        }
+        
+        function addNewMarker(latLng, markerIcon, htmlData)
+        {
+            var userIcon = new GIcon();
+            userIcon.image = markerIcon;
+            userIcon.iconAnchor = new GPoint(11,30);
+            userIcon.iconAnchor = new GPoint(11,30);
+            userIcon.infoWindowAnchor = new GPoint(11,0);                      
+            var markerOptions = {icon:userIcon};
+            var marker = new GMarker(latLng, markerOptions);
+            marker.bindInfoWindowHtml(htmlData);
+            map.addOverlay(marker);
+            setTimeout(null, 500);
+        }
+
+    </script>
+</head>
+
+<body onload="init()" onunload="dispose()">
+
+<h1>Mule iBeans Facebook Example</h1>
+<br/>
+<div><input id="sendButton" class="button" type="submit" name="Go"
+	value="Map Friends Hometowns" onclick="mapEveryone();" /></div>
+<br/>
+
+<div id="mapview" style="width: 800px; height: 400px"></div>
+<p />
+</body>
+</html>

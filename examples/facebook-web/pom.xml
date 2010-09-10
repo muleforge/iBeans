@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mule.ibeans.examples</groupId>
+        <artifactId>ibeans-examples</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+   <artifactId>facebook-example</artifactId>
+   <packaging>war</packaging>
+   <name>Facebook Example</name>
+   <description>A Java web app example using the facebook ibean. It will connect to your facebook account and map the hometown of your friends on a world map</description>
+
+   <properties>
+        <webappName>facebook-example</webappName>
+        <ibeansVersion>1.0-beta-10-SNAPSHOT</ibeansVersion>
+        <muleVersion>3.1.0-SNAPSHOT</muleVersion>
+    </properties>
+
+    <developers>
+        <developer>
+            <name>dzapata</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL/</url>
+        </license>
+    </licenses>
+
+   <dependencies>
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>facebook-ibean</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>   
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-ajax</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-core</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-http</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-feeds</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-jms-client</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-email</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-xml</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-guice</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-scheduler</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-rest</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>facebook-ibean</artifactId>
+            <version>${ibeansVersion}</version>
+        </dependency>  
+    
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.10</version>
+        </dependency>
+    
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${muleVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${muleVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>    
+    
+    </dependencies>
+</project>

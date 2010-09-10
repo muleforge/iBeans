@@ -1,0 +1,21 @@
+<html>
+<head>
+<script type="text/javascript" src="ibeans/js/dojo/dojo.js"></script>
+<script src="utils.js"></script>
+</head>
+
+<body>
+    <script LANGUAGE="JavaScript">
+    console.log("let's set the cookie to : " + gup("session_key"));
+    var jsonString = urldecode(gup("session")); //json string
+    console.log("json string: " + jsonString);
+    var jsonObject = dojo.fromJson(jsonString);
+    console.log("json object: " + jsonObject);
+    console.log("session_key: " + jsonObject.session_key);
+    setCookie("fbSession", jsonObject.session_key, 365);
+    setCookie("fbUid", jsonObject.uid, 365);    
+    window.location = getUrlPath() + "/index.html";
+    </script>
+</body>
+
+</html>

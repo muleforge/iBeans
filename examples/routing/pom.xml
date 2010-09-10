@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mule.ibeans.examples</groupId>
+        <artifactId>ibeans-examples</artifactId>
+        <version>1.0-beta-10-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>code-examples</artifactId>
+    <packaging>war</packaging>
+    <name>Message Routing Examples</name>
+    <description>A collection of channel and routing code examples</description>
+
+    <properties>
+        <webappName>code-examples</webappName>
+        <furtherInfo>This example provides lots of code samples of how to use iBeans to do things like create JMS channels, send and receive email
+            and how to use the Method and parameter annotations.  There is nothing to run but serves as good reference material.
+        </furtherInfo>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${muleVersion}</version>
+            <type>test-jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>gmail-ibean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- JMS tests -->
+        <dependency>
+            <groupId>org.mule.ibeans</groupId>
+            <artifactId>ibeans-module-jms-client</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>4.1.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jms_1.1_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.activemq</groupId>
+                    <artifactId>activemq-jaas</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-pool</groupId>
+                    <artifactId>commons-pool</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>activemq</groupId>
+                    <artifactId>jmdns</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xalan</groupId>
+                    <artifactId>xalan</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.xbean</groupId>
+                    <artifactId>xbean-spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-j2ee-jacc_1.0_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>backport-util-concurrent</groupId>
+                    <artifactId>backport-util-concurrent</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>howl</groupId>
+                    <artifactId>howl-logger</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>geronimo</groupId>
+                    <artifactId>geronimo-kernel</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>geronimo</groupId>
+                    <artifactId>geronimo-j2ee</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>activesoap</groupId>
+                    <artifactId>jaxp-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-jmx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-remote</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-tools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mx4j</groupId>
+                    <artifactId>mx4j-impl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!--#IBEANS-17. Broken by VMQ change, though not used in iBeans currently-->
+                        <exclude>**/AsyncReplyWithCallbackFunctionalTestCase.java</exclude>
+                        <exclude>**/AsyncReplyFunctionalTestCase.java</exclude>
+
+                        <!--#IBEANS-176: IMAP receive (requestor) doesn't seem to work with Gmail-->
+                        <exclude>**/EmailSendTestCase.java</exclude>
+                        <exclude>**/EmailReceiveTestCase.java</exclude>
+
+                        <!--#need to disables these until the properties on the server are updated-->
+                        <exclude>**/EmailSendUsingIBeanTestCase.java</exclude>
+                        <exclude>**/EmailReceiveUsingIBeanTestCase.java</exclude>
+                        <!-- exclude all for now since we need to release the ibeans themselves -->
+                        <exclude>**/*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

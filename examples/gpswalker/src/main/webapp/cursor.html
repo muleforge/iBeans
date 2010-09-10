@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+    <title>iBeans GPS Walker Cursor</title>
+
+    <!-- disable browser caching -->
+    <META Http-Equiv="Cache-Control" Content="no-cache">
+    <META Http-Equiv="Pragma" Content="no-cache">
+    <META Http-Equiv="Expires" Content="0">
+
+    <script type="text/javascript" src="ibeans/js/ibeans.js"></script>
+
+    <script type="text/javascript">
+
+        var marker;
+        /* create ibeans client with RPC disabled */
+        var ibeans = new IBeansClient(false);
+
+        function nudge(direction)
+        {
+            //Change the city and reset the map
+            ibeans.send("/ibeans/services/gps-nudgecursor", direction);
+        }
+
+    </script>
+
+</head>
+<body>
+<h2>iBeans GPS Walker Cursor Control</h2>
+
+   <table>
+       <tr>
+          <td/>
+          <td><input id="north" class="button" type="submit" name="NudgeNorth" value="Nudge North" onclick="nudge('north');"/></td>
+          <td/>
+       </tr>
+       <tr>
+          <td><input id="west" class="button" type="submit" name="NudgeWest" value="Nudge West" onclick="nudge('west');"/></td>
+          <td/>
+          <td><input id="east" class="button" type="submit" name="NudgeEast" value="Nudge East" onclick="nudge('east');"/></td>
+       </tr>
+       <tr>
+          <td/>
+          <td><input id="south" class="button" type="submit" name="NudgeSouth" value="Nudge South" onclick="nudge('south');"/></td>
+          <td/>
+       </tr>
+   </table>
+</body>
+</html>

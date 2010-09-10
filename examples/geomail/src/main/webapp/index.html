@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>iBeans GeoMail Example</title>
+
+    <!-- disable browser caching -->
+    <META Http-Equiv="Cache-Control" Content="no-cache">
+    <META Http-Equiv="Pragma" Content="no-cache">
+    <META Http-Equiv="Expires" Content="0">
+
+    <script type="text/javascript" src="ibeans/js/ibeans.js"></script>
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA_9P3leoajNRw866Ba34-tBTwM0brOpm-All5BF6PoaKBxRWWERQBp4nDkS9za5_7YtEoet0y1AdBIw"
+            type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        /* create ibeans client with RPC disabled */
+        var ibeans = new IBeansClient(false);
+
+        var CONFIG = {
+            center: new GLatLng(22.268764, 17.226563),
+            zoomLevel: 2,
+            mapType: G_HYBRID_MAP
+        }
+
+        var GeoMail;
+
+        var map;
+
+        var MapUtils = {
+
+            createMarker: function(sender)
+            {
+                console.debug("Email: " + sender.latitude + ", " + sender.longitude)
+                var marker = new GMarker(new GLatLng(sender.latitude, sender.longitude));
+
+                GEvent.addListener(marker, "click", function()
+                {
+                    marker.openInfoWindowHtml(sender.summary);
+                });
+                return marker;
+            }
+        }
+
+
+        function loadMap()
+        {
+            if (GBrowserIsCompatible())
+            {
+                GeoMail = new function()
+                {
+                    this.map = new GMap2(document.getElementById('mapview'));
+                    this.map.setCenter(CONFIG.center, CONFIG.zoomLevel, CONFIG.mapType);
+
+                    this.addSender = function(sender)
+                    {
+
+                        var marker = MapUtils.createMarker(sender);
+                        this.map.addOverlay(marker);
+
+                    }
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+
+        function init()
+        {
+            loadMap();
+            ibeans.addReceiver("/ibeans/geomail", receive);
+        }
+
+
+
+        receive = function(message)
+        {
+            var data = message.data;
+
+            if (data)
+            {
+                try
+                {
+                    GeoMail.addSender(data);
+                }
+                catch (e)
+                {
+                    alert(content + ",\n" + e);
+                }
+            }
+        }
+    </script>
+
+</head>
+<body onload="init()" onunload="GUnload();">
+
+<h2>iBeans GeoMail Example</h2>
+
+<div id="mapview" style="width: 1000px; height: 500px"></div>
+
+</body>
+</html>

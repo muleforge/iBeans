@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+    <title>iBeans channels Examples</title>
+</head>
+<body>
+<h2>iBeans Channels Examples</h2>
+
+The examples below are code snippets that show how do do various tasks with iBeans such as send and receive JMS or email messages,
+Use the @Schedule, @Send, @Receive and @ReceiveAndReply annotations. As well as examples of how to use method parameter annotations
+such as @ReceivedHeaders, @SendHeaders and @MessagePayload.
+
+This are all Unit tested with the iBeans <a href="http://bamboo.muleforge.org/browse/IBEANS" target="_blank">continuous build</a> so are always up to date and working.
+
+<table width="800px">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Demonstrates</th>
+    </tr>
+    </thead>
+    <tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/routing/pubsub/" target="_blank">pub-sub</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/routing/pubsub/" target="_blank">unit tests</a>)</td><td>A collection of example code that shows how a server side component can publish and subscribe messages.</td><td>Component method annotations: @Schedule, @Send, @Receive and @ReceiveAndReply</td>
+    </tr><tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/routing/params/" target="_blank">params</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/routing/params/" target="_blank">unit tests</a>)</td><td>Demonstrates how to use method parameter annotations.</td><td>Parameter annotations: @ReceivedHeaders, @SendHeaders, @MessagePayload</td>
+    </tr><tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/routing/meps/" target="_blank">MEPs</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/routing/meps/" target="_blank">unit tests</a>)</td><td><a href="http://www.mulesoft.org/display/MULE2USER/MEPs" target="_blank">Message Exchange Patterns</a> define common ways of exchanging data between components</td><td>Patterns: <a href="http://www.mulesoft.org/display/MULE2USER/MEPs#MEPs-InOnly" target="_blank">InOnly</a>, <a href="http://www.mulesoft.org/display/MULE2USER/MEPs#MEPs-OutOnly" target="_blank">OutOnly</a>, <a href="http://www.mulesoft.org/display/MULE2USER/MEPs#MEPs-InOut" target="_blank">InOut</a>, <a href="http://www.mulesoft.org/display/MULE2USER/MEPs#MEPs-InOnly%2COutOnly" target="_blank">InOnly-OutOnly</a></td>
+    </tr><tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/routing/requestresponse/" target="_blank">request-response</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/routing/requestresponse/" target="_blank">unit tests</a>)</td><td>How to define a simple request-response component with auto transformation to XML document</td><td>The @ReceiveAndReply and @MessagePayload annotations</td>
+    </tr><tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/routing/asyncreply/" target="_blank">async-reply</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/routing/asyncreply/" target="_blank">unit tests</a>)</td><td>How to use the @Reply annotation to define an async callback channel</td><td>The @Reply, @ReceiveAndReply and @Send annotations</td>
+    </tr><tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/routing/splitter/" target="_blank">splitter</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/routing/splitter/" target="_blank">unit tests</a>)</td><td>How to split outbound messages into multiple parts</td><td>The @Send annotation and its 'split' attribute.  Shows how to split an XML document</td>
+    </tr><tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/channels/email/" target="_blank">email-channels</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/channels/email/" target="_blank">unit tests</a>)</td><td>Examples of how to receive and send email.</td><td>The @Send and @Receive annotations and using the Gmail iBean</td>
+    </tr><tr>
+    <td><a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/main/java/org/mule/ibeans/example/channels/jms/" target="_blank">jms-channels</a> (<a href="http://svn.muleforge.org/ibeans-contrib/trunk/examples/routing/src/test/java/org/mule/ibeans/example/channels/jms/" target="_blank">unit tests</a>)</td><td>Examples of how to receive and send Jms Messages.</td><td>The @Send and @Receive annotations and using Guice to configure a Jms Channel.</td>
+    </tr>
+</table>
+
+</body>
+</html>
