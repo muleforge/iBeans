@@ -52,14 +52,7 @@
             <source>../modules/spring/target/ibeans-module-spring-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
         </file>
-        <file>
-            <source>../modules/rest/target/ibeans-module-rest-${project.version}-full.jar</source>
-            <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
-        </file>
-        <file>
-            <source>../modules/xml/target/ibeans-module-xml-${project.version}-full.jar</source>
-            <outputDirectory>mule-ibeans/lib/modules/deployed</outputDirectory>
-        </file>
+        
         <!-- tools -->
         <file>
             <source>../tools/shell/target/ibeans-shell-${project.version}-full.jar</source>
