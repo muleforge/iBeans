@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
  * This annotation can only be used with the {@link org.mule.ibeans.api.client.Call} annotation and is used to set the parameter as
  * a payload object on the outgoing message. Typically, this is only used when performing HTTP POST where the payload of the
  * outgoing call is a set of key/value objects.
+ *
+ * The mimeType for a HTTP request that uses this annotation will be 'application/x-www-form-urlencoded'.
  * <p/>
  * The value of this annotation defines the name of the parameter. The actual parameter is used as the value.
  */
