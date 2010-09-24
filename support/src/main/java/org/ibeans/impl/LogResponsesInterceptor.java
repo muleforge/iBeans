@@ -89,21 +89,7 @@ public class LogResponsesInterceptor extends AbstractCallInterceptor
         FileOutputStream fos = openOutputStream(responseFile);
         try
         {
-        	if(isStream)
-        	{
-        		byte buf[] = new byte[1024];
-        		int len;
-        		InputStream is = msg.getPayloadAsStream();
-        		while((len=is.read(buf))>0)
-        		{
-        			fos.write(buf, 0, len);        			
-        		}
-        		is.close();
-        	}
-        	else
-        	{
-        		fos.write(response.getBytes());
-        	}
+            fos.write(response.getBytes());
         }
         finally
         {
