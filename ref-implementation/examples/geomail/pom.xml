@@ -93,13 +93,13 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>hostip-ibean</artifactId>
-            <version>${version}</version>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>flickr-ibean</artifactId>
-            <version>${version}</version>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency> 
     </dependencies>

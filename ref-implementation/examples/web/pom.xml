@@ -28,28 +28,28 @@
         <dependency>
             <artifactId>flickr-ibean</artifactId>
             <groupId>org.mule.ibeans</groupId>
-            <version>${project.version}</version>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>twitter-ibean</artifactId>
             <groupId>org.mule.ibeans</groupId>
-            <version>${project.version}</version>
+            <version>0.9</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>bitly-ibean</artifactId>
             <groupId>org.mule.ibeans</groupId>
-            <version>${project.version}</version>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>gmail-ibean</artifactId>
             <groupId>org.mule.ibeans</groupId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

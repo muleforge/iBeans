@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.mule.ibeans</groupId>
             <artifactId>gmail-ibean</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- JMS tests -->
