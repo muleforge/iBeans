@@ -24,11 +24,11 @@ import javax.activation.DataSource;
 import org.ibeans.annotation.Namespace;
 import org.ibeans.annotation.State;
 import org.ibeans.annotation.param.Attachment;
+import org.ibeans.annotation.param.Body;
+import org.ibeans.annotation.param.BodyParam;
 import org.ibeans.annotation.param.HeaderParam;
 import org.ibeans.annotation.param.Optional;
 import org.ibeans.annotation.param.Order;
-import org.ibeans.annotation.param.Body;
-import org.ibeans.annotation.param.BodyParam;
 import org.ibeans.annotation.param.PropertyParam;
 import org.ibeans.annotation.param.ReturnType;
 import org.ibeans.annotation.param.UriParam;
@@ -39,6 +39,7 @@ import org.ibeans.api.InvocationContext;
 import org.ibeans.api.ParamFactory;
 import org.ibeans.api.ParamFactoryHolder;
 import org.ibeans.api.channel.CHANNEL;
+import org.ibeans.api.channel.HTTP;
 import org.ibeans.impl.i18n.IBeansMessages;
 import org.ibeans.impl.support.NamespaceMap;
 import org.ibeans.impl.support.annotation.AnnotationMetaData;
@@ -88,6 +89,9 @@ public class IBeanReader
         DefaultIBeanStateData stateDataDefault = new DefaultIBeanStateData();
         addErrorFilters(ibean, stateDataDefault.getErrorFilters());
         addMethodLevelErrorFilters(ibean, stateDataDefault.getMethodLevelErrorFilters());
+
+        //By default all calls are HTTP POST
+        stateDataDefault.getPropertyParams().put(HTTP.METHOD_KEY, "POST");
         try
         {
 
@@ -162,13 +166,20 @@ public class IBeanReader
                 PropertyParam propertyParam = field.getAnnotation(PropertyParam.class);
                 if (propertyParam != null)
                 {
-                    if (Map.class.isAssignableFrom(field.getType()))
+                    String key = (propertyParam.value().length() > 0 ? propertyParam.value() : field.getName());
+                    if (ParamFactory.class.isAssignableFrom(field.getType()))
+                    {
+                        ParamFactory pf = (ParamFactory) field.get(ibean);
+                        Order order = field.getAnnotation(Order.class);
+                        ParamFactoryHolder holder = (order == null ? new ParamFactoryHolder(pf, key) : new ParamFactoryHolder(pf, key, order.value()));
+                        stateDataDefault.getPropertyFactoryParams().add(holder);
+                    }
+                    else if (Map.class.isAssignableFrom(field.getType()))
                     {
                         stateDataDefault.getPropertyParams().putAll((Map) field.get(ibean));
                     }
                     else
                     {
-                        String key = (propertyParam.value().length() > 0 ? propertyParam.value() : field.getName());
                         stateDataDefault.getPropertyParams().put(key, field.get(ibean));
                     }
                 }
@@ -314,10 +325,14 @@ public class IBeanReader
                     }
                     else if (annotation.annotationType().equals(PropertyParam.class))
                     {
+                        if (args[i] instanceof ParamFactory)
+                        {
+                            addComplexParam(annotation, args[i], optional, context);
+                        }
                         //allow @PropertyParams on Call methods as a way to pass data to a Factory
                         //but don't allow ParamFactories to be used for @PropertyParams on @Call method since
                         //their only purpose is to pass in data to a factory
-                        if (stateCall)
+                        else if (stateCall)
                         {
                             addPropertyParam((PropertyParam) annotation, args[i], method, context.getIBeanDefaultConfig().getPropertyParams(), optional);
                         }
@@ -506,6 +521,10 @@ public class IBeanReader
         {
             paramName = ((BodyParam) annotation).value();
         }
+        else if (annotation instanceof PropertyParam)
+        {
+            paramName = ((PropertyParam) annotation).value();
+        }
         else
         {
             throw new IllegalArgumentException("ParamFactory not supported in conjunction with: " + annotation);
@@ -521,6 +540,10 @@ public class IBeanReader
         else if (annotation instanceof HeaderParam)
         {
             ctx.getIBeanConfig().addHeaderParam(paramName, encode(value));
+        }
+        else if (annotation instanceof PropertyParam)
+        {
+            ctx.getIBeanConfig().addPropertyParam(paramName, encode(value));
         }
         else
         {
@@ -607,6 +630,7 @@ public class IBeanReader
 
         protected Set<ParamFactoryHolder> defaultUriFactoryParams = new TreeSet<ParamFactoryHolder>();
         protected Set<ParamFactoryHolder> defaultHeaderFactoryParams = new TreeSet<ParamFactoryHolder>();
+        protected Set<ParamFactoryHolder> defaultPropertyFactoryParams = new TreeSet<ParamFactoryHolder>();
         protected Set<ParamFactoryHolder> defaultAttachmentFactoryParams = new TreeSet<ParamFactoryHolder>();
 
         protected Map<String, ErrorFilter> errorFilters = new HashMap<String, ErrorFilter>();
@@ -663,6 +687,11 @@ public class IBeanReader
         public Set<ParamFactoryHolder> getHeaderFactoryParams()
         {
             return defaultHeaderFactoryParams;
+        }
+
+        public Set<ParamFactoryHolder> getPropertyFactoryParams()
+        {
+            return defaultPropertyFactoryParams;
         }
 
         public Set<ParamFactoryHolder> getAttachmentFactoryParams()

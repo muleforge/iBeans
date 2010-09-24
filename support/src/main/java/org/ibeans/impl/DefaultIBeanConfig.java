@@ -10,10 +10,10 @@
 package org.ibeans.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.activation.DataSource;
@@ -28,10 +28,10 @@ import org.ibeans.impl.support.ds.DataSourceComparator;
  */
 public final class DefaultIBeanConfig implements IBeanInvocationData
 {
-    protected Map<String, Object> headerParams = new TreeMap<String, Object>();
-    protected Map<String, Object> payloadParams = new TreeMap<String, Object>();
-    protected Map<String, Object> uriParams = new TreeMap<String, Object>();
-    protected Map<String, Object> propertyParams = new TreeMap<String, Object>();
+    protected Map<String, Object> headerParams = new LinkedHashMap<String, Object>();
+    protected Map<String, Object> payloadParams = new LinkedHashMap<String, Object>();
+    protected Map<String, Object> uriParams = new LinkedHashMap<String, Object>();
+    protected Map<String, Object> propertyParams = new LinkedHashMap<String, Object>();
     protected List<Object> payloads = new ArrayList<Object>();
     protected Set<DataSource> attachments = new TreeSet<DataSource>(new DataSourceComparator());
     protected DataType returnType;

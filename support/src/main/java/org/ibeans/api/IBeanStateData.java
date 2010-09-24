@@ -13,10 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
-import org.ibeans.api.channel.MimeType;
-
 import org.ibeans.spi.ErrorFilter;
-import org.ibeans.spi.Filter;
 
 /**
  * TODO
@@ -65,6 +62,8 @@ public interface IBeanStateData
     Set<ParamFactoryHolder> getUriFactoryParams();
 
     Set<ParamFactoryHolder> getHeaderFactoryParams();
+    
+    Set<ParamFactoryHolder> getPropertyFactoryParams();
 
     Set<ParamFactoryHolder> getAttachmentFactoryParams();
 

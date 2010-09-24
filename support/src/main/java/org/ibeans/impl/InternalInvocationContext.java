@@ -374,7 +374,12 @@ public class InternalInvocationContext implements InvocationContext
                 }
                 catch (Throwable e)
                 {
-                    InternalInvocationContext.this.exception = e;
+                    Throwable root = e;
+                    while(root.getCause()!=null)
+                    {
+                        root = root.getCause();
+                    }
+                    InternalInvocationContext.this.exception = root;
                 }
             }
         }
@@ -482,6 +487,7 @@ public class InternalInvocationContext implements InvocationContext
 
         createParameters(getIBeanDefaultConfig().getUriFactoryParams(), getIBeanConfig().getUriParams(), this);
         createParameters(getIBeanDefaultConfig().getHeaderFactoryParams(), getIBeanConfig().getHeaderParams(), this);
+        createParameters(getIBeanDefaultConfig().getPropertyFactoryParams(), getIBeanConfig().getPropertyParams(), this);
         createAttachments(getIBeanDefaultConfig().getAttachmentFactoryParams(), getIBeanConfig().getAttachments(), this);
 
         this.request = plugin.createRequest(getIBeanConfig());
