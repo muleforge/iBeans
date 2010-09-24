@@ -7,7 +7,7 @@
 #if(! $ibeansVersion)
 #set($ibeansVersion = "1.0-beta-10-SNAPSHOT")
 #end
-    
+
    <modelVersion>4.0.0</modelVersion>
    <groupId>${groupId}</groupId>
    <artifactId>${artifactIdLower}-ibean</artifactId>
@@ -38,8 +38,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.5</source>
+                    <target>1.5</target>
                     <encoding>ISO-8859-1</encoding>
                 </configuration>
             </plugin>
@@ -63,7 +63,7 @@
                             <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
                             <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
                             <Product-Description>${project.description}</Product-Description>
-                            <!-- The properties can be set as well -->
+                            <!-- These properties can be set as well -->
                             <!--<Implementation-Url>${project.url}</Implementation-Url>-->
                             <!--<Bug-Tracker>${project.issueManagement.url}</Bug-Tracker>-->
                             <!--<License-Url>${licenseUrl}</License-Url>-->
@@ -77,17 +77,18 @@
 
    <dependencies>
         <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
-            <version>${symbol_dollar}{ibeansVersion}</version>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-ibeans</artifactId>
+            <version>${symbol_dollar}{muleVersion}</version>
             <scope>provided</scope>
         </dependency>
 
+       <!-- for testing -->
         <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-http</artifactId>
-            <version>${symbol_dollar}{ibeansVersion}</version>
-            <scope>provided</scope>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-functional</artifactId>
+            <version>${symbol_dollar}{muleVersion}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -132,12 +133,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-rest</artifactId>
-            <version>${symbol_dollar}{ibeansVersion}</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <repositories>

@@ -13,29 +13,23 @@
 
 package ${package};
 
-import static org.mule.ibeans.IBeansSupport.*;
-import org.mule.ibeans.api.client.CallException;
-import org.mule.ibeans.api.client.IntegrationBean;
-import org.mule.ibeans.IBeansException;
-import org.mule.ibeans.test.IBeansTestSupport;
-
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.ibeans.api.CallException;
+import org.ibeans.annotation.IntegrationBean;
+import org.ibeans.api.IBeansException;
+import org.mule.ibeans.test.IBeansRITestSupport;
 
 /**
  * TODO describe the test
  */
-public class ${artifactId}IBeanTestCase extends IBeansTestSupport
+public class ${artifactId}IBeanTestCase extends IBeansRITestSupport
 {
     @IntegrationBean
     private ${artifactId}IBean ibean;
 
     @Before
-    public void init() throws IBeansException
+    public ${artifactId}IBeanTestCase()
     {
-        //NOTE: you can register annotated Application beans and transformer objects here using:
-        //registerBeans(new FlickrToJmsBean(), new FlickrTransformers());
+        setStartContext(true);
     }
 
     @Test
@@ -45,7 +39,7 @@ public class ${artifactId}IBeanTestCase extends IBeansTestSupport
          String result = ibean.updateFoo("bar");
          assertNotNull(result);
          assertEquals("http://www.foo.com/update/bar", result);
-       
+
          //NOTE: you have access to the IBeansContext within this test, use 'ibeansContext'
     }
 }
