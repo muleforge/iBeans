@@ -135,10 +135,44 @@ public class InternalInvocationContext implements InvocationContext
             }
 
         }
-        // finally, add the endpoint properties to the propertyParams
+        
+        // Add the endpoint properties to the propertyParams
         if (call.properties().length > 0)
         {
             invocationData.getPropertyParams().putAll(Utils.convertKeyValuePairsToMap(call.properties()));
+        }
+        
+        // Add any default @BodyParam
+        if (call.bodyParamFilter().length > 0)
+        {
+        	for (String bodyParam : call.bodyParamFilter())
+        	{
+        		if (stateData.getPayloadParams().containsKey(bodyParam))
+        		{
+        			invocationData.addPayloadParam(bodyParam, stateData.getPayloadParams().get(bodyParam));
+        		} 
+        		else 
+        		{
+        			throw new IllegalArgumentException("Default BodyParam is not defined: " + bodyParam);
+        		}
+        	}
+        }
+        
+        // Add any default @HeaderParam
+        if (call.headerParamFilter().length > 0)
+        {
+        	for (String headerParam : call.headerParamFilter())
+        	{
+        		if (stateData.getHeaderParams().containsKey(headerParam))
+        		{
+        			invocationData.addHeaderParam(headerParam, stateData.getHeaderParams().get(headerParam));
+        		}
+        		else 
+        		{
+        			throw new IllegalArgumentException("Default HeaderParam is not defined: " + headerParam);
+        		}
+        	}
+        	
         }
 
     }
@@ -255,7 +289,8 @@ public class InternalInvocationContext implements InvocationContext
             return null;
         }
 
-        return getExpressionParser().parsePropertyPlaceholders(invocationData.getUriParams(), call.uri());
+        //return getExpressionParser().parsePropertyPlaceholders(invocationData.getUriParams(), call.uri());
+        return getExpressionParser().parseUriTokens(invocationData.getUriParams(), call.uri());
     }
 
     public ExpressionParser getExpressionParser()
@@ -515,7 +550,7 @@ public class InternalInvocationContext implements InvocationContext
             Object param = holder.getParamFactory().create(holder.getParamName(), false, context);
             if (param != null)
             {
-                params.put(holder.getParamName(), holder.getParamFactory().create(holder.getParamName(), false, context));
+                params.put(holder.getParamName(), param);
             }
         }
     }

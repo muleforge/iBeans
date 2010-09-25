@@ -81,6 +81,19 @@ public @interface Call
      * @return A comma-separated list of key/value pairs or an empty string if no
      *         properties are set
      */
-    String[] properties() default {""};
+    String[] properties() default {};
+    
+    /**
+     * 
+     * 
+     * @return A comma-separated list of @BodyParam elements that are applied to the call
+     */
+    String [] bodyParamFilter() default {};
+    
+    /**
+     * 
+     * @return A comma-separated list of @HeaderParam elements that are applied to the call
+     */
+    String [] headerParamFilter() default {};
 
 }
