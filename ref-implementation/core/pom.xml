@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>org.mule.ibeans</groupId>
-    <artifactId>ibeans-core</artifactId>
+    <artifactId>ibeans-ri</artifactId>
     <packaging>jar</packaging>
-    <name>Mule iBeans</name>
+    <name>Mule iBeans Reference Implementation</name>
     <description>Mule Integration Beans Core Implementation</description>
     <url>http://www.mulesoft.org/ibeans</url>
 
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>org.ibeans</groupId>
             <artifactId>ibeans-support</artifactId>
-            <version>0.9</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         
         <dependency>
