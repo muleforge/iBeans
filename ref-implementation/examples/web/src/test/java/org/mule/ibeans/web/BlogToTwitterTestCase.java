@@ -28,7 +28,8 @@ public class BlogToTwitterTestCase extends IBeansRITestSupport
     {
         registerBeans(new BlogFeedToTwitterReader());
 
-        twitter.setCredentials("${twitter.username}", "${twitter.password}");
+        // TODO
+        //twitter.setCredentials("${twitter.username}", "${twitter.password}");
         twitter.setFormat(TwitterIBean.FORMAT.JSON, JsonData.class);
     }
 

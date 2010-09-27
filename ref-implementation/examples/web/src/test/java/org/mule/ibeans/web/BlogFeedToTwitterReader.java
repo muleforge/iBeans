@@ -43,8 +43,9 @@ public class BlogFeedToTwitterReader
         //Initialise the Bit.ly iBean
         bitly.init("bitlyapidemo", "R_0da49e0a9118ff35f52f629d2d71bf07");
 
+        // TODO
         //Initialise the Twitter iBean
-        twitter.setCredentials("ibeanstest", "ibeans1234");
+        //twitter.setCredentials("ibeanstest", "ibeans1234");
     }
 
     @Schedule(interval = 6000)
