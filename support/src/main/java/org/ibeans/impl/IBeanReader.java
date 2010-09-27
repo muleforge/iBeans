@@ -128,6 +128,23 @@ public class IBeanReader
                     }
 
                 }
+                
+                BodyParam bodyParam = field.getAnnotation(BodyParam.class);
+                if (bodyParam != null)
+                {
+                	String key = (bodyParam.value().length() > 0 ? bodyParam.value() : field.getName());
+                	if (ParamFactory.class.isAssignableFrom(field.getType())) 
+                	{
+                		ParamFactory pf = (ParamFactory) field.get(ibean);
+                		Order order = field.getAnnotation(Order.class);
+                		ParamFactoryHolder holder = (order == null ? new ParamFactoryHolder(pf, key) : new ParamFactoryHolder(pf, key, order.value()));
+                        stateDataDefault.getPayloadFactoryParams().add(holder);
+                	}
+                	else 
+                	{
+                		stateDataDefault.getPayloadParams().put(key, encode(field.get(ibean)));
+                	}
+                }
 
                 HeaderParam headerParam = field.getAnnotation(HeaderParam.class);
                 if (headerParam != null)
@@ -257,6 +274,7 @@ public class IBeanReader
         context.getIBeanConfig().getPayloadParams().putAll(context.getIBeanDefaultConfig().getPayloadParams());
         context.getIBeanConfig().getUriParams().putAll(context.getIBeanDefaultConfig().getUriParams());
         context.getIBeanConfig().getPropertyParams().putAll(context.getIBeanDefaultConfig().getPropertyParams());
+        context.getIBeanConfig().getPayloadParams().putAll(context.getIBeanDefaultConfig().getPayloadParams());
 
         Method method = context.getMethod();
         Object[] args = context.getArgs();
@@ -630,6 +648,7 @@ public class IBeanReader
 
         protected Set<ParamFactoryHolder> defaultUriFactoryParams = new TreeSet<ParamFactoryHolder>();
         protected Set<ParamFactoryHolder> defaultHeaderFactoryParams = new TreeSet<ParamFactoryHolder>();
+        protected Set<ParamFactoryHolder> defaultPayloadFactoryParams = new TreeSet<ParamFactoryHolder>();
         protected Set<ParamFactoryHolder> defaultPropertyFactoryParams = new TreeSet<ParamFactoryHolder>();
         protected Set<ParamFactoryHolder> defaultAttachmentFactoryParams = new TreeSet<ParamFactoryHolder>();
 
@@ -687,6 +706,11 @@ public class IBeanReader
         public Set<ParamFactoryHolder> getHeaderFactoryParams()
         {
             return defaultHeaderFactoryParams;
+        }
+        
+        public Set<ParamFactoryHolder> getPayloadFactoryParams()
+        {
+        	return defaultPayloadFactoryParams;
         }
 
         public Set<ParamFactoryHolder> getPropertyFactoryParams()

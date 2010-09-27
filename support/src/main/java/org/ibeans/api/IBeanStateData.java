@@ -67,6 +67,8 @@ public interface IBeanStateData
 
     Set<ParamFactoryHolder> getAttachmentFactoryParams();
 
+    Set<ParamFactoryHolder> getPayloadFactoryParams();
+    
     Map getNamespaces();
 
 }

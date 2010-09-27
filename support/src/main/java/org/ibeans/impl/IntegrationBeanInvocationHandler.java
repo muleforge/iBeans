@@ -72,8 +72,6 @@ public class IntegrationBeanInvocationHandler implements InvocationHandler, Seri
         // Populates invocationContext with field and method level params
         defaultInterceptorList.add(new PopulateiBeansParamsInterceptor(helper));
 
-        //TODO defaultInterceptorList.add(new OAuthCallInterceptor(plugin.getStore(ibean.getName())));
-
         defaultInterceptorList.add(new StateCallInterceptor());
 
         //Response chain

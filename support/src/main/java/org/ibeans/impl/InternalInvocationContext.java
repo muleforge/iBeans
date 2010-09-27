@@ -523,6 +523,7 @@ public class InternalInvocationContext implements InvocationContext
         createParameters(getIBeanDefaultConfig().getUriFactoryParams(), getIBeanConfig().getUriParams(), this);
         createParameters(getIBeanDefaultConfig().getHeaderFactoryParams(), getIBeanConfig().getHeaderParams(), this);
         createParameters(getIBeanDefaultConfig().getPropertyFactoryParams(), getIBeanConfig().getPropertyParams(), this);
+        createParameters(getIBeanDefaultConfig().getPayloadFactoryParams(), getIBeanConfig().getPayloadParams(), this);
         createAttachments(getIBeanDefaultConfig().getAttachmentFactoryParams(), getIBeanConfig().getAttachments(), this);
 
         this.request = plugin.createRequest(getIBeanConfig());
