@@ -90,8 +90,6 @@ public class IBeanReader
         addErrorFilters(ibean, stateDataDefault.getErrorFilters());
         addMethodLevelErrorFilters(ibean, stateDataDefault.getMethodLevelErrorFilters());
 
-        //By default all calls are HTTP POST
-        stateDataDefault.getPropertyParams().put(HTTP.METHOD_KEY, "POST");
         try
         {
 
@@ -405,6 +403,11 @@ public class IBeanReader
 
         if(!stateCall)
         {
+            if(context.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY) == null && (context.getIBeanConfig().getPayloadParams().size() > 0 || context.getIBeanConfig().getAttachments().size() > 0))
+            {
+                //By default all calls are HTTP POST
+                context.getIBeanConfig().getPropertyParams().put(HTTP.METHOD_KEY, "POST");
+            }
             ((InternalInvocationContext)context).createMessage();
         }
     }
@@ -414,7 +417,7 @@ public class IBeanReader
         Class c = dataType.getType();
         if (c.isPrimitive() && !void.class.equals(c) && !m.getName().equals("equals") && !m.getName().equals("hashcode"))
         {
-            throw new IllegalArgumentException("iBean methods can only return objects, not primitives." + (m != null ? "Method is: " + m : "") + ". Class is: " + c);
+            throw new IllegalArgumentException("iBean methods can only return objects, not primitives." + ("Method is: " + m) + ". Class is: " + c);
         }
     }
 
