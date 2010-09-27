@@ -42,60 +42,6 @@
         </dependency>   
 
         <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-ajax</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-core</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-http</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-feeds</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-jms-client</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-email</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-guice</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>ibeans-module-scheduler</artifactId>
-            <version>${ibeansVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.ibeans</groupId>
-            <artifactId>facebook-ibean</artifactId>
-            <version>0.9</version>
-        </dependency>  
-    
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.5.10</version>

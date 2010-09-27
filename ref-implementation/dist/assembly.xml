@@ -11,7 +11,7 @@
     <files>
         <!-- core -->
         <file>
-            <source>../core/target/ibeans-core-${project.version}-full.jar</source>
+            <source>../core/target/ibeans-ri-${project.version}-full.jar</source>
             <outputDirectory>mule-ibeans/lib</outputDirectory>
         </file>
         <!-- iBeans Console -->
