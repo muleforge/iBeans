@@ -403,10 +403,10 @@ public class IBeanReader
 
         if(!stateCall)
         {
-            if(context.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY) == null && (context.getIBeanConfig().getPayloadParams().size() > 0 || context.getIBeanConfig().getAttachments().size() > 0))
+            if(context.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY) == null)
             {
-                //By default all calls are HTTP POST
-                context.getIBeanConfig().getPropertyParams().put(HTTP.METHOD_KEY, "POST");
+                 //By default all calls are HTTP POST
+                 context.getIBeanConfig().getPropertyParams().put(HTTP.METHOD_KEY, "POST");
             }
             ((InternalInvocationContext)context).createMessage();
         }
