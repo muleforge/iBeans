@@ -10,10 +10,10 @@
 package org.ibeans.impl;
 
 import java.beans.ExceptionListener;
-import java.lang.reflect.Method;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ibeans.annotation.Invoke;
 import org.ibeans.api.ClientAnnotationHandler;
 import org.ibeans.api.InvocationContext;
 import org.ibeans.api.Response;
@@ -21,7 +21,7 @@ import org.ibeans.api.Response;
 /**
  * TODO
  */
-public class DefaultIBeanInvoker<C extends ClientAnnotationHandler, T extends TemplateAnnotationHandler> implements org.ibeans.api.IBeanInvoker<C,T>
+public class DefaultIBeanInvoker<C extends ClientAnnotationHandler, T extends TemplateAnnotationHandler, I extends InvokeAnnotationHandler> implements org.ibeans.api.IBeanInvoker<C,T,I>
 {
     /**
      * logger used by this class
@@ -30,11 +30,13 @@ public class DefaultIBeanInvoker<C extends ClientAnnotationHandler, T extends Te
 
     private C callHandler;
     private T templateHandler;
+    private I invokeHandler;
 
-    public DefaultIBeanInvoker(C callHandler, T templateHandler)
+    public DefaultIBeanInvoker(C callHandler, T templateHandler, I invokeHandler)
     {
         this.callHandler = callHandler;
         this.templateHandler = templateHandler;
+        this.invokeHandler = invokeHandler;
     }
 
     public C getCallHandler()
@@ -47,13 +49,23 @@ public class DefaultIBeanInvoker<C extends ClientAnnotationHandler, T extends Te
         return templateHandler;
     }
 
+    public I getInvokeHandler()
+    {
+        return invokeHandler;
+    }
+
     public void intercept(InvocationContext invocationContext) throws Throwable
     {
         ExceptionListener exceptionListener = invocationContext.getExceptionListener();
 
         Response result;
 
-        if (templateHandler != null && templateHandler.isMatch(invocationContext.getMethod()))
+        if(invocationContext.getMethod().isAnnotationPresent(Invoke.class))
+        {
+            result = invokeHandler.invoke(invocationContext);
+        }
+        //Can Template handler be simplified here? Is there a need to register evals on the handler?
+        else if (templateHandler != null && templateHandler.isMatch(invocationContext.getMethod()))
         {
             result = templateHandler.invoke(invocationContext);
         }

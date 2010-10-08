@@ -107,6 +107,17 @@
         </site>
     </distributionManagement>
 
+    <scm>
+        <connection>
+            scm:svn:http://svn.muleforge.org/${domainName}/
+        </connection>
+        <developerConnection>
+            scm:svn:https://svn.muleforge.org/${domainName}/
+        </developerConnection>
+        <url>http://svn.${domainName}.muleforge.org/</url>
+    </scm>
+    
+
     <repositories>
         <repository>
             <id>codehaus</id>

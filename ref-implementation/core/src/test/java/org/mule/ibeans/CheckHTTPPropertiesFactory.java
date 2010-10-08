@@ -13,12 +13,13 @@ import org.mule.transport.http.HttpConnector;
 
 import org.ibeans.api.InvocationContext;
 import org.ibeans.api.ParamFactory;
+import org.ibeans.api.channel.HTTP;
 
 public class CheckHTTPPropertiesFactory implements ParamFactory
 {
     public String create(String paramName, boolean optional, InvocationContext invocationContext)
     {
-        String method = (String) invocationContext.getIBeanConfig().getPropertyParams().get(HttpConnector.HTTP_METHOD_PROPERTY);
+        String method = (String) invocationContext.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY);
         if (method == null)
         {
             throw new IllegalArgumentException("HTTP Method not set");

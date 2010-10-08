@@ -9,15 +9,18 @@
  */
 package org.ibeans.api;
 
+import org.ibeans.impl.InvokeAnnotationHandler;
 import org.ibeans.impl.TemplateAnnotationHandler;
 
 /**
  * TODO
  */
 
-public interface IBeanInvoker<C extends ClientAnnotationHandler, T extends TemplateAnnotationHandler> extends CallInterceptor
+public interface IBeanInvoker<C extends ClientAnnotationHandler, T extends TemplateAnnotationHandler, I extends InvokeAnnotationHandler> extends CallInterceptor
 {
     C getCallHandler();
 
     T getTemplateHandler();
+
+    I getInvokeHandler();
 }
