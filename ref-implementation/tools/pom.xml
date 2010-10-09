@@ -18,7 +18,7 @@
 
     <modules>
         <!-- Disabled due to compile failure: IBEANS-191 -->
-        <!--<module>shell</module>-->
+        <module>shell</module>
         <module>updater</module>
         <module>ibean-archetype</module>
         <module>ibeans-webapp-archetype</module>
