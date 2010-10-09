@@ -45,7 +45,9 @@ public class InvokeAnnotationHandler implements ClientAnnotationHandler
             throw new IllegalArgumentException("No object called '" + invokeInfo.object() + "' set on the invocationContext properties");
         }
 
+        // The arguments must come from the IBeanConfig as they might have been parsed.
         Object[] args = ctx.getArgs();
+        Object[] argValues = ctx.getIBeanConfig().getPayloadParams().values().toArray();
         Class[] paramTypes = new Class[args.length];
 
         for (int i = 0; i < args.length; i++)
@@ -54,7 +56,7 @@ public class InvokeAnnotationHandler implements ClientAnnotationHandler
         }
         Method method = target.getClass().getMethod(invokeInfo.method(), paramTypes);
 
-        Object result = method.invoke(target, args);
+        Object result = method.invoke(target, argValues);
         return createResponse(result, ctx.getRequest());
     }
 
