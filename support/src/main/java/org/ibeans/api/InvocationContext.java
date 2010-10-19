@@ -137,4 +137,8 @@ public interface InvocationContext
     public void setInvocationReturnType(DataType invocationReturnType);
 
     public DataType getReturnType();
+
+    public Class[] getParamTypes();
+
+    public void setParamTypes(Class[] paramTypes);
 }

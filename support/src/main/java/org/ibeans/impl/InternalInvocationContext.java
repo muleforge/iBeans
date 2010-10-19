@@ -96,6 +96,8 @@ public class InternalInvocationContext implements InvocationContext
 
     protected IBeansPlugin plugin;
 
+    protected Class[] paramTypes;
+
     public InternalInvocationContext(IBeanStateData stateData, Object proxy,
                                      Method method,
                                      Object[] args,
@@ -111,6 +113,7 @@ public class InternalInvocationContext implements InvocationContext
         this.exceptionListener = exceptionListener;
         this.plugin = plugin;
         this.expressionParser = plugin.getExpressionParser();
+        this.paramTypes = null;
 
         call = method.getAnnotation(Call.class);
         template = method.getAnnotation(Template.class);
@@ -249,6 +252,14 @@ public class InternalInvocationContext implements InvocationContext
     public IBeanInvocationData getIBeanConfig()
     {
         return invocationData;
+    }
+
+    public Class[] getParamTypes() {
+        return paramTypes;
+    }
+
+    public void setParamTypes(Class[] paramTypes) {
+        this.paramTypes = paramTypes;
     }
 
     /* (non-Javadoc)

@@ -40,23 +40,28 @@ public class InvokeAnnotationHandler implements ClientAnnotationHandler
         Invoke invokeInfo = ctx.getMethod().getAnnotation(Invoke.class);
         Object target = ctx.getIBeanConfig().getPropertyParams().get(invokeInfo.object());
 
-        if(target==null)
+        if (target == null)
         {
             throw new IllegalArgumentException("No object called '" + invokeInfo.object() + "' set on the invocationContext properties");
         }
 
-        // The arguments must come from the IBeanConfig as they might have been parsed.
-        Object[] args = ctx.getArgs();
-        Object[] argValues = ctx.getIBeanConfig().getPayloadParams().values().toArray();
-        Class[] paramTypes = new Class[args.length];
+        // Use the values in the payload parameters to determine the method to invoke. 
+        Object[] args = ctx.getIBeanConfig().getPayloadParams().values().toArray();
+        Class[] paramTypes = ctx.getParamTypes();
 
-        for (int i = 0; i < args.length; i++)
+        if (args.length > 0 && paramTypes == null)
         {
-            paramTypes[i] = args[i].getClass();
+            paramTypes = new Class[args.length];
+
+            for (int i = 0; i < args.length; i++)
+            {
+                paramTypes[i] = args[i].getClass();
+            }
         }
+
         Method method = target.getClass().getMethod(invokeInfo.method(), paramTypes);
 
-        Object result = method.invoke(target, argValues);
+        Object result = method.invoke(target, args);
         return createResponse(result, ctx.getRequest());
     }
 

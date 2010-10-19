@@ -21,6 +21,7 @@ import java.util.TreeSet;
 
 import javax.activation.DataSource;
 
+import org.ibeans.annotation.Invoke;
 import org.ibeans.annotation.Namespace;
 import org.ibeans.annotation.State;
 import org.ibeans.annotation.param.Attachment;
@@ -600,7 +601,16 @@ public class IBeanReader
         }
         else if (arg instanceof Map)
         {
-            params.putAll((Map) arg);
+            // Only do a putAll for a Call or Template method as it makes sense to expand the map for parameters
+            // passed using http but not for Invoke when calling out to a method that might take a map as a parameter.
+            if (method.getAnnotation(Invoke.class) != null)
+            {
+                params.put(key, arg);
+            }
+            else
+            {
+                params.putAll((Map) arg);
+            }
         }
         else
         {
