@@ -524,7 +524,7 @@ public final class IBeansContext
 
     public <T> T createIBean(Class<T> clazz)
     {
-        IBeanBinding router = new IBeanBinding(new IBeanFlowConstruct(clazz.getName(), muleContext), plugin);
+        IBeanBinding router = new IBeanBinding(new IBeanFlowConstruct(clazz.getName(), muleContext), muleContext, plugin);
         router.setInterface(clazz);
         return (T) router.createProxy(new Object());
     }
