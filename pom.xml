@@ -66,14 +66,6 @@
         <url>http://www.mulesoft.org/jira/browse/${shortId}</url>
     </issueManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1</version>
-        </dependency>
-    </dependencies>
-
     <ciManagement>
         <system>bamboo</system>
         <url>http://bamboo.mulesoft.org/browse/IBEANS-IBEANS</url>
@@ -106,15 +98,10 @@
     </distributionManagement>
 
     <scm>
-        <connection>
-            scm:svn:http://svn.muleforge.org/ibeans/
-        </connection>
-        <developerConnection>
-            scm:svn:https://svn.muleforge.org/ibeans/
-        </developerConnection>
+        <connection>scm:svn:http://svn.muleforge.org/ibeans/</connection>
+        <developerConnection>scm:svn:https://svn.muleforge.org/ibeans/</developerConnection>
         <url>http://svn.ibeans.muleforge.org/</url>
     </scm>
-    
 
     <repositories>
         <repository>
@@ -180,14 +167,12 @@
             <url>http://repository.muleforge.org</url>
             <name>MuleForge Repository</name>
         </pluginRepository>
-        
         <!-- this is needed to download dependencies of plugins from our custom repo -->
         <pluginRepository>
             <id>mule-deps</id>
             <name>Mule Dependencies</name>
             <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
         </pluginRepository>
-
     </pluginRepositories>
 
     <build>
@@ -350,7 +335,6 @@
         </pluginManagement>
 
         <plugins>
-            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -613,13 +597,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-
-        <profile>
-            <id>distributions</id>
-            <modules>
-                <module>dist</module>
-            </modules>
         </profile>
 
         <profile>
