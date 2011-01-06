@@ -16,6 +16,7 @@ import org.mule.tck.testmodels.fruit.Banana;
 import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertTrue;
  * Test that the {@link FruitTransformers} is loaded into the iBeans container and is used
  * by this test case
  */
+@Ignore
 public class TransformerTestCase extends IBeansRITestSupport
 {
     @Before

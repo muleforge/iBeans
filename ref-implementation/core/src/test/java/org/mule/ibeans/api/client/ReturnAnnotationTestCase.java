@@ -15,10 +15,12 @@ import java.net.URL;
 
 import org.ibeans.annotation.IntegrationBean;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Ignore
 public class ReturnAnnotationTestCase extends IBeansRITestSupport
 {
     @IntegrationBean

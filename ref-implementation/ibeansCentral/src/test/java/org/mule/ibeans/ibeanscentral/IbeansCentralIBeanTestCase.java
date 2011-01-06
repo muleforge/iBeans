@@ -20,6 +20,7 @@ import org.ibeans.annotation.IntegrationBean;
 import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class IbeansCentralIBeanTestCase extends ExternalPropsIBeansTestSupport
 {
     public static final String IBEANS_VERSION = "1.0-beta-8";

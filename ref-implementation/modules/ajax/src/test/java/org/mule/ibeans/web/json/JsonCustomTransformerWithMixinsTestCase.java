@@ -16,12 +16,14 @@ import org.mule.tck.testmodels.fruit.Apple;
 import org.ibeans.api.IBeansException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class JsonCustomTransformerWithMixinsTestCase extends IBeansRITestSupport
 {
     public static final String APPLE_JSON = "{\"washed\":false,\"bitten\":true}";

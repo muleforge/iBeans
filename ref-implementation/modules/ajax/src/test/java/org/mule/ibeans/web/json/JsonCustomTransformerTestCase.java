@@ -26,10 +26,12 @@ import org.ibeans.impl.support.datatype.ListDataType;
 import org.ibeans.impl.support.datatype.SimpleDataType;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Ignore
 public class JsonCustomTransformerTestCase extends IBeansRITestSupport
 {
     public static final String PERSON_JSON = "{\"emailAddresses\":[{\"type\":\"home\",\"address\":\"john.doe@gmail.com\"},{\"type\":\"work\",\"address\":\"jdoe@bigco.com\"}],\"name\":\"John Doe\",\"dob\":\"01/01/1970\"}";

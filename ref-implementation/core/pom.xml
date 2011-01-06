@@ -3,14 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.mule.ibeans</groupId>
         <artifactId>mule-ibeans</artifactId>
         <version>1.0-beta-10-SNAPSHOT</version>
     </parent>
-
-    <groupId>org.mule.ibeans</groupId>
     <artifactId>ibeans-ri</artifactId>
     <packaging>jar</packaging>
     <name>Mule iBeans Reference Implementation</name>
@@ -84,35 +81,30 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.ibeans</groupId>
+            <artifactId>ibeans-support</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ibeans</groupId>
+            <artifactId>ibeans-annotation-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.mule</groupId>
             <artifactId>mule-core</artifactId>
             <version>${muleVersion}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.ibeans</groupId>
-            <artifactId>ibeans-support</artifactId>
-            <version>0.9.2-SNAPSHOT</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.ibeans</groupId>
-            <artifactId>ibeans-annotation-api</artifactId>
-            <version>0.9.3-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-ibeans</artifactId>
             <version>${muleVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-annotations</artifactId>
             <version>${muleVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.mule.transports</groupId>
             <artifactId>mule-transport-quartz</artifactId>
@@ -128,13 +120,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-xannotations</artifactId>
             <version>3.0.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.mule.transports</groupId>
             <artifactId>mule-transport-http</artifactId>
@@ -165,7 +155,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-builders</artifactId>
@@ -185,9 +174,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <!-- JPA for Guice - Apps using this will still need to add a JPA implementation and database drivers -->
-
         <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-management</artifactId>
@@ -221,13 +208,8 @@
                     <groupId>com.yourkit</groupId>
                     <artifactId>yjp-controller-api-redist</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>tanukisoft</groupId>
-                    <artifactId>wrapper</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.mule.transports</groupId>
             <artifactId>mule-transport-vm</artifactId>
@@ -243,13 +225,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>2.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-servlet_2.5_spec</artifactId>
@@ -270,7 +250,6 @@
             <version>${muleVersion}</version>
             <type>test-jar</type>
         </dependency>
-
         <dependency>
             <groupId>org.mule.tests</groupId>
             <artifactId>mule-tests-functional</artifactId>
@@ -286,26 +265,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.7</version>
         </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.8.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
             <version>1.4.1</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
