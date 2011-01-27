@@ -4,7 +4,7 @@
     <parent>
         <artifactId>ibeans</artifactId>
         <groupId>org.ibeans</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
     <artifactId>ibeans-annotation-api</artifactId>
     <packaging>jar</packaging>
