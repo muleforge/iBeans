@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,19 +128,19 @@ public class IBeanReader
                     }
 
                 }
-                
+
                 BodyParam bodyParam = field.getAnnotation(BodyParam.class);
                 if (bodyParam != null)
                 {
                 	String key = (bodyParam.value().length() > 0 ? bodyParam.value() : field.getName());
-                	if (ParamFactory.class.isAssignableFrom(field.getType())) 
+                	if (ParamFactory.class.isAssignableFrom(field.getType()))
                 	{
                 		ParamFactory pf = (ParamFactory) field.get(ibean);
                 		Order order = field.getAnnotation(Order.class);
                 		ParamFactoryHolder holder = (order == null ? new ParamFactoryHolder(pf, key) : new ParamFactoryHolder(pf, key, order.value()));
                         stateDataDefault.getPayloadFactoryParams().add(holder);
                 	}
-                	else 
+                	else
                 	{
                 		stateDataDefault.getPayloadParams().put(key, encode(field.get(ibean)));
                 	}
@@ -405,8 +406,7 @@ public class IBeanReader
         if (!stateCall)
         {
             // Determine HTTP method to use if none set
-            if (context.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY) == null
-                && context.getParsedCallUri().startsWith("http"))
+            if (mustDetermineHttpMethod(context))
             {
                 boolean post = context.getIBeanConfig().getPayloads().size() > 0
                                || context.getIBeanConfig().getPayloadParams().size() > 0;
@@ -423,6 +423,13 @@ public class IBeanReader
             }
             ((InternalInvocationContext) context).createMessage();
         }
+    }
+
+    private boolean mustDetermineHttpMethod(InvocationContext context) throws URISyntaxException
+    {
+        boolean httpMethodNotSet = (context.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY) == null);
+        String parsedCallUri = context.getParsedCallUri();
+        return httpMethodNotSet && (parsedCallUri != null) && parsedCallUri.startsWith("http");
     }
 
     private void checkReturnClass(DataType dataType, Method m)
@@ -732,7 +739,7 @@ public class IBeanReader
         {
             return defaultHeaderFactoryParams;
         }
-        
+
         public Set<ParamFactoryHolder> getPayloadFactoryParams()
         {
         	return defaultPayloadFactoryParams;
