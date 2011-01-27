@@ -402,14 +402,26 @@ public class IBeanReader
             }
         }
 
-        if(!stateCall)
+        if (!stateCall)
         {
-            if(context.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY) == null)
+            // Determine HTTP method to use if none set
+            if (context.getIBeanConfig().getPropertyParams().get(HTTP.METHOD_KEY) == null
+                && context.getParsedCallUri().startsWith("http"))
             {
-                 //By default all calls are HTTP POST
-                 context.getIBeanConfig().getPropertyParams().put(HTTP.METHOD_KEY, "POST");
+                boolean post = context.getIBeanConfig().getPayloads().size() > 0
+                               || context.getIBeanConfig().getPayloadParams().size() > 0;
+
+                // By default Mule will post if no method is set
+                if (!post)
+                {
+                    context.getIBeanConfig().addPropertyParam(HTTP.METHOD_KEY, "GET");
+                }
+                else
+                {
+                    context.getIBeanConfig().addPropertyParam(HTTP.METHOD_KEY, "POST");
+                }
             }
-            ((InternalInvocationContext)context).createMessage();
+            ((InternalInvocationContext) context).createMessage();
         }
     }
 
